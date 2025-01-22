@@ -1,0 +1,10 @@
+[30-May-2024 11:21:06 UTC] PHP Warning:  odbc_exec(): SQL error: [IBM][System i Access ODBC Driver][DB2 for i5/OS]SQL0104 - Token ) was not valid. Valid tokens: ( + - ? : DAY INF LAG NAN NOT RID ROW RRN CASE CAST CHAR DATE., SQL state 37000 in SQLExecDirect in /www/php80/htdocs/getANCATCL.php on line 133
+[30-May-2024 12:14:19 UTC] PHP Warning:  odbc_exec(): SQL error: [IBM][System i Access ODBC Driver][DB2 for i5/OS]SQL0104 - Token ) was not valid. Valid tokens: ( + - ? : DAY INF LAG NAN NOT RID ROW RRN CASE CAST CHAR DATE., SQL state 37000 in SQLExecDirect in /www/php80/htdocs/getANCATCL.php on line 133
+[30-May-2024 12:14:44 UTC] PHP Warning:  odbc_exec(): SQL error: [IBM][System i Access ODBC Driver][DB2 for i5/OS]SQL0104 - Token ) was not valid. Valid tokens: ( + - ? : DAY INF LAG NAN NOT RID ROW RRN CASE CAST CHAR DATE., SQL state 37000 in SQLExecDirect in /www/php80/htdocs/getANCATCL.php on line 133
+[30-May-2024 12:50:43 UTC] PHP Warning:  Undefined array key "field" in /www/php80/htdocs/getANCATCL.php on line 49
+[30-May-2024 12:50:43 UTC] PHP Warning:  Undefined array key "type" in /www/php80/htdocs/getANCATCL.php on line 50
+[30-May-2024 12:50:43 UTC] PHP Warning:  Undefined array key "value" in /www/php80/htdocs/getANCATCL.php on line 51
+[30-May-2024 12:50:43 UTC] PHP Warning:  odbc_exec(): SQL error: [IBM][System i Access ODBC Driver][DB2 for i5/OS]SQL0104 - Token ) was not valid. Valid tokens: ( + - ? : DAY INF LAG NAN NOT RID ROW RRN CASE CAST CHAR DATE., SQL state 37000 in SQLExecDirect in /www/php80/htdocs/getANCATCL.php on line 133
+[30-May-2024 12:52:44 UTC] PHP Warning:  Undefined array key "filter_mode" in /www/php80/htdocs/getANCATCL.php on line 41
+[30-May-2024 12:52:53 UTC] PHP Warning:  Undefined array key "filter_mode" in /www/php80/htdocs/getANCATCL.php on line 41
+[16-Dec-2024 14:51:05 UTC] PHP Warning:  odbc_exec(): SQL error: [IBM][System i Access ODBC Driver][DB2 for i5/OS]SQL0104 - Token ) was not valid. Valid tokens: ( + - ? : DAY INF LAG NAN NOT RID ROW RRN CASE CAST CHAR DATE., SQL state 37000 in SQLExecDirect in /www/php80/htdocs/getANCATCL.php on line 120

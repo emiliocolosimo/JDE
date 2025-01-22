@@ -1,0 +1,1 @@
+{"filters":[{"filter_mode":"AND","fields":[{"field":"F4101.IMLITM","type":"eq","value":"SPM02200S"}]}],"filter_mode":"AND","limit":100000}

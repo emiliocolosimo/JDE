@@ -1,0 +1,1 @@
+{"filters":[{"filter_mode":"AND","fields":[{"field":"F4101.IMLITM","type":"like","value":"RU521005001680"}]}],"filter_mode":"AND","ordby":[{"field":"IMLITM","dir":"ASC"},{"field":"LIURRF","dir":"ASC"},{"field":"LIPQOH","dir":"DESC"}],"limit":10000}

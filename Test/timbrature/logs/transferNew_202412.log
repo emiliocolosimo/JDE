@@ -1,0 +1,386 @@
+[01-Dec-2024 09:54:51 Europe/Rome] Inizio elaborazione
+[01-Dec-2024 09:54:51 Europe/Rome] Trovate 0 timbrature
+[01-Dec-2024 09:54:51 Europe/Rome] fine procedura
+[01-Dec-2024 13:54:53 Europe/Rome] Inizio elaborazione
+[01-Dec-2024 13:54:53 Europe/Rome] Trovate 0 timbrature
+[01-Dec-2024 13:54:53 Europe/Rome] fine procedura
+[01-Dec-2024 17:54:55 Europe/Rome] Inizio elaborazione
+[01-Dec-2024 17:54:55 Europe/Rome] Trovate 0 timbrature
+[01-Dec-2024 17:54:55 Europe/Rome] fine procedura
+[02-Dec-2024 09:56:47 Europe/Rome] Inizio elaborazione
+[02-Dec-2024 09:56:47 Europe/Rome] Trovate 59 timbrature
+[02-Dec-2024 09:56:47 Europe/Rome] 20240000818 - richiamo servizio gepacon
+[02-Dec-2024 09:56:48 Europe/Rome] curl data: {"success":true}
+[02-Dec-2024 09:56:48 Europe/Rome] fine procedura
+[02-Dec-2024 13:56:51 Europe/Rome] Inizio elaborazione
+[02-Dec-2024 13:56:51 Europe/Rome] Trovate 100 timbrature
+[02-Dec-2024 13:56:51 Europe/Rome] 20240000819 - richiamo servizio gepacon
+[02-Dec-2024 13:56:52 Europe/Rome] curl data: {"success":true}
+[02-Dec-2024 13:56:52 Europe/Rome] fine procedura
+[02-Dec-2024 17:56:55 Europe/Rome] Inizio elaborazione
+[02-Dec-2024 17:56:55 Europe/Rome] Trovate 59 timbrature
+[02-Dec-2024 17:56:55 Europe/Rome] 20240000820 - richiamo servizio gepacon
+[02-Dec-2024 17:56:56 Europe/Rome] curl data: {"success":true}
+[02-Dec-2024 17:56:56 Europe/Rome] fine procedura
+[03-Dec-2024 09:57:22 Europe/Rome] Inizio elaborazione
+[03-Dec-2024 09:57:22 Europe/Rome] Trovate 61 timbrature
+[03-Dec-2024 09:57:22 Europe/Rome] 20240000821 - richiamo servizio gepacon
+[03-Dec-2024 09:57:23 Europe/Rome] curl data: {"success":true}
+[03-Dec-2024 09:57:23 Europe/Rome] fine procedura
+[03-Dec-2024 13:57:26 Europe/Rome] Inizio elaborazione
+[03-Dec-2024 13:57:26 Europe/Rome] Trovate 105 timbrature
+[03-Dec-2024 13:57:26 Europe/Rome] 20240000822 - richiamo servizio gepacon
+[03-Dec-2024 13:57:27 Europe/Rome] curl data: {"success":true}
+[03-Dec-2024 13:57:27 Europe/Rome] fine procedura
+[03-Dec-2024 17:57:29 Europe/Rome] Inizio elaborazione
+[03-Dec-2024 17:57:29 Europe/Rome] Trovate 60 timbrature
+[03-Dec-2024 17:57:29 Europe/Rome] 20240000823 - richiamo servizio gepacon
+[03-Dec-2024 17:57:30 Europe/Rome] curl data: {"success":true}
+[03-Dec-2024 17:57:30 Europe/Rome] fine procedura
+[04-Dec-2024 09:54:05 Europe/Rome] Inizio elaborazione
+[04-Dec-2024 09:54:05 Europe/Rome] Trovate 62 timbrature
+[04-Dec-2024 09:54:05 Europe/Rome] 20240000824 - richiamo servizio gepacon
+[04-Dec-2024 09:54:06 Europe/Rome] curl data: {"success":true}
+[04-Dec-2024 09:54:06 Europe/Rome] fine procedura
+[04-Dec-2024 13:54:10 Europe/Rome] Inizio elaborazione
+[04-Dec-2024 13:54:10 Europe/Rome] Trovate 100 timbrature
+[04-Dec-2024 13:54:10 Europe/Rome] 20240000825 - richiamo servizio gepacon
+[04-Dec-2024 13:54:11 Europe/Rome] curl data: {"success":true}
+[04-Dec-2024 13:54:11 Europe/Rome] fine procedura
+[04-Dec-2024 17:54:13 Europe/Rome] Inizio elaborazione
+[04-Dec-2024 17:54:13 Europe/Rome] Trovate 63 timbrature
+[04-Dec-2024 17:54:13 Europe/Rome] 20240000826 - richiamo servizio gepacon
+[04-Dec-2024 17:54:14 Europe/Rome] curl data: {"success":true}
+[04-Dec-2024 17:54:14 Europe/Rome] fine procedura
+[05-Dec-2024 09:54:06 Europe/Rome] Inizio elaborazione
+[05-Dec-2024 09:54:06 Europe/Rome] Trovate 62 timbrature
+[05-Dec-2024 09:54:06 Europe/Rome] 20240000827 - richiamo servizio gepacon
+[05-Dec-2024 09:54:07 Europe/Rome] curl data: {"success":true}
+[05-Dec-2024 09:54:07 Europe/Rome] fine procedura
+[05-Dec-2024 13:54:09 Europe/Rome] Inizio elaborazione
+[05-Dec-2024 13:54:09 Europe/Rome] Trovate 101 timbrature
+[05-Dec-2024 13:54:10 Europe/Rome] 20240000828 - richiamo servizio gepacon
+[05-Dec-2024 13:54:10 Europe/Rome] curl data: {"success":true}
+[05-Dec-2024 13:54:11 Europe/Rome] fine procedura
+[05-Dec-2024 17:54:13 Europe/Rome] Inizio elaborazione
+[05-Dec-2024 17:54:13 Europe/Rome] Trovate 60 timbrature
+[05-Dec-2024 17:54:13 Europe/Rome] 20240000829 - richiamo servizio gepacon
+[05-Dec-2024 17:54:14 Europe/Rome] curl data: {"success":true}
+[05-Dec-2024 17:54:14 Europe/Rome] fine procedura
+[06-Dec-2024 09:54:06 Europe/Rome] Inizio elaborazione
+[06-Dec-2024 09:54:06 Europe/Rome] Trovate 59 timbrature
+[06-Dec-2024 09:54:06 Europe/Rome] 20240000830 - richiamo servizio gepacon
+[06-Dec-2024 09:54:07 Europe/Rome] curl data: {"success":true}
+[06-Dec-2024 09:54:07 Europe/Rome] fine procedura
+[06-Dec-2024 13:54:09 Europe/Rome] Inizio elaborazione
+[06-Dec-2024 13:54:09 Europe/Rome] Trovate 104 timbrature
+[06-Dec-2024 13:54:09 Europe/Rome] 20240000831 - richiamo servizio gepacon
+[06-Dec-2024 13:54:10 Europe/Rome] curl data: {"success":true}
+[06-Dec-2024 13:54:10 Europe/Rome] fine procedura
+[06-Dec-2024 17:54:12 Europe/Rome] Inizio elaborazione
+[06-Dec-2024 17:54:12 Europe/Rome] Trovate 51 timbrature
+[06-Dec-2024 17:54:12 Europe/Rome] 20240000832 - richiamo servizio gepacon
+[06-Dec-2024 17:54:13 Europe/Rome] curl data: {"success":true}
+[06-Dec-2024 17:54:13 Europe/Rome] fine procedura
+[07-Dec-2024 09:54:05 Europe/Rome] Inizio elaborazione
+[07-Dec-2024 09:54:05 Europe/Rome] Trovate 0 timbrature
+[07-Dec-2024 09:54:05 Europe/Rome] fine procedura
+[07-Dec-2024 13:54:08 Europe/Rome] Inizio elaborazione
+[07-Dec-2024 13:54:08 Europe/Rome] Trovate 0 timbrature
+[07-Dec-2024 13:54:08 Europe/Rome] fine procedura
+[07-Dec-2024 17:54:10 Europe/Rome] Inizio elaborazione
+[07-Dec-2024 17:54:10 Europe/Rome] Trovate 0 timbrature
+[07-Dec-2024 17:54:10 Europe/Rome] fine procedura
+[08-Dec-2024 09:54:05 Europe/Rome] Inizio elaborazione
+[08-Dec-2024 09:54:05 Europe/Rome] Trovate 0 timbrature
+[08-Dec-2024 09:54:05 Europe/Rome] fine procedura
+[08-Dec-2024 13:54:07 Europe/Rome] Inizio elaborazione
+[08-Dec-2024 13:54:07 Europe/Rome] Trovate 0 timbrature
+[08-Dec-2024 13:54:07 Europe/Rome] fine procedura
+[08-Dec-2024 17:54:09 Europe/Rome] Inizio elaborazione
+[08-Dec-2024 17:54:09 Europe/Rome] Trovate 0 timbrature
+[08-Dec-2024 17:54:09 Europe/Rome] fine procedura
+[09-Dec-2024 09:54:05 Europe/Rome] Inizio elaborazione
+[09-Dec-2024 09:54:05 Europe/Rome] Trovate 60 timbrature
+[09-Dec-2024 09:54:05 Europe/Rome] 20240000833 - richiamo servizio gepacon
+[09-Dec-2024 09:54:06 Europe/Rome] curl data: {"success":true}
+[09-Dec-2024 09:54:06 Europe/Rome] fine procedura
+[09-Dec-2024 13:54:08 Europe/Rome] Inizio elaborazione
+[09-Dec-2024 13:54:08 Europe/Rome] Trovate 97 timbrature
+[09-Dec-2024 13:54:08 Europe/Rome] 20240000834 - richiamo servizio gepacon
+[09-Dec-2024 13:54:09 Europe/Rome] curl data: {"success":true}
+[09-Dec-2024 13:54:09 Europe/Rome] fine procedura
+[09-Dec-2024 17:54:13 Europe/Rome] Inizio elaborazione
+[09-Dec-2024 17:54:13 Europe/Rome] Trovate 59 timbrature
+[09-Dec-2024 17:54:13 Europe/Rome] 20240000835 - richiamo servizio gepacon
+[09-Dec-2024 17:54:14 Europe/Rome] curl data: {"success":true}
+[09-Dec-2024 17:54:14 Europe/Rome] fine procedura
+[10-Dec-2024 09:54:09 Europe/Rome] Inizio elaborazione
+[10-Dec-2024 09:54:09 Europe/Rome] Trovate 57 timbrature
+[10-Dec-2024 09:54:09 Europe/Rome] 20240000836 - richiamo servizio gepacon
+[10-Dec-2024 09:54:10 Europe/Rome] curl data: {"success":true}
+[10-Dec-2024 09:54:10 Europe/Rome] fine procedura
+[10-Dec-2024 13:54:14 Europe/Rome] Inizio elaborazione
+[10-Dec-2024 13:54:15 Europe/Rome] Trovate 100 timbrature
+[10-Dec-2024 13:54:15 Europe/Rome] 20240000837 - richiamo servizio gepacon
+[10-Dec-2024 13:54:16 Europe/Rome] curl data: {"success":true}
+[10-Dec-2024 13:54:16 Europe/Rome] fine procedura
+[10-Dec-2024 17:54:18 Europe/Rome] Inizio elaborazione
+[10-Dec-2024 17:54:18 Europe/Rome] Trovate 58 timbrature
+[10-Dec-2024 17:54:19 Europe/Rome] 20240000838 - richiamo servizio gepacon
+[10-Dec-2024 17:54:19 Europe/Rome] curl data: {"success":true}
+[10-Dec-2024 17:54:19 Europe/Rome] fine procedura
+[11-Dec-2024 09:54:05 Europe/Rome] Inizio elaborazione
+[11-Dec-2024 09:54:05 Europe/Rome] Trovate 58 timbrature
+[11-Dec-2024 09:54:05 Europe/Rome] 20240000839 - richiamo servizio gepacon
+[11-Dec-2024 09:54:06 Europe/Rome] curl data: {"success":true}
+[11-Dec-2024 09:54:06 Europe/Rome] fine procedura
+[11-Dec-2024 13:54:08 Europe/Rome] Inizio elaborazione
+[11-Dec-2024 13:54:09 Europe/Rome] Trovate 96 timbrature
+[11-Dec-2024 13:54:09 Europe/Rome] 20240000840 - richiamo servizio gepacon
+[11-Dec-2024 13:54:09 Europe/Rome] curl data: {"success":true}
+[11-Dec-2024 13:54:10 Europe/Rome] fine procedura
+[11-Dec-2024 17:54:13 Europe/Rome] Inizio elaborazione
+[11-Dec-2024 17:54:13 Europe/Rome] Trovate 55 timbrature
+[11-Dec-2024 17:54:13 Europe/Rome] 20240000841 - richiamo servizio gepacon
+[11-Dec-2024 17:54:14 Europe/Rome] curl data: {"success":true}
+[11-Dec-2024 17:54:14 Europe/Rome] fine procedura
+[12-Dec-2024 09:54:05 Europe/Rome] Inizio elaborazione
+[12-Dec-2024 09:54:05 Europe/Rome] Trovate 58 timbrature
+[12-Dec-2024 09:54:06 Europe/Rome] 20240000842 - richiamo servizio gepacon
+[12-Dec-2024 09:54:06 Europe/Rome] curl data: {"success":true}
+[12-Dec-2024 09:54:06 Europe/Rome] fine procedura
+[12-Dec-2024 13:54:09 Europe/Rome] Inizio elaborazione
+[12-Dec-2024 13:54:09 Europe/Rome] Trovate 92 timbrature
+[12-Dec-2024 13:54:09 Europe/Rome] 20240000843 - richiamo servizio gepacon
+[12-Dec-2024 13:54:10 Europe/Rome] curl data: {"success":true}
+[12-Dec-2024 13:54:11 Europe/Rome] fine procedura
+[12-Dec-2024 17:54:13 Europe/Rome] Inizio elaborazione
+[12-Dec-2024 17:54:13 Europe/Rome] Trovate 54 timbrature
+[12-Dec-2024 17:54:13 Europe/Rome] 20240000844 - richiamo servizio gepacon
+[12-Dec-2024 17:54:14 Europe/Rome] curl data: {"success":true}
+[12-Dec-2024 17:54:14 Europe/Rome] fine procedura
+[13-Dec-2024 09:54:06 Europe/Rome] Inizio elaborazione
+[13-Dec-2024 09:54:06 Europe/Rome] Trovate 61 timbrature
+[13-Dec-2024 09:54:06 Europe/Rome] 20240000845 - richiamo servizio gepacon
+[13-Dec-2024 09:54:07 Europe/Rome] curl data: {"success":true}
+[13-Dec-2024 09:54:07 Europe/Rome] fine procedura
+[13-Dec-2024 13:54:10 Europe/Rome] Inizio elaborazione
+[13-Dec-2024 13:54:10 Europe/Rome] Trovate 100 timbrature
+[13-Dec-2024 13:54:10 Europe/Rome] 20240000846 - richiamo servizio gepacon
+[13-Dec-2024 13:54:11 Europe/Rome] curl data: {"success":true}
+[13-Dec-2024 13:54:11 Europe/Rome] fine procedura
+[13-Dec-2024 17:54:14 Europe/Rome] Inizio elaborazione
+[13-Dec-2024 17:54:15 Europe/Rome] Trovate 51 timbrature
+[13-Dec-2024 17:54:15 Europe/Rome] 20240000847 - richiamo servizio gepacon
+[13-Dec-2024 17:54:16 Europe/Rome] curl data: {"success":true}
+[13-Dec-2024 17:54:16 Europe/Rome] fine procedura
+[14-Dec-2024 09:54:06 Europe/Rome] Inizio elaborazione
+[14-Dec-2024 09:54:06 Europe/Rome] Trovate 0 timbrature
+[14-Dec-2024 09:54:06 Europe/Rome] fine procedura
+[14-Dec-2024 13:54:08 Europe/Rome] Inizio elaborazione
+[14-Dec-2024 13:54:08 Europe/Rome] Trovate 0 timbrature
+[14-Dec-2024 13:54:08 Europe/Rome] fine procedura
+[14-Dec-2024 17:54:10 Europe/Rome] Inizio elaborazione
+[14-Dec-2024 17:54:10 Europe/Rome] Trovate 0 timbrature
+[14-Dec-2024 17:54:10 Europe/Rome] fine procedura
+[15-Dec-2024 09:54:02 Europe/Rome] Inizio elaborazione
+[15-Dec-2024 09:54:02 Europe/Rome] Trovate 0 timbrature
+[15-Dec-2024 09:54:02 Europe/Rome] fine procedura
+[15-Dec-2024 13:54:04 Europe/Rome] Inizio elaborazione
+[15-Dec-2024 13:54:04 Europe/Rome] Trovate 0 timbrature
+[15-Dec-2024 13:54:04 Europe/Rome] fine procedura
+[15-Dec-2024 17:54:07 Europe/Rome] Inizio elaborazione
+[15-Dec-2024 17:54:07 Europe/Rome] Trovate 0 timbrature
+[15-Dec-2024 17:54:07 Europe/Rome] fine procedura
+[16-Dec-2024 08:18:34 Europe/Rome] Inizio elaborazione
+[16-Dec-2024 08:18:34 Europe/Rome] Trovate 0 timbrature
+[16-Dec-2024 08:18:34 Europe/Rome] fine procedura
+[16-Dec-2024 08:25:17 Europe/Rome] Inizio elaborazione
+[16-Dec-2024 08:25:17 Europe/Rome] Trovate 0 timbrature
+[16-Dec-2024 08:25:17 Europe/Rome] fine procedura
+[16-Dec-2024 09:54:04 Europe/Rome] Inizio elaborazione
+[16-Dec-2024 09:54:04 Europe/Rome] Trovate 60 timbrature
+[16-Dec-2024 09:54:04 Europe/Rome] 20240000848 - richiamo servizio gepacon
+[16-Dec-2024 09:54:05 Europe/Rome] curl data: {"success":true}
+[16-Dec-2024 09:54:05 Europe/Rome] fine procedura
+[16-Dec-2024 10:40:41 Europe/Rome] Inizio elaborazione
+[16-Dec-2024 10:40:41 Europe/Rome] Trovate 2 timbrature
+[16-Dec-2024 10:40:41 Europe/Rome] 20240000849 - richiamo servizio gepacon
+[16-Dec-2024 10:40:42 Europe/Rome] curl data: {"success":true}
+[16-Dec-2024 10:40:42 Europe/Rome] fine procedura
+[16-Dec-2024 13:54:07 Europe/Rome] Inizio elaborazione
+[16-Dec-2024 13:54:07 Europe/Rome] Trovate 86 timbrature
+[16-Dec-2024 13:54:08 Europe/Rome] 20240000850 - richiamo servizio gepacon
+[16-Dec-2024 13:54:08 Europe/Rome] curl data: {"success":true}
+[16-Dec-2024 13:54:09 Europe/Rome] fine procedura
+[16-Dec-2024 17:54:11 Europe/Rome] Inizio elaborazione
+[16-Dec-2024 17:54:12 Europe/Rome] Trovate 54 timbrature
+[16-Dec-2024 17:54:12 Europe/Rome] 20240000851 - richiamo servizio gepacon
+[16-Dec-2024 17:54:12 Europe/Rome] curl data: {"success":true}
+[16-Dec-2024 17:54:13 Europe/Rome] fine procedura
+[17-Dec-2024 09:54:08 Europe/Rome] Inizio elaborazione
+[17-Dec-2024 09:54:08 Europe/Rome] Trovate 58 timbrature
+[17-Dec-2024 09:54:08 Europe/Rome] 20240000852 - richiamo servizio gepacon
+[17-Dec-2024 09:54:09 Europe/Rome] curl data: {"success":true}
+[17-Dec-2024 09:54:09 Europe/Rome] fine procedura
+[17-Dec-2024 13:54:11 Europe/Rome] Inizio elaborazione
+[17-Dec-2024 13:54:11 Europe/Rome] Trovate 103 timbrature
+[17-Dec-2024 13:54:11 Europe/Rome] 20240000853 - richiamo servizio gepacon
+[17-Dec-2024 13:54:12 Europe/Rome] curl data: {"success":true}
+[17-Dec-2024 13:54:12 Europe/Rome] fine procedura
+[17-Dec-2024 17:54:14 Europe/Rome] Inizio elaborazione
+[17-Dec-2024 17:54:14 Europe/Rome] Trovate 57 timbrature
+[17-Dec-2024 17:54:15 Europe/Rome] 20240000854 - richiamo servizio gepacon
+[17-Dec-2024 17:54:15 Europe/Rome] curl data: {"success":true}
+[17-Dec-2024 17:54:15 Europe/Rome] fine procedura
+[18-Dec-2024 09:54:08 Europe/Rome] Inizio elaborazione
+[18-Dec-2024 09:54:08 Europe/Rome] Trovate 62 timbrature
+[18-Dec-2024 09:54:08 Europe/Rome] 20240000855 - richiamo servizio gepacon
+[18-Dec-2024 09:54:09 Europe/Rome] curl data: {"success":true}
+[18-Dec-2024 09:54:09 Europe/Rome] fine procedura
+[18-Dec-2024 13:54:12 Europe/Rome] Inizio elaborazione
+[18-Dec-2024 13:54:12 Europe/Rome] Trovate 101 timbrature
+[18-Dec-2024 13:54:12 Europe/Rome] 20240000856 - richiamo servizio gepacon
+[18-Dec-2024 13:54:12 Europe/Rome] curl data: {"success":true}
+[18-Dec-2024 13:54:13 Europe/Rome] fine procedura
+[18-Dec-2024 17:54:14 Europe/Rome] Inizio elaborazione
+[18-Dec-2024 17:54:14 Europe/Rome] Trovate 56 timbrature
+[18-Dec-2024 17:54:15 Europe/Rome] 20240000857 - richiamo servizio gepacon
+[18-Dec-2024 17:54:15 Europe/Rome] curl data: {"success":true}
+[18-Dec-2024 17:54:15 Europe/Rome] fine procedura
+[19-Dec-2024 09:54:06 Europe/Rome] Inizio elaborazione
+[19-Dec-2024 09:54:06 Europe/Rome] Trovate 59 timbrature
+[19-Dec-2024 09:54:06 Europe/Rome] 20240000858 - richiamo servizio gepacon
+[19-Dec-2024 09:54:07 Europe/Rome] curl data: {"success":true}
+[19-Dec-2024 09:54:07 Europe/Rome] fine procedura
+[19-Dec-2024 13:54:10 Europe/Rome] Inizio elaborazione
+[19-Dec-2024 13:54:10 Europe/Rome] Trovate 97 timbrature
+[19-Dec-2024 13:54:10 Europe/Rome] 20240000859 - richiamo servizio gepacon
+[19-Dec-2024 13:54:11 Europe/Rome] curl data: {"success":true}
+[19-Dec-2024 13:54:11 Europe/Rome] fine procedura
+[19-Dec-2024 17:54:13 Europe/Rome] Inizio elaborazione
+[19-Dec-2024 17:54:13 Europe/Rome] Trovate 56 timbrature
+[19-Dec-2024 17:54:13 Europe/Rome] 20240000860 - richiamo servizio gepacon
+[19-Dec-2024 17:54:14 Europe/Rome] curl data: {"success":true}
+[19-Dec-2024 17:54:14 Europe/Rome] fine procedura
+[20-Dec-2024 09:54:11 Europe/Rome] Inizio elaborazione
+[20-Dec-2024 09:54:11 Europe/Rome] Trovate 61 timbrature
+[20-Dec-2024 09:54:11 Europe/Rome] 20240000861 - richiamo servizio gepacon
+[20-Dec-2024 09:54:12 Europe/Rome] curl data: {"success":true}
+[20-Dec-2024 09:54:12 Europe/Rome] fine procedura
+[20-Dec-2024 13:54:15 Europe/Rome] Inizio elaborazione
+[20-Dec-2024 13:54:15 Europe/Rome] Trovate 94 timbrature
+[20-Dec-2024 13:54:15 Europe/Rome] 20240000862 - richiamo servizio gepacon
+[20-Dec-2024 13:54:16 Europe/Rome] curl data: {"success":true}
+[20-Dec-2024 13:54:16 Europe/Rome] fine procedura
+[20-Dec-2024 17:54:19 Europe/Rome] Inizio elaborazione
+[20-Dec-2024 17:54:19 Europe/Rome] Trovate 53 timbrature
+[20-Dec-2024 17:54:19 Europe/Rome] 20240000863 - richiamo servizio gepacon
+[20-Dec-2024 17:54:19 Europe/Rome] curl data: {"success":true}
+[20-Dec-2024 17:54:20 Europe/Rome] fine procedura
+[21-Dec-2024 09:54:05 Europe/Rome] Inizio elaborazione
+[21-Dec-2024 09:54:05 Europe/Rome] Trovate 0 timbrature
+[21-Dec-2024 09:54:05 Europe/Rome] fine procedura
+[21-Dec-2024 13:54:08 Europe/Rome] Inizio elaborazione
+[21-Dec-2024 13:54:08 Europe/Rome] Trovate 0 timbrature
+[21-Dec-2024 13:54:08 Europe/Rome] fine procedura
+[21-Dec-2024 17:54:10 Europe/Rome] Inizio elaborazione
+[21-Dec-2024 17:54:10 Europe/Rome] Trovate 0 timbrature
+[21-Dec-2024 17:54:10 Europe/Rome] fine procedura
+[22-Dec-2024 09:54:03 Europe/Rome] Inizio elaborazione
+[22-Dec-2024 09:54:03 Europe/Rome] Trovate 0 timbrature
+[22-Dec-2024 09:54:03 Europe/Rome] fine procedura
+[22-Dec-2024 13:54:06 Europe/Rome] Inizio elaborazione
+[22-Dec-2024 13:54:06 Europe/Rome] Trovate 0 timbrature
+[22-Dec-2024 13:54:06 Europe/Rome] fine procedura
+[22-Dec-2024 17:54:08 Europe/Rome] Inizio elaborazione
+[22-Dec-2024 17:54:08 Europe/Rome] Trovate 0 timbrature
+[22-Dec-2024 17:54:08 Europe/Rome] fine procedura
+[23-Dec-2024 09:54:03 Europe/Rome] Inizio elaborazione
+[23-Dec-2024 09:54:04 Europe/Rome] Trovate 61 timbrature
+[23-Dec-2024 09:54:04 Europe/Rome] 20240000864 - richiamo servizio gepacon
+[23-Dec-2024 09:54:04 Europe/Rome] curl data: {"success":true}
+[23-Dec-2024 09:54:05 Europe/Rome] fine procedura
+[23-Dec-2024 13:54:07 Europe/Rome] Inizio elaborazione
+[23-Dec-2024 13:54:07 Europe/Rome] Trovate 95 timbrature
+[23-Dec-2024 13:54:08 Europe/Rome] 20240000865 - richiamo servizio gepacon
+[23-Dec-2024 13:54:08 Europe/Rome] curl data: {"success":true}
+[23-Dec-2024 13:54:09 Europe/Rome] fine procedura
+[23-Dec-2024 17:54:11 Europe/Rome] Inizio elaborazione
+[23-Dec-2024 17:54:12 Europe/Rome] Trovate 52 timbrature
+[23-Dec-2024 17:54:12 Europe/Rome] 20240000866 - richiamo servizio gepacon
+[23-Dec-2024 17:54:12 Europe/Rome] curl data: {"success":true}
+[23-Dec-2024 17:54:13 Europe/Rome] fine procedura
+[24-Dec-2024 09:54:05 Europe/Rome] Inizio elaborazione
+[24-Dec-2024 09:54:05 Europe/Rome] Trovate 0 timbrature
+[24-Dec-2024 09:54:05 Europe/Rome] fine procedura
+[24-Dec-2024 13:54:09 Europe/Rome] Inizio elaborazione
+[24-Dec-2024 13:54:09 Europe/Rome] Trovate 0 timbrature
+[24-Dec-2024 13:54:09 Europe/Rome] fine procedura
+[24-Dec-2024 17:54:11 Europe/Rome] Inizio elaborazione
+[24-Dec-2024 17:54:11 Europe/Rome] Trovate 0 timbrature
+[24-Dec-2024 17:54:11 Europe/Rome] fine procedura
+[25-Dec-2024 09:54:05 Europe/Rome] Inizio elaborazione
+[25-Dec-2024 09:54:05 Europe/Rome] Trovate 0 timbrature
+[25-Dec-2024 09:54:05 Europe/Rome] fine procedura
+[25-Dec-2024 13:54:08 Europe/Rome] Inizio elaborazione
+[25-Dec-2024 13:54:08 Europe/Rome] Trovate 0 timbrature
+[25-Dec-2024 13:54:08 Europe/Rome] fine procedura
+[25-Dec-2024 17:54:10 Europe/Rome] Inizio elaborazione
+[25-Dec-2024 17:54:10 Europe/Rome] Trovate 0 timbrature
+[25-Dec-2024 17:54:10 Europe/Rome] fine procedura
+[26-Dec-2024 09:54:04 Europe/Rome] Inizio elaborazione
+[26-Dec-2024 09:54:05 Europe/Rome] Trovate 0 timbrature
+[26-Dec-2024 09:54:05 Europe/Rome] fine procedura
+[26-Dec-2024 13:54:07 Europe/Rome] Inizio elaborazione
+[26-Dec-2024 13:54:08 Europe/Rome] Trovate 0 timbrature
+[26-Dec-2024 13:54:08 Europe/Rome] fine procedura
+[26-Dec-2024 17:54:10 Europe/Rome] Inizio elaborazione
+[26-Dec-2024 17:54:10 Europe/Rome] Trovate 0 timbrature
+[26-Dec-2024 17:54:10 Europe/Rome] fine procedura
+[27-Dec-2024 09:54:04 Europe/Rome] Inizio elaborazione
+[27-Dec-2024 09:54:05 Europe/Rome] Trovate 0 timbrature
+[27-Dec-2024 09:54:05 Europe/Rome] fine procedura
+[27-Dec-2024 13:54:08 Europe/Rome] Inizio elaborazione
+[27-Dec-2024 13:54:08 Europe/Rome] Trovate 0 timbrature
+[27-Dec-2024 13:54:08 Europe/Rome] fine procedura
+[27-Dec-2024 17:54:10 Europe/Rome] Inizio elaborazione
+[27-Dec-2024 17:54:10 Europe/Rome] Trovate 0 timbrature
+[27-Dec-2024 17:54:10 Europe/Rome] fine procedura
+[28-Dec-2024 09:54:04 Europe/Rome] Inizio elaborazione
+[28-Dec-2024 09:54:04 Europe/Rome] Trovate 0 timbrature
+[28-Dec-2024 09:54:04 Europe/Rome] fine procedura
+[28-Dec-2024 13:54:06 Europe/Rome] Inizio elaborazione
+[28-Dec-2024 13:54:06 Europe/Rome] Trovate 0 timbrature
+[28-Dec-2024 13:54:06 Europe/Rome] fine procedura
+[28-Dec-2024 17:54:09 Europe/Rome] Inizio elaborazione
+[28-Dec-2024 17:54:09 Europe/Rome] Trovate 0 timbrature
+[28-Dec-2024 17:54:09 Europe/Rome] fine procedura
+[29-Dec-2024 09:54:04 Europe/Rome] Inizio elaborazione
+[29-Dec-2024 09:54:04 Europe/Rome] Trovate 0 timbrature
+[29-Dec-2024 09:54:04 Europe/Rome] fine procedura
+[29-Dec-2024 13:54:06 Europe/Rome] Inizio elaborazione
+[29-Dec-2024 13:54:06 Europe/Rome] Trovate 0 timbrature
+[29-Dec-2024 13:54:06 Europe/Rome] fine procedura
+[29-Dec-2024 17:54:09 Europe/Rome] Inizio elaborazione
+[29-Dec-2024 17:54:09 Europe/Rome] Trovate 0 timbrature
+[29-Dec-2024 17:54:09 Europe/Rome] fine procedura
+[30-Dec-2024 09:54:05 Europe/Rome] Inizio elaborazione
+[30-Dec-2024 09:54:05 Europe/Rome] Trovate 0 timbrature
+[30-Dec-2024 09:54:05 Europe/Rome] fine procedura
+[30-Dec-2024 13:54:08 Europe/Rome] Inizio elaborazione
+[30-Dec-2024 13:54:08 Europe/Rome] Trovate 0 timbrature
+[30-Dec-2024 13:54:08 Europe/Rome] fine procedura
+[30-Dec-2024 17:54:10 Europe/Rome] Inizio elaborazione
+[30-Dec-2024 17:54:10 Europe/Rome] Trovate 0 timbrature
+[30-Dec-2024 17:54:10 Europe/Rome] fine procedura
+[31-Dec-2024 09:54:04 Europe/Rome] Inizio elaborazione
+[31-Dec-2024 09:54:04 Europe/Rome] Trovate 0 timbrature
+[31-Dec-2024 09:54:04 Europe/Rome] fine procedura
+[31-Dec-2024 13:54:06 Europe/Rome] Inizio elaborazione
+[31-Dec-2024 13:54:06 Europe/Rome] Trovate 0 timbrature
+[31-Dec-2024 13:54:06 Europe/Rome] fine procedura
+[31-Dec-2024 17:54:08 Europe/Rome] Inizio elaborazione
+[31-Dec-2024 17:54:08 Europe/Rome] Trovate 0 timbrature
+[31-Dec-2024 17:54:08 Europe/Rome] fine procedura

@@ -1,0 +1,138 @@
+[24-Apr-2024 10:04:10 UTC] 20240000051 - inizio elaborazione
+[24-Apr-2024 10:04:10 UTC] 20240000051 - scorro dati timbrature
+[24-Apr-2024 10:04:10 UTC] 20240000051 - trovate 3 timbrature
+[24-Apr-2024 10:04:10 UTC] 20240000051 - richiamo servizio gepacon
+[24-Apr-2024 10:04:11 UTC] 20240000051 - trasferimento eseguito con successo
+[24-Apr-2024 10:04:25 UTC] 20240000052 - inizio elaborazione
+[24-Apr-2024 10:04:25 UTC] 20240000052 - scorro dati timbrature
+[24-Apr-2024 10:04:25 UTC] 20240000052 - trovate 0 timbrature
+[24-Apr-2024 10:04:25 UTC] 20240000052 - trasferimento eseguito con successo
+[30-Apr-2024 09:11:33 UTC] 20240000053 - inizio elaborazione
+[30-Apr-2024 09:11:34 UTC] 20240000053 - scorro dati timbrature
+[30-Apr-2024 09:11:34 UTC] 20240000053 - trovate 22 timbrature
+[30-Apr-2024 09:11:34 UTC] 20240000053 - richiamo servizio gepacon
+[30-Apr-2024 09:11:35 UTC] 20240000053 - trasferimento eseguito con successo
+[30-Apr-2024 09:13:16 UTC] 20240000054 - inizio elaborazione
+[30-Apr-2024 09:13:17 UTC] 20240000054 - scorro dati timbrature
+[30-Apr-2024 09:13:17 UTC] 20240000054 - trovate 14 timbrature
+[30-Apr-2024 09:13:17 UTC] 20240000054 - richiamo servizio gepacon
+[30-Apr-2024 09:13:17 UTC] curl data: {"success":true}
+[30-Apr-2024 09:13:17 UTC] 20240000054 - trasferimento eseguito con successo
+[30-Apr-2024 12:11:49 UTC] 20240000055 - inizio elaborazione
+[30-Apr-2024 12:11:50 UTC] 20240000055 - scorro dati timbrature
+[30-Apr-2024 12:11:50 UTC] 20240000055 - trovate 2 timbrature
+[30-Apr-2024 12:11:50 UTC] 20240000055 - richiamo servizio gepacon
+[30-Apr-2024 12:11:50 UTC] curl data: {"success":true}
+[30-Apr-2024 12:11:50 UTC] 20240000055 - trasferimento eseguito con successo
+[30-Apr-2024 12:21:55 UTC] 20240000056 - inizio elaborazione
+[30-Apr-2024 12:21:56 UTC] 20240000056 - scorro dati timbrature
+[30-Apr-2024 12:21:56 UTC] 20240000056 - trovate 0 timbrature
+[30-Apr-2024 12:21:56 UTC] 20240000056 - trasferimento eseguito con successo
+[30-Apr-2024 12:31:59 UTC] 20240000057 - inizio elaborazione
+[30-Apr-2024 12:31:59 UTC] 20240000057 - scorro dati timbrature
+[30-Apr-2024 12:31:59 UTC] 20240000057 - trovate 0 timbrature
+[30-Apr-2024 12:31:59 UTC] 20240000057 - trasferimento eseguito con successo
+[30-Apr-2024 12:42:02 UTC] 20240000058 - inizio elaborazione
+[30-Apr-2024 12:42:02 UTC] 20240000058 - scorro dati timbrature
+[30-Apr-2024 12:42:02 UTC] 20240000058 - trovate 0 timbrature
+[30-Apr-2024 12:42:02 UTC] 20240000058 - trasferimento eseguito con successo
+[30-Apr-2024 12:52:05 UTC] 20240000059 - inizio elaborazione
+[30-Apr-2024 12:52:05 UTC] 20240000059 - scorro dati timbrature
+[30-Apr-2024 12:52:05 UTC] 20240000059 - trovate 0 timbrature
+[30-Apr-2024 12:52:05 UTC] 20240000059 - trasferimento eseguito con successo
+[30-Apr-2024 13:02:08 UTC] 20240000060 - inizio elaborazione
+[30-Apr-2024 13:02:08 UTC] 20240000060 - scorro dati timbrature
+[30-Apr-2024 13:02:08 UTC] 20240000060 - trovate 0 timbrature
+[30-Apr-2024 13:02:08 UTC] 20240000060 - trasferimento eseguito con successo
+[30-Apr-2024 13:12:14 UTC] 20240000061 - inizio elaborazione
+[30-Apr-2024 13:12:14 UTC] 20240000061 - scorro dati timbrature
+[30-Apr-2024 13:12:15 UTC] 20240000061 - trovate 0 timbrature
+[30-Apr-2024 13:12:15 UTC] 20240000061 - trasferimento eseguito con successo
+[30-Apr-2024 13:22:18 UTC] 20240000062 - inizio elaborazione
+[30-Apr-2024 13:22:18 UTC] 20240000062 - scorro dati timbrature
+[30-Apr-2024 13:22:18 UTC] 20240000062 - trovate 0 timbrature
+[30-Apr-2024 13:22:18 UTC] 20240000062 - trasferimento eseguito con successo
+[30-Apr-2024 13:32:21 UTC] 20240000063 - inizio elaborazione
+[30-Apr-2024 13:32:21 UTC] 20240000063 - scorro dati timbrature
+[30-Apr-2024 13:32:21 UTC] 20240000063 - trovate 0 timbrature
+[30-Apr-2024 13:32:21 UTC] 20240000063 - trasferimento eseguito con successo
+[30-Apr-2024 13:42:24 UTC] 20240000064 - inizio elaborazione
+[30-Apr-2024 13:42:24 UTC] 20240000064 - scorro dati timbrature
+[30-Apr-2024 13:42:24 UTC] 20240000064 - trovate 0 timbrature
+[30-Apr-2024 13:42:24 UTC] 20240000064 - trasferimento eseguito con successo
+[30-Apr-2024 13:52:27 UTC] 20240000065 - inizio elaborazione
+[30-Apr-2024 13:52:27 UTC] 20240000065 - scorro dati timbrature
+[30-Apr-2024 13:52:27 UTC] 20240000065 - trovate 0 timbrature
+[30-Apr-2024 13:52:27 UTC] 20240000065 - trasferimento eseguito con successo
+[30-Apr-2024 14:02:30 UTC] 20240000066 - inizio elaborazione
+[30-Apr-2024 14:02:30 UTC] 20240000066 - scorro dati timbrature
+[30-Apr-2024 14:02:30 UTC] 20240000066 - trovate 0 timbrature
+[30-Apr-2024 14:02:30 UTC] 20240000066 - trasferimento eseguito con successo
+[30-Apr-2024 14:12:33 UTC] 20240000067 - inizio elaborazione
+[30-Apr-2024 14:12:33 UTC] 20240000067 - scorro dati timbrature
+[30-Apr-2024 14:12:33 UTC] 20240000067 - trovate 0 timbrature
+[30-Apr-2024 14:12:33 UTC] 20240000067 - trasferimento eseguito con successo
+[30-Apr-2024 14:22:36 UTC] 20240000068 - inizio elaborazione
+[30-Apr-2024 14:22:36 UTC] 20240000068 - scorro dati timbrature
+[30-Apr-2024 14:22:36 UTC] 20240000068 - trovate 0 timbrature
+[30-Apr-2024 14:22:36 UTC] 20240000068 - trasferimento eseguito con successo
+[30-Apr-2024 14:32:39 UTC] 20240000069 - inizio elaborazione
+[30-Apr-2024 14:32:39 UTC] 20240000069 - scorro dati timbrature
+[30-Apr-2024 14:32:40 UTC] 20240000069 - trovate 0 timbrature
+[30-Apr-2024 14:32:40 UTC] 20240000069 - trasferimento eseguito con successo
+[30-Apr-2024 14:42:42 UTC] 20240000070 - inizio elaborazione
+[30-Apr-2024 14:42:42 UTC] 20240000070 - scorro dati timbrature
+[30-Apr-2024 14:42:43 UTC] 20240000070 - trovate 0 timbrature
+[30-Apr-2024 14:42:43 UTC] 20240000070 - trasferimento eseguito con successo
+[30-Apr-2024 14:52:45 UTC] 20240000071 - inizio elaborazione
+[30-Apr-2024 14:52:46 UTC] 20240000071 - scorro dati timbrature
+[30-Apr-2024 14:52:46 UTC] 20240000071 - trovate 0 timbrature
+[30-Apr-2024 14:52:46 UTC] 20240000071 - trasferimento eseguito con successo
+[30-Apr-2024 15:02:49 UTC] 20240000072 - inizio elaborazione
+[30-Apr-2024 15:02:49 UTC] 20240000072 - scorro dati timbrature
+[30-Apr-2024 15:02:49 UTC] 20240000072 - trovate 1 timbrature
+[30-Apr-2024 15:02:49 UTC] 20240000072 - richiamo servizio gepacon
+[30-Apr-2024 15:02:50 UTC] curl data: {"success":true}
+[30-Apr-2024 15:02:50 UTC] 20240000072 - trasferimento eseguito con successo
+[30-Apr-2024 15:12:53 UTC] 20240000073 - inizio elaborazione
+[30-Apr-2024 15:12:53 UTC] 20240000073 - scorro dati timbrature
+[30-Apr-2024 15:12:53 UTC] 20240000073 - trovate 0 timbrature
+[30-Apr-2024 15:12:53 UTC] 20240000073 - trasferimento eseguito con successo
+[30-Apr-2024 15:22:56 UTC] 20240000074 - inizio elaborazione
+[30-Apr-2024 15:22:56 UTC] 20240000074 - scorro dati timbrature
+[30-Apr-2024 15:22:56 UTC] 20240000074 - trovate 0 timbrature
+[30-Apr-2024 15:22:56 UTC] 20240000074 - trasferimento eseguito con successo
+[30-Apr-2024 15:32:59 UTC] 20240000075 - inizio elaborazione
+[30-Apr-2024 15:33:01 UTC] 20240000075 - scorro dati timbrature
+[30-Apr-2024 15:33:01 UTC] 20240000075 - trovate 0 timbrature
+[30-Apr-2024 15:33:01 UTC] 20240000075 - trasferimento eseguito con successo
+[30-Apr-2024 15:43:03 UTC] 20240000076 - inizio elaborazione
+[30-Apr-2024 15:43:04 UTC] 20240000076 - scorro dati timbrature
+[30-Apr-2024 15:43:04 UTC] 20240000076 - trovate 0 timbrature
+[30-Apr-2024 15:43:04 UTC] 20240000076 - trasferimento eseguito con successo
+[30-Apr-2024 15:53:07 UTC] 20240000077 - inizio elaborazione
+[30-Apr-2024 15:53:07 UTC] 20240000077 - scorro dati timbrature
+[30-Apr-2024 15:53:07 UTC] 20240000077 - trovate 0 timbrature
+[30-Apr-2024 15:53:07 UTC] 20240000077 - trasferimento eseguito con successo
+[30-Apr-2024 16:05:27 UTC] Inizio elaborazione
+[30-Apr-2024 16:05:27 UTC] PHP Warning:  Undefined variable $progrElab in /www/php80/htdocs/timbrature/transfer.php on line 93
+[30-Apr-2024 16:05:27 UTC]  - scorro dati timbrature
+[30-Apr-2024 16:05:28 UTC] 20240000078 - trovate 0 timbrature
+[30-Apr-2024 16:05:28 UTC] 20240000078 - trasferimento eseguito con successo
+[30-Apr-2024 16:05:58 UTC] Inizio elaborazione
+[30-Apr-2024 16:05:59 UTC] 20240000079 - trovate 0 timbrature
+[30-Apr-2024 16:05:59 UTC] 20240000079 - trasferimento eseguito con successo
+[30-Apr-2024 16:09:42 UTC] Inizio elaborazione
+[30-Apr-2024 16:09:42 UTC] 20240000080 - trovate 0 timbrature
+[30-Apr-2024 16:09:42 UTC] PHP Warning:  odbc_exec(): SQL error: [IBM][System i Access ODBC Driver][DB2 for i5/OS]SQL0406 - Conversion error on assignment to column CNCONT., SQL state 22005 in SQLExecDirect in /www/php80/htdocs/timbrature/transfer.php on line 367
+[30-Apr-2024 16:09:42 UTC] Errore aggiornamento contatore: [IBM][System i Access ODBC Driver][DB2 for i5/OS]SQL0406 - Conversion error on assignment to column CNCONT.
+[30-Apr-2024 16:09:46 UTC] Inizio elaborazione
+[30-Apr-2024 16:09:46 UTC] 20240000081 - trovate 0 timbrature
+[30-Apr-2024 16:09:46 UTC] PHP Warning:  odbc_exec(): SQL error: [IBM][System i Access ODBC Driver][DB2 for i5/OS]SQL0406 - Conversion error on assignment to column CNCONT., SQL state 22005 in SQLExecDirect in /www/php80/htdocs/timbrature/transfer.php on line 367
+[30-Apr-2024 16:09:46 UTC] Errore aggiornamento contatore: [IBM][System i Access ODBC Driver][DB2 for i5/OS]SQL0406 - Conversion error on assignment to column CNCONT.
+[30-Apr-2024 16:10:36 UTC] Inizio elaborazione
+[30-Apr-2024 16:10:37 UTC] 20240000082 - trovate 0 timbrature
+[30-Apr-2024 16:10:37 UTC] 20240000082 - trasferimento eseguito con successo
+[30-Apr-2024 16:10:37 UTC] Inizio elaborazione
+[30-Apr-2024 16:10:38 UTC] 20240000082 - trovate 0 timbrature
+[30-Apr-2024 16:10:38 UTC] 20240000082 - trasferimento eseguito con successo

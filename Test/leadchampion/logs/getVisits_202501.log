@@ -1,0 +1,1551 @@
+[08-Jan-2025 09:01:40 UTC] Avvio importazione 20250108 090140
+[08-Jan-2025 09:01:42 UTC] Richiamo nr.1 : 131
+[08-Jan-2025 09:01:42 UTC] Total records var total: 131
+[08-Jan-2025 09:01:42 UTC] Total records : 131
+[08-Jan-2025 09:01:42 UTC] IMPORT OK CNT=0
+[08-Jan-2025 09:03:59 UTC] Avvio importazione 20250108 090359
+[08-Jan-2025 09:04:01 UTC] Richiamo nr.1 : 132
+[08-Jan-2025 09:04:01 UTC] Total records var total: 132
+[08-Jan-2025 09:04:01 UTC] Total records : 132
+[08-Jan-2025 09:04:01 UTC] IMPORT OK CNT=1
+[08-Jan-2025 09:05:04 UTC] Avvio importazione 20250108 090504
+[08-Jan-2025 09:05:06 UTC] PHP Warning:  file_put_contents(/www/php80/htdocs/contacts.txt): Failed to open stream: Permission denied in /www/php80/htdocs/leadchampion/classes/VisitsImporter.class.php on line 43
+[08-Jan-2025 09:05:06 UTC] Richiamo nr.1 : 132
+[08-Jan-2025 09:05:06 UTC] Total records var total: 132
+[08-Jan-2025 09:05:06 UTC] Total records : 132
+[08-Jan-2025 09:05:06 UTC] IMPORT OK CNT=0
+[08-Jan-2025 09:06:58 UTC] Avvio importazione 20250108 090658
+[08-Jan-2025 09:06:59 UTC] Richiamo nr.1 : 132
+[08-Jan-2025 09:06:59 UTC] Total records var total: 132
+[08-Jan-2025 09:06:59 UTC] Total records : 132
+[08-Jan-2025 09:06:59 UTC] IMPORT OK CNT=0
+[08-Jan-2025 09:11:56 UTC] Avvio importazione 20250108 091156
+[08-Jan-2025 09:11:57 UTC] Richiamo nr.1 : 132
+[08-Jan-2025 09:11:57 UTC] Total records var total: 132
+[08-Jan-2025 09:11:57 UTC] Total records : 132
+[08-Jan-2025 09:11:58 UTC] IMPORT OK CNT=1
+[09-Jan-2025 01:04:18 UTC] Avvio importazione 20250109 010418
+[09-Jan-2025 01:04:19 UTC] Richiamo nr.1 : 190
+[09-Jan-2025 01:04:19 UTC] Total records var total: 190
+[09-Jan-2025 01:04:19 UTC] Total records : 190
+[09-Jan-2025 01:04:21 UTC] IMPORT OK CNT=61
+[09-Jan-2025 01:18:07 UTC] Avvio importazione 20250109 011807
+[09-Jan-2025 01:18:08 UTC] Richiamo nr.1 : 190
+[09-Jan-2025 01:18:08 UTC] Total records var total: 190
+[09-Jan-2025 01:18:08 UTC] Total records : 190
+[09-Jan-2025 01:18:09 UTC] IMPORT OK CNT=0
+[09-Jan-2025 01:31:18 UTC] Avvio importazione 20250109 013118
+[09-Jan-2025 01:31:19 UTC] Richiamo nr.1 : 190
+[09-Jan-2025 01:31:19 UTC] Total records var total: 190
+[09-Jan-2025 01:31:19 UTC] Total records : 190
+[09-Jan-2025 01:31:20 UTC] IMPORT OK CNT=0
+[09-Jan-2025 01:44:30 UTC] Avvio importazione 20250109 014430
+[09-Jan-2025 01:44:32 UTC] Richiamo nr.1 : 190
+[09-Jan-2025 01:44:32 UTC] Total records var total: 190
+[09-Jan-2025 01:44:32 UTC] Total records : 190
+[09-Jan-2025 01:44:32 UTC] IMPORT OK CNT=0
+[09-Jan-2025 01:57:39 UTC] Avvio importazione 20250109 015739
+[09-Jan-2025 01:57:41 UTC] Richiamo nr.1 : 190
+[09-Jan-2025 01:57:41 UTC] Total records var total: 190
+[09-Jan-2025 01:57:41 UTC] Total records : 190
+[09-Jan-2025 01:57:41 UTC] IMPORT OK CNT=0
+[09-Jan-2025 02:10:49 UTC] Avvio importazione 20250109 021049
+[09-Jan-2025 02:10:51 UTC] Richiamo nr.1 : 190
+[09-Jan-2025 02:10:51 UTC] Total records var total: 190
+[09-Jan-2025 02:10:51 UTC] Total records : 190
+[09-Jan-2025 02:10:51 UTC] IMPORT OK CNT=0
+[09-Jan-2025 02:24:00 UTC] Avvio importazione 20250109 022400
+[09-Jan-2025 02:24:02 UTC] Richiamo nr.1 : 190
+[09-Jan-2025 02:24:02 UTC] Total records var total: 190
+[09-Jan-2025 02:24:02 UTC] Total records : 190
+[09-Jan-2025 02:24:02 UTC] IMPORT OK CNT=0
+[09-Jan-2025 02:37:11 UTC] Avvio importazione 20250109 023711
+[09-Jan-2025 02:37:12 UTC] Richiamo nr.1 : 190
+[09-Jan-2025 02:37:12 UTC] Total records var total: 190
+[09-Jan-2025 02:37:12 UTC] Total records : 190
+[09-Jan-2025 02:37:12 UTC] IMPORT OK CNT=0
+[09-Jan-2025 02:50:22 UTC] Avvio importazione 20250109 025022
+[09-Jan-2025 02:50:23 UTC] Richiamo nr.1 : 190
+[09-Jan-2025 02:50:23 UTC] Total records var total: 190
+[09-Jan-2025 02:50:23 UTC] Total records : 190
+[09-Jan-2025 02:50:24 UTC] IMPORT OK CNT=0
+[09-Jan-2025 03:03:32 UTC] Avvio importazione 20250109 030332
+[09-Jan-2025 03:03:34 UTC] Richiamo nr.1 : 190
+[09-Jan-2025 03:03:34 UTC] Total records var total: 190
+[09-Jan-2025 03:03:34 UTC] Total records : 190
+[09-Jan-2025 03:03:34 UTC] IMPORT OK CNT=0
+[09-Jan-2025 03:16:48 UTC] Avvio importazione 20250109 031648
+[09-Jan-2025 03:16:49 UTC] Richiamo nr.1 : 190
+[09-Jan-2025 03:16:49 UTC] Total records var total: 190
+[09-Jan-2025 03:16:49 UTC] Total records : 190
+[09-Jan-2025 03:16:50 UTC] IMPORT OK CNT=0
+[09-Jan-2025 03:30:12 UTC] Avvio importazione 20250109 033012
+[09-Jan-2025 03:30:13 UTC] Richiamo nr.1 : 191
+[09-Jan-2025 03:30:13 UTC] Total records var total: 191
+[09-Jan-2025 03:30:13 UTC] Total records : 191
+[09-Jan-2025 03:30:14 UTC] IMPORT OK CNT=1
+[09-Jan-2025 03:44:05 UTC] Avvio importazione 20250109 034405
+[09-Jan-2025 03:44:07 UTC] Richiamo nr.1 : 191
+[09-Jan-2025 03:44:07 UTC] Total records var total: 191
+[09-Jan-2025 03:44:07 UTC] Total records : 191
+[09-Jan-2025 03:44:07 UTC] IMPORT OK CNT=0
+[09-Jan-2025 03:57:25 UTC] Avvio importazione 20250109 035725
+[09-Jan-2025 03:57:26 UTC] Richiamo nr.1 : 191
+[09-Jan-2025 03:57:26 UTC] Total records var total: 191
+[09-Jan-2025 03:57:26 UTC] Total records : 191
+[09-Jan-2025 03:57:26 UTC] IMPORT OK CNT=0
+[09-Jan-2025 04:10:41 UTC] Avvio importazione 20250109 041041
+[09-Jan-2025 04:10:42 UTC] Richiamo nr.1 : 191
+[09-Jan-2025 04:10:42 UTC] Total records var total: 191
+[09-Jan-2025 04:10:42 UTC] Total records : 191
+[09-Jan-2025 04:10:43 UTC] IMPORT OK CNT=0
+[09-Jan-2025 04:23:58 UTC] Avvio importazione 20250109 042358
+[09-Jan-2025 04:23:59 UTC] Richiamo nr.1 : 191
+[09-Jan-2025 04:23:59 UTC] Total records var total: 191
+[09-Jan-2025 04:23:59 UTC] Total records : 191
+[09-Jan-2025 04:24:00 UTC] IMPORT OK CNT=0
+[09-Jan-2025 04:37:07 UTC] Avvio importazione 20250109 043707
+[09-Jan-2025 04:37:08 UTC] Richiamo nr.1 : 191
+[09-Jan-2025 04:37:08 UTC] Total records var total: 191
+[09-Jan-2025 04:37:08 UTC] Total records : 191
+[09-Jan-2025 04:37:09 UTC] IMPORT OK CNT=0
+[09-Jan-2025 04:50:20 UTC] Avvio importazione 20250109 045020
+[09-Jan-2025 04:50:21 UTC] Richiamo nr.1 : 191
+[09-Jan-2025 04:50:21 UTC] Total records var total: 191
+[09-Jan-2025 04:50:21 UTC] Total records : 191
+[09-Jan-2025 04:50:22 UTC] IMPORT OK CNT=0
+[09-Jan-2025 05:03:29 UTC] Avvio importazione 20250109 050329
+[09-Jan-2025 05:03:30 UTC] Richiamo nr.1 : 191
+[09-Jan-2025 05:03:30 UTC] Total records var total: 191
+[09-Jan-2025 05:03:30 UTC] Total records : 191
+[09-Jan-2025 05:03:31 UTC] IMPORT OK CNT=0
+[10-Jan-2025 01:14:47 UTC] Avvio importazione 20250110 011447
+[10-Jan-2025 01:14:49 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 01:14:49 UTC] Total records var total: 229
+[10-Jan-2025 01:14:49 UTC] Total records : 229
+[10-Jan-2025 01:14:51 UTC] IMPORT OK CNT=65
+[10-Jan-2025 01:28:21 UTC] Avvio importazione 20250110 012821
+[10-Jan-2025 01:28:22 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 01:28:22 UTC] Total records var total: 229
+[10-Jan-2025 01:28:22 UTC] Total records : 229
+[10-Jan-2025 01:28:23 UTC] IMPORT OK CNT=0
+[10-Jan-2025 01:41:41 UTC] Avvio importazione 20250110 014141
+[10-Jan-2025 01:41:43 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 01:41:43 UTC] Total records var total: 229
+[10-Jan-2025 01:41:43 UTC] Total records : 229
+[10-Jan-2025 01:41:44 UTC] IMPORT OK CNT=0
+[10-Jan-2025 01:54:58 UTC] Avvio importazione 20250110 015458
+[10-Jan-2025 01:54:59 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 01:54:59 UTC] Total records var total: 229
+[10-Jan-2025 01:54:59 UTC] Total records : 229
+[10-Jan-2025 01:55:00 UTC] IMPORT OK CNT=0
+[10-Jan-2025 02:08:13 UTC] Avvio importazione 20250110 020813
+[10-Jan-2025 02:08:14 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 02:08:14 UTC] Total records var total: 229
+[10-Jan-2025 02:08:14 UTC] Total records : 229
+[10-Jan-2025 02:08:15 UTC] IMPORT OK CNT=0
+[10-Jan-2025 02:21:27 UTC] Avvio importazione 20250110 022127
+[10-Jan-2025 02:21:28 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 02:21:28 UTC] Total records var total: 229
+[10-Jan-2025 02:21:28 UTC] Total records : 229
+[10-Jan-2025 02:21:29 UTC] IMPORT OK CNT=0
+[10-Jan-2025 02:34:38 UTC] Avvio importazione 20250110 023438
+[10-Jan-2025 02:34:40 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 02:34:40 UTC] Total records var total: 229
+[10-Jan-2025 02:34:40 UTC] Total records : 229
+[10-Jan-2025 02:34:40 UTC] IMPORT OK CNT=0
+[10-Jan-2025 02:47:47 UTC] Avvio importazione 20250110 024747
+[10-Jan-2025 02:47:49 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 02:47:49 UTC] Total records var total: 229
+[10-Jan-2025 02:47:49 UTC] Total records : 229
+[10-Jan-2025 02:47:49 UTC] IMPORT OK CNT=0
+[10-Jan-2025 03:01:01 UTC] Avvio importazione 20250110 030101
+[10-Jan-2025 03:01:03 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 03:01:03 UTC] Total records var total: 229
+[10-Jan-2025 03:01:03 UTC] Total records : 229
+[10-Jan-2025 03:01:03 UTC] IMPORT OK CNT=0
+[10-Jan-2025 03:14:24 UTC] Avvio importazione 20250110 031424
+[10-Jan-2025 03:14:25 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 03:14:25 UTC] Total records var total: 229
+[10-Jan-2025 03:14:25 UTC] Total records : 229
+[10-Jan-2025 03:14:26 UTC] IMPORT OK CNT=0
+[10-Jan-2025 03:27:48 UTC] Avvio importazione 20250110 032748
+[10-Jan-2025 03:27:50 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 03:27:50 UTC] Total records var total: 229
+[10-Jan-2025 03:27:50 UTC] Total records : 229
+[10-Jan-2025 03:27:50 UTC] IMPORT OK CNT=0
+[10-Jan-2025 03:41:15 UTC] Avvio importazione 20250110 034115
+[10-Jan-2025 03:41:16 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 03:41:16 UTC] Total records var total: 229
+[10-Jan-2025 03:41:16 UTC] Total records : 229
+[10-Jan-2025 03:41:17 UTC] IMPORT OK CNT=0
+[10-Jan-2025 03:55:08 UTC] Avvio importazione 20250110 035508
+[10-Jan-2025 03:55:10 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 03:55:10 UTC] Total records var total: 229
+[10-Jan-2025 03:55:10 UTC] Total records : 229
+[10-Jan-2025 03:55:11 UTC] IMPORT OK CNT=0
+[10-Jan-2025 04:08:28 UTC] Avvio importazione 20250110 040828
+[10-Jan-2025 04:08:29 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 04:08:29 UTC] Total records var total: 229
+[10-Jan-2025 04:08:29 UTC] Total records : 229
+[10-Jan-2025 04:08:30 UTC] IMPORT OK CNT=0
+[10-Jan-2025 04:21:51 UTC] Avvio importazione 20250110 042151
+[10-Jan-2025 04:21:52 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 04:21:52 UTC] Total records var total: 229
+[10-Jan-2025 04:21:52 UTC] Total records : 229
+[10-Jan-2025 04:21:53 UTC] IMPORT OK CNT=0
+[10-Jan-2025 04:35:12 UTC] Avvio importazione 20250110 043512
+[10-Jan-2025 04:35:14 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 04:35:14 UTC] Total records var total: 229
+[10-Jan-2025 04:35:14 UTC] Total records : 229
+[10-Jan-2025 04:35:14 UTC] IMPORT OK CNT=0
+[10-Jan-2025 04:48:30 UTC] Avvio importazione 20250110 044830
+[10-Jan-2025 04:48:31 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 04:48:31 UTC] Total records var total: 229
+[10-Jan-2025 04:48:31 UTC] Total records : 229
+[10-Jan-2025 04:48:32 UTC] IMPORT OK CNT=0
+[10-Jan-2025 05:01:51 UTC] Avvio importazione 20250110 050151
+[10-Jan-2025 05:01:52 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 05:01:52 UTC] Total records var total: 229
+[10-Jan-2025 05:01:52 UTC] Total records : 229
+[10-Jan-2025 05:01:53 UTC] IMPORT OK CNT=0
+[10-Jan-2025 05:15:15 UTC] Avvio importazione 20250110 051515
+[10-Jan-2025 05:15:17 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 05:15:17 UTC] Total records var total: 229
+[10-Jan-2025 05:15:17 UTC] Total records : 229
+[10-Jan-2025 05:15:18 UTC] IMPORT OK CNT=0
+[10-Jan-2025 05:41:57 UTC] Avvio importazione 20250110 054157
+[10-Jan-2025 05:41:59 UTC] Richiamo nr.1 : 229
+[10-Jan-2025 05:41:59 UTC] Total records var total: 229
+[10-Jan-2025 05:41:59 UTC] Total records : 229
+[10-Jan-2025 05:42:00 UTC] IMPORT OK CNT=0
+[11-Jan-2025 01:04:23 UTC] Avvio importazione 20250111 010423
+[11-Jan-2025 01:04:25 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 01:04:25 UTC] Total records var total: 211
+[11-Jan-2025 01:04:25 UTC] Total records : 211
+[11-Jan-2025 01:04:27 UTC] IMPORT OK CNT=62
+[11-Jan-2025 01:18:06 UTC] Avvio importazione 20250111 011806
+[11-Jan-2025 01:18:07 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 01:18:07 UTC] Total records var total: 211
+[11-Jan-2025 01:18:07 UTC] Total records : 211
+[11-Jan-2025 01:18:08 UTC] IMPORT OK CNT=0
+[11-Jan-2025 01:31:19 UTC] Avvio importazione 20250111 013119
+[11-Jan-2025 01:31:21 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 01:31:21 UTC] Total records var total: 211
+[11-Jan-2025 01:31:21 UTC] Total records : 211
+[11-Jan-2025 01:31:21 UTC] IMPORT OK CNT=0
+[11-Jan-2025 01:44:31 UTC] Avvio importazione 20250111 014431
+[11-Jan-2025 01:44:32 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 01:44:32 UTC] Total records var total: 211
+[11-Jan-2025 01:44:32 UTC] Total records : 211
+[11-Jan-2025 01:44:33 UTC] IMPORT OK CNT=0
+[11-Jan-2025 01:57:44 UTC] Avvio importazione 20250111 015744
+[11-Jan-2025 01:57:45 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 01:57:45 UTC] Total records var total: 211
+[11-Jan-2025 01:57:45 UTC] Total records : 211
+[11-Jan-2025 01:57:46 UTC] IMPORT OK CNT=0
+[11-Jan-2025 02:10:54 UTC] Avvio importazione 20250111 021054
+[11-Jan-2025 02:10:56 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 02:10:56 UTC] Total records var total: 211
+[11-Jan-2025 02:10:56 UTC] Total records : 211
+[11-Jan-2025 02:10:56 UTC] IMPORT OK CNT=0
+[11-Jan-2025 02:24:05 UTC] Avvio importazione 20250111 022405
+[11-Jan-2025 02:24:06 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 02:24:06 UTC] Total records var total: 211
+[11-Jan-2025 02:24:06 UTC] Total records : 211
+[11-Jan-2025 02:24:07 UTC] IMPORT OK CNT=0
+[11-Jan-2025 02:37:13 UTC] Avvio importazione 20250111 023713
+[11-Jan-2025 02:37:14 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 02:37:14 UTC] Total records var total: 211
+[11-Jan-2025 02:37:14 UTC] Total records : 211
+[11-Jan-2025 02:37:15 UTC] IMPORT OK CNT=0
+[11-Jan-2025 02:50:20 UTC] Avvio importazione 20250111 025020
+[11-Jan-2025 02:50:21 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 02:50:21 UTC] Total records var total: 211
+[11-Jan-2025 02:50:21 UTC] Total records : 211
+[11-Jan-2025 02:50:22 UTC] IMPORT OK CNT=0
+[11-Jan-2025 03:03:34 UTC] Avvio importazione 20250111 030334
+[11-Jan-2025 03:03:36 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 03:03:36 UTC] Total records var total: 211
+[11-Jan-2025 03:03:36 UTC] Total records : 211
+[11-Jan-2025 03:03:36 UTC] IMPORT OK CNT=0
+[11-Jan-2025 03:16:54 UTC] Avvio importazione 20250111 031654
+[11-Jan-2025 03:16:55 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 03:16:55 UTC] Total records var total: 211
+[11-Jan-2025 03:16:55 UTC] Total records : 211
+[11-Jan-2025 03:16:56 UTC] IMPORT OK CNT=0
+[11-Jan-2025 03:30:20 UTC] Avvio importazione 20250111 033020
+[11-Jan-2025 03:30:21 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 03:30:21 UTC] Total records var total: 211
+[11-Jan-2025 03:30:21 UTC] Total records : 211
+[11-Jan-2025 03:30:22 UTC] IMPORT OK CNT=0
+[11-Jan-2025 03:44:16 UTC] Avvio importazione 20250111 034416
+[11-Jan-2025 03:44:18 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 03:44:18 UTC] Total records var total: 211
+[11-Jan-2025 03:44:18 UTC] Total records : 211
+[11-Jan-2025 03:44:19 UTC] IMPORT OK CNT=0
+[11-Jan-2025 03:57:42 UTC] Avvio importazione 20250111 035742
+[11-Jan-2025 03:57:43 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 03:57:43 UTC] Total records var total: 211
+[11-Jan-2025 03:57:43 UTC] Total records : 211
+[11-Jan-2025 03:57:43 UTC] IMPORT OK CNT=0
+[11-Jan-2025 04:11:05 UTC] Avvio importazione 20250111 041105
+[11-Jan-2025 04:11:06 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 04:11:06 UTC] Total records var total: 211
+[11-Jan-2025 04:11:06 UTC] Total records : 211
+[11-Jan-2025 04:11:07 UTC] IMPORT OK CNT=0
+[11-Jan-2025 04:24:31 UTC] Avvio importazione 20250111 042431
+[11-Jan-2025 04:24:32 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 04:24:32 UTC] Total records var total: 211
+[11-Jan-2025 04:24:32 UTC] Total records : 211
+[11-Jan-2025 04:24:33 UTC] IMPORT OK CNT=0
+[11-Jan-2025 04:37:50 UTC] Avvio importazione 20250111 043750
+[11-Jan-2025 04:37:51 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 04:37:51 UTC] Total records var total: 211
+[11-Jan-2025 04:37:51 UTC] Total records : 211
+[11-Jan-2025 04:37:52 UTC] IMPORT OK CNT=0
+[11-Jan-2025 04:51:06 UTC] Avvio importazione 20250111 045106
+[11-Jan-2025 04:51:07 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 04:51:07 UTC] Total records var total: 211
+[11-Jan-2025 04:51:07 UTC] Total records : 211
+[11-Jan-2025 04:51:08 UTC] IMPORT OK CNT=0
+[11-Jan-2025 05:04:23 UTC] Avvio importazione 20250111 050423
+[11-Jan-2025 05:04:25 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 05:04:25 UTC] Total records var total: 211
+[11-Jan-2025 05:04:25 UTC] Total records : 211
+[11-Jan-2025 05:04:25 UTC] IMPORT OK CNT=0
+[11-Jan-2025 05:17:49 UTC] Avvio importazione 20250111 051749
+[11-Jan-2025 05:17:50 UTC] Richiamo nr.1 : 211
+[11-Jan-2025 05:17:50 UTC] Total records var total: 211
+[11-Jan-2025 05:17:50 UTC] Total records : 211
+[11-Jan-2025 05:17:51 UTC] IMPORT OK CNT=0
+[12-Jan-2025 01:04:16 UTC] Avvio importazione 20250112 010416
+[12-Jan-2025 01:04:17 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 01:04:17 UTC] Total records var total: 132
+[12-Jan-2025 01:04:17 UTC] Total records : 132
+[12-Jan-2025 01:04:18 UTC] IMPORT OK CNT=4
+[12-Jan-2025 01:17:43 UTC] Avvio importazione 20250112 011743
+[12-Jan-2025 01:17:44 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 01:17:44 UTC] Total records var total: 132
+[12-Jan-2025 01:17:44 UTC] Total records : 132
+[12-Jan-2025 01:17:44 UTC] IMPORT OK CNT=0
+[12-Jan-2025 01:30:51 UTC] Avvio importazione 20250112 013051
+[12-Jan-2025 01:30:52 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 01:30:52 UTC] Total records var total: 132
+[12-Jan-2025 01:30:52 UTC] Total records : 132
+[12-Jan-2025 01:30:53 UTC] IMPORT OK CNT=0
+[12-Jan-2025 01:44:04 UTC] Avvio importazione 20250112 014404
+[12-Jan-2025 01:44:05 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 01:44:05 UTC] Total records var total: 132
+[12-Jan-2025 01:44:05 UTC] Total records : 132
+[12-Jan-2025 01:44:06 UTC] IMPORT OK CNT=0
+[12-Jan-2025 01:57:13 UTC] Avvio importazione 20250112 015713
+[12-Jan-2025 01:57:14 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 01:57:14 UTC] Total records var total: 132
+[12-Jan-2025 01:57:14 UTC] Total records : 132
+[12-Jan-2025 01:57:14 UTC] IMPORT OK CNT=0
+[12-Jan-2025 02:10:22 UTC] Avvio importazione 20250112 021022
+[12-Jan-2025 02:10:23 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 02:10:23 UTC] Total records var total: 132
+[12-Jan-2025 02:10:23 UTC] Total records : 132
+[12-Jan-2025 02:10:23 UTC] IMPORT OK CNT=0
+[12-Jan-2025 02:23:31 UTC] Avvio importazione 20250112 022331
+[12-Jan-2025 02:23:32 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 02:23:32 UTC] Total records var total: 132
+[12-Jan-2025 02:23:32 UTC] Total records : 132
+[12-Jan-2025 02:23:32 UTC] IMPORT OK CNT=0
+[12-Jan-2025 02:36:38 UTC] Avvio importazione 20250112 023638
+[12-Jan-2025 02:36:39 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 02:36:39 UTC] Total records var total: 132
+[12-Jan-2025 02:36:39 UTC] Total records : 132
+[12-Jan-2025 02:36:39 UTC] IMPORT OK CNT=0
+[12-Jan-2025 02:49:43 UTC] Avvio importazione 20250112 024943
+[12-Jan-2025 02:49:44 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 02:49:44 UTC] Total records var total: 132
+[12-Jan-2025 02:49:44 UTC] Total records : 132
+[12-Jan-2025 02:49:44 UTC] IMPORT OK CNT=0
+[12-Jan-2025 03:02:47 UTC] Avvio importazione 20250112 030247
+[12-Jan-2025 03:02:48 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 03:02:48 UTC] Total records var total: 132
+[12-Jan-2025 03:02:48 UTC] Total records : 132
+[12-Jan-2025 03:02:48 UTC] IMPORT OK CNT=0
+[12-Jan-2025 03:15:59 UTC] Avvio importazione 20250112 031559
+[12-Jan-2025 03:16:01 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 03:16:01 UTC] Total records var total: 132
+[12-Jan-2025 03:16:01 UTC] Total records : 132
+[12-Jan-2025 03:16:01 UTC] IMPORT OK CNT=0
+[12-Jan-2025 03:29:19 UTC] Avvio importazione 20250112 032919
+[12-Jan-2025 03:29:20 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 03:29:20 UTC] Total records var total: 132
+[12-Jan-2025 03:29:20 UTC] Total records : 132
+[12-Jan-2025 03:29:21 UTC] IMPORT OK CNT=0
+[12-Jan-2025 03:43:11 UTC] Avvio importazione 20250112 034311
+[12-Jan-2025 03:43:12 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 03:43:13 UTC] Total records var total: 132
+[12-Jan-2025 03:43:13 UTC] Total records : 132
+[12-Jan-2025 03:43:13 UTC] IMPORT OK CNT=0
+[12-Jan-2025 03:56:29 UTC] Avvio importazione 20250112 035629
+[12-Jan-2025 03:56:30 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 03:56:30 UTC] Total records var total: 132
+[12-Jan-2025 03:56:30 UTC] Total records : 132
+[12-Jan-2025 03:56:30 UTC] IMPORT OK CNT=0
+[12-Jan-2025 04:09:44 UTC] Avvio importazione 20250112 040944
+[12-Jan-2025 04:09:45 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 04:09:45 UTC] Total records var total: 132
+[12-Jan-2025 04:09:45 UTC] Total records : 132
+[12-Jan-2025 04:09:45 UTC] IMPORT OK CNT=0
+[12-Jan-2025 04:23:00 UTC] Avvio importazione 20250112 042300
+[12-Jan-2025 04:23:01 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 04:23:01 UTC] Total records var total: 132
+[12-Jan-2025 04:23:01 UTC] Total records : 132
+[12-Jan-2025 04:23:01 UTC] IMPORT OK CNT=0
+[12-Jan-2025 04:36:12 UTC] Avvio importazione 20250112 043612
+[12-Jan-2025 04:36:13 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 04:36:13 UTC] Total records var total: 132
+[12-Jan-2025 04:36:13 UTC] Total records : 132
+[12-Jan-2025 04:36:13 UTC] IMPORT OK CNT=0
+[12-Jan-2025 04:49:28 UTC] Avvio importazione 20250112 044928
+[12-Jan-2025 04:49:29 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 04:49:29 UTC] Total records var total: 132
+[12-Jan-2025 04:49:29 UTC] Total records : 132
+[12-Jan-2025 04:49:29 UTC] IMPORT OK CNT=0
+[12-Jan-2025 05:02:41 UTC] Avvio importazione 20250112 050241
+[12-Jan-2025 05:02:42 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 05:02:42 UTC] Total records var total: 132
+[12-Jan-2025 05:02:42 UTC] Total records : 132
+[12-Jan-2025 05:02:42 UTC] IMPORT OK CNT=0
+[12-Jan-2025 05:15:54 UTC] Avvio importazione 20250112 051554
+[12-Jan-2025 05:15:55 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 05:15:55 UTC] Total records var total: 132
+[12-Jan-2025 05:15:55 UTC] Total records : 132
+[12-Jan-2025 05:15:56 UTC] IMPORT OK CNT=0
+[12-Jan-2025 05:42:26 UTC] Avvio importazione 20250112 054226
+[12-Jan-2025 05:42:27 UTC] Richiamo nr.1 : 132
+[12-Jan-2025 05:42:27 UTC] Total records var total: 132
+[12-Jan-2025 05:42:27 UTC] Total records : 132
+[12-Jan-2025 05:42:27 UTC] IMPORT OK CNT=0
+[13-Jan-2025 01:04:15 UTC] Avvio importazione 20250113 010415
+[13-Jan-2025 01:04:16 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 01:04:16 UTC] Total records var total: 69
+[13-Jan-2025 01:04:16 UTC] Total records : 69
+[13-Jan-2025 01:04:16 UTC] IMPORT OK CNT=3
+[13-Jan-2025 01:17:36 UTC] Avvio importazione 20250113 011736
+[13-Jan-2025 01:17:37 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 01:17:37 UTC] Total records var total: 69
+[13-Jan-2025 01:17:37 UTC] Total records : 69
+[13-Jan-2025 01:17:37 UTC] IMPORT OK CNT=0
+[13-Jan-2025 01:30:51 UTC] Avvio importazione 20250113 013051
+[13-Jan-2025 01:30:52 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 01:30:52 UTC] Total records var total: 69
+[13-Jan-2025 01:30:52 UTC] Total records : 69
+[13-Jan-2025 01:30:52 UTC] IMPORT OK CNT=0
+[13-Jan-2025 01:44:05 UTC] Avvio importazione 20250113 014405
+[13-Jan-2025 01:44:05 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 01:44:05 UTC] Total records var total: 69
+[13-Jan-2025 01:44:05 UTC] Total records : 69
+[13-Jan-2025 01:44:06 UTC] IMPORT OK CNT=0
+[13-Jan-2025 01:57:10 UTC] Avvio importazione 20250113 015710
+[13-Jan-2025 01:57:11 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 01:57:11 UTC] Total records var total: 69
+[13-Jan-2025 01:57:11 UTC] Total records : 69
+[13-Jan-2025 01:57:11 UTC] IMPORT OK CNT=0
+[13-Jan-2025 02:10:17 UTC] Avvio importazione 20250113 021017
+[13-Jan-2025 02:10:18 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 02:10:18 UTC] Total records var total: 69
+[13-Jan-2025 02:10:18 UTC] Total records : 69
+[13-Jan-2025 02:10:18 UTC] IMPORT OK CNT=0
+[13-Jan-2025 02:23:21 UTC] Avvio importazione 20250113 022321
+[13-Jan-2025 02:23:22 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 02:23:22 UTC] Total records var total: 69
+[13-Jan-2025 02:23:22 UTC] Total records : 69
+[13-Jan-2025 02:23:22 UTC] IMPORT OK CNT=0
+[13-Jan-2025 02:36:25 UTC] Avvio importazione 20250113 023625
+[13-Jan-2025 02:36:26 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 02:36:26 UTC] Total records var total: 69
+[13-Jan-2025 02:36:26 UTC] Total records : 69
+[13-Jan-2025 02:36:26 UTC] IMPORT OK CNT=0
+[13-Jan-2025 02:49:27 UTC] Avvio importazione 20250113 024927
+[13-Jan-2025 02:49:28 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 02:49:28 UTC] Total records var total: 69
+[13-Jan-2025 02:49:28 UTC] Total records : 69
+[13-Jan-2025 02:49:28 UTC] IMPORT OK CNT=0
+[13-Jan-2025 03:02:32 UTC] Avvio importazione 20250113 030232
+[13-Jan-2025 03:02:32 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 03:02:32 UTC] Total records var total: 69
+[13-Jan-2025 03:02:32 UTC] Total records : 69
+[13-Jan-2025 03:02:33 UTC] IMPORT OK CNT=0
+[13-Jan-2025 03:15:47 UTC] Avvio importazione 20250113 031547
+[13-Jan-2025 03:15:48 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 03:15:48 UTC] Total records var total: 69
+[13-Jan-2025 03:15:48 UTC] Total records : 69
+[13-Jan-2025 03:15:49 UTC] IMPORT OK CNT=0
+[13-Jan-2025 03:28:58 UTC] Avvio importazione 20250113 032858
+[13-Jan-2025 03:28:59 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 03:28:59 UTC] Total records var total: 69
+[13-Jan-2025 03:28:59 UTC] Total records : 69
+[13-Jan-2025 03:28:59 UTC] IMPORT OK CNT=0
+[13-Jan-2025 03:42:49 UTC] Avvio importazione 20250113 034249
+[13-Jan-2025 03:42:50 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 03:42:50 UTC] Total records var total: 69
+[13-Jan-2025 03:42:50 UTC] Total records : 69
+[13-Jan-2025 03:42:50 UTC] IMPORT OK CNT=0
+[13-Jan-2025 03:56:05 UTC] Avvio importazione 20250113 035605
+[13-Jan-2025 03:56:05 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 03:56:05 UTC] Total records var total: 69
+[13-Jan-2025 03:56:05 UTC] Total records : 69
+[13-Jan-2025 03:56:06 UTC] IMPORT OK CNT=0
+[13-Jan-2025 04:09:17 UTC] Avvio importazione 20250113 040917
+[13-Jan-2025 04:09:18 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 04:09:18 UTC] Total records var total: 69
+[13-Jan-2025 04:09:18 UTC] Total records : 69
+[13-Jan-2025 04:09:18 UTC] IMPORT OK CNT=0
+[13-Jan-2025 04:22:39 UTC] Avvio importazione 20250113 042239
+[13-Jan-2025 04:22:40 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 04:22:40 UTC] Total records var total: 69
+[13-Jan-2025 04:22:40 UTC] Total records : 69
+[13-Jan-2025 04:22:40 UTC] IMPORT OK CNT=0
+[13-Jan-2025 04:35:50 UTC] Avvio importazione 20250113 043550
+[13-Jan-2025 04:35:51 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 04:35:51 UTC] Total records var total: 69
+[13-Jan-2025 04:35:51 UTC] Total records : 69
+[13-Jan-2025 04:35:51 UTC] IMPORT OK CNT=0
+[13-Jan-2025 04:49:04 UTC] Avvio importazione 20250113 044904
+[13-Jan-2025 04:49:04 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 04:49:04 UTC] Total records var total: 69
+[13-Jan-2025 04:49:04 UTC] Total records : 69
+[13-Jan-2025 04:49:05 UTC] IMPORT OK CNT=0
+[13-Jan-2025 05:02:17 UTC] Avvio importazione 20250113 050217
+[13-Jan-2025 05:02:18 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 05:02:18 UTC] Total records var total: 69
+[13-Jan-2025 05:02:18 UTC] Total records : 69
+[13-Jan-2025 05:02:18 UTC] IMPORT OK CNT=0
+[13-Jan-2025 05:15:40 UTC] Avvio importazione 20250113 051540
+[13-Jan-2025 05:15:40 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 05:15:40 UTC] Total records var total: 69
+[13-Jan-2025 05:15:40 UTC] Total records : 69
+[13-Jan-2025 05:15:41 UTC] IMPORT OK CNT=0
+[13-Jan-2025 05:42:13 UTC] Avvio importazione 20250113 054213
+[13-Jan-2025 05:42:13 UTC] Richiamo nr.1 : 69
+[13-Jan-2025 05:42:13 UTC] Total records var total: 69
+[13-Jan-2025 05:42:13 UTC] Total records : 69
+[13-Jan-2025 05:42:14 UTC] IMPORT OK CNT=0
+[14-Jan-2025 01:04:18 UTC] Avvio importazione 20250114 010418
+[14-Jan-2025 01:04:19 UTC] Richiamo nr.1 : 90
+[14-Jan-2025 01:04:19 UTC] Total records var total: 90
+[14-Jan-2025 01:04:19 UTC] Total records : 90
+[14-Jan-2025 01:04:20 UTC] IMPORT OK CNT=83
+[14-Jan-2025 01:17:44 UTC] Avvio importazione 20250114 011744
+[14-Jan-2025 01:17:45 UTC] Richiamo nr.1 : 90
+[14-Jan-2025 01:17:45 UTC] Total records var total: 90
+[14-Jan-2025 01:17:45 UTC] Total records : 90
+[14-Jan-2025 01:17:45 UTC] IMPORT OK CNT=0
+[14-Jan-2025 01:30:50 UTC] Avvio importazione 20250114 013050
+[14-Jan-2025 01:30:51 UTC] Richiamo nr.1 : 90
+[14-Jan-2025 01:30:51 UTC] Total records var total: 90
+[14-Jan-2025 01:30:51 UTC] Total records : 90
+[14-Jan-2025 01:30:52 UTC] IMPORT OK CNT=0
+[14-Jan-2025 01:43:57 UTC] Avvio importazione 20250114 014357
+[14-Jan-2025 01:43:57 UTC] Richiamo nr.1 : 90
+[14-Jan-2025 01:43:57 UTC] Total records var total: 90
+[14-Jan-2025 01:43:57 UTC] Total records : 90
+[14-Jan-2025 01:43:58 UTC] IMPORT OK CNT=0
+[14-Jan-2025 01:57:03 UTC] Avvio importazione 20250114 015703
+[14-Jan-2025 01:57:04 UTC] Richiamo nr.1 : 90
+[14-Jan-2025 01:57:04 UTC] Total records var total: 90
+[14-Jan-2025 01:57:04 UTC] Total records : 90
+[14-Jan-2025 01:57:04 UTC] IMPORT OK CNT=0
+[14-Jan-2025 02:10:09 UTC] Avvio importazione 20250114 021009
+[14-Jan-2025 02:10:09 UTC] Richiamo nr.1 : 92
+[14-Jan-2025 02:10:09 UTC] Total records var total: 92
+[14-Jan-2025 02:10:09 UTC] Total records : 92
+[14-Jan-2025 02:10:10 UTC] IMPORT OK CNT=2
+[14-Jan-2025 02:23:17 UTC] Avvio importazione 20250114 022317
+[14-Jan-2025 02:23:17 UTC] Richiamo nr.1 : 92
+[14-Jan-2025 02:23:17 UTC] Total records var total: 92
+[14-Jan-2025 02:23:17 UTC] Total records : 92
+[14-Jan-2025 02:23:18 UTC] IMPORT OK CNT=0
+[14-Jan-2025 02:36:20 UTC] Avvio importazione 20250114 023620
+[14-Jan-2025 02:36:21 UTC] Richiamo nr.1 : 92
+[14-Jan-2025 02:36:21 UTC] Total records var total: 92
+[14-Jan-2025 02:36:21 UTC] Total records : 92
+[14-Jan-2025 02:36:21 UTC] IMPORT OK CNT=0
+[14-Jan-2025 02:49:19 UTC] Avvio importazione 20250114 024919
+[14-Jan-2025 02:49:20 UTC] Richiamo nr.1 : 92
+[14-Jan-2025 02:49:20 UTC] Total records var total: 92
+[14-Jan-2025 02:49:20 UTC] Total records : 92
+[14-Jan-2025 02:49:20 UTC] IMPORT OK CNT=0
+[14-Jan-2025 03:02:26 UTC] Avvio importazione 20250114 030226
+[14-Jan-2025 03:02:26 UTC] Richiamo nr.1 : 92
+[14-Jan-2025 03:02:26 UTC] Total records var total: 92
+[14-Jan-2025 03:02:26 UTC] Total records : 92
+[14-Jan-2025 03:02:27 UTC] IMPORT OK CNT=0
+[14-Jan-2025 03:15:42 UTC] Avvio importazione 20250114 031542
+[14-Jan-2025 03:15:43 UTC] Richiamo nr.1 : 92
+[14-Jan-2025 03:15:43 UTC] Total records var total: 92
+[14-Jan-2025 03:15:43 UTC] Total records : 92
+[14-Jan-2025 03:15:44 UTC] IMPORT OK CNT=0
+[14-Jan-2025 03:29:03 UTC] Avvio importazione 20250114 032903
+[14-Jan-2025 03:29:04 UTC] Richiamo nr.1 : 92
+[14-Jan-2025 03:29:04 UTC] Total records var total: 92
+[14-Jan-2025 03:29:04 UTC] Total records : 92
+[14-Jan-2025 03:29:04 UTC] IMPORT OK CNT=0
+[14-Jan-2025 03:42:21 UTC] Avvio importazione 20250114 034221
+[14-Jan-2025 03:42:21 UTC] Richiamo nr.1 : 92
+[14-Jan-2025 03:42:21 UTC] Total records var total: 92
+[14-Jan-2025 03:42:21 UTC] Total records : 92
+[14-Jan-2025 03:42:22 UTC] IMPORT OK CNT=0
+[14-Jan-2025 03:56:05 UTC] Avvio importazione 20250114 035605
+[14-Jan-2025 03:56:06 UTC] Richiamo nr.1 : 92
+[14-Jan-2025 03:56:06 UTC] Total records var total: 92
+[14-Jan-2025 03:56:06 UTC] Total records : 92
+[14-Jan-2025 03:56:06 UTC] IMPORT OK CNT=0
+[14-Jan-2025 04:09:16 UTC] Avvio importazione 20250114 040916
+[14-Jan-2025 04:09:17 UTC] Richiamo nr.1 : 92
+[14-Jan-2025 04:09:17 UTC] Total records var total: 92
+[14-Jan-2025 04:09:17 UTC] Total records : 92
+[14-Jan-2025 04:09:17 UTC] IMPORT OK CNT=0
+[14-Jan-2025 04:22:31 UTC] Avvio importazione 20250114 042231
+[14-Jan-2025 04:22:31 UTC] Richiamo nr.1 : 92
+[14-Jan-2025 04:22:31 UTC] Total records var total: 92
+[14-Jan-2025 04:22:31 UTC] Total records : 92
+[14-Jan-2025 04:22:32 UTC] IMPORT OK CNT=0
+[14-Jan-2025 04:35:45 UTC] Avvio importazione 20250114 043545
+[14-Jan-2025 04:35:45 UTC] Richiamo nr.1 : 92
+[14-Jan-2025 04:35:45 UTC] Total records var total: 92
+[14-Jan-2025 04:35:45 UTC] Total records : 92
+[14-Jan-2025 04:35:46 UTC] IMPORT OK CNT=0
+[14-Jan-2025 04:49:00 UTC] Avvio importazione 20250114 044900
+[14-Jan-2025 04:49:01 UTC] Richiamo nr.1 : 92
+[14-Jan-2025 04:49:01 UTC] Total records var total: 92
+[14-Jan-2025 04:49:01 UTC] Total records : 92
+[14-Jan-2025 04:49:02 UTC] IMPORT OK CNT=0
+[14-Jan-2025 05:02:16 UTC] Avvio importazione 20250114 050216
+[14-Jan-2025 05:02:17 UTC] Richiamo nr.1 : 92
+[14-Jan-2025 05:02:17 UTC] Total records var total: 92
+[14-Jan-2025 05:02:17 UTC] Total records : 92
+[14-Jan-2025 05:02:17 UTC] IMPORT OK CNT=0
+[14-Jan-2025 05:15:28 UTC] Avvio importazione 20250114 051528
+[14-Jan-2025 05:15:29 UTC] Richiamo nr.1 : 93
+[14-Jan-2025 05:15:29 UTC] Total records var total: 93
+[14-Jan-2025 05:15:29 UTC] Total records : 93
+[14-Jan-2025 05:15:30 UTC] IMPORT OK CNT=1
+[14-Jan-2025 05:28:36 UTC] Avvio importazione 20250114 052836
+[14-Jan-2025 05:28:37 UTC] Richiamo nr.1 : 93
+[14-Jan-2025 05:28:37 UTC] Total records var total: 93
+[14-Jan-2025 05:28:37 UTC] Total records : 93
+[14-Jan-2025 05:28:37 UTC] IMPORT OK CNT=0
+[14-Jan-2025 05:41:53 UTC] Avvio importazione 20250114 054153
+[14-Jan-2025 05:41:54 UTC] Richiamo nr.1 : 93
+[14-Jan-2025 05:41:54 UTC] Total records var total: 93
+[14-Jan-2025 05:41:54 UTC] Total records : 93
+[14-Jan-2025 05:41:54 UTC] IMPORT OK CNT=0
+[15-Jan-2025 01:04:19 UTC] Avvio importazione 20250115 010419
+[15-Jan-2025 01:04:21 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 01:04:21 UTC] Total records var total: 186
+[15-Jan-2025 01:04:21 UTC] Total records : 186
+[15-Jan-2025 01:04:23 UTC] IMPORT OK CNT=97
+[15-Jan-2025 01:17:44 UTC] Avvio importazione 20250115 011744
+[15-Jan-2025 01:17:45 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 01:17:45 UTC] Total records var total: 186
+[15-Jan-2025 01:17:45 UTC] Total records : 186
+[15-Jan-2025 01:17:46 UTC] IMPORT OK CNT=0
+[15-Jan-2025 01:30:43 UTC] Avvio importazione 20250115 013043
+[15-Jan-2025 01:30:44 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 01:30:44 UTC] Total records var total: 186
+[15-Jan-2025 01:30:44 UTC] Total records : 186
+[15-Jan-2025 01:30:45 UTC] IMPORT OK CNT=0
+[15-Jan-2025 01:43:43 UTC] Avvio importazione 20250115 014343
+[15-Jan-2025 01:43:44 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 01:43:44 UTC] Total records var total: 186
+[15-Jan-2025 01:43:44 UTC] Total records : 186
+[15-Jan-2025 01:43:44 UTC] IMPORT OK CNT=0
+[15-Jan-2025 01:56:42 UTC] Avvio importazione 20250115 015642
+[15-Jan-2025 01:56:43 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 01:56:44 UTC] Total records var total: 186
+[15-Jan-2025 01:56:44 UTC] Total records : 186
+[15-Jan-2025 01:56:44 UTC] IMPORT OK CNT=0
+[15-Jan-2025 02:09:41 UTC] Avvio importazione 20250115 020941
+[15-Jan-2025 02:09:42 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 02:09:42 UTC] Total records var total: 186
+[15-Jan-2025 02:09:42 UTC] Total records : 186
+[15-Jan-2025 02:09:43 UTC] IMPORT OK CNT=0
+[15-Jan-2025 02:22:40 UTC] Avvio importazione 20250115 022240
+[15-Jan-2025 02:22:42 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 02:22:42 UTC] Total records var total: 186
+[15-Jan-2025 02:22:42 UTC] Total records : 186
+[15-Jan-2025 02:22:42 UTC] IMPORT OK CNT=0
+[15-Jan-2025 02:35:38 UTC] Avvio importazione 20250115 023538
+[15-Jan-2025 02:35:39 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 02:35:39 UTC] Total records var total: 186
+[15-Jan-2025 02:35:39 UTC] Total records : 186
+[15-Jan-2025 02:35:40 UTC] IMPORT OK CNT=0
+[15-Jan-2025 02:48:36 UTC] Avvio importazione 20250115 024836
+[15-Jan-2025 02:48:37 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 02:48:37 UTC] Total records var total: 186
+[15-Jan-2025 02:48:37 UTC] Total records : 186
+[15-Jan-2025 02:48:38 UTC] IMPORT OK CNT=0
+[15-Jan-2025 03:01:35 UTC] Avvio importazione 20250115 030135
+[15-Jan-2025 03:01:36 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 03:01:36 UTC] Total records var total: 186
+[15-Jan-2025 03:01:36 UTC] Total records : 186
+[15-Jan-2025 03:01:36 UTC] IMPORT OK CNT=0
+[15-Jan-2025 03:14:40 UTC] Avvio importazione 20250115 031440
+[15-Jan-2025 03:14:42 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 03:14:42 UTC] Total records var total: 186
+[15-Jan-2025 03:14:42 UTC] Total records : 186
+[15-Jan-2025 03:14:42 UTC] IMPORT OK CNT=0
+[15-Jan-2025 03:27:48 UTC] Avvio importazione 20250115 032748
+[15-Jan-2025 03:27:49 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 03:27:49 UTC] Total records var total: 186
+[15-Jan-2025 03:27:49 UTC] Total records : 186
+[15-Jan-2025 03:27:50 UTC] IMPORT OK CNT=0
+[15-Jan-2025 03:40:57 UTC] Avvio importazione 20250115 034057
+[15-Jan-2025 03:40:59 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 03:40:59 UTC] Total records var total: 186
+[15-Jan-2025 03:40:59 UTC] Total records : 186
+[15-Jan-2025 03:40:59 UTC] IMPORT OK CNT=0
+[15-Jan-2025 03:54:35 UTC] Avvio importazione 20250115 035435
+[15-Jan-2025 03:54:36 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 03:54:36 UTC] Total records var total: 186
+[15-Jan-2025 03:54:36 UTC] Total records : 186
+[15-Jan-2025 03:54:36 UTC] IMPORT OK CNT=0
+[15-Jan-2025 04:07:42 UTC] Avvio importazione 20250115 040742
+[15-Jan-2025 04:07:43 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 04:07:43 UTC] Total records var total: 186
+[15-Jan-2025 04:07:43 UTC] Total records : 186
+[15-Jan-2025 04:07:44 UTC] IMPORT OK CNT=0
+[15-Jan-2025 04:20:50 UTC] Avvio importazione 20250115 042050
+[15-Jan-2025 04:20:51 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 04:20:51 UTC] Total records var total: 186
+[15-Jan-2025 04:20:51 UTC] Total records : 186
+[15-Jan-2025 04:20:52 UTC] IMPORT OK CNT=0
+[15-Jan-2025 04:33:57 UTC] Avvio importazione 20250115 043357
+[15-Jan-2025 04:33:59 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 04:33:59 UTC] Total records var total: 186
+[15-Jan-2025 04:33:59 UTC] Total records : 186
+[15-Jan-2025 04:33:59 UTC] IMPORT OK CNT=0
+[15-Jan-2025 04:47:08 UTC] Avvio importazione 20250115 044708
+[15-Jan-2025 04:47:09 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 04:47:09 UTC] Total records var total: 186
+[15-Jan-2025 04:47:09 UTC] Total records : 186
+[15-Jan-2025 04:47:10 UTC] IMPORT OK CNT=0
+[15-Jan-2025 05:00:18 UTC] Avvio importazione 20250115 050018
+[15-Jan-2025 05:00:19 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 05:00:19 UTC] Total records var total: 186
+[15-Jan-2025 05:00:19 UTC] Total records : 186
+[15-Jan-2025 05:00:20 UTC] IMPORT OK CNT=0
+[15-Jan-2025 05:13:28 UTC] Avvio importazione 20250115 051328
+[15-Jan-2025 05:13:30 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 05:13:30 UTC] Total records var total: 186
+[15-Jan-2025 05:13:30 UTC] Total records : 186
+[15-Jan-2025 05:13:30 UTC] IMPORT OK CNT=0
+[15-Jan-2025 05:26:33 UTC] Avvio importazione 20250115 052633
+[15-Jan-2025 05:26:35 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 05:26:35 UTC] Total records var total: 186
+[15-Jan-2025 05:26:35 UTC] Total records : 186
+[15-Jan-2025 05:26:35 UTC] IMPORT OK CNT=0
+[15-Jan-2025 05:39:43 UTC] Avvio importazione 20250115 053943
+[15-Jan-2025 05:39:44 UTC] Richiamo nr.1 : 186
+[15-Jan-2025 05:39:44 UTC] Total records var total: 186
+[15-Jan-2025 05:39:44 UTC] Total records : 186
+[15-Jan-2025 05:39:44 UTC] IMPORT OK CNT=0
+[17-Jan-2025 01:04:23 UTC] Avvio importazione 20250117 010423
+[17-Jan-2025 01:04:25 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 01:04:25 UTC] Total records var total: 248
+[17-Jan-2025 01:04:25 UTC] Total records : 248
+[17-Jan-2025 01:04:29 UTC] IMPORT OK CNT=148
+[17-Jan-2025 01:15:18 UTC] Avvio importazione 20250117 011518
+[17-Jan-2025 01:15:20 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 01:15:20 UTC] Total records var total: 248
+[17-Jan-2025 01:15:20 UTC] Total records : 248
+[17-Jan-2025 01:15:21 UTC] IMPORT OK CNT=0
+[17-Jan-2025 01:25:46 UTC] Avvio importazione 20250117 012546
+[17-Jan-2025 01:25:48 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 01:25:48 UTC] Total records var total: 248
+[17-Jan-2025 01:25:48 UTC] Total records : 248
+[17-Jan-2025 01:25:49 UTC] IMPORT OK CNT=0
+[17-Jan-2025 01:36:15 UTC] Avvio importazione 20250117 013615
+[17-Jan-2025 01:36:17 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 01:36:17 UTC] Total records var total: 248
+[17-Jan-2025 01:36:17 UTC] Total records : 248
+[17-Jan-2025 01:36:17 UTC] IMPORT OK CNT=0
+[17-Jan-2025 01:46:45 UTC] Avvio importazione 20250117 014645
+[17-Jan-2025 01:46:46 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 01:46:46 UTC] Total records var total: 248
+[17-Jan-2025 01:46:46 UTC] Total records : 248
+[17-Jan-2025 01:46:47 UTC] IMPORT OK CNT=0
+[17-Jan-2025 01:57:15 UTC] Avvio importazione 20250117 015715
+[17-Jan-2025 01:57:16 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 01:57:16 UTC] Total records var total: 248
+[17-Jan-2025 01:57:16 UTC] Total records : 248
+[17-Jan-2025 01:57:17 UTC] IMPORT OK CNT=0
+[17-Jan-2025 02:07:42 UTC] Avvio importazione 20250117 020742
+[17-Jan-2025 02:07:43 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 02:07:43 UTC] Total records var total: 248
+[17-Jan-2025 02:07:43 UTC] Total records : 248
+[17-Jan-2025 02:07:44 UTC] IMPORT OK CNT=0
+[17-Jan-2025 02:18:11 UTC] Avvio importazione 20250117 021811
+[17-Jan-2025 02:18:13 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 02:18:13 UTC] Total records var total: 248
+[17-Jan-2025 02:18:13 UTC] Total records : 248
+[17-Jan-2025 02:18:14 UTC] IMPORT OK CNT=0
+[17-Jan-2025 02:28:38 UTC] Avvio importazione 20250117 022838
+[17-Jan-2025 02:28:40 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 02:28:40 UTC] Total records var total: 248
+[17-Jan-2025 02:28:40 UTC] Total records : 248
+[17-Jan-2025 02:28:40 UTC] IMPORT OK CNT=0
+[17-Jan-2025 02:39:07 UTC] Avvio importazione 20250117 023907
+[17-Jan-2025 02:39:08 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 02:39:08 UTC] Total records var total: 248
+[17-Jan-2025 02:39:08 UTC] Total records : 248
+[17-Jan-2025 02:39:09 UTC] IMPORT OK CNT=0
+[17-Jan-2025 02:49:35 UTC] Avvio importazione 20250117 024935
+[17-Jan-2025 02:49:37 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 02:49:37 UTC] Total records var total: 248
+[17-Jan-2025 02:49:37 UTC] Total records : 248
+[17-Jan-2025 02:49:37 UTC] IMPORT OK CNT=0
+[17-Jan-2025 03:00:01 UTC] Avvio importazione 20250117 030001
+[17-Jan-2025 03:00:03 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 03:00:03 UTC] Total records var total: 248
+[17-Jan-2025 03:00:03 UTC] Total records : 248
+[17-Jan-2025 03:00:04 UTC] IMPORT OK CNT=0
+[17-Jan-2025 03:10:33 UTC] Avvio importazione 20250117 031033
+[17-Jan-2025 03:10:34 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 03:10:34 UTC] Total records var total: 248
+[17-Jan-2025 03:10:34 UTC] Total records : 248
+[17-Jan-2025 03:10:35 UTC] IMPORT OK CNT=0
+[17-Jan-2025 03:21:06 UTC] Avvio importazione 20250117 032106
+[17-Jan-2025 03:21:08 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 03:21:08 UTC] Total records var total: 248
+[17-Jan-2025 03:21:08 UTC] Total records : 248
+[17-Jan-2025 03:21:09 UTC] IMPORT OK CNT=0
+[17-Jan-2025 03:31:42 UTC] Avvio importazione 20250117 033142
+[17-Jan-2025 03:31:43 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 03:31:43 UTC] Total records var total: 248
+[17-Jan-2025 03:31:43 UTC] Total records : 248
+[17-Jan-2025 03:31:45 UTC] IMPORT OK CNT=0
+[17-Jan-2025 03:42:17 UTC] Avvio importazione 20250117 034217
+[17-Jan-2025 03:42:18 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 03:42:18 UTC] Total records var total: 248
+[17-Jan-2025 03:42:18 UTC] Total records : 248
+[17-Jan-2025 03:42:19 UTC] IMPORT OK CNT=0
+[17-Jan-2025 03:52:48 UTC] Avvio importazione 20250117 035248
+[17-Jan-2025 03:52:50 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 03:52:50 UTC] Total records var total: 248
+[17-Jan-2025 03:52:50 UTC] Total records : 248
+[17-Jan-2025 03:52:51 UTC] IMPORT OK CNT=0
+[17-Jan-2025 04:03:20 UTC] Avvio importazione 20250117 040320
+[17-Jan-2025 04:03:22 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 04:03:22 UTC] Total records var total: 248
+[17-Jan-2025 04:03:22 UTC] Total records : 248
+[17-Jan-2025 04:03:22 UTC] IMPORT OK CNT=0
+[17-Jan-2025 04:13:53 UTC] Avvio importazione 20250117 041353
+[17-Jan-2025 04:13:55 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 04:13:55 UTC] Total records var total: 248
+[17-Jan-2025 04:13:55 UTC] Total records : 248
+[17-Jan-2025 04:13:55 UTC] IMPORT OK CNT=0
+[17-Jan-2025 04:24:25 UTC] Avvio importazione 20250117 042425
+[17-Jan-2025 04:24:26 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 04:24:26 UTC] Total records var total: 248
+[17-Jan-2025 04:24:26 UTC] Total records : 248
+[17-Jan-2025 04:24:27 UTC] IMPORT OK CNT=0
+[17-Jan-2025 04:34:54 UTC] Avvio importazione 20250117 043454
+[17-Jan-2025 04:34:56 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 04:34:56 UTC] Total records var total: 248
+[17-Jan-2025 04:34:56 UTC] Total records : 248
+[17-Jan-2025 04:34:56 UTC] IMPORT OK CNT=0
+[17-Jan-2025 04:45:25 UTC] Avvio importazione 20250117 044525
+[17-Jan-2025 04:45:27 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 04:45:27 UTC] Total records var total: 248
+[17-Jan-2025 04:45:27 UTC] Total records : 248
+[17-Jan-2025 04:45:28 UTC] IMPORT OK CNT=0
+[17-Jan-2025 04:55:59 UTC] Avvio importazione 20250117 045559
+[17-Jan-2025 04:56:01 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 04:56:01 UTC] Total records var total: 248
+[17-Jan-2025 04:56:01 UTC] Total records : 248
+[17-Jan-2025 04:56:02 UTC] IMPORT OK CNT=0
+[17-Jan-2025 05:06:31 UTC] Avvio importazione 20250117 050631
+[17-Jan-2025 05:06:33 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 05:06:33 UTC] Total records var total: 248
+[17-Jan-2025 05:06:33 UTC] Total records : 248
+[17-Jan-2025 05:06:34 UTC] IMPORT OK CNT=0
+[17-Jan-2025 05:17:03 UTC] Avvio importazione 20250117 051703
+[17-Jan-2025 05:17:04 UTC] Richiamo nr.1 : 248
+[17-Jan-2025 05:17:04 UTC] Total records var total: 248
+[17-Jan-2025 05:17:04 UTC] Total records : 248
+[17-Jan-2025 05:17:05 UTC] IMPORT OK CNT=0
+[17-Jan-2025 05:27:32 UTC] Avvio importazione 20250117 052732
+[17-Jan-2025 05:27:34 UTC] Richiamo nr.1 : 249
+[17-Jan-2025 05:27:34 UTC] Total records var total: 249
+[17-Jan-2025 05:27:34 UTC] Total records : 249
+[17-Jan-2025 05:27:34 UTC] IMPORT OK CNT=1
+[17-Jan-2025 05:38:03 UTC] Avvio importazione 20250117 053803
+[17-Jan-2025 05:38:05 UTC] Richiamo nr.1 : 250
+[17-Jan-2025 05:38:05 UTC] Total records var total: 250
+[17-Jan-2025 05:38:05 UTC] Total records : 250
+[17-Jan-2025 05:38:06 UTC] IMPORT OK CNT=1
+[18-Jan-2025 01:04:20 UTC] Avvio importazione 20250118 010420
+[18-Jan-2025 01:04:21 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 01:04:21 UTC] Total records var total: 214
+[18-Jan-2025 01:04:21 UTC] Total records : 214
+[18-Jan-2025 01:04:23 UTC] IMPORT OK CNT=64
+[18-Jan-2025 01:15:04 UTC] Avvio importazione 20250118 011504
+[18-Jan-2025 01:15:06 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 01:15:06 UTC] Total records var total: 214
+[18-Jan-2025 01:15:06 UTC] Total records : 214
+[18-Jan-2025 01:15:06 UTC] IMPORT OK CNT=0
+[18-Jan-2025 01:25:29 UTC] Avvio importazione 20250118 012529
+[18-Jan-2025 01:25:30 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 01:25:30 UTC] Total records var total: 214
+[18-Jan-2025 01:25:30 UTC] Total records : 214
+[18-Jan-2025 01:25:31 UTC] IMPORT OK CNT=0
+[18-Jan-2025 01:35:52 UTC] Avvio importazione 20250118 013552
+[18-Jan-2025 01:35:54 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 01:35:54 UTC] Total records var total: 214
+[18-Jan-2025 01:35:54 UTC] Total records : 214
+[18-Jan-2025 01:35:54 UTC] IMPORT OK CNT=0
+[18-Jan-2025 01:46:16 UTC] Avvio importazione 20250118 014616
+[18-Jan-2025 01:46:17 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 01:46:17 UTC] Total records var total: 214
+[18-Jan-2025 01:46:17 UTC] Total records : 214
+[18-Jan-2025 01:46:17 UTC] IMPORT OK CNT=0
+[18-Jan-2025 01:56:37 UTC] Avvio importazione 20250118 015637
+[18-Jan-2025 01:56:38 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 01:56:38 UTC] Total records var total: 214
+[18-Jan-2025 01:56:38 UTC] Total records : 214
+[18-Jan-2025 01:56:39 UTC] IMPORT OK CNT=0
+[18-Jan-2025 02:06:58 UTC] Avvio importazione 20250118 020658
+[18-Jan-2025 02:07:00 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 02:07:00 UTC] Total records var total: 214
+[18-Jan-2025 02:07:00 UTC] Total records : 214
+[18-Jan-2025 02:07:00 UTC] IMPORT OK CNT=0
+[18-Jan-2025 02:17:21 UTC] Avvio importazione 20250118 021721
+[18-Jan-2025 02:17:22 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 02:17:22 UTC] Total records var total: 214
+[18-Jan-2025 02:17:22 UTC] Total records : 214
+[18-Jan-2025 02:17:23 UTC] IMPORT OK CNT=0
+[18-Jan-2025 02:27:43 UTC] Avvio importazione 20250118 022743
+[18-Jan-2025 02:27:44 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 02:27:44 UTC] Total records var total: 214
+[18-Jan-2025 02:27:44 UTC] Total records : 214
+[18-Jan-2025 02:27:45 UTC] IMPORT OK CNT=0
+[18-Jan-2025 02:38:05 UTC] Avvio importazione 20250118 023805
+[18-Jan-2025 02:38:06 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 02:38:06 UTC] Total records var total: 214
+[18-Jan-2025 02:38:06 UTC] Total records : 214
+[18-Jan-2025 02:38:07 UTC] IMPORT OK CNT=0
+[18-Jan-2025 02:48:30 UTC] Avvio importazione 20250118 024830
+[18-Jan-2025 02:48:31 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 02:48:31 UTC] Total records var total: 214
+[18-Jan-2025 02:48:31 UTC] Total records : 214
+[18-Jan-2025 02:48:32 UTC] IMPORT OK CNT=0
+[18-Jan-2025 02:58:54 UTC] Avvio importazione 20250118 025854
+[18-Jan-2025 02:58:56 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 02:58:56 UTC] Total records var total: 214
+[18-Jan-2025 02:58:56 UTC] Total records : 214
+[18-Jan-2025 02:58:56 UTC] IMPORT OK CNT=0
+[18-Jan-2025 03:09:22 UTC] Avvio importazione 20250118 030922
+[18-Jan-2025 03:09:24 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 03:09:24 UTC] Total records var total: 214
+[18-Jan-2025 03:09:24 UTC] Total records : 214
+[18-Jan-2025 03:09:25 UTC] IMPORT OK CNT=0
+[18-Jan-2025 03:19:51 UTC] Avvio importazione 20250118 031951
+[18-Jan-2025 03:19:53 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 03:19:53 UTC] Total records var total: 214
+[18-Jan-2025 03:19:53 UTC] Total records : 214
+[18-Jan-2025 03:19:53 UTC] IMPORT OK CNT=0
+[18-Jan-2025 03:30:21 UTC] Avvio importazione 20250118 033021
+[18-Jan-2025 03:30:22 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 03:30:22 UTC] Total records var total: 214
+[18-Jan-2025 03:30:22 UTC] Total records : 214
+[18-Jan-2025 03:30:23 UTC] IMPORT OK CNT=0
+[18-Jan-2025 03:40:51 UTC] Avvio importazione 20250118 034051
+[18-Jan-2025 03:40:52 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 03:40:52 UTC] Total records var total: 214
+[18-Jan-2025 03:40:52 UTC] Total records : 214
+[18-Jan-2025 03:40:53 UTC] IMPORT OK CNT=0
+[18-Jan-2025 03:51:16 UTC] Avvio importazione 20250118 035116
+[18-Jan-2025 03:51:17 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 03:51:17 UTC] Total records var total: 214
+[18-Jan-2025 03:51:17 UTC] Total records : 214
+[18-Jan-2025 03:51:18 UTC] IMPORT OK CNT=0
+[18-Jan-2025 04:01:42 UTC] Avvio importazione 20250118 040142
+[18-Jan-2025 04:01:44 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 04:01:44 UTC] Total records var total: 214
+[18-Jan-2025 04:01:44 UTC] Total records : 214
+[18-Jan-2025 04:01:44 UTC] IMPORT OK CNT=0
+[18-Jan-2025 04:12:11 UTC] Avvio importazione 20250118 041211
+[18-Jan-2025 04:12:12 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 04:12:12 UTC] Total records var total: 214
+[18-Jan-2025 04:12:12 UTC] Total records : 214
+[18-Jan-2025 04:12:13 UTC] IMPORT OK CNT=0
+[18-Jan-2025 04:22:37 UTC] Avvio importazione 20250118 042237
+[18-Jan-2025 04:22:38 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 04:22:38 UTC] Total records var total: 214
+[18-Jan-2025 04:22:38 UTC] Total records : 214
+[18-Jan-2025 04:22:39 UTC] IMPORT OK CNT=0
+[18-Jan-2025 04:33:02 UTC] Avvio importazione 20250118 043302
+[18-Jan-2025 04:33:03 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 04:33:03 UTC] Total records var total: 214
+[18-Jan-2025 04:33:03 UTC] Total records : 214
+[18-Jan-2025 04:33:04 UTC] IMPORT OK CNT=0
+[18-Jan-2025 04:43:27 UTC] Avvio importazione 20250118 044327
+[18-Jan-2025 04:43:28 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 04:43:28 UTC] Total records var total: 214
+[18-Jan-2025 04:43:28 UTC] Total records : 214
+[18-Jan-2025 04:43:29 UTC] IMPORT OK CNT=0
+[18-Jan-2025 04:53:53 UTC] Avvio importazione 20250118 045353
+[18-Jan-2025 04:53:54 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 04:53:54 UTC] Total records var total: 214
+[18-Jan-2025 04:53:54 UTC] Total records : 214
+[18-Jan-2025 04:53:55 UTC] IMPORT OK CNT=0
+[18-Jan-2025 05:04:19 UTC] Avvio importazione 20250118 050419
+[18-Jan-2025 05:04:20 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 05:04:20 UTC] Total records var total: 214
+[18-Jan-2025 05:04:20 UTC] Total records : 214
+[18-Jan-2025 05:04:21 UTC] IMPORT OK CNT=0
+[18-Jan-2025 05:14:42 UTC] Avvio importazione 20250118 051442
+[18-Jan-2025 05:14:43 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 05:14:43 UTC] Total records var total: 214
+[18-Jan-2025 05:14:43 UTC] Total records : 214
+[18-Jan-2025 05:14:43 UTC] IMPORT OK CNT=0
+[18-Jan-2025 05:25:08 UTC] Avvio importazione 20250118 052508
+[18-Jan-2025 05:25:10 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 05:25:10 UTC] Total records var total: 214
+[18-Jan-2025 05:25:10 UTC] Total records : 214
+[18-Jan-2025 05:25:10 UTC] IMPORT OK CNT=0
+[18-Jan-2025 05:35:36 UTC] Avvio importazione 20250118 053536
+[18-Jan-2025 05:35:38 UTC] Richiamo nr.1 : 214
+[18-Jan-2025 05:35:38 UTC] Total records var total: 214
+[18-Jan-2025 05:35:38 UTC] Total records : 214
+[18-Jan-2025 05:35:38 UTC] IMPORT OK CNT=0
+[19-Jan-2025 01:04:20 UTC] Avvio importazione 20250119 010420
+[19-Jan-2025 01:04:21 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 01:04:21 UTC] Total records var total: 161
+[19-Jan-2025 01:04:21 UTC] Total records : 161
+[19-Jan-2025 01:04:22 UTC] IMPORT OK CNT=5
+[19-Jan-2025 01:14:50 UTC] Avvio importazione 20250119 011450
+[19-Jan-2025 01:14:51 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 01:14:51 UTC] Total records var total: 161
+[19-Jan-2025 01:14:51 UTC] Total records : 161
+[19-Jan-2025 01:14:51 UTC] IMPORT OK CNT=0
+[19-Jan-2025 01:25:13 UTC] Avvio importazione 20250119 012513
+[19-Jan-2025 01:25:15 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 01:25:15 UTC] Total records var total: 161
+[19-Jan-2025 01:25:15 UTC] Total records : 161
+[19-Jan-2025 01:25:15 UTC] IMPORT OK CNT=0
+[19-Jan-2025 01:35:34 UTC] Avvio importazione 20250119 013534
+[19-Jan-2025 01:35:35 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 01:35:35 UTC] Total records var total: 161
+[19-Jan-2025 01:35:35 UTC] Total records : 161
+[19-Jan-2025 01:35:35 UTC] IMPORT OK CNT=0
+[19-Jan-2025 01:45:53 UTC] Avvio importazione 20250119 014553
+[19-Jan-2025 01:45:54 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 01:45:54 UTC] Total records var total: 161
+[19-Jan-2025 01:45:54 UTC] Total records : 161
+[19-Jan-2025 01:45:55 UTC] IMPORT OK CNT=0
+[19-Jan-2025 01:56:12 UTC] Avvio importazione 20250119 015612
+[19-Jan-2025 01:56:13 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 01:56:13 UTC] Total records var total: 161
+[19-Jan-2025 01:56:13 UTC] Total records : 161
+[19-Jan-2025 01:56:13 UTC] IMPORT OK CNT=0
+[19-Jan-2025 02:06:31 UTC] Avvio importazione 20250119 020631
+[19-Jan-2025 02:06:32 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 02:06:32 UTC] Total records var total: 161
+[19-Jan-2025 02:06:32 UTC] Total records : 161
+[19-Jan-2025 02:06:33 UTC] IMPORT OK CNT=0
+[19-Jan-2025 02:16:49 UTC] Avvio importazione 20250119 021649
+[19-Jan-2025 02:16:50 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 02:16:50 UTC] Total records var total: 161
+[19-Jan-2025 02:16:50 UTC] Total records : 161
+[19-Jan-2025 02:16:51 UTC] IMPORT OK CNT=0
+[19-Jan-2025 02:27:09 UTC] Avvio importazione 20250119 022709
+[19-Jan-2025 02:27:10 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 02:27:10 UTC] Total records var total: 161
+[19-Jan-2025 02:27:10 UTC] Total records : 161
+[19-Jan-2025 02:27:11 UTC] IMPORT OK CNT=0
+[19-Jan-2025 02:37:31 UTC] Avvio importazione 20250119 023731
+[19-Jan-2025 02:37:32 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 02:37:32 UTC] Total records var total: 161
+[19-Jan-2025 02:37:32 UTC] Total records : 161
+[19-Jan-2025 02:37:33 UTC] IMPORT OK CNT=0
+[19-Jan-2025 02:47:52 UTC] Avvio importazione 20250119 024752
+[19-Jan-2025 02:47:53 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 02:47:53 UTC] Total records var total: 161
+[19-Jan-2025 02:47:53 UTC] Total records : 161
+[19-Jan-2025 02:47:54 UTC] IMPORT OK CNT=0
+[19-Jan-2025 02:58:13 UTC] Avvio importazione 20250119 025813
+[19-Jan-2025 02:58:14 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 02:58:14 UTC] Total records var total: 161
+[19-Jan-2025 02:58:14 UTC] Total records : 161
+[19-Jan-2025 02:58:14 UTC] IMPORT OK CNT=0
+[19-Jan-2025 03:08:37 UTC] Avvio importazione 20250119 030837
+[19-Jan-2025 03:08:38 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 03:08:38 UTC] Total records var total: 161
+[19-Jan-2025 03:08:38 UTC] Total records : 161
+[19-Jan-2025 03:08:39 UTC] IMPORT OK CNT=0
+[19-Jan-2025 03:19:03 UTC] Avvio importazione 20250119 031903
+[19-Jan-2025 03:19:04 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 03:19:04 UTC] Total records var total: 161
+[19-Jan-2025 03:19:04 UTC] Total records : 161
+[19-Jan-2025 03:19:05 UTC] IMPORT OK CNT=0
+[19-Jan-2025 03:29:28 UTC] Avvio importazione 20250119 032928
+[19-Jan-2025 03:29:29 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 03:29:29 UTC] Total records var total: 161
+[19-Jan-2025 03:29:29 UTC] Total records : 161
+[19-Jan-2025 03:29:30 UTC] IMPORT OK CNT=0
+[19-Jan-2025 03:39:53 UTC] Avvio importazione 20250119 033953
+[19-Jan-2025 03:39:55 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 03:39:55 UTC] Total records var total: 161
+[19-Jan-2025 03:39:55 UTC] Total records : 161
+[19-Jan-2025 03:39:55 UTC] IMPORT OK CNT=0
+[19-Jan-2025 03:50:17 UTC] Avvio importazione 20250119 035017
+[19-Jan-2025 03:50:18 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 03:50:18 UTC] Total records var total: 161
+[19-Jan-2025 03:50:18 UTC] Total records : 161
+[19-Jan-2025 03:50:18 UTC] IMPORT OK CNT=0
+[19-Jan-2025 04:00:42 UTC] Avvio importazione 20250119 040042
+[19-Jan-2025 04:00:44 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 04:00:44 UTC] Total records var total: 161
+[19-Jan-2025 04:00:44 UTC] Total records : 161
+[19-Jan-2025 04:00:44 UTC] IMPORT OK CNT=0
+[19-Jan-2025 04:11:08 UTC] Avvio importazione 20250119 041108
+[19-Jan-2025 04:11:10 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 04:11:10 UTC] Total records var total: 161
+[19-Jan-2025 04:11:10 UTC] Total records : 161
+[19-Jan-2025 04:11:10 UTC] IMPORT OK CNT=0
+[19-Jan-2025 04:21:32 UTC] Avvio importazione 20250119 042132
+[19-Jan-2025 04:21:33 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 04:21:33 UTC] Total records var total: 161
+[19-Jan-2025 04:21:33 UTC] Total records : 161
+[19-Jan-2025 04:21:33 UTC] IMPORT OK CNT=0
+[19-Jan-2025 04:31:53 UTC] Avvio importazione 20250119 043153
+[19-Jan-2025 04:31:54 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 04:31:54 UTC] Total records var total: 161
+[19-Jan-2025 04:31:54 UTC] Total records : 161
+[19-Jan-2025 04:31:55 UTC] IMPORT OK CNT=0
+[19-Jan-2025 04:42:16 UTC] Avvio importazione 20250119 044216
+[19-Jan-2025 04:42:17 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 04:42:17 UTC] Total records var total: 161
+[19-Jan-2025 04:42:17 UTC] Total records : 161
+[19-Jan-2025 04:42:18 UTC] IMPORT OK CNT=0
+[19-Jan-2025 04:52:40 UTC] Avvio importazione 20250119 045240
+[19-Jan-2025 04:52:41 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 04:52:41 UTC] Total records var total: 161
+[19-Jan-2025 04:52:41 UTC] Total records : 161
+[19-Jan-2025 04:52:41 UTC] IMPORT OK CNT=0
+[19-Jan-2025 05:03:01 UTC] Avvio importazione 20250119 050301
+[19-Jan-2025 05:03:02 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 05:03:02 UTC] Total records var total: 161
+[19-Jan-2025 05:03:02 UTC] Total records : 161
+[19-Jan-2025 05:03:03 UTC] IMPORT OK CNT=0
+[19-Jan-2025 05:13:25 UTC] Avvio importazione 20250119 051325
+[19-Jan-2025 05:13:26 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 05:13:26 UTC] Total records var total: 161
+[19-Jan-2025 05:13:26 UTC] Total records : 161
+[19-Jan-2025 05:13:27 UTC] IMPORT OK CNT=0
+[19-Jan-2025 05:23:50 UTC] Avvio importazione 20250119 052350
+[19-Jan-2025 05:23:51 UTC] Richiamo nr.1 : 161
+[19-Jan-2025 05:23:51 UTC] Total records var total: 161
+[19-Jan-2025 05:23:51 UTC] Total records : 161
+[19-Jan-2025 05:23:52 UTC] IMPORT OK CNT=0
+[20-Jan-2025 01:04:11 UTC] Avvio importazione 20250120 010411
+[20-Jan-2025 01:04:12 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 01:04:12 UTC] Total records var total: 77
+[20-Jan-2025 01:04:12 UTC] Total records : 77
+[20-Jan-2025 01:04:12 UTC] IMPORT OK CNT=6
+[20-Jan-2025 01:14:40 UTC] Avvio importazione 20250120 011440
+[20-Jan-2025 01:14:41 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 01:14:41 UTC] Total records var total: 77
+[20-Jan-2025 01:14:41 UTC] Total records : 77
+[20-Jan-2025 01:14:41 UTC] IMPORT OK CNT=0
+[20-Jan-2025 01:24:58 UTC] Avvio importazione 20250120 012458
+[20-Jan-2025 01:24:58 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 01:24:58 UTC] Total records var total: 77
+[20-Jan-2025 01:24:58 UTC] Total records : 77
+[20-Jan-2025 01:24:59 UTC] IMPORT OK CNT=0
+[20-Jan-2025 01:35:15 UTC] Avvio importazione 20250120 013515
+[20-Jan-2025 01:35:16 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 01:35:16 UTC] Total records var total: 77
+[20-Jan-2025 01:35:16 UTC] Total records : 77
+[20-Jan-2025 01:35:16 UTC] IMPORT OK CNT=0
+[20-Jan-2025 01:45:31 UTC] Avvio importazione 20250120 014531
+[20-Jan-2025 01:45:32 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 01:45:32 UTC] Total records var total: 77
+[20-Jan-2025 01:45:32 UTC] Total records : 77
+[20-Jan-2025 01:45:32 UTC] IMPORT OK CNT=0
+[20-Jan-2025 01:55:47 UTC] Avvio importazione 20250120 015547
+[20-Jan-2025 01:55:48 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 01:55:48 UTC] Total records var total: 77
+[20-Jan-2025 01:55:48 UTC] Total records : 77
+[20-Jan-2025 01:55:48 UTC] IMPORT OK CNT=0
+[20-Jan-2025 02:06:03 UTC] Avvio importazione 20250120 020603
+[20-Jan-2025 02:06:04 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 02:06:04 UTC] Total records var total: 77
+[20-Jan-2025 02:06:04 UTC] Total records : 77
+[20-Jan-2025 02:06:04 UTC] IMPORT OK CNT=0
+[20-Jan-2025 02:16:20 UTC] Avvio importazione 20250120 021620
+[20-Jan-2025 02:16:21 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 02:16:21 UTC] Total records var total: 77
+[20-Jan-2025 02:16:21 UTC] Total records : 77
+[20-Jan-2025 02:16:21 UTC] IMPORT OK CNT=0
+[20-Jan-2025 02:26:38 UTC] Avvio importazione 20250120 022638
+[20-Jan-2025 02:26:38 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 02:26:38 UTC] Total records var total: 77
+[20-Jan-2025 02:26:38 UTC] Total records : 77
+[20-Jan-2025 02:26:39 UTC] IMPORT OK CNT=0
+[20-Jan-2025 02:36:56 UTC] Avvio importazione 20250120 023656
+[20-Jan-2025 02:36:56 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 02:36:56 UTC] Total records var total: 77
+[20-Jan-2025 02:36:56 UTC] Total records : 77
+[20-Jan-2025 02:36:57 UTC] IMPORT OK CNT=0
+[20-Jan-2025 02:47:12 UTC] Avvio importazione 20250120 024712
+[20-Jan-2025 02:47:13 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 02:47:13 UTC] Total records var total: 77
+[20-Jan-2025 02:47:13 UTC] Total records : 77
+[20-Jan-2025 02:47:13 UTC] IMPORT OK CNT=0
+[20-Jan-2025 02:57:28 UTC] Avvio importazione 20250120 025728
+[20-Jan-2025 02:57:29 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 02:57:29 UTC] Total records var total: 77
+[20-Jan-2025 02:57:29 UTC] Total records : 77
+[20-Jan-2025 02:57:29 UTC] IMPORT OK CNT=0
+[20-Jan-2025 03:07:44 UTC] Avvio importazione 20250120 030744
+[20-Jan-2025 03:07:45 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 03:07:45 UTC] Total records var total: 77
+[20-Jan-2025 03:07:45 UTC] Total records : 77
+[20-Jan-2025 03:07:45 UTC] IMPORT OK CNT=0
+[20-Jan-2025 03:18:02 UTC] Avvio importazione 20250120 031802
+[20-Jan-2025 03:18:03 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 03:18:03 UTC] Total records var total: 77
+[20-Jan-2025 03:18:03 UTC] Total records : 77
+[20-Jan-2025 03:18:03 UTC] IMPORT OK CNT=0
+[20-Jan-2025 03:28:21 UTC] Avvio importazione 20250120 032821
+[20-Jan-2025 03:28:21 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 03:28:21 UTC] Total records var total: 77
+[20-Jan-2025 03:28:21 UTC] Total records : 77
+[20-Jan-2025 03:28:22 UTC] IMPORT OK CNT=0
+[20-Jan-2025 03:38:41 UTC] Avvio importazione 20250120 033841
+[20-Jan-2025 03:38:42 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 03:38:42 UTC] Total records var total: 77
+[20-Jan-2025 03:38:42 UTC] Total records : 77
+[20-Jan-2025 03:38:42 UTC] IMPORT OK CNT=0
+[20-Jan-2025 03:49:00 UTC] Avvio importazione 20250120 034900
+[20-Jan-2025 03:49:01 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 03:49:01 UTC] Total records var total: 77
+[20-Jan-2025 03:49:01 UTC] Total records : 77
+[20-Jan-2025 03:49:01 UTC] IMPORT OK CNT=0
+[20-Jan-2025 03:59:19 UTC] Avvio importazione 20250120 035919
+[20-Jan-2025 03:59:20 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 03:59:20 UTC] Total records var total: 77
+[20-Jan-2025 03:59:20 UTC] Total records : 77
+[20-Jan-2025 03:59:20 UTC] IMPORT OK CNT=0
+[20-Jan-2025 04:09:40 UTC] Avvio importazione 20250120 040940
+[20-Jan-2025 04:09:40 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 04:09:40 UTC] Total records var total: 77
+[20-Jan-2025 04:09:40 UTC] Total records : 77
+[20-Jan-2025 04:09:41 UTC] IMPORT OK CNT=0
+[20-Jan-2025 04:19:59 UTC] Avvio importazione 20250120 041959
+[20-Jan-2025 04:19:59 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 04:19:59 UTC] Total records var total: 77
+[20-Jan-2025 04:19:59 UTC] Total records : 77
+[20-Jan-2025 04:20:00 UTC] IMPORT OK CNT=0
+[20-Jan-2025 04:30:16 UTC] Avvio importazione 20250120 043016
+[20-Jan-2025 04:30:17 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 04:30:17 UTC] Total records var total: 77
+[20-Jan-2025 04:30:17 UTC] Total records : 77
+[20-Jan-2025 04:30:17 UTC] IMPORT OK CNT=0
+[20-Jan-2025 04:40:35 UTC] Avvio importazione 20250120 044035
+[20-Jan-2025 04:40:36 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 04:40:36 UTC] Total records var total: 77
+[20-Jan-2025 04:40:36 UTC] Total records : 77
+[20-Jan-2025 04:40:36 UTC] IMPORT OK CNT=0
+[20-Jan-2025 04:50:56 UTC] Avvio importazione 20250120 045056
+[20-Jan-2025 04:50:57 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 04:50:57 UTC] Total records var total: 77
+[20-Jan-2025 04:50:57 UTC] Total records : 77
+[20-Jan-2025 04:50:57 UTC] IMPORT OK CNT=0
+[20-Jan-2025 05:01:15 UTC] Avvio importazione 20250120 050115
+[20-Jan-2025 05:01:16 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 05:01:16 UTC] Total records var total: 77
+[20-Jan-2025 05:01:16 UTC] Total records : 77
+[20-Jan-2025 05:01:16 UTC] IMPORT OK CNT=0
+[20-Jan-2025 05:11:32 UTC] Avvio importazione 20250120 051132
+[20-Jan-2025 05:11:32 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 05:11:32 UTC] Total records var total: 77
+[20-Jan-2025 05:11:32 UTC] Total records : 77
+[20-Jan-2025 05:11:33 UTC] IMPORT OK CNT=0
+[20-Jan-2025 05:21:50 UTC] Avvio importazione 20250120 052150
+[20-Jan-2025 05:21:51 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 05:21:51 UTC] Total records var total: 77
+[20-Jan-2025 05:21:51 UTC] Total records : 77
+[20-Jan-2025 05:21:51 UTC] IMPORT OK CNT=0
+[20-Jan-2025 05:42:27 UTC] Avvio importazione 20250120 054227
+[20-Jan-2025 05:42:27 UTC] Richiamo nr.1 : 77
+[20-Jan-2025 05:42:27 UTC] Total records var total: 77
+[20-Jan-2025 05:42:27 UTC] Total records : 77
+[20-Jan-2025 05:42:27 UTC] IMPORT OK CNT=0
+[21-Jan-2025 01:04:14 UTC] Avvio importazione 20250121 010414
+[21-Jan-2025 01:04:15 UTC] Richiamo nr.1 : 106
+[21-Jan-2025 01:04:15 UTC] Total records var total: 106
+[21-Jan-2025 01:04:15 UTC] Total records : 106
+[21-Jan-2025 01:04:17 UTC] IMPORT OK CNT=95
+[21-Jan-2025 01:14:47 UTC] Avvio importazione 20250121 011447
+[21-Jan-2025 01:14:48 UTC] Richiamo nr.1 : 106
+[21-Jan-2025 01:14:48 UTC] Total records var total: 106
+[21-Jan-2025 01:14:48 UTC] Total records : 106
+[21-Jan-2025 01:14:48 UTC] IMPORT OK CNT=0
+[21-Jan-2025 01:25:04 UTC] Avvio importazione 20250121 012504
+[21-Jan-2025 01:25:05 UTC] Richiamo nr.1 : 106
+[21-Jan-2025 01:25:05 UTC] Total records var total: 106
+[21-Jan-2025 01:25:05 UTC] Total records : 106
+[21-Jan-2025 01:25:05 UTC] IMPORT OK CNT=0
+[21-Jan-2025 01:35:21 UTC] Avvio importazione 20250121 013521
+[21-Jan-2025 01:35:22 UTC] Richiamo nr.1 : 106
+[21-Jan-2025 01:35:22 UTC] Total records var total: 106
+[21-Jan-2025 01:35:22 UTC] Total records : 106
+[21-Jan-2025 01:35:22 UTC] IMPORT OK CNT=0
+[21-Jan-2025 01:45:39 UTC] Avvio importazione 20250121 014539
+[21-Jan-2025 01:45:40 UTC] Richiamo nr.1 : 106
+[21-Jan-2025 01:45:40 UTC] Total records var total: 106
+[21-Jan-2025 01:45:40 UTC] Total records : 106
+[21-Jan-2025 01:45:40 UTC] IMPORT OK CNT=0
+[21-Jan-2025 01:55:55 UTC] Avvio importazione 20250121 015555
+[21-Jan-2025 01:55:56 UTC] Richiamo nr.1 : 106
+[21-Jan-2025 01:55:56 UTC] Total records var total: 106
+[21-Jan-2025 01:55:56 UTC] Total records : 106
+[21-Jan-2025 01:55:56 UTC] IMPORT OK CNT=0
+[21-Jan-2025 02:06:13 UTC] Avvio importazione 20250121 020613
+[21-Jan-2025 02:06:14 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 02:06:14 UTC] Total records var total: 107
+[21-Jan-2025 02:06:14 UTC] Total records : 107
+[21-Jan-2025 02:06:15 UTC] IMPORT OK CNT=1
+[21-Jan-2025 02:16:30 UTC] Avvio importazione 20250121 021630
+[21-Jan-2025 02:16:31 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 02:16:31 UTC] Total records var total: 107
+[21-Jan-2025 02:16:31 UTC] Total records : 107
+[21-Jan-2025 02:16:31 UTC] IMPORT OK CNT=0
+[21-Jan-2025 02:26:47 UTC] Avvio importazione 20250121 022647
+[21-Jan-2025 02:26:48 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 02:26:48 UTC] Total records var total: 107
+[21-Jan-2025 02:26:48 UTC] Total records : 107
+[21-Jan-2025 02:26:49 UTC] IMPORT OK CNT=0
+[21-Jan-2025 02:37:05 UTC] Avvio importazione 20250121 023705
+[21-Jan-2025 02:37:05 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 02:37:05 UTC] Total records var total: 107
+[21-Jan-2025 02:37:05 UTC] Total records : 107
+[21-Jan-2025 02:37:06 UTC] IMPORT OK CNT=0
+[21-Jan-2025 02:47:23 UTC] Avvio importazione 20250121 024723
+[21-Jan-2025 02:47:24 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 02:47:24 UTC] Total records var total: 107
+[21-Jan-2025 02:47:24 UTC] Total records : 107
+[21-Jan-2025 02:47:24 UTC] IMPORT OK CNT=0
+[21-Jan-2025 02:57:41 UTC] Avvio importazione 20250121 025741
+[21-Jan-2025 02:57:41 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 02:57:41 UTC] Total records var total: 107
+[21-Jan-2025 02:57:41 UTC] Total records : 107
+[21-Jan-2025 02:57:42 UTC] IMPORT OK CNT=0
+[21-Jan-2025 03:07:58 UTC] Avvio importazione 20250121 030758
+[21-Jan-2025 03:07:59 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 03:07:59 UTC] Total records var total: 107
+[21-Jan-2025 03:07:59 UTC] Total records : 107
+[21-Jan-2025 03:08:00 UTC] IMPORT OK CNT=0
+[21-Jan-2025 03:18:17 UTC] Avvio importazione 20250121 031817
+[21-Jan-2025 03:18:18 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 03:18:18 UTC] Total records var total: 107
+[21-Jan-2025 03:18:18 UTC] Total records : 107
+[21-Jan-2025 03:18:18 UTC] IMPORT OK CNT=0
+[21-Jan-2025 03:28:38 UTC] Avvio importazione 20250121 032838
+[21-Jan-2025 03:28:38 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 03:28:38 UTC] Total records var total: 107
+[21-Jan-2025 03:28:38 UTC] Total records : 107
+[21-Jan-2025 03:28:39 UTC] IMPORT OK CNT=0
+[21-Jan-2025 03:38:59 UTC] Avvio importazione 20250121 033859
+[21-Jan-2025 03:39:00 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 03:39:00 UTC] Total records var total: 107
+[21-Jan-2025 03:39:00 UTC] Total records : 107
+[21-Jan-2025 03:39:01 UTC] IMPORT OK CNT=0
+[21-Jan-2025 03:49:19 UTC] Avvio importazione 20250121 034919
+[21-Jan-2025 03:49:20 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 03:49:20 UTC] Total records var total: 107
+[21-Jan-2025 03:49:20 UTC] Total records : 107
+[21-Jan-2025 03:49:20 UTC] IMPORT OK CNT=0
+[21-Jan-2025 03:59:40 UTC] Avvio importazione 20250121 035940
+[21-Jan-2025 03:59:41 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 03:59:41 UTC] Total records var total: 107
+[21-Jan-2025 03:59:41 UTC] Total records : 107
+[21-Jan-2025 03:59:41 UTC] IMPORT OK CNT=0
+[21-Jan-2025 04:10:02 UTC] Avvio importazione 20250121 041002
+[21-Jan-2025 04:10:03 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 04:10:03 UTC] Total records var total: 107
+[21-Jan-2025 04:10:03 UTC] Total records : 107
+[21-Jan-2025 04:10:03 UTC] IMPORT OK CNT=0
+[21-Jan-2025 04:20:22 UTC] Avvio importazione 20250121 042022
+[21-Jan-2025 04:20:23 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 04:20:23 UTC] Total records var total: 107
+[21-Jan-2025 04:20:23 UTC] Total records : 107
+[21-Jan-2025 04:20:23 UTC] IMPORT OK CNT=0
+[21-Jan-2025 04:30:42 UTC] Avvio importazione 20250121 043042
+[21-Jan-2025 04:30:43 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 04:30:43 UTC] Total records var total: 107
+[21-Jan-2025 04:30:43 UTC] Total records : 107
+[21-Jan-2025 04:30:43 UTC] IMPORT OK CNT=0
+[21-Jan-2025 04:41:04 UTC] Avvio importazione 20250121 044104
+[21-Jan-2025 04:41:04 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 04:41:04 UTC] Total records var total: 107
+[21-Jan-2025 04:41:04 UTC] Total records : 107
+[21-Jan-2025 04:41:05 UTC] IMPORT OK CNT=0
+[21-Jan-2025 04:51:23 UTC] Avvio importazione 20250121 045123
+[21-Jan-2025 04:51:24 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 04:51:24 UTC] Total records var total: 107
+[21-Jan-2025 04:51:24 UTC] Total records : 107
+[21-Jan-2025 04:51:24 UTC] IMPORT OK CNT=0
+[21-Jan-2025 05:01:45 UTC] Avvio importazione 20250121 050145
+[21-Jan-2025 05:01:46 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 05:01:46 UTC] Total records var total: 107
+[21-Jan-2025 05:01:46 UTC] Total records : 107
+[21-Jan-2025 05:01:46 UTC] IMPORT OK CNT=0
+[21-Jan-2025 05:12:06 UTC] Avvio importazione 20250121 051206
+[21-Jan-2025 05:12:07 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 05:12:07 UTC] Total records var total: 107
+[21-Jan-2025 05:12:07 UTC] Total records : 107
+[21-Jan-2025 05:12:07 UTC] IMPORT OK CNT=0
+[21-Jan-2025 05:22:26 UTC] Avvio importazione 20250121 052226
+[21-Jan-2025 05:22:26 UTC] Richiamo nr.1 : 107
+[21-Jan-2025 05:22:26 UTC] Total records var total: 107
+[21-Jan-2025 05:22:26 UTC] Total records : 107
+[21-Jan-2025 05:22:27 UTC] IMPORT OK CNT=0
+[21-Jan-2025 05:43:04 UTC] Avvio importazione 20250121 054304
+[21-Jan-2025 05:43:04 UTC] Richiamo nr.1 : 108
+[21-Jan-2025 05:43:04 UTC] Total records var total: 108
+[21-Jan-2025 05:43:04 UTC] Total records : 108
+[21-Jan-2025 05:43:05 UTC] IMPORT OK CNT=0
+[22-Jan-2025 01:04:17 UTC] Avvio importazione 20250122 010417
+[22-Jan-2025 01:04:19 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 01:04:19 UTC] Total records var total: 188
+[22-Jan-2025 01:04:19 UTC] Total records : 188
+[22-Jan-2025 01:04:21 UTC] IMPORT OK CNT=85
+[22-Jan-2025 01:15:07 UTC] Avvio importazione 20250122 011507
+[22-Jan-2025 01:15:08 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 01:15:08 UTC] Total records var total: 188
+[22-Jan-2025 01:15:08 UTC] Total records : 188
+[22-Jan-2025 01:15:09 UTC] IMPORT OK CNT=0
+[22-Jan-2025 01:25:28 UTC] Avvio importazione 20250122 012528
+[22-Jan-2025 01:25:29 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 01:25:29 UTC] Total records var total: 188
+[22-Jan-2025 01:25:29 UTC] Total records : 188
+[22-Jan-2025 01:25:29 UTC] IMPORT OK CNT=0
+[22-Jan-2025 01:35:49 UTC] Avvio importazione 20250122 013549
+[22-Jan-2025 01:35:51 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 01:35:51 UTC] Total records var total: 188
+[22-Jan-2025 01:35:51 UTC] Total records : 188
+[22-Jan-2025 01:35:51 UTC] IMPORT OK CNT=0
+[22-Jan-2025 01:46:11 UTC] Avvio importazione 20250122 014611
+[22-Jan-2025 01:46:13 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 01:46:13 UTC] Total records var total: 188
+[22-Jan-2025 01:46:13 UTC] Total records : 188
+[22-Jan-2025 01:46:13 UTC] IMPORT OK CNT=0
+[22-Jan-2025 01:56:33 UTC] Avvio importazione 20250122 015633
+[22-Jan-2025 01:56:34 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 01:56:34 UTC] Total records var total: 188
+[22-Jan-2025 01:56:34 UTC] Total records : 188
+[22-Jan-2025 01:56:35 UTC] IMPORT OK CNT=0
+[22-Jan-2025 02:06:54 UTC] Avvio importazione 20250122 020654
+[22-Jan-2025 02:06:55 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 02:06:55 UTC] Total records var total: 188
+[22-Jan-2025 02:06:55 UTC] Total records : 188
+[22-Jan-2025 02:06:55 UTC] IMPORT OK CNT=0
+[22-Jan-2025 02:17:14 UTC] Avvio importazione 20250122 021714
+[22-Jan-2025 02:17:15 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 02:17:15 UTC] Total records var total: 188
+[22-Jan-2025 02:17:15 UTC] Total records : 188
+[22-Jan-2025 02:17:16 UTC] IMPORT OK CNT=0
+[22-Jan-2025 02:27:34 UTC] Avvio importazione 20250122 022734
+[22-Jan-2025 02:27:36 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 02:27:36 UTC] Total records var total: 188
+[22-Jan-2025 02:27:36 UTC] Total records : 188
+[22-Jan-2025 02:27:36 UTC] IMPORT OK CNT=0
+[22-Jan-2025 02:37:57 UTC] Avvio importazione 20250122 023757
+[22-Jan-2025 02:37:58 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 02:37:58 UTC] Total records var total: 188
+[22-Jan-2025 02:37:58 UTC] Total records : 188
+[22-Jan-2025 02:37:59 UTC] IMPORT OK CNT=0
+[22-Jan-2025 02:48:19 UTC] Avvio importazione 20250122 024819
+[22-Jan-2025 02:48:21 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 02:48:21 UTC] Total records var total: 188
+[22-Jan-2025 02:48:21 UTC] Total records : 188
+[22-Jan-2025 02:48:21 UTC] IMPORT OK CNT=0
+[22-Jan-2025 02:58:42 UTC] Avvio importazione 20250122 025842
+[22-Jan-2025 02:58:43 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 02:58:43 UTC] Total records var total: 188
+[22-Jan-2025 02:58:43 UTC] Total records : 188
+[22-Jan-2025 02:58:44 UTC] IMPORT OK CNT=0
+[22-Jan-2025 03:09:06 UTC] Avvio importazione 20250122 030906
+[22-Jan-2025 03:09:07 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 03:09:07 UTC] Total records var total: 188
+[22-Jan-2025 03:09:07 UTC] Total records : 188
+[22-Jan-2025 03:09:07 UTC] IMPORT OK CNT=0
+[22-Jan-2025 03:19:32 UTC] Avvio importazione 20250122 031932
+[22-Jan-2025 03:19:33 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 03:19:33 UTC] Total records var total: 188
+[22-Jan-2025 03:19:33 UTC] Total records : 188
+[22-Jan-2025 03:19:34 UTC] IMPORT OK CNT=0
+[22-Jan-2025 03:29:58 UTC] Avvio importazione 20250122 032958
+[22-Jan-2025 03:29:59 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 03:29:59 UTC] Total records var total: 188
+[22-Jan-2025 03:29:59 UTC] Total records : 188
+[22-Jan-2025 03:30:00 UTC] IMPORT OK CNT=0
+[22-Jan-2025 03:40:23 UTC] Avvio importazione 20250122 034023
+[22-Jan-2025 03:40:24 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 03:40:24 UTC] Total records var total: 188
+[22-Jan-2025 03:40:24 UTC] Total records : 188
+[22-Jan-2025 03:40:25 UTC] IMPORT OK CNT=0
+[22-Jan-2025 03:50:48 UTC] Avvio importazione 20250122 035048
+[22-Jan-2025 03:50:50 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 03:50:50 UTC] Total records var total: 188
+[22-Jan-2025 03:50:50 UTC] Total records : 188
+[22-Jan-2025 03:50:50 UTC] IMPORT OK CNT=0
+[22-Jan-2025 04:01:12 UTC] Avvio importazione 20250122 040112
+[22-Jan-2025 04:01:13 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 04:01:13 UTC] Total records var total: 188
+[22-Jan-2025 04:01:13 UTC] Total records : 188
+[22-Jan-2025 04:01:14 UTC] IMPORT OK CNT=0
+[22-Jan-2025 04:11:37 UTC] Avvio importazione 20250122 041137
+[22-Jan-2025 04:11:38 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 04:11:38 UTC] Total records var total: 188
+[22-Jan-2025 04:11:38 UTC] Total records : 188
+[22-Jan-2025 04:11:39 UTC] IMPORT OK CNT=0
+[22-Jan-2025 04:22:00 UTC] Avvio importazione 20250122 042200
+[22-Jan-2025 04:22:01 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 04:22:01 UTC] Total records var total: 188
+[22-Jan-2025 04:22:01 UTC] Total records : 188
+[22-Jan-2025 04:22:02 UTC] IMPORT OK CNT=0
+[22-Jan-2025 04:32:24 UTC] Avvio importazione 20250122 043224
+[22-Jan-2025 04:32:25 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 04:32:25 UTC] Total records var total: 188
+[22-Jan-2025 04:32:25 UTC] Total records : 188
+[22-Jan-2025 04:32:26 UTC] IMPORT OK CNT=0
+[22-Jan-2025 04:42:46 UTC] Avvio importazione 20250122 044246
+[22-Jan-2025 04:42:48 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 04:42:48 UTC] Total records var total: 188
+[22-Jan-2025 04:42:48 UTC] Total records : 188
+[22-Jan-2025 04:42:48 UTC] IMPORT OK CNT=0
+[22-Jan-2025 04:53:10 UTC] Avvio importazione 20250122 045310
+[22-Jan-2025 04:53:11 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 04:53:11 UTC] Total records var total: 188
+[22-Jan-2025 04:53:11 UTC] Total records : 188
+[22-Jan-2025 04:53:12 UTC] IMPORT OK CNT=0
+[22-Jan-2025 05:03:32 UTC] Avvio importazione 20250122 050332
+[22-Jan-2025 05:03:33 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 05:03:33 UTC] Total records var total: 188
+[22-Jan-2025 05:03:33 UTC] Total records : 188
+[22-Jan-2025 05:03:34 UTC] IMPORT OK CNT=0
+[22-Jan-2025 05:13:56 UTC] Avvio importazione 20250122 051356
+[22-Jan-2025 05:13:57 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 05:13:57 UTC] Total records var total: 188
+[22-Jan-2025 05:13:57 UTC] Total records : 188
+[22-Jan-2025 05:13:58 UTC] IMPORT OK CNT=0
+[22-Jan-2025 05:24:24 UTC] Avvio importazione 20250122 052424
+[22-Jan-2025 05:24:25 UTC] Richiamo nr.1 : 188
+[22-Jan-2025 05:24:25 UTC] Total records var total: 188
+[22-Jan-2025 05:24:25 UTC] Total records : 188
+[22-Jan-2025 05:24:26 UTC] IMPORT OK CNT=0

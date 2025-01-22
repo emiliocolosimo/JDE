@@ -1,0 +1,54 @@
+[29-Feb-2024 15:51:22 UTC] Avvio lettura da MySQL sito web
+[29-Feb-2024 15:51:22 UTC] PHP Fatal error:  Uncaught TypeError: mysqli_query(): Argument #1 ($mysql) must be of type mysqli, resource given in /www/php80/htdocs/azureApps/onetime/sendHANNO0F.php:187
+Stack trace:
+#0 /www/php80/htdocs/azureApps/onetime/sendHANNO0F.php(187): mysqli_query()
+#1 {main}
+  thrown in /www/php80/htdocs/azureApps/onetime/sendHANNO0F.php on line 187
+[29-Feb-2024 15:52:00 UTC] Avvio lettura da MySQL sito web
+[29-Feb-2024 15:52:00 UTC] PHP Warning:  odbc_exec(): SQL error: [IBM][System i Access ODBC Driver][DB2 for i5/OS]SQL5016 - Qualified object name HANNO0F not valid., SQL state S1000 in SQLExecDirect in /www/php80/htdocs/azureApps/onetime/sendHANNO0F.php on line 187
+[29-Feb-2024 15:52:00 UTC] Error mysql query: [IBM][System i Access ODBC Driver][DB2 for i5/OS]SQL5016 - Qualified object name HANNO0F not valid.
+[29-Feb-2024 15:52:28 UTC] Avvio lettura da MySQL sito web
+[29-Feb-2024 15:53:45 UTC] Avvio lettura da MySQL sito web
+[29-Feb-2024 15:54:20 UTC] Avvio lettura da MySQL sito web
+[29-Feb-2024 15:54:20 UTC] PHP Warning:  Undefined array key "HAMAIL" in /www/php80/htdocs/azureApps/onetime/sendHANNO0F.php on line 207
+[29-Feb-2024 15:54:20 UTC] Salto indirizzo mail::indirizzo mail non valido
+[29-Feb-2024 15:54:20 UTC] Totale mail inviate: 0
+[29-Feb-2024 15:54:20 UTC] Totale errori: 1
+[29-Feb-2024 15:54:20 UTC] PHP Warning:  Undefined variable $conn in /www/php80/htdocs/azureApps/onetime/sendHANNO0F.php on line 305
+[29-Feb-2024 15:54:20 UTC] PHP Fatal error:  Uncaught TypeError: mysqli_close(): Argument #1 ($mysql) must be of type mysqli, null given in /www/php80/htdocs/azureApps/onetime/sendHANNO0F.php:305
+Stack trace:
+#0 /www/php80/htdocs/azureApps/onetime/sendHANNO0F.php(305): mysqli_close()
+#1 {main}
+  thrown in /www/php80/htdocs/azureApps/onetime/sendHANNO0F.php on line 305
+[29-Feb-2024 15:54:59 UTC] Avvio lettura da MySQL sito web
+[29-Feb-2024 15:54:59 UTC] PHP Warning:  Undefined variable $curLocale in /www/php80/htdocs/azureApps/onetime/sendHANNO0F.php on line 234
+[29-Feb-2024 15:54:59 UTC] PHP Warning:  Undefined variable $curLocale in /www/php80/htdocs/azureApps/onetime/sendHANNO0F.php on line 235
+[29-Feb-2024 15:54:59 UTC] Errore recupero oggetto mail:
+[29-Feb-2024 15:55:39 UTC] Avvio lettura da MySQL sito web
+[29-Feb-2024 15:55:40 UTC] Invio mail a:wouter.molleman@vulkoprin.be
+[29-Feb-2024 15:55:40 UTC] Mail inviata a wouter.molleman@vulkoprin.be
+[29-Feb-2024 15:55:41 UTC] Totale mail inviate: 1
+[29-Feb-2024 15:55:41 UTC] Totale errori: 0
+[29-Feb-2024 15:57:07 UTC] Avvio lettura da MySQL sito web
+[29-Feb-2024 15:57:07 UTC] Totale mail inviate: 0
+[29-Feb-2024 15:57:07 UTC] Totale errori: 0
+[29-Feb-2024 15:57:45 UTC] Avvio lettura da MySQL sito web
+[29-Feb-2024 15:57:46 UTC] Invio mail a:wouter.molleman@vulkoprin.be
+[29-Feb-2024 15:57:46 UTC] Mail inviata a wouter.molleman@vulkoprin.be
+[29-Feb-2024 15:57:47 UTC] Totale mail inviate: 1
+[29-Feb-2024 15:57:47 UTC] Totale errori: 0
+[29-Feb-2024 15:58:42 UTC] Avvio lettura da MySQL sito web
+[29-Feb-2024 15:58:42 UTC] Invio mail a:wouter.molleman@vulkoprin.be
+[29-Feb-2024 15:58:43 UTC] Mail inviata a wouter.molleman@vulkoprin.be
+[29-Feb-2024 15:58:44 UTC] Totale mail inviate: 1
+[29-Feb-2024 15:58:44 UTC] Totale errori: 0
+[29-Feb-2024 15:59:14 UTC] Avvio lettura da MySQL sito web
+[29-Feb-2024 15:59:14 UTC] Invio mail a:wouter.molleman@vulkoprin.be
+[29-Feb-2024 15:59:14 UTC] Mail inviata a wouter.molleman@vulkoprin.be
+[29-Feb-2024 15:59:16 UTC] Totale mail inviate: 1
+[29-Feb-2024 15:59:16 UTC] Totale errori: 0
+[29-Feb-2024 16:00:34 UTC] Avvio lettura da MySQL sito web
+[29-Feb-2024 16:00:35 UTC] Invio mail a:wouter.molleman@vulkoprin.be
+[29-Feb-2024 16:00:35 UTC] Mail inviata a wouter.molleman@vulkoprin.be
+[29-Feb-2024 16:00:36 UTC] Totale mail inviate: 1
+[29-Feb-2024 16:00:36 UTC] Totale errori: 0

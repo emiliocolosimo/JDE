@@ -1,0 +1,1 @@
+{"filter_mode":"AND","filters":[{"filter_mode":"AND","fields":[{"field":"SDAN8","type":"eq","value":"1004823"}]},{"filter_mode":"AND","fields":[{"field":"SDPDDJ","type":"ge","value":"125007"}]},{"filter_mode":"AND","fields":[{"field":"SDPDDJ","type":"le","value":"125067"}]}],"limit":100,"ordby":[{"field":"SDPDDJ","dir":"ASC"}]}

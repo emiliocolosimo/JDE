@@ -1,0 +1,1 @@
+{"env":"test","F47011":{"fields":{"quotation_number":100,"quotation_recipient_code":"15927","quotation_recipient_shipping_code":"","quotation_date":"2024-10-02","quotation_referent_customer":"EA240227","quotation_referent_customer_date":"2024-10-03","quotation_vat_rate_area":"ES","quotation_recipient_currency":"EUR","crm_user":"gabriele.barzaghi"}},"F47012":[],"F4715":[]}

@@ -1,0 +1,674 @@
+/************** FONTS and COLORS **************************************/
+
+body, h1-h6, table, tr, td, input, submit, button, textarea, select  {
+	font-family: Tahoma, Geneva, sans-serif;
+} 
+
+body { font-size: 13px; }
+
+h1 {
+	font-family: Arial, sans-serif;
+	font-size: 26px;
+	font-weight: normal;
+	font-style: italic;
+	color: #666666;
+}
+
+input[type="text"].filter, input[type="number"].filter { font-size: 12px; }
+
+input[type="text"], 
+input[type="number"], 
+input[type="password"],
+textarea 
+{ 
+	font-size: 13px; 
+}
+
+.main-list th, 
+.main-list th a.list-header,
+.drill-down-list th,
+.drill-down-list th a.list-header 
+{
+	color: inherit;
+}
+
+.main-list a.list-header { text-decoration: none; }
+
+form.filter label { font-size: 12px; }
+
+a.list-paging { 
+	color: #6e8f9b; 
+	text-decoration: none; 
+}
+
+a.list-paging span { border-bottom: 1px solid #6e8f9b; }
+
+input,
+textarea
+{
+	border: 1px solid #777777;
+}
+
+input:disabled,
+textarea:disabled
+{
+	border: 1px solid #aaaaaa;
+}
+
+#display-message.display-message-active { background-color: goldenrod; }
+
+.ui-accordion-content h3 {
+	font-size: 13px;
+	padding: 0;
+}
+
+.break-header {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.underline {
+	text-decoration: underline;
+}
+
+/*** IMAGES ***/
+
+#page-title-block {
+	background-color: #231f1b;
+}
+
+input.filter {
+	background-image: url(../images/bg-filter.png); 
+	background-repeat: repeat-x; 
+}
+
+body {
+	background-image: url(../images/background-gradient.jpg); 
+	background-repeat: repeat-x; 
+	background-position: 50% 58px;
+}
+
+/*** LAYOUT ***/
+body { margin: 0; padding: 0; }
+
+a img { border: none; }
+
+td.actions span { white-space: nowrap; }
+
+.actions { width: 60px; }
+.input-capable-list .actions { width: auto; }
+
+.hidden { visibility: hidden; }
+.nodisplay { display: none; }
+
+.page-title-image { display: block; }
+
+#page-title-block { 
+	margin: 0;
+	padding: 13px 30px;
+}
+
+#outer-content {
+	margin: 0 0 26px 0;
+	display: inline-block;
+	min-width: 100%;	
+}
+
+#page-divider-top {
+	clear:both; 
+}
+
+#page-content {
+	margin: 0;
+	min-height: 500px;
+	display: table;
+}
+
+#contents {
+	min-width: 782px;
+	clear: both;
+}
+
+#contents, 
+#content-header 
+{
+	margin: 0 30px;
+}
+
+.chart #contents { margin: 30px; }
+
+.drill-down-list, 
+#accordion 
+{ 
+	margin-top: 19px; 
+}
+
+.main-list { 
+	margin: 19px 0 13px;
+	width: 100%;
+}
+
+.main-list, 
+.drill-down-list 
+{
+	border-spacing: 0; 
+}
+
+.main-list td, 
+.main-list th, 
+.drill-down-list td, 
+.drill-down-list th 
+{
+	padding: 8px 4px;
+}
+
+
+input[type="text"], 
+input[type="number"], 
+input[type="password"]
+{	
+	height: 20px; 
+}
+
+
+input[type="text"], 
+input[type="number"],
+input[type="password"],
+textarea,
+select
+{ 
+	margin: 0;
+	vertical-align: middle; 
+	padding: 2px;
+}
+
+.add-link {
+	float: right;
+	display: inline-block;
+	margin: 13px 0 26px;
+}
+
+.add img {
+	vertical-align: bottom;
+}
+
+.add span.ui-button-text {
+	padding-left: 0.3em;
+}
+
+span.list-paging { float: right; }
+	
+div#display-message { 
+	margin: 10px 10px 15px; 
+	width: auto; 
+	min-height: 17px;
+}
+
+.message { padding: 3px 10px; }
+
+.clear-layout { clear: both; }
+
+h3 { 
+	margin: 0; 
+	padding: 7px 0; 
+}
+
+h1.title { 
+	float: left;
+	display: inline-block; 
+	margin: 24px 0 48px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"]
+{
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+form.filter { 
+	display: inline;
+	float: left;
+}
+
+body#drill-down.display-list {
+	overflow-y: scroll;
+}
+
+td.num { text-align: right; }
+td.alpha { text-align: left; }
+
+.field-group { 
+	width: 100%; 
+	margin: 6px 0;
+}
+
+.field-group label, 
+.field-group span.label 
+{ 	
+	display:block; 
+	vertical-align: middle;
+	font-weight: bold;
+}
+.display-record .field-group label,
+.display-record .field-group span.label
+{
+	font-size: .9em;
+}
+.field-group span.value { 
+	 
+	display:block; 
+	vertical-align: middle;
+}
+.display-record .field-group span.value {
+	font-size: 1.1em;
+	margin-left: 10px;
+}
+
+.field-group span input { max-width: 100%; }
+
+.field-group span textarea { width: 100%; }
+
+.fields {
+	margin-bottom: 2em;
+}
+
+.filter-group {
+	display: inline-block;
+	margin: 1px 17px 1px 0;
+}
+
+a.list-paging img { vertical-align: middle; }
+
+a.previous {
+	margin-right: 8px;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-center {
+	text-align: center;
+}
+
+hr
+{
+	border-width: 0px;
+	border-top-width: 1px;
+}
+
+/******************** jQuery UI style overrides ***************************/
+
+/*button text element */
+.ui-button-text-only .ui-button-text { padding: .2em .75em; }
+.ui-button-icon-only .ui-button-text, .ui-button-icons-only .ui-button-text { padding: .2em; }
+.ui-button-text-icon-primary .ui-button-text, .ui-button-text-icons .ui-button-text { padding: .2em .1em .2em 2.1em; }
+.ui-button-text-icon-secondary .ui-button-text, .ui-button-text-icons .ui-button-text { padding: .2em 2.1em .2em 1em; }
+.ui-button-text-icons .ui-button-text { padding-left: 2.1em; padding-right: 2.1em; }
+/* no icon support for input elements, provide padding by default */
+input.ui-button { padding: 0; }
+
+/* This is the style for the trigger icon. The margin-bottom value causes the icon to shift down to center it. */
+.ui-datepicker-trigger { margin-left:5px; margin-top: 8px; margin-bottom: -3px; cursor: pointer; }
+
+.ui-widget,
+.ui-jqgrid .ui-jqgrid-view,
+.ui-jqgrid .ui-jqgrid-pager
+{ 
+	font-family: Tahoma, sans-serif; 
+	font-size: 13px;
+}
+
+#filters input, 
+#filters label 
+{ 
+	vertical-align: middle; 
+}
+
+.list-paging { margin-top: 6px; }
+
+.filter-button
+{
+	height: 24px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+#login-button 
+{
+	height: 26px;
+	vertical-align: middle;
+}
+
+#logintable td {
+	white-space: nowrap;
+}	
+
+
+.ui-accordion-content h3 {
+	font-size: 1em;
+	padding: 0;
+}
+
+.ui-button {
+	min-width: 7em;
+}
+
+.accept, .cancel {
+	min-height: 2em;
+}
+
+.actions .ui-button {
+	min-width: 0;
+	width: 18px;
+	height: 20px;
+	vertical-align: middle;
+	margin-right: 2px;
+}
+
+.filter-button {
+	margin-left: -17px;
+}
+
+.ui-jqgrid .ui-jqgrid-htable th:hover {
+	font-weight: bold;
+}
+
+.ui-jqgrid-view .ui-jqgrid-hdiv {
+	background: none;
+}
+
+
+/***** Validation Styles *****/
+.error-text {
+	display: none;
+}
+.has-error .error-text {
+	display: inline;
+	font-size: .9em;
+	color: red;
+	margin-left: 10px;
+}
+.has-error .label .error-text {
+	font-weight: normal;
+	float: right;
+}
+
+.has-error input, .has-error select, .has-error textarea{
+	border: 1px solid red;
+	background:#ffeaea;
+}
+
+.required {
+	color: red;
+}
+
+.optional {
+	font-size: .9em;
+	color: grey;
+	margin-left: 10px;
+}
+
+.notice {
+	padding: 5px;
+	border: 1px dotted #94bb94;
+	margin-bottom: 15px;
+	background-color: #ebffeb;
+}
+
+/* Component containers
+----------------------------------*/
+.ui-widget {
+	font-family: Arial,sans-serif;
+	font-size: 1.2em;
+}
+.ui-widget .ui-widget {
+	font-size: 1em;
+}
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+	font-family: Arial,sans-serif;
+	font-size: 1em;
+}
+.ui-widget.ui-widget-content {
+	border: 1px solid #7fa0b7;
+}
+.ui-widget-content {
+	border: 1px solid #aaaaaa;
+	background: #ffffff;
+	color: #222222;
+}
+.ui-widget-content a {
+	color: #222222;
+}
+.ui-widget-header {
+	border: 1px solid #aaaaaa;
+	background: #e8e8e8 url("../css/images/ui-bg_glass_75_e8e8e8_1x400.png") 50% 50% repeat-x;
+	color: #222222;
+	font-weight: bold;
+}
+.ui-widget-header a {
+	color: #222222;
+}
+
+.ui-widget,
+.ui-jqgrid .ui-jqgrid-view,
+.ui-jqgrid .ui-jqgrid-pager
+{ 
+	font-family: Tahoma, sans-serif; 
+	font-size: 13px;
+}
+
+/* Interaction states
+----------------------------------*/
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default,
+.ui-button,
+
+/* We use html here because we need a greater specificity to make sure disabled
+works properly when clicked or hovered */
+html .ui-button.ui-state-disabled:hover,
+html .ui-button.ui-state-disabled:active {
+	border: 1px solid #7fa0b7;
+	background: #f5f5f5 url("../../css/images/ui-bg_glass_100_f5f5f5_1x400.png") 50% 50% repeat-x;
+	font-weight: normal;
+	color: #333333;
+}
+.ui-state-default a,
+.ui-state-default a:link,
+.ui-state-default a:visited,
+a.ui-button,
+a:link.ui-button,
+a:visited.ui-button,
+.ui-button {
+	color: #333333;
+	text-decoration: none;
+}
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus,
+.ui-button:hover,
+.ui-button:focus {
+	border: 1px solid #b3b3b3;
+	background: #e3e3e3 url("../../css/images/ui-bg_glass_100_e3e3e3_1x400.png") 50% 50% repeat-x;
+	font-weight: normal;
+	color: #212121;
+}
+.ui-state-hover a,
+.ui-state-hover a:hover,
+.ui-state-hover a:link,
+.ui-state-hover a:visited,
+.ui-state-focus a,
+.ui-state-focus a:hover,
+.ui-state-focus a:link,
+.ui-state-focus a:visited,
+a.ui-button:hover,
+a.ui-button:focus {
+	color: #212121;
+	text-decoration: none;
+}
+
+.ui-visual-focus {
+	box-shadow: 0 0 3px 1px rgb(94, 158, 214);
+}
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
+	border: 1px solid #aaaaaa;
+	background: #ffffff url("../css/images/ui-bg_glass_65_ffffff_1x400.png") 50% 50% repeat-x;
+	font-weight: normal;
+	color: #212121;
+}
+.ui-icon-background,
+.ui-state-active .ui-icon-background {
+	border: #aaaaaa;
+	background-color: #212121;
+}
+.ui-state-active a,
+.ui-state-active a:link,
+.ui-state-active a:visited {
+	color: #212121;
+	text-decoration: none;
+}
+
+/* Icons
+----------------------------------*/
+
+/* states and images */
+.ui-icon {
+	width: 16px;
+	height: 16px;
+}
+.ui-icon,
+.ui-widget-content .ui-icon {
+	background-image: url("../../css/images/ui-icons_222222_256x240.png");
+}
+.ui-widget-header .ui-icon {
+	background-image: url("../../css/images/ui-icons_222222_256x240.png");
+}
+.ui-state-hover .ui-icon,
+.ui-state-focus .ui-icon,
+.ui-button:hover .ui-icon,
+.ui-button:focus .ui-icon {
+	background-image: url("../../css/images/ui-icons_394d5b_256x240.png");
+}
+.ui-state-active .ui-icon,
+.ui-button:active .ui-icon {
+	background-image: url("../../css/images/ui-icons_2d5b7b_256x240.png");
+}
+.ui-state-error .ui-icon,
+.ui-state-error-text .ui-icon {
+	background-image: url("../../css/images/ui-icons_cd0a0a_256x240.png");
+}
+.ui-button .ui-icon {
+	background-image: url("../../css/images/ui-icons_2d5b7b_256x240.png");
+}
+.ui-state-highlight .ui-icon,
+.ui-button .ui-state-highlight.ui-icon {
+	background-image: url("../../css/images/ui-icons_ffa32e_256x240.png");
+}
+
+
+
+
+
+
+
+
+tr.altcol1 { background-color: #f8f8f8; }
+tr.altcol2 { background-color: transparent; }
+
+.add.ui-button {
+	background: none;
+	background-color: #6b8ca3;
+	border: 1px solid #527187;
+	color: white;
+	font-weight: bold;
+}
+
+.ui-button-text-only .ui-button-text { padding: .2em .75em; }
+
+.ui-widget-content
+{
+	border: 1px solid #aaaaaa;
+	background: #ffffff url(../../css/images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x;
+	color: #222222;
+}
+
+.ui-accordion-content.ui-widget-content
+{
+	border-top: 0px solid #aaaaaa;
+}
+
+.main-list, 
+.drill-down-list 
+{ 
+	background-image: url(../images/gradient-above-columns.png); 
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.ui-button
+{
+	padding: 0;
+}
+
+a.add.ui-button,
+button.add.ui-button
+{
+	padding: .2em .75em .2em .3em;
+	color: white;
+}
+
+a.ui-button-icon-only {
+	box-sizing: content-box;
+}
+
+
+/* Interaction Cues
+----------------------------------*/
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight,
+.ui-widget-header .ui-state-highlight {
+	border: 1px solid #feeb76;
+	background: #fff1a3 url("../../css/images/ui-bg_glass_55_fff1a3_1x400.png") 50% 50% repeat-x;
+	color: #363636;
+}
+.ui-state-checked {
+	border: 1px solid #feeb76;
+	background: #fff1a3;
+}
+
+/* Overlays */
+.ui-widget-overlay {
+	background: #cfcfcf;
+	opacity: .8;
+	filter: Alpha(Opacity=80); /* support: IE8 */
+}
+.ui-widget-shadow {
+	-webkit-box-shadow: -8px -8px 8px #aaaaaa;
+	box-shadow: -8px -8px 8px #aaaaaa;
+}

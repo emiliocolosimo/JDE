@@ -1,0 +1,49 @@
+body, #outer-content, #page-content, #content-header, #contents, h1.title {
+	margin:0; 
+	padding:0; 
+}
+
+#outer-content { 
+	display: block !important;
+}
+
+input[type="button"],
+input[type="submit"],
+button,
+.list-paging,
+.add,
+.actions
+{ 
+	display: none !important; 
+}
+
+input[type="text"],
+input[type="password"],
+textarea,
+select
+{
+	border: 0 none !important;
+}
+
+#page-title-block { display:none !important }
+
+.main-list th, 
+.main-list th a.list-header,
+.drill-down-list th,
+.drill-down-list th a.list-header 
+{
+	color: black !important;
+	background-color: transparent !important;
+	font-size: 13px !important;
+	font-weight: bold !important;
+}
+
+h1 { color: black !important; }
+
+tr.altcol1 { background-color: transparent; }
+tr.altcol2 { background-color: transparent; }
+
+/* Use this css if you want to display all Clover drill-down results when printing.
+.ui-accordion-content { display: block !important; }
+*/
+.ui-accordion-header, .ui-accordion-content { border: 0 none !important; }

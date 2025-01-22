@@ -1,0 +1,1203 @@
+[11-Jun-2024 15:08:17 UTC] Inizio elaborazione
+[11-Jun-2024 15:08:17 UTC] PHP Warning:  Undefined variable $STSENS in /www/php80/htdocs/timbrature/transferNew.php on line 76
+[11-Jun-2024 15:08:17 UTC] PHP Warning:  Undefined variable $STSENS in /www/php80/htdocs/timbrature/transferNew.php on line 77
+[11-Jun-2024 15:08:17 UTC] PHP Warning:  Undefined variable $cntTimbrature in /www/php80/htdocs/timbrature/transferNew.php on line 90
+[11-Jun-2024 15:08:17 UTC] PHP Warning:  Undefined variable $gepTipo in /www/php80/htdocs/timbrature/transferNew.php on line 92
+[11-Jun-2024 15:08:17 UTC] PHP Warning:  Undefined variable $fileContent in /www/php80/htdocs/timbrature/transferNew.php on line 92
+[11-Jun-2024 15:08:17 UTC] PHP Warning:  Undefined variable $cntTimbrature in /www/php80/htdocs/timbrature/transferNew.php on line 94
+[11-Jun-2024 15:08:17 UTC] Trovate 1 timbrature
+[11-Jun-2024 15:08:17 UTC] 20240000393 - richiamo servizio gepacon
+[11-Jun-2024 15:08:17 UTC] fine procedura
+[11-Jun-2024 15:09:46 UTC] Inizio elaborazione
+[11-Jun-2024 15:09:46 UTC] Trovate 0 timbrature
+[11-Jun-2024 15:09:46 UTC] fine procedura
+[11-Jun-2024 15:10:15 UTC] Inizio elaborazione
+[11-Jun-2024 15:10:15 UTC] Trovate 1 timbrature
+[11-Jun-2024 15:10:15 UTC] 20240000395 - richiamo servizio gepacon
+[11-Jun-2024 15:10:15 UTC] fine procedura
+[11-Jun-2024 15:12:34 UTC] Inizio elaborazione
+[11-Jun-2024 15:12:34 UTC] Trovate 1 timbrature
+[11-Jun-2024 15:12:34 UTC] 20240000396 - richiamo servizio gepacon
+[11-Jun-2024 15:12:34 UTC] fine procedura
+[14-Jun-2024 10:02:45 UTC] Inizio elaborazione
+[14-Jun-2024 10:02:45 UTC] Trovate 4 timbrature
+[14-Jun-2024 10:02:45 UTC] 20240000425 - richiamo servizio gepacon
+[14-Jun-2024 10:02:45 UTC] fine procedura
+[14-Jun-2024 10:04:05 UTC] Inizio elaborazione
+[14-Jun-2024 10:04:05 UTC] Trovate 4 timbrature
+[14-Jun-2024 10:04:05 UTC] 20240000426 - richiamo servizio gepacon
+[14-Jun-2024 10:04:06 UTC] curl data: {"success":true}
+[14-Jun-2024 10:04:06 UTC] fine procedura
+[14-Jun-2024 12:52:14 UTC] Inizio elaborazione
+[14-Jun-2024 12:52:14 UTC] Trovate 4 timbrature
+[14-Jun-2024 12:52:14 UTC] 20240000435 - richiamo servizio gepacon
+[14-Jun-2024 12:52:14 UTC] curl data: {"success":true}
+[14-Jun-2024 12:52:14 UTC] fine procedura
+[14-Jun-2024 14:24:38 UTC] Inizio elaborazione
+[14-Jun-2024 14:24:38 UTC] Trovate 2 timbrature
+[14-Jun-2024 14:24:39 UTC] 20240000437 - richiamo servizio gepacon
+[14-Jun-2024 14:24:39 UTC] curl data: {"success":true}
+[14-Jun-2024 14:24:39 UTC] fine procedura
+[14-Jun-2024 14:34:42 UTC] Inizio elaborazione
+[14-Jun-2024 14:34:42 UTC] Trovate 0 timbrature
+[14-Jun-2024 14:34:42 UTC] fine procedura
+[14-Jun-2024 14:44:44 UTC] Inizio elaborazione
+[14-Jun-2024 14:44:44 UTC] Trovate 0 timbrature
+[14-Jun-2024 14:44:44 UTC] fine procedura
+[14-Jun-2024 14:54:47 UTC] Inizio elaborazione
+[14-Jun-2024 14:54:47 UTC] Trovate 0 timbrature
+[14-Jun-2024 14:54:47 UTC] fine procedura
+[14-Jun-2024 15:04:50 UTC] Inizio elaborazione
+[14-Jun-2024 15:04:50 UTC] Trovate 50 timbrature
+[14-Jun-2024 15:04:50 UTC] 20240000438 - richiamo servizio gepacon
+[14-Jun-2024 15:04:51 UTC] curl data: {"success":true}
+[14-Jun-2024 15:04:51 UTC] fine procedura
+[14-Jun-2024 15:14:53 UTC] Inizio elaborazione
+[14-Jun-2024 15:14:54 UTC] Trovate 0 timbrature
+[14-Jun-2024 15:14:54 UTC] fine procedura
+[14-Jun-2024 15:24:56 UTC] Inizio elaborazione
+[14-Jun-2024 15:24:56 UTC] Trovate 0 timbrature
+[14-Jun-2024 15:24:56 UTC] fine procedura
+[14-Jun-2024 15:34:58 UTC] Inizio elaborazione
+[14-Jun-2024 15:34:58 UTC] Trovate 0 timbrature
+[14-Jun-2024 15:34:58 UTC] fine procedura
+[14-Jun-2024 15:45:01 UTC] Inizio elaborazione
+[14-Jun-2024 15:45:01 UTC] Trovate 0 timbrature
+[14-Jun-2024 15:45:01 UTC] fine procedura
+[14-Jun-2024 15:55:03 UTC] Inizio elaborazione
+[14-Jun-2024 15:55:03 UTC] Trovate 2 timbrature
+[14-Jun-2024 15:55:03 UTC] 20240000439 - richiamo servizio gepacon
+[14-Jun-2024 15:55:03 UTC] curl data: {"success":true}
+[14-Jun-2024 15:55:03 UTC] fine procedura
+[15-Jun-2024 06:06:18 UTC] Inizio elaborazione
+[15-Jun-2024 06:06:19 UTC] Trovate 0 timbrature
+[15-Jun-2024 06:06:19 UTC] fine procedura
+[15-Jun-2024 06:16:21 UTC] Inizio elaborazione
+[15-Jun-2024 06:16:21 UTC] Trovate 0 timbrature
+[15-Jun-2024 06:16:21 UTC] fine procedura
+[15-Jun-2024 06:26:24 UTC] Inizio elaborazione
+[15-Jun-2024 06:26:24 UTC] Trovate 0 timbrature
+[15-Jun-2024 06:26:24 UTC] fine procedura
+[15-Jun-2024 06:36:26 UTC] Inizio elaborazione
+[15-Jun-2024 06:36:26 UTC] Trovate 0 timbrature
+[15-Jun-2024 06:36:26 UTC] fine procedura
+[15-Jun-2024 06:46:28 UTC] Inizio elaborazione
+[15-Jun-2024 06:46:28 UTC] Trovate 0 timbrature
+[15-Jun-2024 06:46:28 UTC] fine procedura
+[15-Jun-2024 06:56:31 UTC] Inizio elaborazione
+[15-Jun-2024 06:56:31 UTC] Trovate 0 timbrature
+[15-Jun-2024 06:56:31 UTC] fine procedura
+[15-Jun-2024 07:06:33 UTC] Inizio elaborazione
+[15-Jun-2024 07:06:33 UTC] Trovate 0 timbrature
+[15-Jun-2024 07:06:33 UTC] fine procedura
+[15-Jun-2024 07:16:35 UTC] Inizio elaborazione
+[15-Jun-2024 07:16:35 UTC] Trovate 0 timbrature
+[15-Jun-2024 07:16:35 UTC] fine procedura
+[15-Jun-2024 07:26:37 UTC] Inizio elaborazione
+[15-Jun-2024 07:26:37 UTC] Trovate 0 timbrature
+[15-Jun-2024 07:26:37 UTC] fine procedura
+[15-Jun-2024 07:36:39 UTC] Inizio elaborazione
+[15-Jun-2024 07:36:39 UTC] Trovate 0 timbrature
+[15-Jun-2024 07:36:39 UTC] fine procedura
+[15-Jun-2024 07:46:42 UTC] Inizio elaborazione
+[15-Jun-2024 07:46:42 UTC] Trovate 0 timbrature
+[15-Jun-2024 07:46:42 UTC] fine procedura
+[15-Jun-2024 07:56:44 UTC] Inizio elaborazione
+[15-Jun-2024 07:56:44 UTC] Trovate 0 timbrature
+[15-Jun-2024 07:56:44 UTC] fine procedura
+[15-Jun-2024 08:06:46 UTC] Inizio elaborazione
+[15-Jun-2024 08:06:46 UTC] Trovate 0 timbrature
+[15-Jun-2024 08:06:46 UTC] fine procedura
+[15-Jun-2024 08:16:48 UTC] Inizio elaborazione
+[15-Jun-2024 08:16:48 UTC] Trovate 0 timbrature
+[15-Jun-2024 08:16:48 UTC] fine procedura
+[15-Jun-2024 08:26:50 UTC] Inizio elaborazione
+[15-Jun-2024 08:26:51 UTC] Trovate 0 timbrature
+[15-Jun-2024 08:26:51 UTC] fine procedura
+[15-Jun-2024 08:36:53 UTC] Inizio elaborazione
+[15-Jun-2024 08:36:53 UTC] Trovate 0 timbrature
+[15-Jun-2024 08:36:53 UTC] fine procedura
+[15-Jun-2024 08:46:55 UTC] Inizio elaborazione
+[15-Jun-2024 08:46:55 UTC] Trovate 0 timbrature
+[15-Jun-2024 08:46:55 UTC] fine procedura
+[15-Jun-2024 08:56:57 UTC] Inizio elaborazione
+[15-Jun-2024 08:56:57 UTC] Trovate 0 timbrature
+[15-Jun-2024 08:56:57 UTC] fine procedura
+[15-Jun-2024 09:06:59 UTC] Inizio elaborazione
+[15-Jun-2024 09:07:00 UTC] Trovate 0 timbrature
+[15-Jun-2024 09:07:00 UTC] fine procedura
+[15-Jun-2024 09:17:04 UTC] Inizio elaborazione
+[15-Jun-2024 09:17:04 UTC] Trovate 0 timbrature
+[15-Jun-2024 09:17:04 UTC] fine procedura
+[15-Jun-2024 09:27:06 UTC] Inizio elaborazione
+[15-Jun-2024 09:27:06 UTC] Trovate 0 timbrature
+[15-Jun-2024 09:27:06 UTC] fine procedura
+[15-Jun-2024 09:37:09 UTC] Inizio elaborazione
+[15-Jun-2024 09:37:09 UTC] Trovate 0 timbrature
+[15-Jun-2024 09:37:09 UTC] fine procedura
+[15-Jun-2024 09:47:12 UTC] Inizio elaborazione
+[15-Jun-2024 09:47:12 UTC] Trovate 0 timbrature
+[15-Jun-2024 09:47:12 UTC] fine procedura
+[15-Jun-2024 09:57:14 UTC] Inizio elaborazione
+[15-Jun-2024 09:57:14 UTC] Trovate 0 timbrature
+[15-Jun-2024 09:57:14 UTC] fine procedura
+[15-Jun-2024 10:07:18 UTC] Inizio elaborazione
+[15-Jun-2024 10:07:18 UTC] Trovate 0 timbrature
+[15-Jun-2024 10:07:18 UTC] fine procedura
+[15-Jun-2024 10:17:21 UTC] Inizio elaborazione
+[15-Jun-2024 10:17:21 UTC] Trovate 0 timbrature
+[15-Jun-2024 10:17:21 UTC] fine procedura
+[15-Jun-2024 10:27:23 UTC] Inizio elaborazione
+[15-Jun-2024 10:27:23 UTC] Trovate 0 timbrature
+[15-Jun-2024 10:27:23 UTC] fine procedura
+[15-Jun-2024 10:37:25 UTC] Inizio elaborazione
+[15-Jun-2024 10:37:25 UTC] Trovate 0 timbrature
+[15-Jun-2024 10:37:25 UTC] fine procedura
+[15-Jun-2024 10:47:27 UTC] Inizio elaborazione
+[15-Jun-2024 10:47:27 UTC] Trovate 0 timbrature
+[15-Jun-2024 10:47:27 UTC] fine procedura
+[15-Jun-2024 10:57:29 UTC] Inizio elaborazione
+[15-Jun-2024 10:57:30 UTC] Trovate 0 timbrature
+[15-Jun-2024 10:57:30 UTC] fine procedura
+[15-Jun-2024 11:07:32 UTC] Inizio elaborazione
+[15-Jun-2024 11:07:32 UTC] Trovate 0 timbrature
+[15-Jun-2024 11:07:32 UTC] fine procedura
+[15-Jun-2024 11:17:34 UTC] Inizio elaborazione
+[15-Jun-2024 11:17:34 UTC] Trovate 0 timbrature
+[15-Jun-2024 11:17:34 UTC] fine procedura
+[15-Jun-2024 11:27:36 UTC] Inizio elaborazione
+[15-Jun-2024 11:27:36 UTC] Trovate 0 timbrature
+[15-Jun-2024 11:27:36 UTC] fine procedura
+[15-Jun-2024 11:37:39 UTC] Inizio elaborazione
+[15-Jun-2024 11:37:39 UTC] Trovate 0 timbrature
+[15-Jun-2024 11:37:39 UTC] fine procedura
+[15-Jun-2024 11:47:41 UTC] Inizio elaborazione
+[15-Jun-2024 11:47:41 UTC] Trovate 0 timbrature
+[15-Jun-2024 11:47:41 UTC] fine procedura
+[15-Jun-2024 11:57:44 UTC] Inizio elaborazione
+[15-Jun-2024 11:57:44 UTC] Trovate 0 timbrature
+[15-Jun-2024 11:57:44 UTC] fine procedura
+[15-Jun-2024 12:07:46 UTC] Inizio elaborazione
+[15-Jun-2024 12:07:46 UTC] Trovate 0 timbrature
+[15-Jun-2024 12:07:46 UTC] fine procedura
+[15-Jun-2024 12:17:48 UTC] Inizio elaborazione
+[15-Jun-2024 12:17:48 UTC] Trovate 0 timbrature
+[15-Jun-2024 12:17:48 UTC] fine procedura
+[15-Jun-2024 12:27:52 UTC] Inizio elaborazione
+[15-Jun-2024 12:27:52 UTC] Trovate 0 timbrature
+[15-Jun-2024 12:27:52 UTC] fine procedura
+[15-Jun-2024 12:37:55 UTC] Inizio elaborazione
+[15-Jun-2024 12:37:55 UTC] Trovate 0 timbrature
+[15-Jun-2024 12:37:55 UTC] fine procedura
+[15-Jun-2024 12:47:58 UTC] Inizio elaborazione
+[15-Jun-2024 12:47:58 UTC] Trovate 0 timbrature
+[15-Jun-2024 12:47:58 UTC] fine procedura
+[15-Jun-2024 12:58:01 UTC] Inizio elaborazione
+[15-Jun-2024 12:58:01 UTC] Trovate 0 timbrature
+[15-Jun-2024 12:58:01 UTC] fine procedura
+[15-Jun-2024 13:08:03 UTC] Inizio elaborazione
+[15-Jun-2024 13:08:03 UTC] Trovate 0 timbrature
+[15-Jun-2024 13:08:03 UTC] fine procedura
+[15-Jun-2024 13:18:06 UTC] Inizio elaborazione
+[15-Jun-2024 13:18:06 UTC] Trovate 0 timbrature
+[15-Jun-2024 13:18:06 UTC] fine procedura
+[15-Jun-2024 13:28:09 UTC] Inizio elaborazione
+[15-Jun-2024 13:28:10 UTC] Trovate 0 timbrature
+[15-Jun-2024 13:28:10 UTC] fine procedura
+[15-Jun-2024 13:38:12 UTC] Inizio elaborazione
+[15-Jun-2024 13:38:12 UTC] Trovate 0 timbrature
+[15-Jun-2024 13:38:12 UTC] fine procedura
+[15-Jun-2024 13:48:14 UTC] Inizio elaborazione
+[15-Jun-2024 13:48:14 UTC] Trovate 0 timbrature
+[15-Jun-2024 13:48:14 UTC] fine procedura
+[15-Jun-2024 13:58:16 UTC] Inizio elaborazione
+[15-Jun-2024 13:58:16 UTC] Trovate 0 timbrature
+[15-Jun-2024 13:58:16 UTC] fine procedura
+[15-Jun-2024 14:08:18 UTC] Inizio elaborazione
+[15-Jun-2024 14:08:18 UTC] Trovate 0 timbrature
+[15-Jun-2024 14:08:18 UTC] fine procedura
+[15-Jun-2024 14:18:22 UTC] Inizio elaborazione
+[15-Jun-2024 14:18:22 UTC] Trovate 0 timbrature
+[15-Jun-2024 14:18:22 UTC] fine procedura
+[15-Jun-2024 14:28:24 UTC] Inizio elaborazione
+[15-Jun-2024 14:28:24 UTC] Trovate 0 timbrature
+[15-Jun-2024 14:28:24 UTC] fine procedura
+[15-Jun-2024 14:38:26 UTC] Inizio elaborazione
+[15-Jun-2024 14:38:26 UTC] Trovate 0 timbrature
+[15-Jun-2024 14:38:26 UTC] fine procedura
+[15-Jun-2024 14:48:28 UTC] Inizio elaborazione
+[15-Jun-2024 14:48:28 UTC] Trovate 0 timbrature
+[15-Jun-2024 14:48:28 UTC] fine procedura
+[15-Jun-2024 14:58:31 UTC] Inizio elaborazione
+[15-Jun-2024 14:58:31 UTC] Trovate 0 timbrature
+[15-Jun-2024 14:58:31 UTC] fine procedura
+[15-Jun-2024 15:08:33 UTC] Inizio elaborazione
+[15-Jun-2024 15:08:33 UTC] Trovate 0 timbrature
+[15-Jun-2024 15:08:33 UTC] fine procedura
+[15-Jun-2024 15:18:35 UTC] Inizio elaborazione
+[15-Jun-2024 15:18:35 UTC] Trovate 0 timbrature
+[15-Jun-2024 15:18:35 UTC] fine procedura
+[15-Jun-2024 15:28:37 UTC] Inizio elaborazione
+[15-Jun-2024 15:28:37 UTC] Trovate 0 timbrature
+[15-Jun-2024 15:28:37 UTC] fine procedura
+[15-Jun-2024 15:38:39 UTC] Inizio elaborazione
+[15-Jun-2024 15:38:39 UTC] Trovate 0 timbrature
+[15-Jun-2024 15:38:39 UTC] fine procedura
+[15-Jun-2024 15:48:42 UTC] Inizio elaborazione
+[15-Jun-2024 15:48:42 UTC] Trovate 0 timbrature
+[15-Jun-2024 15:48:42 UTC] fine procedura
+[15-Jun-2024 15:58:45 UTC] Inizio elaborazione
+[15-Jun-2024 15:58:45 UTC] Trovate 0 timbrature
+[15-Jun-2024 15:58:45 UTC] fine procedura
+[16-Jun-2024 06:04:03 UTC] Inizio elaborazione
+[16-Jun-2024 06:04:03 UTC] Trovate 0 timbrature
+[16-Jun-2024 06:04:03 UTC] fine procedura
+[16-Jun-2024 06:14:05 UTC] Inizio elaborazione
+[16-Jun-2024 06:14:05 UTC] Trovate 0 timbrature
+[16-Jun-2024 06:14:05 UTC] fine procedura
+[16-Jun-2024 06:24:08 UTC] Inizio elaborazione
+[16-Jun-2024 06:24:08 UTC] Trovate 0 timbrature
+[16-Jun-2024 06:24:08 UTC] fine procedura
+[16-Jun-2024 06:34:10 UTC] Inizio elaborazione
+[16-Jun-2024 06:34:10 UTC] Trovate 0 timbrature
+[16-Jun-2024 06:34:10 UTC] fine procedura
+[16-Jun-2024 06:44:12 UTC] Inizio elaborazione
+[16-Jun-2024 06:44:12 UTC] Trovate 0 timbrature
+[16-Jun-2024 06:44:12 UTC] fine procedura
+[16-Jun-2024 06:54:14 UTC] Inizio elaborazione
+[16-Jun-2024 06:54:14 UTC] Trovate 0 timbrature
+[16-Jun-2024 06:54:14 UTC] fine procedura
+[16-Jun-2024 07:04:16 UTC] Inizio elaborazione
+[16-Jun-2024 07:04:16 UTC] Trovate 0 timbrature
+[16-Jun-2024 07:04:16 UTC] fine procedura
+[16-Jun-2024 07:14:18 UTC] Inizio elaborazione
+[16-Jun-2024 07:14:18 UTC] Trovate 0 timbrature
+[16-Jun-2024 07:14:18 UTC] fine procedura
+[16-Jun-2024 07:24:21 UTC] Inizio elaborazione
+[16-Jun-2024 07:24:21 UTC] Trovate 0 timbrature
+[16-Jun-2024 07:24:21 UTC] fine procedura
+[16-Jun-2024 07:34:23 UTC] Inizio elaborazione
+[16-Jun-2024 07:34:23 UTC] Trovate 0 timbrature
+[16-Jun-2024 07:34:23 UTC] fine procedura
+[16-Jun-2024 07:44:26 UTC] Inizio elaborazione
+[16-Jun-2024 07:44:26 UTC] Trovate 0 timbrature
+[16-Jun-2024 07:44:26 UTC] fine procedura
+[16-Jun-2024 07:54:28 UTC] Inizio elaborazione
+[16-Jun-2024 07:54:28 UTC] Trovate 0 timbrature
+[16-Jun-2024 07:54:28 UTC] fine procedura
+[16-Jun-2024 08:04:31 UTC] Inizio elaborazione
+[16-Jun-2024 08:04:31 UTC] Trovate 0 timbrature
+[16-Jun-2024 08:04:31 UTC] fine procedura
+[16-Jun-2024 08:14:33 UTC] Inizio elaborazione
+[16-Jun-2024 08:14:33 UTC] Trovate 0 timbrature
+[16-Jun-2024 08:14:33 UTC] fine procedura
+[16-Jun-2024 08:24:35 UTC] Inizio elaborazione
+[16-Jun-2024 08:24:35 UTC] Trovate 0 timbrature
+[16-Jun-2024 08:24:35 UTC] fine procedura
+[16-Jun-2024 08:34:37 UTC] Inizio elaborazione
+[16-Jun-2024 08:34:37 UTC] Trovate 0 timbrature
+[16-Jun-2024 08:34:37 UTC] fine procedura
+[16-Jun-2024 08:44:39 UTC] Inizio elaborazione
+[16-Jun-2024 08:44:39 UTC] Trovate 0 timbrature
+[16-Jun-2024 08:44:39 UTC] fine procedura
+[16-Jun-2024 08:54:41 UTC] Inizio elaborazione
+[16-Jun-2024 08:54:41 UTC] Trovate 0 timbrature
+[16-Jun-2024 08:54:41 UTC] fine procedura
+[16-Jun-2024 09:04:44 UTC] Inizio elaborazione
+[16-Jun-2024 09:04:44 UTC] Trovate 0 timbrature
+[16-Jun-2024 09:04:44 UTC] fine procedura
+[16-Jun-2024 09:14:46 UTC] Inizio elaborazione
+[16-Jun-2024 09:14:46 UTC] Trovate 0 timbrature
+[16-Jun-2024 09:14:46 UTC] fine procedura
+[16-Jun-2024 09:24:48 UTC] Inizio elaborazione
+[16-Jun-2024 09:24:48 UTC] Trovate 0 timbrature
+[16-Jun-2024 09:24:48 UTC] fine procedura
+[16-Jun-2024 09:34:50 UTC] Inizio elaborazione
+[16-Jun-2024 09:34:50 UTC] Trovate 0 timbrature
+[16-Jun-2024 09:34:50 UTC] fine procedura
+[16-Jun-2024 09:44:52 UTC] Inizio elaborazione
+[16-Jun-2024 09:44:53 UTC] Trovate 0 timbrature
+[16-Jun-2024 09:44:53 UTC] fine procedura
+[16-Jun-2024 09:54:55 UTC] Inizio elaborazione
+[16-Jun-2024 09:54:55 UTC] Trovate 0 timbrature
+[16-Jun-2024 09:54:55 UTC] fine procedura
+[16-Jun-2024 10:04:58 UTC] Inizio elaborazione
+[16-Jun-2024 10:04:58 UTC] Trovate 0 timbrature
+[16-Jun-2024 10:04:58 UTC] fine procedura
+[16-Jun-2024 10:15:01 UTC] Inizio elaborazione
+[16-Jun-2024 10:15:01 UTC] Trovate 0 timbrature
+[16-Jun-2024 10:15:01 UTC] fine procedura
+[16-Jun-2024 10:25:03 UTC] Inizio elaborazione
+[16-Jun-2024 10:25:03 UTC] Trovate 0 timbrature
+[16-Jun-2024 10:25:03 UTC] fine procedura
+[16-Jun-2024 10:35:06 UTC] Inizio elaborazione
+[16-Jun-2024 10:35:06 UTC] Trovate 0 timbrature
+[16-Jun-2024 10:35:06 UTC] fine procedura
+[16-Jun-2024 10:45:08 UTC] Inizio elaborazione
+[16-Jun-2024 10:45:08 UTC] Trovate 0 timbrature
+[16-Jun-2024 10:45:08 UTC] fine procedura
+[16-Jun-2024 10:55:11 UTC] Inizio elaborazione
+[16-Jun-2024 10:55:12 UTC] Trovate 0 timbrature
+[16-Jun-2024 10:55:12 UTC] fine procedura
+[16-Jun-2024 11:05:14 UTC] Inizio elaborazione
+[16-Jun-2024 11:05:14 UTC] Trovate 0 timbrature
+[16-Jun-2024 11:05:14 UTC] fine procedura
+[16-Jun-2024 11:15:17 UTC] Inizio elaborazione
+[16-Jun-2024 11:15:17 UTC] Trovate 0 timbrature
+[16-Jun-2024 11:15:17 UTC] fine procedura
+[16-Jun-2024 11:25:19 UTC] Inizio elaborazione
+[16-Jun-2024 11:25:19 UTC] Trovate 0 timbrature
+[16-Jun-2024 11:25:19 UTC] fine procedura
+[16-Jun-2024 11:35:22 UTC] Inizio elaborazione
+[16-Jun-2024 11:35:22 UTC] Trovate 0 timbrature
+[16-Jun-2024 11:35:22 UTC] fine procedura
+[16-Jun-2024 11:45:24 UTC] Inizio elaborazione
+[16-Jun-2024 11:45:24 UTC] Trovate 0 timbrature
+[16-Jun-2024 11:45:24 UTC] fine procedura
+[16-Jun-2024 11:55:27 UTC] Inizio elaborazione
+[16-Jun-2024 11:55:27 UTC] Trovate 0 timbrature
+[16-Jun-2024 11:55:27 UTC] fine procedura
+[16-Jun-2024 12:05:29 UTC] Inizio elaborazione
+[16-Jun-2024 12:05:29 UTC] Trovate 0 timbrature
+[16-Jun-2024 12:05:29 UTC] fine procedura
+[16-Jun-2024 12:15:32 UTC] Inizio elaborazione
+[16-Jun-2024 12:15:32 UTC] Trovate 0 timbrature
+[16-Jun-2024 12:15:32 UTC] fine procedura
+[16-Jun-2024 12:25:35 UTC] Inizio elaborazione
+[16-Jun-2024 12:25:35 UTC] Trovate 0 timbrature
+[16-Jun-2024 12:25:35 UTC] fine procedura
+[16-Jun-2024 12:35:38 UTC] Inizio elaborazione
+[16-Jun-2024 12:35:38 UTC] Trovate 0 timbrature
+[16-Jun-2024 12:35:38 UTC] fine procedura
+[16-Jun-2024 12:45:40 UTC] Inizio elaborazione
+[16-Jun-2024 12:45:40 UTC] Trovate 0 timbrature
+[16-Jun-2024 12:45:40 UTC] fine procedura
+[16-Jun-2024 12:55:42 UTC] Inizio elaborazione
+[16-Jun-2024 12:55:43 UTC] Trovate 0 timbrature
+[16-Jun-2024 12:55:43 UTC] fine procedura
+[16-Jun-2024 13:05:45 UTC] Inizio elaborazione
+[16-Jun-2024 13:05:45 UTC] Trovate 0 timbrature
+[16-Jun-2024 13:05:45 UTC] fine procedura
+[16-Jun-2024 13:15:47 UTC] Inizio elaborazione
+[16-Jun-2024 13:15:47 UTC] Trovate 0 timbrature
+[16-Jun-2024 13:15:47 UTC] fine procedura
+[16-Jun-2024 13:25:49 UTC] Inizio elaborazione
+[16-Jun-2024 13:25:49 UTC] Trovate 0 timbrature
+[16-Jun-2024 13:25:49 UTC] fine procedura
+[16-Jun-2024 13:35:51 UTC] Inizio elaborazione
+[16-Jun-2024 13:35:51 UTC] Trovate 0 timbrature
+[16-Jun-2024 13:35:51 UTC] fine procedura
+[16-Jun-2024 13:45:53 UTC] Inizio elaborazione
+[16-Jun-2024 13:45:53 UTC] Trovate 0 timbrature
+[16-Jun-2024 13:45:53 UTC] fine procedura
+[16-Jun-2024 13:55:56 UTC] Inizio elaborazione
+[16-Jun-2024 13:55:56 UTC] Trovate 0 timbrature
+[16-Jun-2024 13:55:56 UTC] fine procedura
+[16-Jun-2024 14:05:58 UTC] Inizio elaborazione
+[16-Jun-2024 14:05:58 UTC] Trovate 0 timbrature
+[16-Jun-2024 14:05:58 UTC] fine procedura
+[16-Jun-2024 14:16:00 UTC] Inizio elaborazione
+[16-Jun-2024 14:16:00 UTC] Trovate 0 timbrature
+[16-Jun-2024 14:16:00 UTC] fine procedura
+[16-Jun-2024 14:26:02 UTC] Inizio elaborazione
+[16-Jun-2024 14:26:02 UTC] Trovate 0 timbrature
+[16-Jun-2024 14:26:02 UTC] fine procedura
+[16-Jun-2024 14:36:04 UTC] Inizio elaborazione
+[16-Jun-2024 14:36:04 UTC] Trovate 0 timbrature
+[16-Jun-2024 14:36:04 UTC] fine procedura
+[16-Jun-2024 14:46:07 UTC] Inizio elaborazione
+[16-Jun-2024 14:46:07 UTC] Trovate 0 timbrature
+[16-Jun-2024 14:46:07 UTC] fine procedura
+[16-Jun-2024 14:56:09 UTC] Inizio elaborazione
+[16-Jun-2024 14:56:09 UTC] Trovate 0 timbrature
+[16-Jun-2024 14:56:09 UTC] fine procedura
+[16-Jun-2024 15:06:11 UTC] Inizio elaborazione
+[16-Jun-2024 15:06:12 UTC] Trovate 0 timbrature
+[16-Jun-2024 15:06:12 UTC] fine procedura
+[16-Jun-2024 15:16:15 UTC] Inizio elaborazione
+[16-Jun-2024 15:16:15 UTC] Trovate 0 timbrature
+[16-Jun-2024 15:16:15 UTC] fine procedura
+[16-Jun-2024 15:26:17 UTC] Inizio elaborazione
+[16-Jun-2024 15:26:17 UTC] Trovate 0 timbrature
+[16-Jun-2024 15:26:17 UTC] fine procedura
+[16-Jun-2024 15:36:20 UTC] Inizio elaborazione
+[16-Jun-2024 15:36:20 UTC] Trovate 0 timbrature
+[16-Jun-2024 15:36:20 UTC] fine procedura
+[16-Jun-2024 15:46:23 UTC] Inizio elaborazione
+[16-Jun-2024 15:46:23 UTC] Trovate 0 timbrature
+[16-Jun-2024 15:46:23 UTC] fine procedura
+[16-Jun-2024 15:56:25 UTC] Inizio elaborazione
+[16-Jun-2024 15:56:25 UTC] Trovate 0 timbrature
+[16-Jun-2024 15:56:25 UTC] fine procedura
+[17-Jun-2024 06:04:47 UTC] Inizio elaborazione
+[17-Jun-2024 06:04:47 UTC] Trovate 57 timbrature
+[17-Jun-2024 06:04:47 UTC] 20240000440 - richiamo servizio gepacon
+[17-Jun-2024 06:04:48 UTC] curl data: {"success":true}
+[17-Jun-2024 06:04:48 UTC] fine procedura
+[17-Jun-2024 06:14:51 UTC] Inizio elaborazione
+[17-Jun-2024 06:14:51 UTC] Trovate 0 timbrature
+[17-Jun-2024 06:14:51 UTC] fine procedura
+[17-Jun-2024 06:24:53 UTC] Inizio elaborazione
+[17-Jun-2024 06:24:53 UTC] Trovate 0 timbrature
+[17-Jun-2024 06:24:53 UTC] fine procedura
+[17-Jun-2024 06:34:56 UTC] Inizio elaborazione
+[17-Jun-2024 06:34:56 UTC] Trovate 0 timbrature
+[17-Jun-2024 06:34:56 UTC] fine procedura
+[17-Jun-2024 06:44:58 UTC] Inizio elaborazione
+[17-Jun-2024 06:44:58 UTC] Trovate 0 timbrature
+[17-Jun-2024 06:44:58 UTC] fine procedura
+[17-Jun-2024 06:55:01 UTC] Inizio elaborazione
+[17-Jun-2024 06:55:01 UTC] Trovate 0 timbrature
+[17-Jun-2024 06:55:01 UTC] fine procedura
+[17-Jun-2024 07:05:03 UTC] Inizio elaborazione
+[17-Jun-2024 07:05:04 UTC] Trovate 0 timbrature
+[17-Jun-2024 07:05:04 UTC] fine procedura
+[17-Jun-2024 07:15:06 UTC] Inizio elaborazione
+[17-Jun-2024 07:15:06 UTC] Trovate 0 timbrature
+[17-Jun-2024 07:15:06 UTC] fine procedura
+[17-Jun-2024 07:25:10 UTC] Inizio elaborazione
+[17-Jun-2024 07:25:10 UTC] Trovate 0 timbrature
+[17-Jun-2024 07:25:10 UTC] fine procedura
+[17-Jun-2024 07:35:13 UTC] Inizio elaborazione
+[17-Jun-2024 07:35:13 UTC] Trovate 0 timbrature
+[17-Jun-2024 07:35:13 UTC] fine procedura
+[17-Jun-2024 07:45:16 UTC] Inizio elaborazione
+[17-Jun-2024 07:45:16 UTC] Trovate 1 timbrature
+[17-Jun-2024 07:45:16 UTC] 20240000441 - richiamo servizio gepacon
+[17-Jun-2024 07:45:16 UTC] curl data: {"success":true}
+[17-Jun-2024 07:45:16 UTC] fine procedura
+[17-Jun-2024 07:55:19 UTC] Inizio elaborazione
+[17-Jun-2024 07:55:19 UTC] Trovate 0 timbrature
+[17-Jun-2024 07:55:19 UTC] fine procedura
+[17-Jun-2024 08:05:21 UTC] Inizio elaborazione
+[17-Jun-2024 08:05:21 UTC] Trovate 0 timbrature
+[17-Jun-2024 08:05:21 UTC] fine procedura
+[17-Jun-2024 08:15:24 UTC] Inizio elaborazione
+[17-Jun-2024 08:15:24 UTC] Trovate 0 timbrature
+[17-Jun-2024 08:15:24 UTC] fine procedura
+[17-Jun-2024 08:25:27 UTC] Inizio elaborazione
+[17-Jun-2024 08:25:27 UTC] Trovate 0 timbrature
+[17-Jun-2024 08:25:27 UTC] fine procedura
+[17-Jun-2024 08:35:29 UTC] Inizio elaborazione
+[17-Jun-2024 08:35:29 UTC] Trovate 0 timbrature
+[17-Jun-2024 08:35:29 UTC] fine procedura
+[17-Jun-2024 08:45:32 UTC] Inizio elaborazione
+[17-Jun-2024 08:45:32 UTC] Trovate 1 timbrature
+[17-Jun-2024 08:45:32 UTC] 20240000442 - richiamo servizio gepacon
+[17-Jun-2024 08:45:32 UTC] curl data: {"success":true}
+[17-Jun-2024 08:45:32 UTC] fine procedura
+[17-Jun-2024 08:55:34 UTC] Inizio elaborazione
+[17-Jun-2024 08:55:34 UTC] Trovate 0 timbrature
+[17-Jun-2024 08:55:34 UTC] fine procedura
+[17-Jun-2024 09:05:37 UTC] Inizio elaborazione
+[17-Jun-2024 09:05:37 UTC] Trovate 0 timbrature
+[17-Jun-2024 09:05:37 UTC] fine procedura
+[17-Jun-2024 09:15:40 UTC] Inizio elaborazione
+[17-Jun-2024 09:15:40 UTC] Trovate 0 timbrature
+[17-Jun-2024 09:15:40 UTC] fine procedura
+[17-Jun-2024 09:25:42 UTC] Inizio elaborazione
+[17-Jun-2024 09:25:42 UTC] Trovate 0 timbrature
+[17-Jun-2024 09:25:42 UTC] fine procedura
+[17-Jun-2024 09:35:45 UTC] Inizio elaborazione
+[17-Jun-2024 09:35:45 UTC] Trovate 0 timbrature
+[17-Jun-2024 09:35:45 UTC] fine procedura
+[17-Jun-2024 09:45:48 UTC] Inizio elaborazione
+[17-Jun-2024 09:45:48 UTC] Trovate 0 timbrature
+[17-Jun-2024 09:45:48 UTC] fine procedura
+[17-Jun-2024 09:55:51 UTC] Inizio elaborazione
+[17-Jun-2024 09:55:51 UTC] Trovate 0 timbrature
+[17-Jun-2024 09:55:51 UTC] fine procedura
+[17-Jun-2024 10:05:57 UTC] Inizio elaborazione
+[17-Jun-2024 10:05:57 UTC] Trovate 1 timbrature
+[17-Jun-2024 10:05:57 UTC] 20240000443 - richiamo servizio gepacon
+[17-Jun-2024 10:05:58 UTC] curl data: {"success":true}
+[17-Jun-2024 10:05:58 UTC] fine procedura
+[17-Jun-2024 10:16:02 UTC] Inizio elaborazione
+[17-Jun-2024 10:16:02 UTC] Trovate 0 timbrature
+[17-Jun-2024 10:16:02 UTC] fine procedura
+[17-Jun-2024 10:26:04 UTC] Inizio elaborazione
+[17-Jun-2024 10:26:04 UTC] Trovate 0 timbrature
+[17-Jun-2024 10:26:04 UTC] fine procedura
+[17-Jun-2024 10:36:08 UTC] Inizio elaborazione
+[17-Jun-2024 10:36:08 UTC] Trovate 40 timbrature
+[17-Jun-2024 10:36:08 UTC] 20240000444 - richiamo servizio gepacon
+[17-Jun-2024 10:36:09 UTC] curl data: {"success":true}
+[17-Jun-2024 10:36:09 UTC] fine procedura
+[17-Jun-2024 10:46:12 UTC] Inizio elaborazione
+[17-Jun-2024 10:46:12 UTC] Trovate 2 timbrature
+[17-Jun-2024 10:46:12 UTC] 20240000445 - richiamo servizio gepacon
+[17-Jun-2024 10:46:12 UTC] curl data: {"success":true}
+[17-Jun-2024 10:46:12 UTC] fine procedura
+[17-Jun-2024 10:56:14 UTC] Inizio elaborazione
+[17-Jun-2024 10:56:14 UTC] Trovate 17 timbrature
+[17-Jun-2024 10:56:14 UTC] 20240000446 - richiamo servizio gepacon
+[17-Jun-2024 10:56:15 UTC] curl data: {"success":true}
+[17-Jun-2024 10:56:15 UTC] fine procedura
+[17-Jun-2024 11:06:17 UTC] Inizio elaborazione
+[17-Jun-2024 11:06:17 UTC] Trovate 9 timbrature
+[17-Jun-2024 11:06:17 UTC] 20240000447 - richiamo servizio gepacon
+[17-Jun-2024 11:06:18 UTC] curl data: {"success":true}
+[17-Jun-2024 11:06:18 UTC] fine procedura
+[17-Jun-2024 11:16:20 UTC] Inizio elaborazione
+[17-Jun-2024 11:16:20 UTC] Trovate 7 timbrature
+[17-Jun-2024 11:16:20 UTC] 20240000448 - richiamo servizio gepacon
+[17-Jun-2024 11:16:20 UTC] curl data: {"success":true}
+[17-Jun-2024 11:16:20 UTC] fine procedura
+[17-Jun-2024 11:26:23 UTC] Inizio elaborazione
+[17-Jun-2024 11:26:23 UTC] Trovate 10 timbrature
+[17-Jun-2024 11:26:23 UTC] 20240000449 - richiamo servizio gepacon
+[17-Jun-2024 11:26:23 UTC] curl data: {"success":true}
+[17-Jun-2024 11:26:23 UTC] fine procedura
+[17-Jun-2024 11:36:26 UTC] Inizio elaborazione
+[17-Jun-2024 11:36:26 UTC] Trovate 2 timbrature
+[17-Jun-2024 11:36:26 UTC] 20240000450 - richiamo servizio gepacon
+[17-Jun-2024 11:36:26 UTC] curl data: {"success":true}
+[17-Jun-2024 11:36:26 UTC] fine procedura
+[17-Jun-2024 11:46:28 UTC] Inizio elaborazione
+[17-Jun-2024 11:46:29 UTC] Trovate 0 timbrature
+[17-Jun-2024 11:46:29 UTC] fine procedura
+[17-Jun-2024 11:56:32 UTC] Inizio elaborazione
+[17-Jun-2024 11:56:32 UTC] Trovate 0 timbrature
+[17-Jun-2024 11:56:32 UTC] fine procedura
+[17-Jun-2024 12:06:34 UTC] Inizio elaborazione
+[17-Jun-2024 12:06:35 UTC] Trovate 1 timbrature
+[17-Jun-2024 12:06:35 UTC] 20240000451 - richiamo servizio gepacon
+[17-Jun-2024 12:06:35 UTC] curl data: {"success":true}
+[17-Jun-2024 12:06:35 UTC] fine procedura
+[17-Jun-2024 12:16:37 UTC] Inizio elaborazione
+[17-Jun-2024 12:16:37 UTC] Trovate 0 timbrature
+[17-Jun-2024 12:16:37 UTC] fine procedura
+[17-Jun-2024 12:26:40 UTC] Inizio elaborazione
+[17-Jun-2024 12:26:40 UTC] Trovate 0 timbrature
+[17-Jun-2024 12:26:40 UTC] fine procedura
+[17-Jun-2024 12:36:43 UTC] Inizio elaborazione
+[17-Jun-2024 12:36:43 UTC] Trovate 0 timbrature
+[17-Jun-2024 12:36:43 UTC] fine procedura
+[17-Jun-2024 12:46:45 UTC] Inizio elaborazione
+[17-Jun-2024 12:46:45 UTC] Trovate 0 timbrature
+[17-Jun-2024 12:46:45 UTC] fine procedura
+[17-Jun-2024 12:56:48 UTC] Inizio elaborazione
+[17-Jun-2024 12:56:48 UTC] Trovate 0 timbrature
+[17-Jun-2024 12:56:48 UTC] fine procedura
+[17-Jun-2024 13:06:50 UTC] Inizio elaborazione
+[17-Jun-2024 13:06:50 UTC] Trovate 0 timbrature
+[17-Jun-2024 13:06:50 UTC] fine procedura
+[17-Jun-2024 13:16:53 UTC] Inizio elaborazione
+[17-Jun-2024 13:16:53 UTC] Trovate 0 timbrature
+[17-Jun-2024 13:16:53 UTC] fine procedura
+[17-Jun-2024 13:26:56 UTC] Inizio elaborazione
+[17-Jun-2024 13:26:56 UTC] Trovate 0 timbrature
+[17-Jun-2024 13:26:56 UTC] fine procedura
+[17-Jun-2024 13:36:58 UTC] Inizio elaborazione
+[17-Jun-2024 13:36:58 UTC] Trovate 0 timbrature
+[17-Jun-2024 13:36:58 UTC] fine procedura
+[17-Jun-2024 13:47:01 UTC] Inizio elaborazione
+[17-Jun-2024 13:47:01 UTC] Trovate 0 timbrature
+[17-Jun-2024 13:47:01 UTC] fine procedura
+[17-Jun-2024 13:57:03 UTC] Inizio elaborazione
+[17-Jun-2024 13:57:03 UTC] Trovate 0 timbrature
+[17-Jun-2024 13:57:03 UTC] fine procedura
+[17-Jun-2024 14:07:06 UTC] Inizio elaborazione
+[17-Jun-2024 14:07:06 UTC] Trovate 2 timbrature
+[17-Jun-2024 14:07:06 UTC] 20240000452 - richiamo servizio gepacon
+[17-Jun-2024 14:07:06 UTC] curl data: {"success":true}
+[17-Jun-2024 14:07:06 UTC] fine procedura
+[17-Jun-2024 14:17:09 UTC] Inizio elaborazione
+[17-Jun-2024 14:17:10 UTC] Trovate 0 timbrature
+[17-Jun-2024 14:17:10 UTC] fine procedura
+[17-Jun-2024 14:27:12 UTC] Inizio elaborazione
+[17-Jun-2024 14:27:12 UTC] Trovate 0 timbrature
+[17-Jun-2024 14:27:12 UTC] fine procedura
+[17-Jun-2024 14:37:15 UTC] Inizio elaborazione
+[17-Jun-2024 14:37:15 UTC] Trovate 0 timbrature
+[17-Jun-2024 14:37:15 UTC] fine procedura
+[17-Jun-2024 14:47:17 UTC] Inizio elaborazione
+[17-Jun-2024 14:47:17 UTC] Trovate 0 timbrature
+[17-Jun-2024 14:47:17 UTC] fine procedura
+[17-Jun-2024 14:57:19 UTC] Inizio elaborazione
+[17-Jun-2024 14:57:19 UTC] Trovate 0 timbrature
+[17-Jun-2024 14:57:19 UTC] fine procedura
+[17-Jun-2024 15:07:23 UTC] Inizio elaborazione
+[17-Jun-2024 15:07:23 UTC] Trovate 50 timbrature
+[17-Jun-2024 15:07:23 UTC] 20240000453 - richiamo servizio gepacon
+[17-Jun-2024 15:07:24 UTC] curl data: {"success":true}
+[17-Jun-2024 15:07:24 UTC] fine procedura
+[17-Jun-2024 15:17:27 UTC] Inizio elaborazione
+[17-Jun-2024 15:17:27 UTC] Trovate 1 timbrature
+[17-Jun-2024 15:17:27 UTC] 20240000454 - richiamo servizio gepacon
+[17-Jun-2024 15:17:28 UTC] curl data: {"success":true}
+[17-Jun-2024 15:17:28 UTC] fine procedura
+[17-Jun-2024 15:27:30 UTC] Inizio elaborazione
+[17-Jun-2024 15:27:30 UTC] Trovate 0 timbrature
+[17-Jun-2024 15:27:30 UTC] fine procedura
+[17-Jun-2024 15:37:36 UTC] Inizio elaborazione
+[17-Jun-2024 15:37:36 UTC] Trovate 0 timbrature
+[17-Jun-2024 15:37:36 UTC] fine procedura
+[17-Jun-2024 15:47:38 UTC] Inizio elaborazione
+[17-Jun-2024 15:47:39 UTC] Trovate 0 timbrature
+[17-Jun-2024 15:47:39 UTC] fine procedura
+[17-Jun-2024 15:57:41 UTC] Inizio elaborazione
+[17-Jun-2024 15:57:41 UTC] Trovate 0 timbrature
+[17-Jun-2024 15:57:41 UTC] fine procedura
+[18-Jun-2024 06:04:20 UTC] Inizio elaborazione
+[18-Jun-2024 06:04:20 UTC] Trovate 56 timbrature
+[18-Jun-2024 06:04:20 UTC] 20240000455 - richiamo servizio gepacon
+[18-Jun-2024 06:04:21 UTC] curl data: {"success":true}
+[18-Jun-2024 06:04:21 UTC] fine procedura
+[18-Jun-2024 06:14:24 UTC] Inizio elaborazione
+[18-Jun-2024 06:14:24 UTC] Trovate 0 timbrature
+[18-Jun-2024 06:14:24 UTC] fine procedura
+[18-Jun-2024 06:24:26 UTC] Inizio elaborazione
+[18-Jun-2024 06:24:26 UTC] Trovate 0 timbrature
+[18-Jun-2024 06:24:26 UTC] fine procedura
+[18-Jun-2024 06:34:29 UTC] Inizio elaborazione
+[18-Jun-2024 06:34:29 UTC] Trovate 1 timbrature
+[18-Jun-2024 06:34:29 UTC] 20240000456 - richiamo servizio gepacon
+[18-Jun-2024 06:34:29 UTC] curl data: {"success":true}
+[18-Jun-2024 06:34:29 UTC] fine procedura
+[18-Jun-2024 06:44:31 UTC] Inizio elaborazione
+[18-Jun-2024 06:44:31 UTC] Trovate 0 timbrature
+[18-Jun-2024 06:44:31 UTC] fine procedura
+[18-Jun-2024 06:54:34 UTC] Inizio elaborazione
+[18-Jun-2024 06:54:34 UTC] Trovate 0 timbrature
+[18-Jun-2024 06:54:34 UTC] fine procedura
+[18-Jun-2024 07:04:37 UTC] Inizio elaborazione
+[18-Jun-2024 07:04:37 UTC] Trovate 0 timbrature
+[18-Jun-2024 07:04:37 UTC] fine procedura
+[18-Jun-2024 07:14:39 UTC] Inizio elaborazione
+[18-Jun-2024 07:14:39 UTC] Trovate 0 timbrature
+[18-Jun-2024 07:14:39 UTC] fine procedura
+[18-Jun-2024 07:24:42 UTC] Inizio elaborazione
+[18-Jun-2024 07:24:42 UTC] Trovate 0 timbrature
+[18-Jun-2024 07:24:42 UTC] fine procedura
+[18-Jun-2024 07:34:44 UTC] Inizio elaborazione
+[18-Jun-2024 07:34:44 UTC] Trovate 0 timbrature
+[18-Jun-2024 07:34:44 UTC] fine procedura
+[18-Jun-2024 07:44:46 UTC] Inizio elaborazione
+[18-Jun-2024 07:44:46 UTC] Trovate 0 timbrature
+[18-Jun-2024 07:44:46 UTC] fine procedura
+[18-Jun-2024 07:54:48 UTC] Inizio elaborazione
+[18-Jun-2024 07:54:49 UTC] Trovate 0 timbrature
+[18-Jun-2024 07:54:49 UTC] fine procedura
+[18-Jun-2024 08:04:51 UTC] Inizio elaborazione
+[18-Jun-2024 08:04:51 UTC] Trovate 0 timbrature
+[18-Jun-2024 08:04:51 UTC] fine procedura
+[18-Jun-2024 08:14:54 UTC] Inizio elaborazione
+[18-Jun-2024 08:14:54 UTC] Trovate 0 timbrature
+[18-Jun-2024 08:14:54 UTC] fine procedura
+[18-Jun-2024 08:24:56 UTC] Inizio elaborazione
+[18-Jun-2024 08:24:56 UTC] Trovate 0 timbrature
+[18-Jun-2024 08:24:56 UTC] fine procedura
+[18-Jun-2024 08:34:59 UTC] Inizio elaborazione
+[18-Jun-2024 08:34:59 UTC] Trovate 0 timbrature
+[18-Jun-2024 08:34:59 UTC] fine procedura
+[18-Jun-2024 08:45:01 UTC] Inizio elaborazione
+[18-Jun-2024 08:45:01 UTC] Trovate 0 timbrature
+[18-Jun-2024 08:45:01 UTC] fine procedura
+[18-Jun-2024 08:55:03 UTC] Inizio elaborazione
+[18-Jun-2024 08:55:03 UTC] Trovate 0 timbrature
+[18-Jun-2024 08:55:03 UTC] fine procedura
+[18-Jun-2024 09:05:07 UTC] Inizio elaborazione
+[18-Jun-2024 09:05:07 UTC] Trovate 0 timbrature
+[18-Jun-2024 09:05:07 UTC] fine procedura
+[18-Jun-2024 09:15:10 UTC] Inizio elaborazione
+[18-Jun-2024 09:15:10 UTC] Trovate 0 timbrature
+[18-Jun-2024 09:15:10 UTC] fine procedura
+[18-Jun-2024 09:25:13 UTC] Inizio elaborazione
+[18-Jun-2024 09:25:13 UTC] Trovate 0 timbrature
+[18-Jun-2024 09:25:13 UTC] fine procedura
+[18-Jun-2024 09:35:15 UTC] Inizio elaborazione
+[18-Jun-2024 09:35:15 UTC] Trovate 0 timbrature
+[18-Jun-2024 09:35:15 UTC] fine procedura
+[18-Jun-2024 09:45:18 UTC] Inizio elaborazione
+[18-Jun-2024 09:45:18 UTC] Trovate 0 timbrature
+[18-Jun-2024 09:45:18 UTC] fine procedura
+[18-Jun-2024 09:55:21 UTC] Inizio elaborazione
+[18-Jun-2024 09:55:21 UTC] Trovate 0 timbrature
+[18-Jun-2024 09:55:21 UTC] fine procedura
+[18-Jun-2024 10:05:24 UTC] Inizio elaborazione
+[18-Jun-2024 10:05:24 UTC] Trovate 2 timbrature
+[18-Jun-2024 10:05:24 UTC] 20240000457 - richiamo servizio gepacon
+[18-Jun-2024 10:05:24 UTC] curl data: {"success":true}
+[18-Jun-2024 10:05:24 UTC] fine procedura
+[18-Jun-2024 10:15:28 UTC] Inizio elaborazione
+[18-Jun-2024 10:15:28 UTC] Trovate 0 timbrature
+[18-Jun-2024 10:15:28 UTC] fine procedura
+[18-Jun-2024 10:25:31 UTC] Inizio elaborazione
+[18-Jun-2024 10:25:31 UTC] Trovate 0 timbrature
+[18-Jun-2024 10:25:31 UTC] fine procedura
+[18-Jun-2024 10:35:33 UTC] Inizio elaborazione
+[18-Jun-2024 10:35:34 UTC] Trovate 44 timbrature
+[18-Jun-2024 10:35:34 UTC] 20240000458 - richiamo servizio gepacon
+[18-Jun-2024 10:35:35 UTC] curl data: {"success":true}
+[18-Jun-2024 10:35:35 UTC] fine procedura
+[18-Jun-2024 10:45:37 UTC] Inizio elaborazione
+[18-Jun-2024 10:45:37 UTC] Trovate 5 timbrature
+[18-Jun-2024 10:45:37 UTC] 20240000459 - richiamo servizio gepacon
+[18-Jun-2024 10:45:37 UTC] curl data: {"success":true}
+[18-Jun-2024 10:45:37 UTC] fine procedura
+[18-Jun-2024 10:55:40 UTC] Inizio elaborazione
+[18-Jun-2024 10:55:40 UTC] Trovate 23 timbrature
+[18-Jun-2024 10:55:40 UTC] 20240000460 - richiamo servizio gepacon
+[18-Jun-2024 10:55:41 UTC] curl data: {"success":true}
+[18-Jun-2024 10:55:41 UTC] fine procedura
+[18-Jun-2024 11:05:43 UTC] Inizio elaborazione
+[18-Jun-2024 11:05:43 UTC] Trovate 2 timbrature
+[18-Jun-2024 11:05:43 UTC] 20240000461 - richiamo servizio gepacon
+[18-Jun-2024 11:05:43 UTC] curl data: {"success":true}
+[18-Jun-2024 11:05:43 UTC] fine procedura
+[18-Jun-2024 11:15:46 UTC] Inizio elaborazione
+[18-Jun-2024 11:15:46 UTC] Trovate 7 timbrature
+[18-Jun-2024 11:15:46 UTC] 20240000462 - richiamo servizio gepacon
+[18-Jun-2024 11:15:46 UTC] curl data: {"success":true}
+[18-Jun-2024 11:15:46 UTC] fine procedura
+[18-Jun-2024 11:25:49 UTC] Inizio elaborazione
+[18-Jun-2024 11:25:49 UTC] Trovate 16 timbrature
+[18-Jun-2024 11:25:49 UTC] 20240000463 - richiamo servizio gepacon
+[18-Jun-2024 11:25:50 UTC] curl data: {"success":true}
+[18-Jun-2024 11:25:50 UTC] fine procedura
+[18-Jun-2024 11:35:52 UTC] Inizio elaborazione
+[18-Jun-2024 11:35:53 UTC] Trovate 2 timbrature
+[18-Jun-2024 11:35:53 UTC] 20240000464 - richiamo servizio gepacon
+[18-Jun-2024 11:35:53 UTC] curl data: {"success":true}
+[18-Jun-2024 11:35:53 UTC] fine procedura
+[18-Jun-2024 11:45:56 UTC] Inizio elaborazione
+[18-Jun-2024 11:45:56 UTC] Trovate 0 timbrature
+[18-Jun-2024 11:45:56 UTC] fine procedura
+[18-Jun-2024 11:56:00 UTC] Inizio elaborazione
+[18-Jun-2024 11:56:00 UTC] Trovate 0 timbrature
+[18-Jun-2024 11:56:00 UTC] fine procedura
+[18-Jun-2024 12:06:02 UTC] Inizio elaborazione
+[18-Jun-2024 12:06:02 UTC] Trovate 0 timbrature
+[18-Jun-2024 12:06:02 UTC] fine procedura
+[18-Jun-2024 12:16:05 UTC] Inizio elaborazione
+[18-Jun-2024 12:16:05 UTC] Trovate 0 timbrature
+[18-Jun-2024 12:16:05 UTC] fine procedura
+[18-Jun-2024 12:26:07 UTC] Inizio elaborazione
+[18-Jun-2024 12:26:07 UTC] Trovate 0 timbrature
+[18-Jun-2024 12:26:07 UTC] fine procedura
+[18-Jun-2024 12:36:10 UTC] Inizio elaborazione
+[18-Jun-2024 12:36:10 UTC] Trovate 0 timbrature
+[18-Jun-2024 12:36:10 UTC] fine procedura
+[18-Jun-2024 12:46:12 UTC] Inizio elaborazione
+[18-Jun-2024 12:46:12 UTC] Trovate 0 timbrature
+[18-Jun-2024 12:46:12 UTC] fine procedura
+[18-Jun-2024 12:56:15 UTC] Inizio elaborazione
+[18-Jun-2024 12:56:15 UTC] Trovate 0 timbrature
+[18-Jun-2024 12:56:15 UTC] fine procedura
+[18-Jun-2024 13:06:17 UTC] Inizio elaborazione
+[18-Jun-2024 13:06:17 UTC] Trovate 0 timbrature
+[18-Jun-2024 13:06:17 UTC] fine procedura
+[18-Jun-2024 13:16:19 UTC] Inizio elaborazione
+[18-Jun-2024 13:16:19 UTC] Trovate 1 timbrature
+[18-Jun-2024 13:16:20 UTC] 20240000465 - richiamo servizio gepacon
+[18-Jun-2024 13:16:20 UTC] curl data: {"success":true}
+[18-Jun-2024 13:16:20 UTC] fine procedura
+[18-Jun-2024 13:26:22 UTC] Inizio elaborazione
+[18-Jun-2024 13:26:22 UTC] Trovate 0 timbrature
+[18-Jun-2024 13:26:22 UTC] fine procedura
+[18-Jun-2024 13:36:24 UTC] Inizio elaborazione
+[18-Jun-2024 13:36:24 UTC] Trovate 0 timbrature
+[18-Jun-2024 13:36:24 UTC] fine procedura
+[18-Jun-2024 13:46:27 UTC] Inizio elaborazione
+[18-Jun-2024 13:46:27 UTC] Trovate 0 timbrature
+[18-Jun-2024 13:46:27 UTC] fine procedura
+[18-Jun-2024 13:56:29 UTC] Inizio elaborazione
+[18-Jun-2024 13:56:29 UTC] Trovate 0 timbrature
+[18-Jun-2024 13:56:29 UTC] fine procedura
+[18-Jun-2024 14:06:31 UTC] Inizio elaborazione
+[18-Jun-2024 14:06:31 UTC] Trovate 3 timbrature
+[18-Jun-2024 14:06:32 UTC] 20240000466 - richiamo servizio gepacon
+[18-Jun-2024 14:06:32 UTC] curl data: {"success":true}
+[18-Jun-2024 14:06:32 UTC] fine procedura
+[18-Jun-2024 14:16:34 UTC] Inizio elaborazione
+[18-Jun-2024 14:16:34 UTC] Trovate 0 timbrature
+[18-Jun-2024 14:16:34 UTC] fine procedura
+[18-Jun-2024 14:26:37 UTC] Inizio elaborazione
+[18-Jun-2024 14:26:37 UTC] Trovate 0 timbrature
+[18-Jun-2024 14:26:37 UTC] fine procedura
+[18-Jun-2024 14:36:39 UTC] Inizio elaborazione
+[18-Jun-2024 14:36:39 UTC] Trovate 0 timbrature
+[18-Jun-2024 14:36:39 UTC] fine procedura
+[18-Jun-2024 14:46:41 UTC] Inizio elaborazione
+[18-Jun-2024 14:46:41 UTC] Trovate 0 timbrature
+[18-Jun-2024 14:46:41 UTC] fine procedura
+[18-Jun-2024 14:56:44 UTC] Inizio elaborazione
+[18-Jun-2024 14:56:44 UTC] Trovate 0 timbrature
+[18-Jun-2024 14:56:44 UTC] fine procedura
+[18-Jun-2024 15:06:47 UTC] Inizio elaborazione
+[18-Jun-2024 15:06:47 UTC] Trovate 49 timbrature
+[18-Jun-2024 15:06:47 UTC] 20240000467 - richiamo servizio gepacon
+[18-Jun-2024 15:06:48 UTC] curl data: {"success":true}
+[18-Jun-2024 15:06:48 UTC] fine procedura
+[18-Jun-2024 15:16:51 UTC] Inizio elaborazione
+[18-Jun-2024 15:16:51 UTC] Trovate 1 timbrature
+[18-Jun-2024 15:16:51 UTC] 20240000468 - richiamo servizio gepacon
+[18-Jun-2024 15:16:51 UTC] curl data: {"success":true}
+[18-Jun-2024 15:16:51 UTC] fine procedura
+[18-Jun-2024 15:26:53 UTC] Inizio elaborazione
+[18-Jun-2024 15:26:53 UTC] Trovate 0 timbrature
+[18-Jun-2024 15:26:53 UTC] fine procedura
+[18-Jun-2024 15:36:56 UTC] Inizio elaborazione
+[18-Jun-2024 15:36:56 UTC] Trovate 0 timbrature
+[18-Jun-2024 15:36:56 UTC] fine procedura
+[18-Jun-2024 15:46:58 UTC] Inizio elaborazione
+[18-Jun-2024 15:46:58 UTC] Trovate 0 timbrature
+[18-Jun-2024 15:46:58 UTC] fine procedura
+[18-Jun-2024 15:57:00 UTC] Inizio elaborazione
+[18-Jun-2024 15:57:00 UTC] Trovate 0 timbrature
+[18-Jun-2024 15:57:00 UTC] fine procedura
+[19-Jun-2024 06:04:40 UTC] Inizio elaborazione
+[19-Jun-2024 06:04:40 UTC] Trovate 60 timbrature
+[19-Jun-2024 06:04:41 UTC] 20240000469 - richiamo servizio gepacon
+[19-Jun-2024 06:04:42 UTC] curl data: {"success":true}
+[19-Jun-2024 06:04:42 UTC] fine procedura
+[19-Jun-2024 06:14:46 UTC] Inizio elaborazione
+[19-Jun-2024 06:14:46 UTC] Trovate 0 timbrature
+[19-Jun-2024 06:14:46 UTC] fine procedura
+[19-Jun-2024 06:24:49 UTC] Inizio elaborazione
+[19-Jun-2024 06:24:49 UTC] Trovate 0 timbrature
+[19-Jun-2024 06:24:49 UTC] fine procedura
+[19-Jun-2024 06:34:51 UTC] Inizio elaborazione
+[19-Jun-2024 06:34:51 UTC] Trovate 1 timbrature
+[19-Jun-2024 06:34:51 UTC] 20240000470 - richiamo servizio gepacon
+[19-Jun-2024 06:34:51 UTC] curl data: {"success":true}
+[19-Jun-2024 06:34:51 UTC] fine procedura
+[19-Jun-2024 06:44:53 UTC] Inizio elaborazione
+[19-Jun-2024 06:44:53 UTC] Trovate 0 timbrature
+[19-Jun-2024 06:44:53 UTC] fine procedura
+[19-Jun-2024 06:54:56 UTC] Inizio elaborazione
+[19-Jun-2024 06:54:56 UTC] Trovate 0 timbrature
+[19-Jun-2024 06:54:56 UTC] fine procedura
+[19-Jun-2024 07:04:58 UTC] Inizio elaborazione
+[19-Jun-2024 07:04:58 UTC] Trovate 0 timbrature
+[19-Jun-2024 07:04:58 UTC] fine procedura
+[19-Jun-2024 07:15:01 UTC] Inizio elaborazione
+[19-Jun-2024 07:15:01 UTC] Trovate 0 timbrature
+[19-Jun-2024 07:15:01 UTC] fine procedura
+[19-Jun-2024 07:25:04 UTC] Inizio elaborazione
+[19-Jun-2024 07:25:04 UTC] Trovate 0 timbrature
+[19-Jun-2024 07:25:04 UTC] fine procedura
+[19-Jun-2024 07:35:06 UTC] Inizio elaborazione
+[19-Jun-2024 07:35:06 UTC] Trovate 0 timbrature
+[19-Jun-2024 07:35:06 UTC] fine procedura
+[19-Jun-2024 07:45:09 UTC] Inizio elaborazione
+[19-Jun-2024 07:45:09 UTC] Trovate 0 timbrature
+[19-Jun-2024 07:45:09 UTC] fine procedura
+[19-Jun-2024 07:55:12 UTC] Inizio elaborazione
+[19-Jun-2024 07:55:12 UTC] Trovate 0 timbrature
+[19-Jun-2024 07:55:12 UTC] fine procedura
+[19-Jun-2024 08:05:15 UTC] Inizio elaborazione
+[19-Jun-2024 08:05:15 UTC] Trovate 0 timbrature
+[19-Jun-2024 08:05:15 UTC] fine procedura
+[19-Jun-2024 08:15:18 UTC] Inizio elaborazione
+[19-Jun-2024 08:15:18 UTC] Trovate 0 timbrature
+[19-Jun-2024 08:15:18 UTC] fine procedura
+[19-Jun-2024 08:25:21 UTC] Inizio elaborazione
+[19-Jun-2024 08:25:21 UTC] Trovate 0 timbrature
+[19-Jun-2024 08:25:21 UTC] fine procedura
+[19-Jun-2024 08:35:23 UTC] Inizio elaborazione
+[19-Jun-2024 08:35:23 UTC] Trovate 0 timbrature
+[19-Jun-2024 08:35:23 UTC] fine procedura
+[19-Jun-2024 08:45:25 UTC] Inizio elaborazione
+[19-Jun-2024 08:45:25 UTC] Trovate 0 timbrature
+[19-Jun-2024 08:45:25 UTC] fine procedura
+[19-Jun-2024 08:55:28 UTC] Inizio elaborazione
+[19-Jun-2024 08:55:28 UTC] Trovate 0 timbrature
+[19-Jun-2024 08:55:28 UTC] fine procedura
+[19-Jun-2024 09:05:31 UTC] Inizio elaborazione
+[19-Jun-2024 09:05:31 UTC] Trovate 0 timbrature
+[19-Jun-2024 09:05:31 UTC] fine procedura
+[19-Jun-2024 09:15:33 UTC] Inizio elaborazione
+[19-Jun-2024 09:15:33 UTC] Trovate 0 timbrature
+[19-Jun-2024 09:15:33 UTC] fine procedura
+[19-Jun-2024 09:25:36 UTC] Inizio elaborazione
+[19-Jun-2024 09:25:36 UTC] Trovate 0 timbrature
+[19-Jun-2024 09:25:36 UTC] fine procedura
+[19-Jun-2024 09:35:40 UTC] Inizio elaborazione
+[19-Jun-2024 09:35:40 UTC] Trovate 0 timbrature
+[19-Jun-2024 09:35:40 UTC] fine procedura
+[19-Jun-2024 09:45:42 UTC] Inizio elaborazione
+[19-Jun-2024 09:45:42 UTC] Trovate 0 timbrature
+[19-Jun-2024 09:45:42 UTC] fine procedura
+[19-Jun-2024 09:55:44 UTC] Inizio elaborazione
+[19-Jun-2024 09:55:44 UTC] Trovate 0 timbrature
+[19-Jun-2024 09:55:44 UTC] fine procedura
+[19-Jun-2024 10:05:47 UTC] Inizio elaborazione
+[19-Jun-2024 10:05:48 UTC] Trovate 1 timbrature
+[19-Jun-2024 10:05:48 UTC] 20240000471 - richiamo servizio gepacon
+[19-Jun-2024 10:05:48 UTC] curl data: {"success":true}
+[19-Jun-2024 10:05:48 UTC] fine procedura
+[19-Jun-2024 10:15:51 UTC] Inizio elaborazione
+[19-Jun-2024 10:15:51 UTC] Trovate 0 timbrature
+[19-Jun-2024 10:15:51 UTC] fine procedura
+[19-Jun-2024 10:25:53 UTC] Inizio elaborazione
+[19-Jun-2024 10:25:53 UTC] Trovate 0 timbrature
+[19-Jun-2024 10:25:53 UTC] fine procedura
+[19-Jun-2024 10:35:56 UTC] Inizio elaborazione
+[19-Jun-2024 10:35:56 UTC] Trovate 50 timbrature
+[19-Jun-2024 10:35:56 UTC] 20240000472 - richiamo servizio gepacon
+[19-Jun-2024 10:35:57 UTC] curl data: {"success":true}
+[19-Jun-2024 10:35:57 UTC] fine procedura
+[19-Jun-2024 10:45:59 UTC] Inizio elaborazione
+[19-Jun-2024 10:46:00 UTC] Trovate 3 timbrature
+[19-Jun-2024 10:46:00 UTC] 20240000473 - richiamo servizio gepacon
+[19-Jun-2024 10:46:00 UTC] curl data: {"success":true}
+[19-Jun-2024 10:46:00 UTC] fine procedura
+[19-Jun-2024 10:56:02 UTC] Inizio elaborazione
+[19-Jun-2024 10:56:02 UTC] Trovate 18 timbrature
+[19-Jun-2024 10:56:02 UTC] 20240000474 - richiamo servizio gepacon
+[19-Jun-2024 10:56:03 UTC] curl data: {"success":true}
+[19-Jun-2024 10:56:03 UTC] fine procedura
+[19-Jun-2024 11:06:05 UTC] Inizio elaborazione
+[19-Jun-2024 11:06:05 UTC] Trovate 8 timbrature
+[19-Jun-2024 11:06:05 UTC] 20240000475 - richiamo servizio gepacon
+[19-Jun-2024 11:06:06 UTC] curl data: {"success":true}
+[19-Jun-2024 11:06:06 UTC] fine procedura
+[19-Jun-2024 11:16:08 UTC] Inizio elaborazione
+[19-Jun-2024 11:16:08 UTC] Trovate 9 timbrature
+[19-Jun-2024 11:16:08 UTC] 20240000476 - richiamo servizio gepacon
+[19-Jun-2024 11:16:08 UTC] curl data: {"success":true}
+[19-Jun-2024 11:16:09 UTC] fine procedura
+[19-Jun-2024 11:26:11 UTC] Inizio elaborazione
+[19-Jun-2024 11:26:11 UTC] Trovate 9 timbrature
+[19-Jun-2024 11:26:11 UTC] 20240000477 - richiamo servizio gepacon
+[19-Jun-2024 11:26:11 UTC] curl data: {"success":true}
+[19-Jun-2024 11:26:11 UTC] fine procedura
+[19-Jun-2024 11:36:14 UTC] Inizio elaborazione
+[19-Jun-2024 11:36:14 UTC] Trovate 1 timbrature
+[19-Jun-2024 11:36:14 UTC] 20240000478 - richiamo servizio gepacon
+[19-Jun-2024 11:36:14 UTC] curl data: {"success":true}
+[19-Jun-2024 11:36:14 UTC] fine procedura
+[19-Jun-2024 11:46:16 UTC] Inizio elaborazione
+[19-Jun-2024 11:46:16 UTC] Trovate 0 timbrature
+[19-Jun-2024 11:46:16 UTC] fine procedura
+[19-Jun-2024 11:56:20 UTC] Inizio elaborazione
+[19-Jun-2024 11:56:20 UTC] Trovate 0 timbrature
+[19-Jun-2024 11:56:20 UTC] fine procedura
+[19-Jun-2024 12:06:22 UTC] Inizio elaborazione
+[19-Jun-2024 12:06:22 UTC] Trovate 0 timbrature
+[19-Jun-2024 12:06:22 UTC] fine procedura
+[19-Jun-2024 12:16:25 UTC] Inizio elaborazione
+[19-Jun-2024 12:16:25 UTC] Trovate 0 timbrature
+[19-Jun-2024 12:16:25 UTC] fine procedura
+[19-Jun-2024 12:26:28 UTC] Inizio elaborazione
+[19-Jun-2024 12:26:28 UTC] Trovate 0 timbrature
+[19-Jun-2024 12:26:28 UTC] fine procedura
+[19-Jun-2024 12:36:30 UTC] Inizio elaborazione
+[19-Jun-2024 12:36:30 UTC] Trovate 0 timbrature
+[19-Jun-2024 12:36:30 UTC] fine procedura
+[19-Jun-2024 12:46:32 UTC] Inizio elaborazione
+[19-Jun-2024 12:46:32 UTC] Trovate 0 timbrature
+[19-Jun-2024 12:46:32 UTC] fine procedura
+[19-Jun-2024 12:56:35 UTC] Inizio elaborazione
+[19-Jun-2024 12:56:35 UTC] Trovate 0 timbrature
+[19-Jun-2024 12:56:35 UTC] fine procedura
+[19-Jun-2024 13:06:38 UTC] Inizio elaborazione
+[19-Jun-2024 13:06:38 UTC] Trovate 0 timbrature
+[19-Jun-2024 13:06:38 UTC] fine procedura
+[19-Jun-2024 13:16:42 UTC] Inizio elaborazione
+[19-Jun-2024 13:16:42 UTC] Trovate 0 timbrature
+[19-Jun-2024 13:16:42 UTC] fine procedura
+[19-Jun-2024 13:26:45 UTC] Inizio elaborazione
+[19-Jun-2024 13:26:45 UTC] Trovate 0 timbrature
+[19-Jun-2024 13:26:45 UTC] fine procedura
+[19-Jun-2024 13:36:47 UTC] Inizio elaborazione
+[19-Jun-2024 13:36:47 UTC] Trovate 0 timbrature
+[19-Jun-2024 13:36:47 UTC] fine procedura
+[19-Jun-2024 13:46:50 UTC] Inizio elaborazione
+[19-Jun-2024 13:46:50 UTC] Trovate 0 timbrature
+[19-Jun-2024 13:46:50 UTC] fine procedura
+[19-Jun-2024 13:56:52 UTC] Inizio elaborazione
+[19-Jun-2024 13:56:52 UTC] Trovate 0 timbrature
+[19-Jun-2024 13:56:52 UTC] fine procedura
+[19-Jun-2024 14:06:54 UTC] Inizio elaborazione
+[19-Jun-2024 14:06:54 UTC] Trovate 0 timbrature
+[19-Jun-2024 14:06:54 UTC] fine procedura
+[19-Jun-2024 14:16:57 UTC] Inizio elaborazione
+[19-Jun-2024 14:16:57 UTC] Trovate 0 timbrature
+[19-Jun-2024 14:16:57 UTC] fine procedura
+[19-Jun-2024 14:26:59 UTC] Inizio elaborazione
+[19-Jun-2024 14:26:59 UTC] Trovate 0 timbrature
+[19-Jun-2024 14:26:59 UTC] fine procedura
+[19-Jun-2024 14:37:01 UTC] Inizio elaborazione
+[19-Jun-2024 14:37:01 UTC] Trovate 0 timbrature
+[19-Jun-2024 14:37:01 UTC] fine procedura
+[19-Jun-2024 14:47:04 UTC] Inizio elaborazione
+[19-Jun-2024 14:47:04 UTC] Trovate 0 timbrature
+[19-Jun-2024 14:47:04 UTC] fine procedura
+[19-Jun-2024 14:57:08 UTC] Inizio elaborazione
+[19-Jun-2024 14:57:08 UTC] Trovate 0 timbrature
+[19-Jun-2024 14:57:08 UTC] fine procedura
+[19-Jun-2024 15:07:10 UTC] Inizio elaborazione
+[19-Jun-2024 15:07:10 UTC] Trovate 55 timbrature
+[19-Jun-2024 15:07:10 UTC] 20240000479 - richiamo servizio gepacon
+[19-Jun-2024 15:07:11 UTC] curl data: {"success":true}
+[19-Jun-2024 15:07:12 UTC] fine procedura
+[19-Jun-2024 15:17:14 UTC] Inizio elaborazione
+[19-Jun-2024 15:17:14 UTC] Trovate 2 timbrature
+[19-Jun-2024 15:17:14 UTC] 20240000480 - richiamo servizio gepacon
+[19-Jun-2024 15:17:14 UTC] curl data: {"success":true}
+[19-Jun-2024 15:17:14 UTC] fine procedura
+[19-Jun-2024 15:27:17 UTC] Inizio elaborazione
+[19-Jun-2024 15:27:17 UTC] Trovate 0 timbrature
+[19-Jun-2024 15:27:17 UTC] fine procedura
+[19-Jun-2024 15:37:19 UTC] Inizio elaborazione
+[19-Jun-2024 15:37:19 UTC] Trovate 0 timbrature
+[19-Jun-2024 15:37:19 UTC] fine procedura
+[19-Jun-2024 15:47:21 UTC] Inizio elaborazione
+[19-Jun-2024 15:47:21 UTC] Trovate 0 timbrature
+[19-Jun-2024 15:47:21 UTC] fine procedura
+[19-Jun-2024 15:57:24 UTC] Inizio elaborazione
+[19-Jun-2024 15:57:24 UTC] Trovate 0 timbrature
+[19-Jun-2024 15:57:24 UTC] fine procedura
+[20-Jun-2024 07:54:02 UTC] Inizio elaborazione
+[20-Jun-2024 07:54:02 UTC] Trovate 58 timbrature
+[20-Jun-2024 07:54:02 UTC] 20240000481 - richiamo servizio gepacon
+[20-Jun-2024 07:54:06 UTC] curl data: {"success":true}
+[20-Jun-2024 07:54:06 UTC] fine procedura
+[20-Jun-2024 11:54:08 UTC] Inizio elaborazione
+[20-Jun-2024 11:54:08 UTC] Trovate 98 timbrature
+[20-Jun-2024 11:54:09 UTC] 20240000482 - richiamo servizio gepacon
+[20-Jun-2024 11:54:10 UTC] curl data: {"success":true}
+[20-Jun-2024 11:54:10 UTC] fine procedura
+[20-Jun-2024 15:54:12 UTC] Inizio elaborazione
+[20-Jun-2024 15:54:12 UTC] Trovate 54 timbrature
+[20-Jun-2024 15:54:12 UTC] 20240000483 - richiamo servizio gepacon
+[20-Jun-2024 15:54:13 UTC] curl data: {"success":true}
+[20-Jun-2024 15:54:13 UTC] fine procedura
+[21-Jun-2024 07:54:01 UTC] Inizio elaborazione
+[21-Jun-2024 07:54:01 UTC] Trovate 59 timbrature
+[21-Jun-2024 07:54:01 UTC] 20240000484 - richiamo servizio gepacon
+[21-Jun-2024 07:54:02 UTC] curl data: {"success":true}
+[21-Jun-2024 07:54:02 UTC] fine procedura
+[21-Jun-2024 11:54:04 UTC] Inizio elaborazione
+[21-Jun-2024 11:54:04 UTC] Trovate 97 timbrature
+[21-Jun-2024 11:54:04 UTC] 20240000485 - richiamo servizio gepacon
+[21-Jun-2024 11:54:05 UTC] curl data: {"success":true}
+[21-Jun-2024 11:54:06 UTC] fine procedura
+[21-Jun-2024 15:54:08 UTC] Inizio elaborazione
+[21-Jun-2024 15:54:08 UTC] Trovate 51 timbrature
+[21-Jun-2024 15:54:08 UTC] 20240000486 - richiamo servizio gepacon
+[21-Jun-2024 15:54:09 UTC] curl data: {"success":true}
+[21-Jun-2024 15:54:09 UTC] fine procedura
+[22-Jun-2024 07:55:35 UTC] Inizio elaborazione
+[22-Jun-2024 07:55:35 UTC] Trovate 0 timbrature
+[22-Jun-2024 07:55:35 UTC] fine procedura
+[22-Jun-2024 11:55:37 UTC] Inizio elaborazione
+[22-Jun-2024 11:55:37 UTC] Trovate 0 timbrature
+[22-Jun-2024 11:55:37 UTC] fine procedura
+[22-Jun-2024 15:55:40 UTC] Inizio elaborazione
+[22-Jun-2024 15:55:40 UTC] Trovate 0 timbrature
+[22-Jun-2024 15:55:40 UTC] fine procedura
+[23-Jun-2024 07:54:00 UTC] Inizio elaborazione
+[23-Jun-2024 07:54:00 UTC] Trovate 0 timbrature
+[23-Jun-2024 07:54:00 UTC] fine procedura
+[23-Jun-2024 11:54:02 UTC] Inizio elaborazione
+[23-Jun-2024 11:54:02 UTC] Trovate 0 timbrature
+[23-Jun-2024 11:54:02 UTC] fine procedura
+[23-Jun-2024 15:54:03 UTC] Inizio elaborazione
+[23-Jun-2024 15:54:04 UTC] Trovate 0 timbrature
+[23-Jun-2024 15:54:04 UTC] fine procedura
+[24-Jun-2024 07:54:00 UTC] Inizio elaborazione
+[24-Jun-2024 07:54:01 UTC] Trovate 64 timbrature
+[24-Jun-2024 07:54:01 UTC] 20240000487 - richiamo servizio gepacon
+[24-Jun-2024 07:54:02 UTC] curl data: {"success":true}
+[24-Jun-2024 07:54:02 UTC] fine procedura
+[24-Jun-2024 11:54:05 UTC] Inizio elaborazione
+[24-Jun-2024 11:54:05 UTC] Trovate 110 timbrature
+[24-Jun-2024 11:54:05 UTC] 20240000488 - richiamo servizio gepacon
+[24-Jun-2024 11:54:06 UTC] curl data: {"success":true}
+[24-Jun-2024 11:54:06 UTC] fine procedura
+[24-Jun-2024 15:54:08 UTC] Inizio elaborazione
+[24-Jun-2024 15:54:08 UTC] Trovate 62 timbrature
+[24-Jun-2024 15:54:08 UTC] 20240000489 - richiamo servizio gepacon
+[24-Jun-2024 15:54:09 UTC] curl data: {"success":true}
+[24-Jun-2024 15:54:09 UTC] fine procedura
+[25-Jun-2024 07:30:13 UTC] Inizio elaborazione
+[25-Jun-2024 07:30:13 UTC] Trovate 63 timbrature
+[25-Jun-2024 07:30:13 UTC] 20240000490 - richiamo servizio gepacon
+[25-Jun-2024 07:30:14 UTC] curl data: {"success":true}
+[25-Jun-2024 07:30:15 UTC] fine procedura
+[25-Jun-2024 07:54:02 UTC] Inizio elaborazione
+[25-Jun-2024 07:54:02 UTC] Trovate 1 timbrature
+[25-Jun-2024 07:54:02 UTC] 20240000491 - richiamo servizio gepacon
+[25-Jun-2024 07:54:02 UTC] curl data: {"success":true}
+[25-Jun-2024 07:54:02 UTC] fine procedura
+[25-Jun-2024 11:54:04 UTC] Inizio elaborazione
+[25-Jun-2024 11:54:04 UTC] Trovate 102 timbrature
+[25-Jun-2024 11:54:04 UTC] 20240000492 - richiamo servizio gepacon
+[25-Jun-2024 11:54:05 UTC] curl data: {"success":true}
+[25-Jun-2024 11:54:06 UTC] fine procedura
+[25-Jun-2024 15:54:08 UTC] Inizio elaborazione
+[25-Jun-2024 15:54:08 UTC] Trovate 59 timbrature
+[25-Jun-2024 15:54:08 UTC] 20240000493 - richiamo servizio gepacon
+[25-Jun-2024 15:54:09 UTC] curl data: {"success":true}
+[25-Jun-2024 15:54:09 UTC] fine procedura
+[26-Jun-2024 07:54:57 UTC] Inizio elaborazione
+[26-Jun-2024 07:54:57 UTC] Trovate 59 timbrature
+[26-Jun-2024 07:54:57 UTC] 20240000494 - richiamo servizio gepacon
+[26-Jun-2024 07:54:59 UTC] curl data: {"success":true}
+[26-Jun-2024 07:54:59 UTC] fine procedura
+[26-Jun-2024 11:55:02 UTC] Inizio elaborazione
+[26-Jun-2024 11:55:02 UTC] Trovate 109 timbrature
+[26-Jun-2024 11:55:02 UTC] 20240000495 - richiamo servizio gepacon
+[26-Jun-2024 11:55:03 UTC] curl data: {"success":true}
+[26-Jun-2024 11:55:03 UTC] fine procedura
+[26-Jun-2024 15:55:05 UTC] Inizio elaborazione
+[26-Jun-2024 15:55:05 UTC] Trovate 61 timbrature
+[26-Jun-2024 15:55:06 UTC] 20240000496 - richiamo servizio gepacon
+[26-Jun-2024 15:55:07 UTC] curl data: {"success":true}
+[26-Jun-2024 15:55:07 UTC] fine procedura
+[27-Jun-2024 07:55:38 UTC] Inizio elaborazione
+[27-Jun-2024 07:55:38 UTC] Trovate 60 timbrature
+[27-Jun-2024 07:55:38 UTC] 20240000497 - richiamo servizio gepacon
+[27-Jun-2024 07:55:39 UTC] curl data: {"success":true}
+[27-Jun-2024 07:55:39 UTC] fine procedura
+[27-Jun-2024 11:55:41 UTC] Inizio elaborazione
+[27-Jun-2024 11:55:41 UTC] Trovate 106 timbrature
+[27-Jun-2024 11:55:41 UTC] 20240000498 - richiamo servizio gepacon
+[27-Jun-2024 11:55:42 UTC] curl data: {"success":true}
+[27-Jun-2024 11:55:42 UTC] fine procedura
+[27-Jun-2024 15:55:44 UTC] Inizio elaborazione
+[27-Jun-2024 15:55:44 UTC] Trovate 58 timbrature
+[27-Jun-2024 15:55:44 UTC] 20240000499 - richiamo servizio gepacon
+[27-Jun-2024 15:55:46 UTC] curl data: {"success":true}
+[27-Jun-2024 15:55:46 UTC] fine procedura
+[28-Jun-2024 07:56:17 UTC] Inizio elaborazione
+[28-Jun-2024 07:56:17 UTC] Trovate 59 timbrature
+[28-Jun-2024 07:56:17 UTC] 20240000500 - richiamo servizio gepacon
+[28-Jun-2024 07:56:18 UTC] curl data: {"success":true}
+[28-Jun-2024 07:56:18 UTC] fine procedura
+[28-Jun-2024 11:56:20 UTC] Inizio elaborazione
+[28-Jun-2024 11:56:21 UTC] Trovate 101 timbrature
+[28-Jun-2024 11:56:21 UTC] 20240000501 - richiamo servizio gepacon
+[28-Jun-2024 11:56:22 UTC] curl data: {"success":true}
+[28-Jun-2024 11:56:22 UTC] fine procedura
+[28-Jun-2024 15:56:24 UTC] Inizio elaborazione
+[28-Jun-2024 15:56:24 UTC] Trovate 53 timbrature
+[28-Jun-2024 15:56:24 UTC] 20240000502 - richiamo servizio gepacon
+[28-Jun-2024 15:56:25 UTC] curl data: {"success":true}
+[28-Jun-2024 15:56:25 UTC] fine procedura
+[29-Jun-2024 07:54:02 UTC] Inizio elaborazione
+[29-Jun-2024 07:54:02 UTC] Trovate 5 timbrature
+[29-Jun-2024 07:54:02 UTC] 20240000503 - richiamo servizio gepacon
+[29-Jun-2024 07:54:03 UTC] curl data: {"success":true}
+[29-Jun-2024 07:54:03 UTC] fine procedura
+[29-Jun-2024 11:54:06 UTC] Inizio elaborazione
+[29-Jun-2024 11:54:06 UTC] Trovate 6 timbrature
+[29-Jun-2024 11:54:06 UTC] 20240000504 - richiamo servizio gepacon
+[29-Jun-2024 11:54:06 UTC] curl data: {"success":true}
+[29-Jun-2024 11:54:06 UTC] fine procedura
+[29-Jun-2024 15:54:08 UTC] Inizio elaborazione
+[29-Jun-2024 15:54:08 UTC] Trovate 0 timbrature
+[29-Jun-2024 15:54:08 UTC] fine procedura
+[30-Jun-2024 07:54:50 UTC] Inizio elaborazione
+[30-Jun-2024 07:54:50 UTC] Trovate 0 timbrature
+[30-Jun-2024 07:54:50 UTC] fine procedura
+[30-Jun-2024 11:54:52 UTC] Inizio elaborazione
+[30-Jun-2024 11:54:52 UTC] Trovate 0 timbrature
+[30-Jun-2024 11:54:52 UTC] fine procedura
+[30-Jun-2024 15:54:54 UTC] Inizio elaborazione
+[30-Jun-2024 15:54:54 UTC] Trovate 0 timbrature
+[30-Jun-2024 15:54:54 UTC] fine procedura
