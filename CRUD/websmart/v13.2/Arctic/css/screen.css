@@ -1,0 +1,400 @@
+/*** FONTS and COLORS ***/
+
+body, h1-h6, table, tr, td, input, submit, button, textarea, select  {
+	font-family: Arial, Sans-serif;
+}
+
+body { font-size: 14px; }
+
+input[type="text"], 
+input[type="number"],
+input[type="password"],
+textarea
+{ 
+	font-size: 14px;
+}
+
+
+input[type="text"].filter, input[type="number"].filter { font-size: 13px }
+
+h1 {
+	font-size: 22px;
+	font-weight: normal;
+	color: #727272;
+}
+
+.main-list th a.list-header
+{
+	color: inherit;
+}
+
+
+.main-list a.list-header { text-decoration: none; }
+
+form.filter label { 
+	font-size: 13px;
+}
+
+a.list-paging { 
+	color: #555555; 
+	text-decoration: none; 
+	font-weight: bold;
+	font-size: 13px;
+}
+
+a.list-paging span { border-bottom: 1px solid #555555; }
+
+#page-divider-top {
+	background: #414141; 
+	height: 1px; 
+}
+
+input.filter {
+	color: #414141;
+	padding: 1px 2px;
+	height: 22px; 
+	border: 1px solid #848484;
+}
+
+.break-header {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+a img { border: none; }
+
+#display-message.display-message-active { background-color: goldenrod; }
+
+.bold {
+	font-weight: bold;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.underline {
+	text-decoration: underline;
+}
+
+/*** LAYOUT ***/
+
+body { margin: 0; padding: 0; } 
+
+td.actions span { white-space: nowrap; }
+
+.actions { width: 60px; }
+.input-capable-list .actions { width: auto; }
+
+.hidden { visibility: hidden; }
+.nodisplay { display: none; }
+
+.page-title-image { display: block; }
+
+#page-title-block { 
+	margin: 15px 30px 0;
+}
+
+#outer-content { 
+	min-width: 782px;
+	margin-bottom: 26px;
+}
+
+.display-list #outer-content,
+.single-record #outer-content,
+.chart #outer-content 
+{
+	display: table;
+}
+
+#page-content {
+	margin: 0 30px;
+}
+
+#page-divider-top {
+	clear:both;
+	margin-bottom: 15px;
+	margin-top: 15px;
+}
+
+#page-divider-bottom {
+	clear:both;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.main-list, 
+#accordion, 
+.drill-down-list 
+{ 
+	margin-top: 15px; 
+}
+
+input[type="text"], 
+input[type="number"],
+input[type="password"]
+{
+	height: 17px;
+	vertical-align: middle;
+	margin: 0;
+}
+
+.add-link {
+	float: right;
+	display: inline-block;
+}
+
+.add-link img {
+	vertical-align: text-top;
+}
+
+span.list-paging { 
+	display: inline-block;
+	float: right; 
+}
+
+div#display-message { 
+	margin: 10px 10px 15px; 
+	width: auto; 
+	min-height: 17px;
+}
+
+.message { padding: 3px 10px; }
+
+#list-paging-top { margin-top: 5px }
+	
+#contents {	clear: both; }
+
+.clear-layout { clear: both; }
+
+#list-table { 
+	clear: both; 
+	width: 100%; 
+	overflow:auto;
+}
+
+h3 { 
+	margin: 0; 
+	padding: 8px 0;
+}
+
+h1.title { 
+	float: left;
+	display: inline-block; 
+	margin: 0 0 28px;
+}
+
+form.filter { 
+	display: inline;
+	float: left;
+}
+
+.main-list { 
+	margin-left: 0;
+	margin-right: 0;
+	margin-bottom: 14px;
+}	
+
+.main-list, 
+.drill-down-list 
+{
+	border-spacing: 0; 
+}
+
+.main-list td, 
+.main-list th, 
+.drill-down-list td, 
+.drill-down-list th 
+{
+	padding: 8px 4px;
+}
+
+td.num { text-align: right; }
+td.alpha { text-align: left; }
+
+.field-group { 
+	width: 100%; 
+	margin: 8px 0;
+}
+
+.field-group label, 
+.field-group span.label 
+{ 	
+	display:block; 
+	vertical-align: middle;
+	font-weight: bold;
+}
+.display-record .field-group label,
+.display-record .field-group span.label
+{
+	font-size: .9em;
+}
+.field-group span.value { 
+	 
+	display:block; 
+	vertical-align: middle;
+}
+.display-record .field-group span.value {
+	font-size: 1.1em;
+	margin-left: 10px;
+}
+
+.field-group span input { max-width: 100%; }
+
+.field-group span textarea { width: 100%; }
+
+.fields {
+	margin-bottom: 28px;
+}
+
+.filter-group {
+	display: inline-block;
+	margin: 1px 17px 1px 0;
+}
+
+.filter-button {
+	margin-left: -17px;
+}
+
+body#drill-down.display-list {
+	overflow-y: scroll;
+}
+
+a.list-paging img { vertical-align: middle; }
+
+a.previous {
+	margin-right: 8px;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-center {
+	text-align: center;
+}
+
+hr
+{
+	border-width: 0px;
+	border-top-width: 1px;
+}
+
+/*** jQuery UI style overrides ***/
+
+/*button text element */
+.ui-button-text-only .ui-button-text { padding: .2em .75em; }
+.ui-button-icon-only .ui-button-text, .ui-button-icons-only .ui-button-text { padding: .2em; }
+.ui-button-text-icon-primary .ui-button-text, .ui-button-text-icons .ui-button-text { padding: .2em .1em .2em 2.1em; }
+.ui-button-text-icon-secondary .ui-button-text, .ui-button-text-icons .ui-button-text { padding: .2em 2.1em .2em 1em; }
+.ui-button-text-icons .ui-button-text { padding-left: 2.1em; padding-right: 2.1em; }
+/* no icon support for input elements, provide padding by default */
+input.ui-button { padding: 0; }
+
+/* This is the style for the trigger icon. The margin-bottom value causes the icon to shift down to center it. */
+.ui-datepicker-trigger { margin-left:5px; margin-top: 8px; margin-bottom: -3px; cursor: pointer; }
+
+.ui-widget,
+.ui-jqgrid .ui-jqgrid-view,
+.ui-jqgrid .ui-jqgrid-pager
+{ 
+	font-family: Arial, sans-serif; 
+	font-size: 14px; 
+}
+
+.add-link .ui-button-text-only span { padding-left: 7px; }
+
+.actions .ui-button {
+	min-width: 0;
+	width: 18px;
+	height: 20px;
+	vertical-align: middle;
+	margin-right: 2px;
+}
+
+#filters input, 
+#filters label 
+{ 
+	vertical-align: middle; 
+}
+
+.filter-button, 
+.cancel, 
+.ui-dialog-buttonset .cancel 
+{
+	height: 26px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+#login-button 
+{
+	height: 28px;
+	vertical-align: middle;
+}
+
+#logintable td {
+	white-space: nowrap;
+}
+
+.ui-button {
+ 	min-width: 6em;
+}
+
+.accept, 
+.cancel 
+{
+	min-height: 2em;
+	vertical-align: middle;
+}
+
+.ui-jqgrid-labels th {
+	color: #ffffff;
+}
+
+.ui-accordion-content h3 {
+	font-size: 1em;
+	padding: 0;
+}
+
+
+/***** Validation Styles *****/
+.error-text {
+	display: none;
+}
+.has-error .error-text {
+	display: inline;
+	font-size: .9em;
+	color: red;
+	margin-left: 10px;
+}
+.has-error .label .error-text {
+	font-weight: normal;
+	float: right;
+}
+
+.has-error input, .has-error select, .has-error textarea{
+	border: 1px solid red;
+	background:#ffeaea;
+}
+
+.required {
+	color: red;
+}
+
+.optional {
+	font-size: .9em;
+	color: grey;
+	margin-left: 10px;
+}
+
+.notice {
+	padding: 5px;
+	border: 1px dotted #94bb94;
+	margin-bottom: 15px;
+	background-color: #ebffeb;
+}
