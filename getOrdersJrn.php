@@ -11,188 +11,195 @@ error_reporting(E_ALL);
 ini_set("log_errors", 1);
 ini_set("error_log", "/www/php80/htdocs/logs/getOrdersJrn/php-error.log");
 
-$k = '';
-if(isset($_REQUEST['k'])) $k = $_REQUEST["k"];
-if($k!="sJHsdwvIFTyhDuGtZoOfevsgG1A1H2s6") { 
-	exit;
+$k = isset($_REQUEST['k']) ? $_REQUEST["k"] : '';
+if ($k != "sJHsdwvIFTyhDuGtZoOfevsgG1A1H2s6") {
+    echo json_encode(["status" => "ERROR", "message" => "Invalid access key"]);
+    exit;
 }
 
-$env = '';
-if(isset($_REQUEST["env"])) $env = $_REQUEST["env"];
-if($env=='') {
-	$env='prod'; //per retrocompatibilità
-}
-$curLib = $envLib[$env];
+$env = isset($_REQUEST["env"]) ? $_REQUEST["env"] : 'prod';
+$curLib = isset($envLib[$env]) ? $envLib[$env] : '';
 
 $postedBody = file_get_contents('php://input');
+$resArray = json_decode($postedBody, true);
 
-$server="Driver={IBM i Access ODBC Driver};System=127.0.0.1;Uid=".DB2_USER.";Pwd=".DB2_PASS.";TRANSLATE=1;CONNTYPE=2;CMT=0;BLOCKFETCH=1;BLOCKSIZE=2000"; 
-$user=DB2_USER; 
-$pass=DB2_PASS; 
-
-//connessione:
-$time_start = microtime(true); 
-
-$conn=odbc_connect($server,$user,$pass); 
-if(!$conn) {
-	echo odbc_errormsg($conn);
-	exit;
+if (!$resArray) {
+    http_response_code(400); // Codice HTTP 400: Bad Request
+    echo json_encode(["status" => "ERROR", "message" => "Invalid JSON in request body"]);
+    exit;
 }
 
-$time_end = microtime(true);
-$execution_time = ($time_end - $time_start);
-//echo '<b>Connessione:</b> '.$execution_time.' s';
+if (isset($resArray['starting_timestamp']) && !empty($resArray['starting_timestamp'])) {
+    $startingTimestamp = $resArray['starting_timestamp'];
+    if (!preg_match('/^\d{4}-\d{2}-\d{2}-\d{2}\.\d{2}\.\d{2}$/', $startingTimestamp)) {
+        http_response_code(400);
+        echo json_encode([
+            "status" => "ERROR",
+            "message" => "Invalid format for starting_timestamp. Expected: YYYY-MM-DD-HH.MM.SS"
+        ]);
+        exit;
+    }
+} else {
+    http_response_code(400);
+    echo json_encode(["status" => "ERROR", "message" => "Missing required parameter: starting_timestamp"]);
+    exit;
+}
 
-$whrClause = ""; 
+$server = "Driver={IBM i Access ODBC Driver};System=127.0.0.1;Uid=" . DB2_USER . ";Pwd=" . DB2_PASS . ";TRANSLATE=1;CONNTYPE=2;CMT=0;BLOCKFETCH=1;BLOCKSIZE=2000";
+$user = DB2_USER;
+$pass = DB2_PASS;
+
+$conn = odbc_connect($server, $user, $pass);
+if (!$conn) {
+    echo json_encode(["status" => "ERROR", "errmsg" => odbc_errormsg()]);
+    exit;
+}
+
+$whrClause = "";
 $ordbyClause = "";
 $limitClause = "";
-$rowCount = 0;
-$resArray = json_decode($postedBody, true);
-if($resArray) {
-	if(isset($resArray['filters']) && count($resArray['filters'])>0) {
-		 
-		$filterMode = $resArray["filter_mode"];
- 		 
-		if($whrClause=="") $whrClause = " AND ";
-		
-		$whrClause .= " (";
-		
-		$arrFilters = $resArray['filters'];
-		for($i=0;$i<count($arrFilters);$i++) { 
-			if($i>0) $whrClause.= " ".$filterMode." ";
-			$whrClause .= " (";
-			
-			$curFilterMode = $arrFilters[$i]["filter_mode"];
-			$curFilterFields = $arrFilters[$i]["fields"];
-			
-			for($f=0;$f<count($curFilterFields);$f++) {
-				 
-				$curFilterField = $curFilterFields[$f];
-				$curFilterFieldName = $curFilterField["field"];
-				$curFilterFieldType = $curFilterField["type"];
-				$curFilterFieldValue = $curFilterField["value"];
-				
-				if($f>0) $whrClause .= " ".$curFilterMode;
-				
-				if($curFilterFieldType=="eq") $whrClause .= " (".$curFilterFieldName." = '".$curFilterFieldValue."') ";
-				if($curFilterFieldType=="neq") $whrClause .= " (".$curFilterFieldName." <> '".$curFilterFieldValue."') ";
-				if($curFilterFieldType=="lt") $whrClause .= " (".$curFilterFieldName." < '".$curFilterFieldValue."') ";
-				if($curFilterFieldType=="gt") $whrClause .= " (".$curFilterFieldName." > '".$curFilterFieldValue."') ";
-                if($curFilterFieldType=="le") $whrClause .= " (".$curFilterFieldName." <= '".$curFilterFieldValue."') ";
-				if($curFilterFieldType=="ge") $whrClause .= " (".$curFilterFieldName." >= '".$curFilterFieldValue."') ";
-				if($curFilterFieldType=="like") $whrClause .= " (upper(".$curFilterFieldName.") LIKE '%".strtoupper($curFilterFieldValue)."%') ";
-				
- 				
-				
-			} 
-			$whrClause .= " ) "; 
-		} 
-		$whrClause .= " ) "; 
-	}
-	  
-	
-	if(isset($resArray['ordby'])) {
-		$arrOrdby = $resArray['ordby'];
-		//var_dump($arrOrdby);
-		
-		if(isset($arrOrdby[0])) {
-			$ordbyClause = " ORDER BY ";
-			for($ob=0;$ob<count($arrOrdby);$ob++) {
-				if($ob>0) $ordbyClause.= ",";
-				$ordbyClause .= $arrOrdby[$ob]["field"]." ".$arrOrdby[$ob]["dir"];
-			}
-		} else { 
-			$ordbyFields = $arrOrdby['field'];
-			$arrOrdbyFields = explode(",",$ordbyFields);
-			$ordbyClause = " ORDER BY ";
-			for($ob=0;$ob<count($arrOrdbyFields);$ob++) {
-				if($ob>0) $ordbyClause.= ",";
-				$ordbyClause.= trim($arrOrdbyFields[$ob])." ".$arrOrdby['dir'];
-			}
-		} 
-	}
-	
-	if(isset($resArray['limit'])) {
-		$limitClause = " LIMIT ".$resArray['limit'];
-	}
-	
+
+if (isset($resArray['filters']) && count($resArray['filters']) > 0) {
+    $filterMode = $resArray["filter_mode"] ?? "AND";
+    $whrClause = " AND (";
+    $arrFilters = $resArray['filters'];
+    foreach ($arrFilters as $i => $filter) {
+        if ($i > 0)
+            $whrClause .= " $filterMode ";
+        $whrClause .= " (";
+        $curFilterMode = $filter["filter_mode"] ?? "AND";
+        foreach ($filter["fields"] as $f => $curFilterField) {
+            if ($f > 0)
+                $whrClause .= " $curFilterMode ";
+            $fieldName = $curFilterField["field"];
+            $fieldType = $curFilterField["type"];
+            $fieldValue = $curFilterField["value"];
+            switch ($fieldType) {
+                case "eq":
+                    $whrClause .= " ($fieldName = '$fieldValue') ";
+                    break;
+                case "neq":
+                    $whrClause .= " ($fieldName <> '$fieldValue') ";
+                    break;
+                case "lt":
+                    $whrClause .= " ($fieldName < '$fieldValue') ";
+                    break;
+                case "gt":
+                    $whrClause .= " ($fieldName > '$fieldValue') ";
+                    break;
+                case "le":
+                    $whrClause .= " ($fieldName <= '$fieldValue') ";
+                    break;
+                case "ge":
+                    $whrClause .= " ($fieldName >= '$fieldValue') ";
+                    break;
+                case "like":
+                    $whrClause .= " (UPPER($fieldName) LIKE '%" . strtoupper($fieldValue) . "%') ";
+                    break;
+            }
+        }
+        $whrClause .= ") ";
+    }
+    $whrClause .= ")";
 }
 
-$time_start = microtime(true); 
-//query:
-$query = "SELECT RRN(JRGPFIL.FJRN4211B) AS RRN ,
-TRIM(JRENTT) AS JRENTT,
-TRIM(JRUPMJ) AS JRUPMJ,
-TRIM(JRTDAY) AS JRTDAY,
-TRIM(JRCTRR) AS JRCTRR,
- CASE 
-            WHEN SDDCTO IN ('SQ', 'OF') THEN 'Offerta'
-            WHEN SDDCTO IN ('OB') THEN 'Richiamo'
-            ELSE 'Ordine'
-        END AS TIPO, 
-        CASE 
-            WHEN SDDCTO IN ('OF' , 'O1' , 'OB' , 'OG' , 'O4' , 'O5') THEN 'Italia'
-            WHEN SDDCTO IN ('SQ' , 'O2' , 'O3' , 'O6' , 'O7') THEN 'Estero'
-            ELSE 'Non definito'
-        END AS UFFICIO,
-        TRIM(SDLITM) AS SDLITM,
-        TRIM(SDFRGD) AS SDFRGD,
-        TRIM(SDEUSE) AS SDEUSE,
-        TRIM(SDUPRC) AS SDUPRC,
-        TRIM(SDFUP) AS SDFUP,
-        TRIM(SDUOM4) AS SDUOM4,
-        TRIM(SDCRCD) AS SDCRCD,
-        TRIM(SDPDDJ) AS SDPDDJ,
-        TRIM(SDADDJ) AS SDADDJ,
-        TRIM(SDAN8) AS SDAN8,
-        TRIM(SDASN) AS SDASN, 
-        TRIM(SDDOCO) AS SDDOCO,
-        TRIM(SDDOC) AS SDDOC,
-        TRIM(SDDCT) AS SDDCT,
-        TRIM(SDDELN) AS SDDELN,
-        trim(coalesce((select min(WWMLNM) from JRGDTA94C.F0111 where JRGPFIL.FJRN4211B.SDCARS=JRGDTA94C.F0111.WWAN8 and JRGDTA94C.F0111.WWIDLN=0), '')) as SDCARS,
-        TRIM(SDLNID) AS SDLNID,
-        TRIM(SDSOQS) AS SDSOQS,
-        TRIM(SDAEXP) AS SDAEXP,
-        TRIM(SDFEA) AS SDFEA
-		FROM JRGPFIL.FJRN4211B where JRENTT not in  ('UB')
-    ";
-if ($whrClause != "") $query .= $whrClause;
-if ($ordbyClause != "") $query .= $ordbyClause;
-if ($limitClause != "") $query .= $limitClause; 
-
- $query .= " FOR FETCH ONLY"; 
- 
-
-$result=odbc_exec($conn,$query);
-if(!$result) {
-	echo '{"status":"ERROR","errmsg":'.json_encode(odbc_errormsg()).'}';
-	exit;
+if (isset($resArray['ordby']) && count($resArray['ordby']) > 0) {
+    $ordbyClause = " ORDER BY ";
+    foreach ($resArray['ordby'] as $i => $order) {
+        if ($i > 0)
+            $ordbyClause .= ", ";
+        $field = $order['field'];
+        $dir = strtoupper($order['dir']) === 'DESC' ? 'DESC' : 'ASC';
+        $ordbyClause .= "$field $dir";
+    }
 }
-$time_end = microtime(true);
-$execution_time = ($time_end - $time_start);
-//echo '<b>Query:</b> '.$execution_time.' s';
+
+if (isset($resArray['limit'])) {
+    $limitClause = " FETCH FIRST " . intval($resArray['limit']) . " ROWS ONLY";
+}
+
+// Query principale
+$query = "WITH MaxEntry AS (
+    SELECT COUNT00001, MAX(ENTRY00001) AS MaxTimeChange
+    FROM TABLE (
+        QSYS2.DISPLAY_JOURNAL( 'JRGPFIL', 'RGPJRN',
+        OBJECT_NAME=>'F4211',
+        STARTING_RECEIVER_NAME => '*CURAVLCHN',
+        OBJECT_LIBRARY=>'JRGDTA94C',
+        OBJECT_OBJTYPE=>'*FILE',
+        OBJECT_MEMBER=>'*ALL',
+        STARTING_TIMESTAMP => '$startingTimestamp')) AS JT
+    GROUP BY COUNT00001
+)
+SELECT JT.ENTRY00001 AS TIME_CHANGE,    
+       JT.JOURN00002 AS TYPE_CHANGE,     
+       JT.COUNT00001 AS RRN,                         
+       CASE 
+           WHEN F4211.SDDCTO IN ('SQ', 'OF') THEN 'Offerta'
+           WHEN F4211.SDDCTO IN ('OB') THEN 'Richiamo'
+           ELSE 'Ordine'
+       END AS TIPO, 
+       CASE 
+           WHEN F4211.SDDCTO IN ('OF', 'O1', 'OB', 'OG', 'O4', 'O5') THEN 'Italia'
+           WHEN F4211.SDDCTO IN ('SQ', 'O2', 'O3', 'O6', 'O7') THEN 'Estero'
+           ELSE 'Non definito'
+       END AS UFFICIO,
+       TRIM(F4211.SDLITM) AS SDLITM,
+       TRIM(F4211.SDFRGD) AS SDFRGD,
+       TRIM(F4211.SDEUSE) AS SDEUSE,
+       TRIM(F4211.SDUPRC) AS SDUPRC,
+       TRIM(F4211.SDFUP) AS SDFUP,
+       TRIM(F4211.SDUOM4) AS SDUOM4,
+       TRIM(F4211.SDCRCD) AS SDCRCD,
+       TRIM(F4211.SDPDDJ) AS SDPDDJ,
+       TRIM(F4211.SDADDJ) AS SDADDJ,
+       TRIM(F4211.SDAN8) AS SDAN8,
+       TRIM(F4211.SDASN) AS SDASN, 
+       TRIM(F4211.SDDOCO) AS SDDOCO,
+       TRIM(F4211.SDDOC) AS SDDOC,
+       TRIM(F4211.SDDCT) AS SDDCT,
+       TRIM(F4211.SDDELN) AS SDDELN,
+       TRIM(COALESCE((SELECT MIN(F0111.WWMLNM) FROM JRGDTA94C.F0111 AS F0111 WHERE F4211.SDCARS = F0111.WWAN8 AND F0111.WWIDLN = 0), '')) AS SDCARS,
+       TRIM(F4211.SDLNID) AS SDLNID,
+       DECIMAL(SDSOQS / 100, 14, 4) AS SDSOQS, 
+       DECIMAL(SDAEXP / 100, 14, 4) AS SDAEXP,  
+        DECIMAL(SDFEA / 100, 14, 4) AS SDFEA
+FROM TABLE (
+        QSYS2.DISPLAY_JOURNAL( 'JRGPFIL', 'RGPJRN',
+        OBJECT_NAME=>'F4211',
+        STARTING_RECEIVER_NAME => '*CURAVLCHN',
+        OBJECT_LIBRARY=>'JRGDTA94C',
+        OBJECT_OBJTYPE=>'*FILE',
+        OBJECT_MEMBER=>'*ALL',
+        STARTING_TIMESTAMP => '$startingTimestamp')) AS JT
+LEFT JOIN JRGDTA94C.F4211 AS F4211
+    ON JT.COUNT00001 = RRN(F4211)
+JOIN MaxEntry AS ME
+    ON JT.COUNT00001 = ME.COUNT00001
+   AND JT.ENTRY00001 = ME.MaxTimeChange
+WHERE JT.JOURN00002 NOT IN ('UB')
+";
+
+$query .= $whrClause . $ordbyClause . $limitClause . " FOR FETCH ONLY";
+
+// Esecuzione query
+$result = odbc_exec($conn, $query);
+if (!$result) {
+    echo json_encode(["status" => "ERROR", "errmsg" => odbc_errormsg()]);
+    exit;
+}
 
 echo '[';
-
-$time_start = microtime(true); 
 $r = 0;
-while($row = odbc_fetch_array($result)){
-		
-		foreach(array_keys($row) as $key)
-		{
-			$row[$key] = utf8_encode($row[$key]);
-		}
-		
-		if($r>0) echo ',';
-		echo json_encode($row);
-		$r++;
+while ($row = odbc_fetch_array($result)) {
+    foreach ($row as $key => $value) {
+        $row[$key] = utf8_encode($value);
+    }
+    if ($r > 0)
+        echo ',';
+    echo json_encode($row);
+    $r++;
 }
-
 echo ']';
-
-$time_end = microtime(true);
-$execution_time = ($time_end - $time_start);
-//echo '<b>Ciclo:</b> '.$execution_time.' s';
 
 odbc_close($conn);

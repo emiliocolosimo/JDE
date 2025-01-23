@@ -275,3 +275,18 @@
 [22-Jan-2025 13:54:11 Europe/Rome] 20250000041 - richiamo servizio gepacon
 [22-Jan-2025 13:54:12 Europe/Rome] curl data: {"success":true}
 [22-Jan-2025 13:54:13 Europe/Rome] fine procedura
+[22-Jan-2025 17:54:15 Europe/Rome] Inizio elaborazione
+[22-Jan-2025 17:54:15 Europe/Rome] Trovate 56 timbrature
+[22-Jan-2025 17:54:16 Europe/Rome] 20250000042 - richiamo servizio gepacon
+[22-Jan-2025 17:54:16 Europe/Rome] curl data: {"success":true}
+[22-Jan-2025 17:54:17 Europe/Rome] fine procedura
+[23-Jan-2025 09:54:08 Europe/Rome] Inizio elaborazione
+[23-Jan-2025 09:54:08 Europe/Rome] Trovate 58 timbrature
+[23-Jan-2025 09:54:08 Europe/Rome] 20250000043 - richiamo servizio gepacon
+[23-Jan-2025 09:54:09 Europe/Rome] curl data: {"success":true}
+[23-Jan-2025 09:54:09 Europe/Rome] fine procedura
+[23-Jan-2025 13:54:13 Europe/Rome] Inizio elaborazione
+[23-Jan-2025 13:54:13 Europe/Rome] Trovate 103 timbrature
+[23-Jan-2025 13:54:13 Europe/Rome] 20250000044 - richiamo servizio gepacon
+[23-Jan-2025 13:54:14 Europe/Rome] curl data: {"success":true}
+[23-Jan-2025 13:54:14 Europe/Rome] fine procedura
