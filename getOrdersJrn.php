@@ -29,6 +29,20 @@ if (!$resArray) {
     exit;
 }
 
+if (isset($resArray['number_last_change']) && !empty($resArray['number_last_change'])) {
+    $numberLastChange = $resArray['number_last_change'];
+    if (!is_numeric($numberLastChange) || $numberLastChange <= 0) {
+        http_response_code(400);
+        echo json_encode([
+            "status" => "ERROR",
+            "message" => "Invalid value for number_last_charge. Expected a positive numeric value."
+        ]);
+        exit;
+    }
+} else
+// Convertire la variabile in numero
+$numberLastChange = intval($numberLastChange);
+
 if (isset($resArray['starting_timestamp']) && !empty($resArray['starting_timestamp'])) {
     $startingTimestamp = $resArray['starting_timestamp'];
     if (!preg_match('/^\d{4}-\d{2}-\d{2}-\d{2}\.\d{2}\.\d{2}$/', $startingTimestamp)) {
@@ -120,7 +134,7 @@ if (isset($resArray['limit'])) {
 
 // Query principale
 $query = "WITH MaxEntry AS (
-    SELECT COUNT00001, MAX(ENTRY00001) AS MaxTimeChange
+    SELECT  SEQUE00001 , COUNT00001 , MAX(ENTRY00001) AS MaxTimeChange
     FROM TABLE (
         QSYS2.DISPLAY_JOURNAL( 'JRGPFIL', 'RGPJRN',
         OBJECT_NAME=>'F4211',
@@ -129,11 +143,12 @@ $query = "WITH MaxEntry AS (
         OBJECT_OBJTYPE=>'*FILE',
         OBJECT_MEMBER=>'*ALL',
         STARTING_TIMESTAMP => '$startingTimestamp')) AS JT
-    GROUP BY COUNT00001
+    GROUP BY SEQUE00001 , COUNT00001
 )
-SELECT JT.ENTRY00001 AS TIME_CHANGE,    
-       JT.JOURN00002 AS TYPE_CHANGE,     
-       JT.COUNT00001 AS RRN,                         
+SELECT JT.ENTRY00001 AS TIME_CHANGE,
+        JT.SEQUE00001 AS RRN_CHANGE,
+        JT.JOURN00002 AS TYPE_CHANGE, 
+       JT.COUNT00001 AS ID_ORDER,                         
        CASE 
            WHEN F4211.SDDCTO IN ('SQ', 'OF') THEN 'Offerta'
            WHEN F4211.SDDCTO IN ('OB') THEN 'Richiamo'
@@ -177,7 +192,8 @@ LEFT JOIN JRGDTA94C.F4211 AS F4211
 JOIN MaxEntry AS ME
     ON JT.COUNT00001 = ME.COUNT00001
    AND JT.ENTRY00001 = ME.MaxTimeChange
-WHERE JT.JOURN00002 NOT IN ('UB')
+   AND JT.SEQUE00001 = ME.SEQUE00001
+WHERE JT.JOURN00002 NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS') and JT.SEQUE00001 >=  '$numberLastChange'
 ";
 
 $query .= $whrClause . $ordbyClause . $limitClause . " FOR FETCH ONLY";
@@ -188,6 +204,7 @@ if (!$result) {
     echo json_encode(["status" => "ERROR", "errmsg" => odbc_errormsg()]);
     exit;
 }
+//echo $query;
 
 echo '[';
 $r = 0;

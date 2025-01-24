@@ -120,7 +120,7 @@ if($resArray) {
 
 $time_start = microtime(true); 
 //query:
-$query = "SELECT RRN(JRGDTA94C.F4211) AS JRCTRR ,
+$query = "SELECT RRN(JRGDTA94C.F4211) AS ID_ORDER ,
 	CASE 
         WHEN SDDCTO IN ('SQ', 'OF') THEN 'Offerta'
         WHEN SDDCTO IN ('OB') THEN 'Richiamo'
