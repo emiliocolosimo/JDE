@@ -223,6 +223,7 @@ while($row = odbc_fetch_array($result)){
 }
 
 echo ']';
+echo $query;
 
 $time_end = microtime(true);
 $execution_time = ($time_end - $time_start);
