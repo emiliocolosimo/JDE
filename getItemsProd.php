@@ -153,7 +153,7 @@ if(!$result) {
 }
 $time_end = microtime(true);
 $execution_time = ($time_end - $time_start);
-echo '<b>Query:</b> '.$query.' s';
+//echo '<b>Query:</b> '.$query.' s';
 
 // echo '['; 
 
