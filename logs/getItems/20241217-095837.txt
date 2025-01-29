@@ -1,0 +1,1 @@
+{"filters":[{"filter_mode":"AND","fields":[{"field":"F4101.IMLITM","type":"like","value":"S"}]}],"filter_mode":"AND","limit":10000}

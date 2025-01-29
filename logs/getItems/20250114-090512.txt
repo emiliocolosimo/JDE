@@ -1,0 +1,28 @@
+{
+    "filters": [
+        {
+            "filter_mode": "AND",
+            "fields": [
+                {
+                    "field": "SDAN8",
+                    "type": "like",
+                    "value": "1004823"
+                },
+                     {
+                    "field": "SDPDDJ",
+                    "type": "le",
+                    "value": "125365"
+                }
+            ]
+        } 
+    ],
+    "ordby" : [
+            {
+                "field": "SDPDDJ",
+                "dir": "ASC"
+            }
+    ],
+    "limit": 10,
+    "filter_mode": "AND"
+}
+ 

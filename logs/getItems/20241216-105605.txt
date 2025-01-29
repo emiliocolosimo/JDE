@@ -1,0 +1,22 @@
+{
+    "filters": [
+        {
+            "filter_mode": "AND",
+            "fields": [
+                {
+                    "field": "F4101.IMLITM",
+                    "type": "like",
+                    "value": "SF420C0012"
+                }
+            ]
+        }
+    ],
+    "filter_mode": "AND",
+    "ordby": [
+        {
+            "field": "CAST(LIPQOH AS NUMERIC)",
+            "dir": "ASC"
+        } 
+    ],
+    "limit": 10
+} 

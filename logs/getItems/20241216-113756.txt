@@ -1,0 +1,33 @@
+{
+    "filters": [
+        {
+            "filter_mode": "OR",
+            "fields": [
+    
+                {
+                    "field": "F4101D.IMLITM",
+                    "type": "like",
+                    "value": "SF52100127000"
+                }
+            ]
+        } 
+    ],
+    "ordby" : [
+            {
+                "field": "IMLITM",
+                "dir": "ASC"
+            },
+            {
+                "field": "LIURRF",
+                "dir": "DESC"
+            },
+             {
+                "field": "CAST(LIPQOH AS NUMERIC(12, 2))",
+                "dir": "ASC"
+            }
+    ],
+    "limit": 5,
+    "filter_mode": "AND"
+}
+ 
+ 

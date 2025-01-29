@@ -1,0 +1,716 @@
+/*** FONTS and COLORS ***/
+
+body, h1-h6, table, tr, td, input, submit, button, textarea, select  {
+	font-family: Trebuchet MS, Sans-serif;
+} 
+
+body { 
+	font-size: 14px;
+	color: #333333;
+}
+
+h1 {
+	font-size: 30px;
+	font-weight: normal; 
+	color: #333333;
+	font-style: italic; 
+}
+
+input[type="text"].filter, input[type="number"].filter { font-size: 12px; }
+
+input[type="text"], 
+input[type="number"], 
+input[type="password"],
+textarea
+{ 
+	font-size: 13px; 
+}
+
+.main-list th, 
+.main-list th a.list-header,
+.drill-down-list th,
+.drill-down-list th a.list-header 
+{
+	color: inherit;
+}
+
+.main-list td, .drill-down-list td {
+	font-size: 14px;
+}
+
+.main-list {
+	border-bottom: 1px solid #A0A7AF; 
+	padding-bottom: 20px;
+}
+
+.main-list a.list-header { text-decoration: none; }
+
+a.list-paging { 
+	color: #555555; 
+	text-decoration: none; 
+	font-size: 12px;
+	font-family: Verdana, sans-serif;
+}
+
+a.list-paging span { border-bottom: 1px solid #555555; }
+
+a.previous {
+	margin-right: 8px;
+}
+
+#page-content { background-color: white; }
+
+input.filter {
+	border: 1px solid #777777;
+	height: 20px;
+}
+
+.single-record #contents {
+	border-top: 3px solid #CFD8E2;
+}
+
+form.filter label {	vertical-align: middle; }
+
+#filters input[type="text"], #filters input[type="number"]  {
+	color: #414141;
+}
+
+#display-message.display-message-active { background-color: goldenrod; }
+
+.break-header {
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+textarea
+{
+    border: 1px solid #9C9C9C;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) inset; 
+/* Corner radius */
+    -moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; -khtml-border-top-left-radius: 4px; border-top-left-radius: 4px;
+    -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; -khtml-border-top-right-radius: 4px; border-top-right-radius: 4px;
+	-moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; -khtml-border-bottom-left-radius: 4px; border-bottom-left-radius: 4px;
+	-moz-border-radius-bottomright: 4px; -webkit-border-bottom-right-radius: 4px; -khtml-border-bottom-right-radius: 4px; border-bottom-right-radius: 4px; 
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.underline {
+	text-decoration: underline;
+}
+
+/*** IMAGES ***/
+
+body {
+ 	background-image: url(../images/background.gif);  
+	background-repeat: repeat;
+}
+
+/*** LAYOUT ***/
+
+body { margin: 0; padding: 0; }
+a img { border: none; }
+
+td.actions span { white-space: nowrap; }
+
+.actions{ width: 60px; }
+.input-capable-list .actions { width: auto; }
+
+.hidden { visibility: hidden; }
+.nodisplay { display: none; }
+
+.page-title-image { display: block; }
+
+#page-title-block { 
+	margin: 25px 30px; 
+}
+
+#outer-content { 
+	min-width: 782px;
+	margin-bottom: 26px;	
+}
+
+.display-list #outer-content,
+.single-record #outer-content,
+.chart #outer-content
+{
+	display: table;
+}
+
+#page-content {
+	margin: 0 30px;
+	padding: 0 32px;
+	min-height: 750px;
+}
+
+.chart #page-content { min-height: 0; }
+
+#page-content  { -moz-border-radius-topleft: 8px; -webkit-border-top-left-radius: 8px; -khtml-border-top-left-radius: 8px; border-top-left-radius: 8px; }
+#page-content  { -moz-border-radius-topright: 8px; -webkit-border-top-right-radius: 8px; -khtml-border-top-right-radius: 8px; border-top-right-radius: 8px; }
+#page-content  { -moz-border-radius-bottomleft: 8px; -webkit-border-bottom-left-radius: 8px; -khtml-border-bottom-left-radius: 8px; border-bottom-left-radius: 8px; }
+#page-content  { -moz-border-radius-bottomright: 8px; -webkit-border-bottom-right-radius: 8px; -khtml-border-bottom-right-radius: 8px; border-bottom-right-radius: 8px; }
+
+.add-link {
+	float: right;
+	display: inline-block;
+	margin-top: 35px;
+}
+
+.add-link img {
+	vertical-align: text-top;
+}
+
+span.list-paging { 
+	display: inline-block;
+	float: right; 
+	margin: 6px 0;
+}
+	
+a.list-paging img { vertical-align: middle; }
+	
+#list-table { 
+	clear: both; 
+	width: 100%; 
+	overflow:auto;
+}
+
+h3 { 
+	margin: 0; 
+	padding: 8px 0; 
+}
+
+h1.title { 
+	float: left;
+	display: inline-block; 
+	margin: 30px 0 18px;
+}
+
+div#display-message { 
+	margin: 10px 10px 15px; 
+	width: auto; 
+	min-height: 18px;
+}
+
+.message { padding: 3px 10px; }
+
+#contents {
+	clear: both;
+	padding: 22px 0 22px;
+}
+
+.clear-layout { clear: both; }
+
+form.filter { 
+	display: inline;
+	float: left;
+	margin: 2px 0;
+}
+
+.main-list { 
+	margin: 16px 0;
+	width: 100%;
+}
+
+.main-list,
+.drill-down-list 
+{
+	border-spacing: 0; 
+}
+
+.main-list, 
+#accordion 
+{ 
+	margin-top: 16px ;
+}
+	
+.main-list td, 
+.main-list th, 
+.drill-down-list td, 
+.drill-down-list th 
+{
+	padding: 8px 4px;
+}
+
+td.num { text-align: right; }
+td.alpha { text-align: left; }
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+textarea
+{
+    padding: 2px 4px;
+    margin: 0;
+    vertical-align: middle;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"]
+{
+    height: 22px;
+}
+
+.field-group { 
+	width: 100%; 
+	margin: 7px 0;
+}
+
+.field-group label, 
+.field-group span.label 
+{ 	
+	display:block; 
+	vertical-align: middle;
+	font-weight: bold;
+}
+.display-record .field-group label,
+.display-record .field-group span.label
+{
+	font-size: .9em;
+}
+.field-group span.value { 
+	 
+	display:block; 
+	vertical-align: middle;
+}
+.display-record .field-group span.value {
+	font-size: 1.1em;
+	margin-left: 10px;
+}
+
+.field-group span input { max-width: 100%; }
+
+.field-group span textarea { width: 100%; }
+
+#filters input, 
+#filters label 
+{ 
+	vertical-align: middle; 
+}
+
+.filter-button, 
+.cancel, 
+.ui-dialog-buttonset .cancel 
+{
+	height: 26px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+#login-button 
+{
+	height: 28px;
+	vertical-align: middle;
+}
+
+#logintable td {
+	white-space: nowrap;
+}
+
+#page-content {
+	box-shadow: 0 0 5px 5px #BBBBBB;
+}
+
+#filters input, 
+#filters label 
+{ 
+	vertical-align: middle; 
+}
+
+.fields {
+	margin-bottom: 2em;
+}
+
+#display-message { 
+	padding: 5px; 
+	background-color: transparent; 
+	border-radius: 4px; 
+	margin: 10px 0; 
+	width: 50%; 
+}
+
+.filter-group {
+	display: inline-block;
+	margin: 1px 17px 1px 0;
+}
+
+.filter-button {
+	margin-left: -17px;
+}
+
+body#drill-down.display-list {
+	overflow-y: scroll;
+}
+
+.break-header a {
+	text-decoration: none;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-center {
+	text-align: center;
+}
+
+hr
+{
+	border-width: 0px;
+	border-top-width: 1px;
+}
+
+/******************** jQuery UI style overrides ***************************/
+
+/*button text element */
+.ui-button-icon-only .ui-button-text, .ui-button-icons-only .ui-button-text { padding: .2em; }
+.ui-button-text-icon-primary .ui-button-text, .ui-button-text-icons .ui-button-text { padding: .2em .1em .2em 2.1em; }
+.ui-button-text-icon-secondary .ui-button-text, .ui-button-text-icons .ui-button-text { padding: .2em 2.1em .2em 1em; }
+.ui-button-text-icons .ui-button-text { padding-left: 2.1em; padding-right: 2.1em; }
+/* no icon support for input elements, provide padding by default */
+input.ui-button { padding: 0; }
+
+/* This is the style for the trigger icon. The margin-bottom value causes the icon to shift down to center it. */
+.ui-datepicker-trigger { margin-left:5px; margin-top: 8px; margin-bottom: -3px; cursor: pointer; }
+
+.ui-widget,
+.ui-jqgrid .ui-jqgrid-view,
+.ui-jqgrid .ui-jqgrid-pager
+{ 
+	font-family: Trebuchet MS, sans-serif; 
+	font-size: 14px; 
+}
+
+input[type="text"]:disabled, input[type="number"]:disabled {
+	background-image: none;
+	border: 1px solid #AAAAAA;
+}
+
+.add-link .ui-button-text-only span { padding-left: 7px; }
+
+.actions .ui-button {
+	min-width: 0;
+	width: 18px;
+	height: 20px;
+	vertical-align: middle;
+	margin-right: 2px;
+}
+
+.ui-button {
+ min-width: 7em;
+}
+
+.accept, 
+.cancel 
+{
+	min-height: 2em;
+}
+
+.ui-jqgrid .ui-jqgrid-htable th:hover {
+	font-weight: bold;
+}
+
+.ui-accordion-content h3 {
+	font-size: 1em;
+	padding: 0;
+}
+
+
+/***** Validation Styles *****/
+.error-text {
+	display: none;
+}
+.has-error .error-text {
+	display: inline;
+	font-size: .9em;
+	color: red;
+	margin-left: 10px;
+}
+.has-error .label .error-text {
+	font-weight: normal;
+	float: right;
+}
+
+.has-error input, .has-error select, .has-error textarea{
+	border: 1px solid red;
+	background:#ffeaea;
+}
+
+.required {
+	color: red;
+}
+
+.optional {
+	font-size: .9em;
+	color: grey;
+	margin-left: 10px;
+}
+.notice {
+	padding: 5px;
+	border: 1px dotted #94bb94;
+	margin-bottom: 15px;
+	background-color: #ebffeb;
+}
+
+/* Interaction states
+----------------------------------*/
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default,
+.ui-button,
+
+/* We use html here because we need a greater specificity to make sure disabled
+works properly when clicked or hovered */
+html .ui-button.ui-state-disabled:hover,
+html .ui-button.ui-state-disabled:active {
+	border: 1px solid #d6d6d6;
+	background: #edf1f5 url("../../css/images/ui-bg_glass_100_edf1f5_1x400.png") 50% 50% repeat-x;
+	font-weight: normal;
+	color: #333333;
+}
+.ui-state-default a,
+.ui-state-default a:link,
+.ui-state-default a:visited,
+a.ui-button,
+a:link.ui-button,
+a:visited.ui-button,
+.ui-button {
+	color: #333333;
+	text-decoration: none;
+}
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus,
+.ui-button:hover,
+.ui-button:focus {
+	border: 1px solid #b3b3b3;
+	background: #d6dee6 url("../../css/images/ui-bg_glass_100_d6dee6_1x400.png") 50% 50% repeat-x;
+	font-weight: normal;
+	color: #212121;
+}
+.ui-state-hover a,
+.ui-state-hover a:hover,
+.ui-state-hover a:link,
+.ui-state-hover a:visited,
+.ui-state-focus a,
+.ui-state-focus a:hover,
+.ui-state-focus a:link,
+.ui-state-focus a:visited,
+a.ui-button:hover,
+a.ui-button:focus {
+	color: #212121;
+	text-decoration: none;
+}
+
+/* Component containers
+----------------------------------*/
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+	font-family: Arial,sans-serif;
+	xfont-size: 1em;
+}
+.ui-widget.ui-widget-content {
+	border: 1px solid #d6d6d6;
+}
+.ui-widget-content {
+	border: 1px solid #aaaaaa;
+	background: #ffffff;
+	color: #222222;
+}
+.ui-widget-content a {
+	color: #222222;
+}
+.ui-widget-header {
+	border: 1px solid #aaaaaa;
+	background: #e8e8e8 url("../../css/images/ui-bg_glass_75_e8e8e8_1x400.png") 50% 50% repeat-x;
+	color: #222222;
+	font-weight: bold;
+}
+.ui-widget-header a {
+	color: #222222;
+}
+
+/* Icons
+----------------------------------*/
+
+/* states and images */
+.ui-icon {
+	width: 16px;
+	height: 16px;
+}
+.ui-icon,
+.ui-widget-content .ui-icon {
+	background-image: url("../../css/images/ui-icons_222222_256x240.png");
+}
+.ui-widget-header .ui-icon {
+	background-image: url("../../css/images/ui-icons_222222_256x240.png");
+}
+.ui-state-hover .ui-icon,
+.ui-state-focus .ui-icon,
+.ui-button:hover .ui-icon,
+.ui-button:focus .ui-icon {
+	background-image: url("../../css/images/ui-icons_7ebf08_256x240.png");
+}
+.ui-state-active .ui-icon,
+.ui-button:active .ui-icon {
+	background-image: url("../../css/images/ui-icons_595959_256x240.png");
+}
+.ui-state-error .ui-icon,
+.ui-state-error-text .ui-icon {
+	background-image: url("../../css/images/ui-icons_cd0a0a_256x240.png");
+}
+.ui-button .ui-icon {
+	background-image: url("../../css/images/ui-icons_575757_256x240.png");
+}
+.ui-state-highlight .ui-icon,
+.ui-button .ui-state-highlight.ui-icon {
+	background-image: url("../../css/images/ui-icons_ffa32e_256x240.png");
+}
+
+/* Interaction Cues
+----------------------------------*/
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight,
+.ui-widget-header .ui-state-highlight {
+	border: 1px solid #feeb76;
+	background: #fff1a3 url("../../css/images/ui-bg_glass_55_fff1a3_1x400.png") 50% 50% repeat-x;
+	color: #363636;
+}
+.ui-state-checked {
+	border: 1px solid #feeb76;
+	background: #fff1a3;
+}
+.ui-state-highlight a,
+.ui-widget-content .ui-state-highlight a,
+.ui-widget-header .ui-state-highlight a {
+	color: #363636;
+}
+
+/* Overlays */
+.ui-widget-overlay {
+	background: #cfcfcf;
+	opacity: .8;
+	filter: Alpha(Opacity=80); /* support: IE8 */
+}
+.ui-widget-shadow {
+	-webkit-box-shadow: -8px -8px 8px #aaaaaa;
+	box-shadow: -8px -8px 8px #aaaaaa;
+}
+
+.main-list th, 
+.main-list th a.list-header,
+.drill-down-list th,
+.drill-down-list th a.list-header 
+{
+	color: inherit;
+}
+
+tr.altcol1 { background-color: #EDF1F5; }
+tr.altcol2 { background-color: transparent; }
+
+.add, 
+.accept, 
+.ui-dialog-buttonset .accept 
+{ 
+	border: 1px solid #699F06; 
+	font-weight: bold; 
+	color: #ffffff; 
+}
+
+.add, 
+.accept, 
+.ui-dialog-buttonset .accept 
+{ 
+	border: 1px solid #699F06; 
+	font-weight: bold; 
+	color: #ffffff; 
+}
+
+.add, 
+.ui-dialog-buttonset .add, 
+.accept, 
+.ui-dialog-buttonset .accept
+{
+	background: #c7c7c7 url(../images/bg-button-accept.png) 50% 50% repeat-x;
+}
+
+.add:hover, 
+.accept:hover
+{
+	background: #c7c7c7 url(../images/bg-button-accept-hover.png) 50% 50% repeat-x;
+}
+
+.ui-button-text-only .ui-button-text { padding: .2em .75em; }
+
+.main-list tr.header th,
+.drill-down-list tr.header th 
+{ 
+	border-top: 3px solid #CFD8E2; 
+	border-bottom: 1px solid #CCCCCC;
+}
+
+.ui-widget-content
+{
+	border: 1px solid #aaaaaa;
+	background: #ffffff url(../../css/images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x;
+	color: #222222;
+}
+
+.ui-accordion-content.ui-widget-content
+{
+	border-top: 0px solid #aaaaaa;
+}
+
+.ui-button
+{
+	padding: 0;
+}
+
+a.add.ui-button,
+button.add.ui-button
+{
+	padding: .2em .6em .2em .4em;
+	color: white;
+	font-weight: bold;
+}
+
+a.ui-button-icon-only {
+	box-sizing: content-box;
+}
+
+.accept.ui-button
+{
+	font-weight: bold;
+	color: white;
+}
+
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
+	border: 1px solid #aaaaaa;
+	background: #ffffff url("../../css/images/ui-bg_glass_65_ffffff_1x400.png") 50% 50% repeat-x;
+	font-weight: normal;
+	color: #212121;
+}

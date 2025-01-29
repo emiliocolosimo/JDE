@@ -1,0 +1,247 @@
+/* Font Customizations */
+h1 {
+	font-size: 22px;
+	font-weight: normal;
+	color: #727272;
+}
+
+a.list-paging { 
+	color: #555555;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 13px;
+}
+
+a.list-paging span {
+	text-decoration: underline;
+}
+
+a.list-paging span.glyphicon {
+	text-decoration: none;
+	font-size: 0.8em;
+}
+
+.main-list th, .main-list th a {
+	text-decoration: none;
+	text-align: center;
+	color: inherit;
+}
+
+/* Layout Customizations */
+body {
+	margin: 15px 30px 26px 30px;
+}
+
+#contents {
+	clear: both;
+}
+
+#page-divider-top {
+	background: #414141; 
+	height: 1px; 
+}
+
+.actions span {
+	white-space: nowrap;
+}
+
+#page-divider-top {
+	margin-bottom: 15px;
+	margin-top: 15px;
+}
+
+.add-link {
+	float: right;
+	display: inline-block;
+}
+
+span.list-paging {
+	display: inline-block;
+	float: right; 
+	margin-top: 5px
+}
+
+h1.title {
+	float: left;
+	display: inline-block;
+	margin: 0 0 28px;
+}
+
+td.num {
+	text-align: right;
+}
+
+td.alpha {
+	text-align: left;
+}
+
+a.previous {
+	margin-right: 8px;
+}
+
+/* Login Page */
+.login-page {
+	width: 100%;
+}
+
+.login-page .container .contents {
+	width: 330px;
+	max-width: 330px;
+	margin: auto;
+}
+
+/* DataTables Template */
+.alert-container {
+	width: 50%;
+	margin: auto;
+	position: relative;
+}
+
+.alert-container .alert {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.modal .alert-container {
+	width: 100%;
+}
+
+table.dataTable {
+	width: auto;
+}
+
+table.table .actions {
+	width: 100px;
+	text-align: center;
+}
+
+.dataTables_paginate {
+	float: right;
+}
+
+.dataTables_length, .dataTables_info {
+	float: left;
+}
+
+
+/* Bootstrap customizations */
+
+/* Fix calendar appearing empty */
+select {
+	color: #222;
+}
+
+form.filter-form { 
+	display: inline;
+	float: left;
+}
+
+form.filter-form .form-group {
+	margin: 5px;
+}
+
+.filter-group {
+	float: none;
+	display: inline-block;
+	margin-right: -0.3em
+}
+
+#change-form, #add-form {
+	width:700px;
+}
+.form-group label, 
+.form-group span.label 
+{ 	
+	display:block; 
+	vertical-align: middle;
+	font-weight: bold;
+}
+.display-record .form-group label,
+.display-record .form-group span.label
+{
+	font-size: .9em;
+}
+.form-group span.value { 
+	display:block; 
+	vertical-align: middle;
+}
+.display-record .form-group span.value {
+	font-size: 1.1em;
+	margin-left: 10px;
+}
+
+.error-text {
+	display: none;
+}
+.has-error .error-text {
+	display: block;
+	font-size: .9em;
+	color: red;
+	margin-left: 10px;
+}
+.has-error label .error-text {
+	display: inline;
+	font-weight: normal;
+	float: right;
+}
+
+.has-error input, 
+.has-error select, 
+.has-error textarea{
+	border: 1px solid red;
+	background:#ffeaea;
+}
+
+
+.required {
+	color: red;
+}
+
+.optional {
+	font-size: .9em;
+	color: grey;
+	margin-left: 10px;
+}
+.notice {
+	padding: 5px;
+	border: 1px dotted #94bb94;
+	margin-bottom: 15px;
+	background-color: #ebffeb;
+}
+
+@media screen and (max-width:768px)
+{
+	#page-content {
+		margin: 0px 5px;
+	}
+
+	#page-title-block  {
+		margin: 5px 5px 0;
+	}
+}
+
+@media screen and (max-width:320px)
+{
+	#list-table {
+		width: 315px;
+	}
+
+	#page-content {
+		margin: 0px 2px;
+	}
+
+	.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+		padding: 1px 2px;
+	}
+	
+	#page-title-block  {
+		margin: 5px 5px 0;
+	}
+}
+
+.ui-widget-header {
+	border: 1px solid #aaaaaa;
+	background: #414141 url("../../css/images/ui-bg_glass_0_414141_1x400.png") 50% 50% repeat-x;
+	color: #ffffff;
+	font-weight: bold;
+}
