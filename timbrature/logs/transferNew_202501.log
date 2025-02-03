@@ -377,3 +377,28 @@
 [29-Jan-2025 17:53:38 Europe/Rome] 20250000059 - richiamo servizio gepacon
 [29-Jan-2025 17:53:39 Europe/Rome] curl data: {"success":true}
 [29-Jan-2025 17:53:39 Europe/Rome] fine procedura
+[30-Jan-2025 13:53:31 Europe/Rome] Inizio elaborazione
+[30-Jan-2025 13:53:32 Europe/Rome] Trovate 103 timbrature
+[30-Jan-2025 13:53:32 Europe/Rome] 20250000061 - richiamo servizio gepacon
+[30-Jan-2025 13:53:32 Europe/Rome] curl data: {"success":true}
+[30-Jan-2025 13:53:32 Europe/Rome] fine procedura
+[30-Jan-2025 17:53:34 Europe/Rome] Inizio elaborazione
+[30-Jan-2025 17:53:34 Europe/Rome] Trovate 58 timbrature
+[30-Jan-2025 17:53:34 Europe/Rome] 20250000062 - richiamo servizio gepacon
+[30-Jan-2025 17:53:35 Europe/Rome] curl data: {"success":true}
+[30-Jan-2025 17:53:35 Europe/Rome] fine procedura
+[31-Jan-2025 09:53:30 Europe/Rome] Inizio elaborazione
+[31-Jan-2025 09:53:30 Europe/Rome] Trovate 58 timbrature
+[31-Jan-2025 09:53:30 Europe/Rome] 20250000063 - richiamo servizio gepacon
+[31-Jan-2025 09:53:31 Europe/Rome] curl data: {"success":true}
+[31-Jan-2025 09:53:31 Europe/Rome] fine procedura
+[31-Jan-2025 13:53:33 Europe/Rome] Inizio elaborazione
+[31-Jan-2025 13:53:33 Europe/Rome] Trovate 102 timbrature
+[31-Jan-2025 13:53:33 Europe/Rome] 20250000064 - richiamo servizio gepacon
+[31-Jan-2025 13:53:33 Europe/Rome] curl data: {"success":true}
+[31-Jan-2025 13:53:34 Europe/Rome] fine procedura
+[31-Jan-2025 17:53:35 Europe/Rome] Inizio elaborazione
+[31-Jan-2025 17:53:35 Europe/Rome] Trovate 57 timbrature
+[31-Jan-2025 17:53:35 Europe/Rome] 20250000065 - richiamo servizio gepacon
+[31-Jan-2025 17:53:35 Europe/Rome] curl data: {"success":true}
+[31-Jan-2025 17:53:36 Europe/Rome] fine procedura
