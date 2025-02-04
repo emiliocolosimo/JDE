@@ -1,5 +1,6 @@
 <?php
 include("config.inc.php");
+include("query_helpers.php");
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -29,21 +30,6 @@ if (!$resArray) {
     exit;
 }
 
-if (isset($resArray['number_last_change']) && !empty($resArray['number_last_change'])) {
-    $numberLastChange = $resArray['number_last_change'];
-    if (!is_numeric($numberLastChange) || $numberLastChange <= 0) {
-        http_response_code(400);
-        echo json_encode([
-            "status" => "ERROR",
-            "message" => "Invalid value for number_last_charge. Expected a positive numeric value."
-        ]);
-        exit;
-    }
-} else
-// Convertire la variabile in numero
-$numberLastChange = intval($numberLastChange);
-
-
 if (isset($resArray['starting_timestamp']) && !empty($resArray['starting_timestamp'])) {
     $startingTimestamp = $resArray['starting_timestamp'];
     if (!preg_match('/^\d{4}-\d{2}-\d{2}-\d{2}\.\d{2}\.\d{2}$/', $startingTimestamp)) {
@@ -70,71 +56,13 @@ if (!$conn) {
     exit;
 }
 
-$whrClause = "";
-$ordbyClause = "";
-$limitClause = "";
-
-if (isset($resArray['filters']) && count($resArray['filters']) > 0) {
-    $filterMode = $resArray["filter_mode"] ?? "AND";
-    $whrClause = " AND (";
-    $arrFilters = $resArray['filters'];
-    foreach ($arrFilters as $i => $filter) {
-        if ($i > 0)
-            $whrClause .= " $filterMode ";
-        $whrClause .= " (";
-        $curFilterMode = $filter["filter_mode"] ?? "AND";
-        foreach ($filter["fields"] as $f => $curFilterField) {
-            if ($f > 0)
-                $whrClause .= " $curFilterMode ";
-            $fieldName = $curFilterField["field"];
-            $fieldType = $curFilterField["type"];
-            $fieldValue = $curFilterField["value"];
-            switch ($fieldType) {
-                case "eq":
-                    $whrClause .= " ($fieldName = '$fieldValue') ";
-                    break;
-                case "neq":
-                    $whrClause .= " ($fieldName <> '$fieldValue') ";
-                    break;
-                case "lt":
-                    $whrClause .= " ($fieldName < '$fieldValue') ";
-                    break;
-                case "gt":
-                    $whrClause .= " ($fieldName > '$fieldValue') ";
-                    break;
-                case "le":
-                    $whrClause .= " ($fieldName <= '$fieldValue') ";
-                    break;
-                case "ge":
-                    $whrClause .= " ($fieldName >= '$fieldValue') ";
-                    break;
-                case "like":
-                    $whrClause .= " (UPPER($fieldName) LIKE '%" . strtoupper($fieldValue) . "%') ";
-                    break;
-            }
-        }
-        $whrClause .= ") ";
-    }
-    $whrClause .= ")";
-}
-
-if (isset($resArray['ordby']) && count($resArray['ordby']) > 0) {
-    $ordbyClause = " ORDER BY ";
-    foreach ($resArray['ordby'] as $i => $order) {
-        if ($i > 0)
-            $ordbyClause .= ", ";
-        $field = $order['field'];
-        $dir = strtoupper($order['dir']) === 'DESC' ? 'DESC' : 'ASC';
-        $ordbyClause .= "$field $dir";
-    }
-}
-
-if (isset($resArray['limit'])) {
-    $limitClause = " FETCH FIRST " . intval($resArray['limit']) . " ROWS ONLY";
-}
+$whrClause = generateWhereClause($resArray);
+$ordbyClause = generateOrderByClause($resArray);
+$limitClause = generateLimitClause($resArray);
 
 // Query principale
-$query = "SELECT ENTRY00001 AS TIME_CHANGE,
+$query = "SELECT * FROM (
+SELECT ENTRY00001 AS TIME_CHANGE,
         SEQUE00001 AS RRN_CHANGE,
         JOURN00002 AS TYPE_CHANGE, 
         'OPEN' AS SOURCE_FILE,
@@ -178,12 +106,16 @@ FROM TABLE (
         OBJECT_MEMBER=>'*ALL',
         STARTING_TIMESTAMP => '$startingTimestamp')) AS JT
 LEFT JOIN JRGDTA94C.F4211 AS F4211
-    ON JT.COUNT00001 = RRN(F4211)
-WHERE JT.JOURN00002 NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS') and JT.SEQUE00001 >=  '$numberLastChange'
+    ON JT.COUNT00001 = RRN(F4211) ) AS A
+    ";
+
+$query .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . 
+          "TYPE_CHANGE NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS')  
+        ";
 
 
-union all 
-
+$query .= "union all 
+SELECT * FROM (
 SELECT ENTRY00001 AS TIME_CHANGE,
         SEQUE00001 AS RRN_CHANGE,
         JOURN00002 AS TYPE_CHANGE, 
@@ -228,14 +160,15 @@ FROM TABLE (
         OBJECT_MEMBER=>'*ALL',
         STARTING_TIMESTAMP => '$startingTimestamp')) AS JT
 LEFT JOIN JRGDTA94C.F42119 AS F42119
-    ON JT.COUNT00001 = RRN(F42119)
-WHERE JT.JOURN00002 NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS') 
-  AND JT.SEQUE00001 >=  '$numberLastChange'
-
-
+    ON JT.COUNT00001 = RRN(F42119)) AS A
 ";
 
-$query .= $whrClause . $ordbyClause . $limitClause . " FOR FETCH ONLY";
+$query .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . 
+          "TYPE_CHANGE NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS') 
+           ";
+
+$query .= $ordbyClause . $limitClause . " FOR FETCH ONLY";
+//echo $whrClause;
 
 // Esecuzione query
 $result = odbc_exec($conn, $query);
@@ -243,7 +176,7 @@ if (!$result) {
     echo json_encode(["status" => "ERROR", "errmsg" => odbc_errormsg()]);
     exit;
 }
-//echo $query;
+
 
 echo '[';
 $r = 0;

@@ -1,150 +1,34 @@
 <?php
 include("config.inc.php");
+include("query_helpers.php");
 
 header('Content-Type: application/json; charset=utf-8');
-
 set_time_limit(120);
-
-ini_set('display_errors', 0);
-ini_set('display_startup_errors', 0);
-error_reporting(E_ALL);
-ini_set("log_errors", 1);
+ini_set('log_errors', 1);
 ini_set("error_log", "/www/php80/htdocs/logs/getOrdersJrn/php-error.log");
 
-$k = '';
-if(isset($_REQUEST['k'])) $k = $_REQUEST["k"];
-if($k!="sJHsdwvIFTyhDuGtZoOfevsgG1A1H2s6") { 
-	exit;
-}
+$k = $_REQUEST['k'] ?? '';
+if ($k !== "sJHsdwvIFTyhDuGtZoOfevsgG1A1H2s6")
+    exit;
 
-$env = '';
-if(isset($_REQUEST["env"])) $env = $_REQUEST["env"];
-if($env=='') {
-	$env='prod'; //per retrocompatibilità
-}
+$env = $_REQUEST["env"] ?? 'prod';
 $curLib = $envLib[$env];
 
 $postedBody = file_get_contents('php://input');
-
-
-
-$server="Driver={IBM i Access ODBC Driver};System=127.0.0.1;Uid=".DB2_USER.";Pwd=".DB2_PASS.";TRANSLATE=1;CONNTYPE=2;CMT=0;BLOCKFETCH=1;BLOCKSIZE=2000"; 
-$user=DB2_USER; 
-$pass=DB2_PASS; 
-
-//connessione:
-$time_start = microtime(true); 
-
-$conn=odbc_connect($server,$user,$pass); 
-if(!$conn) {
-	echo odbc_errormsg($conn);
-	exit;
-}
-
-$time_end = microtime(true);
-$execution_time = ($time_end - $time_start);
-//echo '<b>Connessione:</b> '.$execution_time.' s';
-
-$whrClause = ""; 
-$ordbyClause = "";
-$limitClause = "";
-$rowCount = 0;
 $resArray = json_decode($postedBody, true);
 
-if (isset($resArray['last_id_order_open']) && is_numeric($resArray['last_id_order_open']) && $resArray['last_id_order_open'] > 0) {
-    $idordernumeropen = intval($resArray['last_id_order_open']);
-} else {
-    http_response_code(400);
-    echo json_encode([
-        "status" => "ERROR",
-        "message" => "id_order_open mancante o non valido"
-    ]);
+$server="Driver={IBM i Access ODBC Driver};System=127.0.0.1;Uid=".DB2_USER.";Pwd=".DB2_PASS.";TRANSLATE=1;CONNTYPE=2;CMT=0;BLOCKFETCH=1;BLOCKSIZE=2000"; 
+$conn = odbc_connect($server, DB2_USER, DB2_PASS);
+
+if (!$conn) {
+    echo json_encode(["status" => "ERROR", "errmsg" => odbc_errormsg()]);
     exit;
 }
 
-if (isset($resArray['last_id_order_closed']) && is_numeric($resArray['last_id_order_closed']) && $resArray['last_id_order_closed'] > 0) {
-    $idordernumerclosed = intval($resArray['last_id_order_closed']);
-} else {
-    http_response_code(400);
-    echo json_encode([
-        "status" => "ERROR",
-        "message" => "id_order_open mancante o non valido"
-    ]);
-    exit;
-}
+$whrClause = generateWhereClause($resArray);
+$ordbyClause = generateOrderByClause($resArray);
+$limitClause = generateLimitClause($resArray);
 
-
-if($resArray) {
-	if(isset($resArray['filters']) && count($resArray['filters'])>0) {
-		 
-		$filterMode = $resArray["filter_mode"];
- 		 
-		if($whrClause=="") $whrClause = " WHERE ";
-		
-		$whrClause .= " (";
-		
-		$arrFilters = $resArray['filters'];
-		for($i=0;$i<count($arrFilters);$i++) { 
-			if($i>0) $whrClause.= " ".$filterMode." ";
-			$whrClause .= " (";
-			
-			$curFilterMode = $arrFilters[$i]["filter_mode"];
-			$curFilterFields = $arrFilters[$i]["fields"];
-			
-			for($f=0;$f<count($curFilterFields);$f++) {
-				 
-				$curFilterField = $curFilterFields[$f];
-				$curFilterFieldName = $curFilterField["field"];
-				$curFilterFieldType = $curFilterField["type"];
-				$curFilterFieldValue = $curFilterField["value"];
-				
-				if($f>0) $whrClause .= " ".$curFilterMode;
-				
-				if($curFilterFieldType=="eq") $whrClause .= " (".$curFilterFieldName." = '".$curFilterFieldValue."') ";
-				if($curFilterFieldType=="neq") $whrClause .= " (".$curFilterFieldName." <> '".$curFilterFieldValue."') ";
-				if($curFilterFieldType=="lt") $whrClause .= " (".$curFilterFieldName." < '".$curFilterFieldValue."') ";
-				if($curFilterFieldType=="gt") $whrClause .= " (".$curFilterFieldName." > '".$curFilterFieldValue."') ";
-                if($curFilterFieldType=="le") $whrClause .= " (".$curFilterFieldName." <= '".$curFilterFieldValue."') ";
-				if($curFilterFieldType=="ge") $whrClause .= " (".$curFilterFieldName." >= '".$curFilterFieldValue."') ";
-				if($curFilterFieldType=="like") $whrClause .= " (upper(".$curFilterFieldName.") LIKE '%".strtoupper($curFilterFieldValue)."%') ";
-				
- 				
-				
-			} 
-			$whrClause .= " ) "; 
-		} 
-		$whrClause .= " ) "; 
-	}
-	  
-	
-	if(isset($resArray['ordby'])) {
-		$arrOrdby = $resArray['ordby'];
-		//var_dump($arrOrdby);
-		
-		if(isset($arrOrdby[0])) {
-			$ordbyClause = " ORDER BY ";
-			for($ob=0;$ob<count($arrOrdby);$ob++) {
-				if($ob>0) $ordbyClause.= ",";
-				$ordbyClause .= $arrOrdby[$ob]["field"]." ".$arrOrdby[$ob]["dir"];
-			}
-		} else { 
-			$ordbyFields = $arrOrdby['field'];
-			$arrOrdbyFields = explode(",",$ordbyFields);
-			$ordbyClause = " ORDER BY ";
-			for($ob=0;$ob<count($arrOrdbyFields);$ob++) {
-				if($ob>0) $ordbyClause.= ",";
-				$ordbyClause.= trim($arrOrdbyFields[$ob])." ".$arrOrdby['dir'];
-			}
-		} 
-	}
-	
-	if(isset($resArray['limit'])) {
-		$limitClause = " LIMIT ".$resArray['limit'];
-	}
-	
-}
-
-$time_start = microtime(true); 
 //query:
 $query = "SELECT * FROM(
 SELECT RRN(JRGDTA94C.F4211) AS ID_ORDER ,
@@ -179,11 +63,11 @@ SELECT RRN(JRGDTA94C.F4211) AS ID_ORDER ,
         TRIM(SDSOQS) AS SDSOQS,
         TRIM(SDAEXP) AS SDAEXP,
         TRIM(SDFEA) AS SDFEA
-		FROM JRGDTA94C.F4211 WHERE RRN(JRGDTA94C.F4211)  >= '$idordernumeropen' ) AS TT 
+		FROM JRGDTA94C.F4211
 
-	union all
 
-SELECT * FROM (
+    union all
+
 		SELECT RRN(JRGDTA94C.F42119) AS ID_ORDER ,
 	'CLOSED' AS SOURCE_FILE ,
 	CASE 
@@ -216,48 +100,34 @@ SELECT * FROM (
         TRIM(SDSOQS) AS SDSOQS,
         TRIM(SDAEXP) AS SDAEXP,
         TRIM(SDFEA) AS SDFEA
-		FROM JRGDTA94C.F42119 WHERE RRN(JRGDTA94C.F42119) >= '$idordernumerclosed') AS TC
-
-
-
-
+		FROM JRGDTA94C.F42119 )  AS T
     ";
-//if ($whrClause != "") $query .= $whrClause;
-if ($ordbyClause != "") $query .= $ordbyClause;
-if ($limitClause != "") $query .= $limitClause; 
 
- $query .= " FOR FETCH ONLY"; 
- 
+    $query .= $whrClause . $ordbyClause . $limitClause . " FOR FETCH ONLY";
 
-$result=odbc_exec($conn,$query);
-if(!$result) {
-	echo '{"status":"ERROR","errmsg":'.json_encode(odbc_errormsg()).'}';
-	exit;
+$result = odbc_exec($conn, $query);
+
+//echo $whrClause;
+
+if (!$result) {
+    echo json_encode(["status" => "ERROR", "errmsg" => odbc_errormsg()]);
+    exit;
 }
-$time_end = microtime(true);
-$execution_time = ($time_end - $time_start);
-//echo $idordernumeropen;
 
 echo '[';
-
-$time_start = microtime(true); 
 $r = 0;
-while($row = odbc_fetch_array($result)){
-		
-		foreach(array_keys($row) as $key)
-		{
-			$row[$key] = utf8_encode($row[$key]);
-		}
-		
-		if($r>0) echo ',';
-		echo json_encode($row);
-		$r++;
+while ($row = odbc_fetch_array($result)) {
+
+    foreach (array_keys($row) as $key) {
+        $row[$key] = utf8_encode($row[$key]);
+    }
+
+    if ($r > 0)
+        echo ',';
+    echo json_encode($row);
+    $r++;
 }
 
 echo ']';
-
-$time_end = microtime(true);
-$execution_time = ($time_end - $time_start);
-//echo '<b>Ciclo:</b> '.$execution_time.' s';
 
 odbc_close($conn);
