@@ -1,1 +1,0 @@
-{"env":"test","F47011":{"fields":{"quotation_number":91,"quotation_recipient_code":"1610321","quotation_recipient_shipping_code":"7026","quotation_date":"2024-08-08","quotation_referent_customer":"TEST","quotation_referent_customer_date":"2024-09-10","quotation_vat_rate_area":"SOGG","quotation_recipient_currency":"EUR"}},"F47012":[],"F4715":[]}

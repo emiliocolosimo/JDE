@@ -1,1 +1,0 @@
-{"filters":[{"filter_mode":"AND","fields":[{"field":"F4101.IMLITM","type":"like","value":"SF52100120000"}]}],"filter_mode":"AND","ordby":[{"field":"LIURRF","dir":"ASC"},{"field":"IOU2DJ","dir":"ASC"}],"limit":10000}

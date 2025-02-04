@@ -1,6 +1,0 @@
-[22-Dec-2024 00:00:02 UTC] PHP Warning:  odbc_connect(): SQL error: [IBM][System i Access ODBC Driver]Communication link failure. comm rc=8007 - CWBSY1008 - General security error occurred rc=8007, Password length = 8, Prompt Mode = Never, System IP Address = 127.0.0.1, SQL state 28000 in SQLConnect in /www/php80/htdocs/getNoteCliente.php on line 28
-[22-Dec-2024 00:00:02 UTC] PHP Fatal error:  Uncaught TypeError: odbc_errormsg(): Argument #1 ($odbc) must be of type resource or null, bool given in /www/php80/htdocs/getNoteCliente.php:30
-Stack trace:
-#0 /www/php80/htdocs/getNoteCliente.php(30): odbc_errormsg()
-#1 {main}
-  thrown in /www/php80/htdocs/getNoteCliente.php on line 30

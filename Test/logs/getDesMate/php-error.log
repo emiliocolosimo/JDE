@@ -1,2 +1,0 @@
-[29-Feb-2024 16:59:07 UTC] PHP Warning:  odbc_exec(): SQL error: [IBM][System i Access ODBC Driver][DB2 for i5/OS]SQL0204 - F0005 in JRGDTA94C type *FILE not found., SQL state S0002 in SQLExecDirect in /www/php80/htdocs/getDesMate.php on line 125
-[04-Mar-2024 16:21:57 UTC] PHP Warning:  Undefined variable $DRDL01A in /www/php80/htdocs/getDesMate.php on line 87

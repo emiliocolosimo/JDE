@@ -1,1 +1,0 @@
-{"filters":[{"filter_mode":"AND","fields":[{"field":"F41021.LILOTN","type":"like","value":"521023121906"}]}],"filter_mode":"AND","limit":10000}
