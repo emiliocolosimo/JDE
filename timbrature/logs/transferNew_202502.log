@@ -30,3 +30,8 @@
 [03-Feb-2025 13:53:32 Europe/Rome] 20250000069 - richiamo servizio gepacon
 [03-Feb-2025 13:53:33 Europe/Rome] curl data: {"success":true}
 [03-Feb-2025 13:53:33 Europe/Rome] fine procedura
+[03-Feb-2025 17:53:34 Europe/Rome] Inizio elaborazione
+[03-Feb-2025 17:53:34 Europe/Rome] Trovate 62 timbrature
+[03-Feb-2025 17:53:34 Europe/Rome] 20250000070 - richiamo servizio gepacon
+[03-Feb-2025 17:53:35 Europe/Rome] curl data: {"success":true}
+[03-Feb-2025 17:53:35 Europe/Rome] fine procedura

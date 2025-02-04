@@ -43,6 +43,7 @@ if (isset($resArray['number_last_change']) && !empty($resArray['number_last_chan
 // Convertire la variabile in numero
 $numberLastChange = intval($numberLastChange);
 
+
 if (isset($resArray['starting_timestamp']) && !empty($resArray['starting_timestamp'])) {
     $startingTimestamp = $resArray['starting_timestamp'];
     if (!preg_match('/^\d{4}-\d{2}-\d{2}-\d{2}\.\d{2}\.\d{2}$/', $startingTimestamp)) {
@@ -133,22 +134,11 @@ if (isset($resArray['limit'])) {
 }
 
 // Query principale
-$query = "WITH MaxEntry AS (
-    SELECT  SEQUE00001 , COUNT00001 , MAX(ENTRY00001) AS MaxTimeChange
-    FROM TABLE (
-        QSYS2.DISPLAY_JOURNAL( 'JRGPFIL', 'RGPJRN',
-        OBJECT_NAME=>'F4211',
-        STARTING_RECEIVER_NAME => '*CURAVLCHN',
-        OBJECT_LIBRARY=>'JRGDTA94C',
-        OBJECT_OBJTYPE=>'*FILE',
-        OBJECT_MEMBER=>'*ALL',
-        STARTING_TIMESTAMP => '$startingTimestamp')) AS JT
-    GROUP BY SEQUE00001 , COUNT00001
-)
-SELECT JT.ENTRY00001 AS TIME_CHANGE,
-        JT.SEQUE00001 AS RRN_CHANGE,
-        JT.JOURN00002 AS TYPE_CHANGE, 
-       JT.COUNT00001 AS ID_ORDER,                         
+$query = "SELECT ENTRY00001 AS TIME_CHANGE,
+        SEQUE00001 AS RRN_CHANGE,
+        JOURN00002 AS TYPE_CHANGE, 
+        'OPEN' AS SOURCE_FILE,
+       COUNT00001 AS ID_ORDER,                         
        CASE 
            WHEN F4211.SDDCTO IN ('SQ', 'OF') THEN 'Offerta'
            WHEN F4211.SDDCTO IN ('OB') THEN 'Richiamo'
@@ -189,11 +179,60 @@ FROM TABLE (
         STARTING_TIMESTAMP => '$startingTimestamp')) AS JT
 LEFT JOIN JRGDTA94C.F4211 AS F4211
     ON JT.COUNT00001 = RRN(F4211)
-JOIN MaxEntry AS ME
-    ON JT.COUNT00001 = ME.COUNT00001
-   AND JT.ENTRY00001 = ME.MaxTimeChange
-   AND JT.SEQUE00001 = ME.SEQUE00001
 WHERE JT.JOURN00002 NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS') and JT.SEQUE00001 >=  '$numberLastChange'
+
+
+union all 
+
+SELECT ENTRY00001 AS TIME_CHANGE,
+        SEQUE00001 AS RRN_CHANGE,
+        JOURN00002 AS TYPE_CHANGE, 
+        'CLOSED' AS SOURCE_FILE,
+       COUNT00001 AS ID_ORDER,                         
+       CASE 
+           WHEN F42119.SDDCTO IN ('SQ', 'OF') THEN 'Offerta'
+           WHEN F42119.SDDCTO IN ('OB') THEN 'Richiamo'
+           ELSE 'Ordine'
+       END AS TIPO, 
+       CASE 
+           WHEN F42119.SDDCTO IN ('OF', 'O1', 'OB', 'OG', 'O4', 'O5') THEN 'Italia'
+           WHEN F42119.SDDCTO IN ('SQ', 'O2', 'O3', 'O6', 'O7') THEN 'Estero'
+           ELSE 'Non definito'
+       END AS UFFICIO,
+       TRIM(F42119.SDLITM) AS SDLITM,
+       TRIM(F42119.SDFRGD) AS SDFRGD,
+       TRIM(F42119.SDEUSE) AS SDEUSE,
+       TRIM(F42119.SDUPRC) AS SDUPRC,
+       TRIM(F42119.SDFUP) AS SDFUP,
+       TRIM(F42119.SDUOM4) AS SDUOM4,
+       TRIM(F42119.SDCRCD) AS SDCRCD,
+       TRIM(F42119.SDPDDJ) AS SDPDDJ,
+       TRIM(F42119.SDADDJ) AS SDADDJ,
+       TRIM(F42119.SDAN8) AS SDAN8,
+       TRIM(F42119.SDASN) AS SDASN, 
+       TRIM(F42119.SDDOCO) AS SDDOCO,
+       TRIM(F42119.SDDOC) AS SDDOC,
+       TRIM(F42119.SDDCT) AS SDDCT,
+       TRIM(F42119.SDDELN) AS SDDELN,
+       TRIM(COALESCE((SELECT MIN(F0111.WWMLNM) FROM JRGDTA94C.F0111 AS F0111 WHERE F42119.SDCARS = F0111.WWAN8 AND F0111.WWIDLN = 0), '')) AS SDCARS,
+       TRIM(F42119.SDLNID) AS SDLNID,
+       DECIMAL(SDSOQS / 100, 14, 4) AS SDSOQS, 
+       DECIMAL(SDAEXP / 100, 14, 4) AS SDAEXP,  
+        DECIMAL(SDFEA / 100, 14, 4) AS SDFEA
+FROM TABLE (
+        QSYS2.DISPLAY_JOURNAL( 'JRGPFIL', 'RGPJRN',
+        OBJECT_NAME=>'F42119',
+        STARTING_RECEIVER_NAME => '*CURAVLCHN',
+        OBJECT_LIBRARY=>'JRGDTA94C',
+        OBJECT_OBJTYPE=>'*FILE',
+        OBJECT_MEMBER=>'*ALL',
+        STARTING_TIMESTAMP => '$startingTimestamp')) AS JT
+LEFT JOIN JRGDTA94C.F42119 AS F42119
+    ON JT.COUNT00001 = RRN(F42119)
+WHERE JT.JOURN00002 NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS') 
+  AND JT.SEQUE00001 >=  '$numberLastChange'
+
+
 ";
 
 $query .= $whrClause . $ordbyClause . $limitClause . " FOR FETCH ONLY";
