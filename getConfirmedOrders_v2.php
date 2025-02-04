@@ -5,11 +5,11 @@ header('Content-Type: application/json; charset=utf-8');
 
 set_time_limit(120);
 
-ini_set('display_errors', 0);
-ini_set('display_startup_errors', 0);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 ini_set("log_errors", 1);
-ini_set("error_log", "/www/php80/htdocs/logs/getConfirmedOrders/php-error.log");
+ini_set("error_log", "/www/php80/htdocs/log/confirmed.log");
 
 $k = '';
 if(isset($_REQUEST['k'])) $k = $_REQUEST["k"];
@@ -110,6 +110,8 @@ if($resArray) {
 				if($curFilterFieldType=="neq") $whrClause .= " (".$curFilterFieldName." <> '".$curFilterFieldValue."') ";
 				if($curFilterFieldType=="lt") $whrClause .= " (".$curFilterFieldName." < '".$curFilterFieldValue."') ";
 				if($curFilterFieldType=="gt") $whrClause .= " (".$curFilterFieldName." > '".$curFilterFieldValue."') ";
+				if($curFilterFieldType=="le") $whrClause .= " (".$curFilterFieldName." <= '".$curFilterFieldValue."') ";
+				if($curFilterFieldType=="ge") $whrClause .= " (".$curFilterFieldName." >= '".$curFilterFieldValue."') ";
 				if($curFilterFieldType=="like") $whrClause .= " (upper(".$curFilterFieldName.") LIKE '%".strtoupper($curFilterFieldValue)."%') ";
 				
  				
@@ -156,14 +158,16 @@ SDDCTO CONCAT DIGITS(SDDOCO) CONCAT DIGITS(SDLNID) AS ROWID,
 TRIM(SDAN8) AS SDAN8,
 TRIM(WWALPH) AS WWALPH,
 TRIM(SDSHAN) AS SDSHAN, 
-TRIM(TRIM(COALESCE(ALADD1,'')) CONCAT 
-CASE WHEN ALADD2 <> '' THEN ' ' CONCAT TRIM(COALESCE(ALADD2,'')) ELSE '' END CONCAT 
-CASE WHEN ALADD3 <> '' THEN ' ' CONCAT TRIM(COALESCE(ALADD3,'')) ELSE '' END CONCAT 
-CASE WHEN ALADD4 <> '' THEN ' ' CONCAT TRIM(COALESCE(ALADD4,'')) ELSE '' END CONCAT 
-CASE WHEN ALADDZ <> '' THEN ' ' CONCAT TRIM(COALESCE(ALADDZ,'')) ELSE '' END CONCAT 
-CASE WHEN ALCTY1 <> '' THEN ' ' CONCAT TRIM(COALESCE(ALCTY1,'')) ELSE '' END CONCAT 
-CASE WHEN ALCOUN <> '' THEN ' ' CONCAT TRIM(COALESCE(ALCOUN,'')) ELSE '' END 
-) AS INDSPED, 
+TRIM(
+    CASE WHEN ALADD1 <> '' THEN ' ' || TRIM(COALESCE(ALADD1, '')) || ',' ELSE '' END ||
+    CASE WHEN ALADD2 <> '' THEN ' ' || TRIM(COALESCE(ALADD2, '')) || ',' ELSE '' END ||
+    CASE WHEN ALADD3 <> '' THEN ' ' || TRIM(COALESCE(ALADD3, '')) ELSE '' END ||
+    CASE WHEN ALADD4 <> '' THEN ' ' || TRIM(COALESCE(ALADD4, '')) ELSE '' END ||
+    CASE WHEN ALADDZ <> '' THEN ' ' || TRIM(COALESCE(ALADDZ, '')) ELSE '' END ||
+    CASE WHEN ALCTY1 <> '' THEN ' ' || TRIM(COALESCE(ALCTY1, '')) ELSE '' END ||
+    CASE WHEN ALADDS <> '' THEN ' (' || TRIM(COALESCE(ALADDS, '')) || ')' ELSE '' END ||
+    CASE WHEN ALCOUN <> '' THEN ' ' || TRIM(COALESCE(ALCOUN, '')) ELSE '' END
+) AS INDSPED,
 SDDRQJ AS SDDRQJ, 
 ONDATE AS ONDATE,
 TRIM(SDDOCO) AS SDDOCO, 
@@ -181,7 +185,7 @@ LEFT JOIN ".$curLib.".F0111 ON SDAN8 = WWAN8 AND WWIDLN = 0
 LEFT JOIN ".$curLib.".F0116 ON SDSHAN = ALAN8  
 LEFT JOIN ".$curLib.".F00365 ON SDDRQJ = ONDTEJ 
 WHERE TRIM(SDMCU) IN ('RGPM01','RGPM02') 
-AND SDPSN=0 AND SDLNTY='S'
+AND SDPSN=0 AND SDLNTY='S' AND SDDCTO NOT IN ('OF' , 'SQ' , 'OB' , 'ST') AND SDLTTR<>'980'
 
 "; 
 
@@ -202,7 +206,7 @@ $time_end = microtime(true);
 $execution_time = ($time_end - $time_start);
 //echo '<b>Query:</b> '.$execution_time.' s';
 
-echo '[';
+//echo '[';
 
 $time_start = microtime(true); 
 $r = 0;
@@ -218,7 +222,7 @@ while($row = odbc_fetch_array($result)){
 		$r++;
 }
 
-echo ']';
+//echo ']';
 
 $time_end = microtime(true);
 $execution_time = ($time_end - $time_start);
