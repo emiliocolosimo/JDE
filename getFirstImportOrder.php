@@ -64,6 +64,8 @@ SELECT RRN(JRGDTA94C.F4211) AS ID_ORDER ,
         TRIM(SDAEXP) AS SDAEXP,
         TRIM(SDFEA) AS SDFEA
 		FROM JRGDTA94C.F4211
+        where sdlttr<>'980' and sduorg<>0 and sddcto in ('OF' , 'O1' , 'OB' , 'OG' , 'O4' , 'O5' , 'SQ' , 'O2' , 'O3' , 'O6' , 'O7') 
+        and sdlnty not like 'T%'
 
 
     union all

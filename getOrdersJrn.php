@@ -62,11 +62,11 @@ $limitClause = generateLimitClause($resArray);
 
 // Query principale
 $query = "SELECT * FROM (
-SELECT ENTRY00001 AS TIME_CHANGE,
+SELECT  ENTRY00001 AS TIME_CHANGE,
         SEQUE00001 AS RRN_CHANGE,
         JOURN00002 AS TYPE_CHANGE, 
         'OPEN' AS SOURCE_FILE,
-       COUNT00001 AS ID_ORDER,                         
+        COUNT00001 AS ID_ORDER,                         
        CASE 
            WHEN F4211.SDDCTO IN ('SQ', 'OF') THEN 'Offerta'
            WHEN F4211.SDDCTO IN ('OB') THEN 'Richiamo'
@@ -77,6 +77,7 @@ SELECT ENTRY00001 AS TIME_CHANGE,
            WHEN F4211.SDDCTO IN ('SQ', 'O2', 'O3', 'O6', 'O7') THEN 'Estero'
            ELSE 'Non definito'
        END AS UFFICIO,
+       TRIM(F4211.SDDCTO) AS SDDCTO,
        TRIM(F4211.SDLITM) AS SDLITM,
        TRIM(F4211.SDFRGD) AS SDFRGD,
        TRIM(F4211.SDEUSE) AS SDEUSE,
@@ -91,12 +92,14 @@ SELECT ENTRY00001 AS TIME_CHANGE,
        TRIM(F4211.SDDOCO) AS SDDOCO,
        TRIM(F4211.SDDOC) AS SDDOC,
        TRIM(F4211.SDDCT) AS SDDCT,
+       TRIM(F4211.SDLTTR) AS SDLTTR,
+       TRIM(F4211.SDLNTY) AS SDLNTY,
        TRIM(F4211.SDDELN) AS SDDELN,
        TRIM(COALESCE((SELECT MIN(F0111.WWMLNM) FROM JRGDTA94C.F0111 AS F0111 WHERE F4211.SDCARS = F0111.WWAN8 AND F0111.WWIDLN = 0), '')) AS SDCARS,
        TRIM(F4211.SDLNID) AS SDLNID,
        DECIMAL(SDSOQS / 100, 14, 4) AS SDSOQS, 
-       DECIMAL(SDAEXP / 100, 14, 4) AS SDAEXP,  
-        DECIMAL(SDFEA / 100, 14, 4) AS SDFEA
+       DECIMAL(SDAEXP / 100, 14, 4) AS SDAEXP,
+       DECIMAL(SDFEA / 100, 14, 4) AS SDFEA
 FROM TABLE (
         QSYS2.DISPLAY_JOURNAL( 'JRGPFIL', 'RGPJRN',
         OBJECT_NAME=>'F4211',
@@ -110,7 +113,8 @@ LEFT JOIN JRGDTA94C.F4211 AS F4211
     ";
 
 $query .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . 
-          "TYPE_CHANGE NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS')  
+          "TYPE_CHANGE NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS') and sdlttr<>'980' and sddcto in ('OF' , 'O1' , 'OB' , 'OG' , 'O4' , 'O5' , 'SQ' , 'O2' , 'O3' , 'O6' , 'O7') 
+        and sdlnty not like 'T%'
         ";
 
 
@@ -131,6 +135,7 @@ SELECT ENTRY00001 AS TIME_CHANGE,
            WHEN F42119.SDDCTO IN ('SQ', 'O2', 'O3', 'O6', 'O7') THEN 'Estero'
            ELSE 'Non definito'
        END AS UFFICIO,
+        TRIM(F42119.SDDCTO) AS SDDCTO,
        TRIM(F42119.SDLITM) AS SDLITM,
        TRIM(F42119.SDFRGD) AS SDFRGD,
        TRIM(F42119.SDEUSE) AS SDEUSE,
@@ -145,6 +150,8 @@ SELECT ENTRY00001 AS TIME_CHANGE,
        TRIM(F42119.SDDOCO) AS SDDOCO,
        TRIM(F42119.SDDOC) AS SDDOC,
        TRIM(F42119.SDDCT) AS SDDCT,
+        TRIM(F42119.SDLTTR) AS SDLTTR,
+        TRIM(F42119.SDLNTY) AS SDLNTY,
        TRIM(F42119.SDDELN) AS SDDELN,
        TRIM(COALESCE((SELECT MIN(F0111.WWMLNM) FROM JRGDTA94C.F0111 AS F0111 WHERE F42119.SDCARS = F0111.WWAN8 AND F0111.WWIDLN = 0), '')) AS SDCARS,
        TRIM(F42119.SDLNID) AS SDLNID,
@@ -164,7 +171,8 @@ LEFT JOIN JRGDTA94C.F42119 AS F42119
 ";
 
 $query .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . 
-          "TYPE_CHANGE NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS') 
+          "TYPE_CHANGE NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS')  and sdlttr<>'980' and sddcto in ('OF' , 'O1' , 'OB' , 'OG' , 'O4' , 'O5' , 'SQ' , 'O2' , 'O3' , 'O6' , 'O7') 
+        and sdlnty not like 'T%'
            ";
 
 $query .= $ordbyClause . $limitClause . " FOR FETCH ONLY";
@@ -177,18 +185,19 @@ if (!$result) {
     exit;
 }
 
-
 echo '[';
 $r = 0;
+
 while ($row = odbc_fetch_array($result)) {
     foreach ($row as $key => $value) {
         $row[$key] = utf8_encode($value);
     }
     if ($r > 0)
         echo ',';
-    echo json_encode($row);
+        echo json_encode($row);
     $r++;
 }
+
 echo ']';
 
 odbc_close($conn);
