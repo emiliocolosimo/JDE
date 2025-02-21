@@ -141,7 +141,13 @@ class NoteInserter
         $fieldsArray["ZDUSER"] = $this->getUtenteJDE($headerFields["crm_user"]);
         //$fieldsArray["ZDUSER"] = "CRM";
         $fieldsArray["ZDTORG"] = $fieldsArray["ZDUSER"];
-        $fieldsArray["SDDCTO"] = $this->getSYDCTO($headerFields["quotation_recipient_code"]);
+
+        $fieldsArray["ZDDCTO"] = !empty($headerFields["quotation_type"])
+            ? $headerFields["quotation_type"]
+            :  $this->getSYDCTO($headerFields["quotation_recipient_code"]);
+
+
+        //$fieldsArray["SDDCTO"] = $this->getSYDCTO($headerFields["quotation_recipient_code"]);
 
 
         $hasErrors = false;

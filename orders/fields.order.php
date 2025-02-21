@@ -442,6 +442,7 @@ $fieldSize["F47011"]["SYTENT"] = "6,0";
 //TODO:
 $fieldsReference = array();
 $fieldsReference["F47011"]["quotation_number"] = "SYRORN";
+$fieldsReference["F47011"]["quotation_type"] = "SYDCTO";
 $fieldsReference["F47011"]["quotation_recipient_code"] = "SYAN8";
 $fieldsReference["F47011"]["quotation_recipient_shipping_code"] = "SYSHAN";
 $fieldsReference["F47011"]["quotation_date"] = "SYTRDJ";

@@ -147,7 +147,11 @@ class HeaderInserter
         $fieldsArray["SYORBY"] = $fieldsArray["SYUSER"];
         //$fieldsArray["SYEKCO"] = $fieldsArray["SYKCOO"];
         //$fieldsArray["SYCO"] = $fieldsArray["SYKCOO"];
-        $fieldsArray["SYDCTO"] = $this->getSYDCTO($fieldsArray["SYAN8"]);
+        $fieldsArray["SYDCTO"] = !empty($fieldsArray["SYDCTO"])
+                ? $fieldsArray["SYDCTO"]
+                : $this->getSYDCTO($fieldsArray["SYAN8"]);
+//        $fieldsArray["SYDCTO"] = $this->getSYDCTO($fieldsArray["SYAN8"]);
+
         if ($fieldsArray["SYSHAN"] == '') $fieldsArray["SYSHAN"] = $fieldsArray["SYAN8"];
 
         /*

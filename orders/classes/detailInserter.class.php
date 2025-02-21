@@ -194,7 +194,12 @@ class DetailInserter
 
         $fieldsArray["SZUSER"] = $this->getUtenteJDE($headerFields["crm_user"]);
         //$fieldsArray["SZUSER"] = "CRM";
-        $fieldsArray["SZDCTO"] = $this->getSYDCTO($headerFields["quotation_recipient_code"]);
+
+        //$fieldsArray["SZDCTO"] = $this->getSYDCTO($headerFields["quotation_recipient_code"]);
+
+        $fieldsArray["SZDCTO"] = !empty($headerFields["quotation_type"])
+            ? $headerFields["quotation_type"]
+            :  $this->getSYDCTO($headerFields["quotation_recipient_code"]);
 
         /*
         $tmp = '';
