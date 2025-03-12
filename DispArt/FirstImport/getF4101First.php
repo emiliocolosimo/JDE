@@ -45,22 +45,27 @@ $ordbyClause = generateOrderByClause($resArray);
 $limitClause = generateLimitClause($resArray);
  
 //query:
+
+
     $query.="SELECT * FROM TABLE(
     SELECT
-    RRN(F41021) AS RRN_F41021, 
-    TRIM(LIITM) AS LIITM, 
-    TRIM(LIMCU) AS LIMCU,  
-    TRIM(LILOCN) AS LILOCN, 
-    TRIM(LILOTN) AS LILOTN, 
-    TRIM(LILOTS) AS LILOTS,  
-    TRIM(VARCHAR_FORMAT((DECIMAL(LIPQOH/100, 10, 2)),'9999999990.00')) AS LIPQOH, 
-    TRIM(VARCHAR_FORMAT((DECIMAL(LIHCOM/100, 10, 4)),'9999999990.00')) AS LIHCOM,
-    TRIM(LIURRF) AS LIURRF
-    FROM JRGDTA94C.F41021 AS F41021)AS T
+    RRN(F4101) AS RRN_F4101, 
+    TRIM(F4101.IMITM) AS IMITM,     
+    TRIM(COALESCE(F4101.IMLITM, '')) AS IMLITM,
+    TRIM(COALESCE(F4101.IMDSC1, '')) AS IMDSC1,
+    TRIM(COALESCE(F4101.IMSRP1, '')) AS IMSRP1,
+    TRIM(COALESCE(F4101.IMSRP2, '')) AS IMSRP2,
+    TRIM(COALESCE(F4101.IMSRP3, '')) AS IMSRP3, 
+    TRIM(COALESCE(F4101.IMUOM1, '')) AS IMUOM1,  
+    TRIM(COALESCE(F4101.IMUOM4, '')) AS IMUOM4,  
+    TRIM(COALESCE(F4101D.IMDSC1, '')) AS IMDSCL
+    FROM JRGDTA94C.F4101 AS F4101
+    LEFT JOIN JRGDTA94C.F4101D AS F4101D ON F4101.IMITM = F4101D.IMITM AND F4101D.IMLNGP = 'E' 
+    ) AS T
 ";
 
-$query .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . "    LIPQOH <> 0 AND TRIM(LIMCU) IN ('RGPM01','RGPM02')";
-
+$query .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . " IMITM<>' '";
+  
       
     if($ordbyClause!="") $query.=$ordbyClause;
     if($limitClause!="") $query.=$limitClause;

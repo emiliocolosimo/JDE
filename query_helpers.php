@@ -8,7 +8,6 @@ function generateWhereClause($resArray, $whrClause = "") {
 
     $filterMode = $resArray["filter_mode"] ?? "AND";
     $whrClause = $whrClause ?: " WHERE ";
-    $andClause = $andClause ?: " AND ";
     $whrClause .= " (";
 
     $filterGroups = array_map(function ($filterGroup) {

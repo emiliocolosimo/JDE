@@ -31,14 +31,14 @@ if (!$resArray) {
 }
 if (isset($resArray['starting_timestamp']) && !empty($resArray['starting_timestamp'])) {
     $startingTimestamp = $resArray['starting_timestamp'];
-    if (!preg_match('/^\d{4}-\d{2}-\d{2}-\d{2}\.\d{2}\.\d{2}$/', $startingTimestamp)) {
+/*    if (!preg_match('/^\d{4}-\d{2}-\d{2}-\d{2}\.\d{2}\.\d{2}$/', $startingTimestamp)) {
         http_response_code(400);
         echo json_encode([
             "status" => "ERROR",
             "message" => "Invalid format for starting_timestamp. Expected: YYYY-MM-DD-HH.MM.SS"
         ]);
         exit;
-    }
+    }*/
 } else {
     http_response_code(400);
     echo json_encode(["status" => "ERROR", "message" => "Missing required parameter: starting_timestamp"]);
@@ -58,9 +58,9 @@ if (!$conn) {
 $whrClause = generateWhereClause($resArray);
 $ordbyClause = generateOrderByClause($resArray);
 $limitClause = generateLimitClause($resArray);
- 
-//query Disponibilità:
-$queryDisp.="SELECT * FROM (
+
+$queryDisp.="
+WITH OrderedChanges AS (
     SELECT 
         ENTRY00001 AS TIME_CHANGE,
         SEQUE00001 AS RRN_CHANGE,
@@ -74,7 +74,8 @@ $queryDisp.="SELECT * FROM (
         TRIM(LILOTS) AS LILOTS,  
         TRIM(VARCHAR_FORMAT((DECIMAL(LIPQOH/100, 10, 2)),'9999999990.00')) AS LIPQOH, 
         TRIM(VARCHAR_FORMAT((DECIMAL(LIHCOM/100, 10, 4)),'9999999990.00')) AS LIHCOM,
-        TRIM(LIURRF) AS LIURRF
+        TRIM(LIURRF) AS LIURRF,
+        ROW_NUMBER() OVER (PARTITION BY RRN(F41021) ORDER BY ENTRY00001 DESC) AS RowNum
    FROM TABLE (
         QSYS2.DISPLAY_JOURNAL( 'JRGPFIL', 'RGPJRN',
         OBJECT_NAME=>'F41021',
@@ -87,21 +88,19 @@ $queryDisp.="SELECT * FROM (
        AS JT 
 LEFT JOIN JRGDTA94C.F41021 AS F41021
     ON JT.COUNT00001 = RRN(F41021) 
-    )AS A
+)
+
+SELECT * FROM OrderedChanges 
 ";
 
-
-$queryDisp .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . " LILOTN<>'  ' AND LIITM<>0";
-  
-      
+    $queryDisp .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . "   RowNum = 1 AND LILOTN<>'  '";  
     if($ordbyClause!="") $queryDisp.=$ordbyClause;
     if($limitClause!="") $queryDisp.=$limitClause;
     $queryDisp.=" FOR FETCH ONLY";
-
-    
  
 //query Costi:
-$queryCost.="SELECT * FROM (
+$queryCost.="WITH OrderedChanges AS (
+SELECT * FROM (
     SELECT 
         ENTRY00001 AS TIME_CHANGE,
         SEQUE00001 AS RRN_CHANGE,
@@ -113,7 +112,8 @@ $queryCost.="SELECT * FROM (
         TRIM(COALESCE(F4105.COMCU, '')) AS COMCU,
         TRIM(COALESCE(F4105.COLOCN, '')) AS COLOCN,
         TRIM(VARCHAR_FORMAT((DECIMAL(COALESCE(F4105.COUNCS, 0)/10000000, 10, 7)),'9999999990.0000000')) AS COUNCS, 
-        TRIM(COALESCE(F4105.COLEDG, '')) AS COLEDG
+        TRIM(COALESCE(F4105.COLEDG, '')) AS COLEDG,
+        ROW_NUMBER() OVER (PARTITION BY RRN(F4105) ORDER BY ENTRY00001 DESC) AS RowNum
         FROM TABLE (
         QSYS2.DISPLAY_JOURNAL( 'JRGPFIL', 'RGPJRN',
         OBJECT_NAME=>'F4105',
@@ -127,16 +127,20 @@ LEFT JOIN JRGDTA94C.F4105 AS F4105
     ON JT.COUNT00001 = RRN(F4105) 
     WHERE COLEDG IN ('06' , 'CD' , 'CS')
     )AS A
+    )
+
+SELECT * FROM OrderedChanges 
 ";
 
 
-    $queryCost .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . " COLOTN<>'  ' AND COITM<>0";
+    $queryCost .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . " RowNum = 1 AND COLOTN<>'  ' AND COITM<>0";
     if($ordbyClause!="") $queryCost.=$ordbyClause;
     if($limitClause!="") $queryCost.=$limitClause;
     $queryCost.=" FOR FETCH ONLY";
 
 //query Anagrafica Lotti:
-$queryAnagLot.="SELECT * FROM (
+$queryAnagLot.="WITH OrderedChanges AS (
+SELECT * FROM (
     SELECT 
         ENTRY00001 AS TIME_CHANGE,
         SEQUE00001 AS RRN_CHANGE,
@@ -151,7 +155,8 @@ $queryAnagLot.="SELECT * FROM (
         COALESCE(F4108.IOU1DJ, 0) AS IOU1DJ,
         COALESCE(F4108.IOU2DJ, 0) AS IOU2DJ,
         COALESCE(F4108.IOU3DJ, 0) AS IOU3DJ,
-        COALESCE(F4108.IOVEND, 0) AS IOVEND
+        COALESCE(F4108.IOVEND, 0) AS IOVEND,
+        ROW_NUMBER() OVER (PARTITION BY RRN(F4108) ORDER BY ENTRY00001 DESC) AS RowNum
             FROM TABLE (
         QSYS2.DISPLAY_JOURNAL( 'JRGPFIL', 'RGPJRN',
         OBJECT_NAME=>'F4108',
@@ -165,10 +170,13 @@ LEFT JOIN JRGDTA94C.F4108 AS F4108
     ON JT.COUNT00001 = RRN(F4108) 
 
     )AS A
+        )
+
+SELECT * FROM OrderedChanges 
 ";
 
 
-    $queryAnagLot .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . " IOLOTN<>'  '";
+    $queryAnagLot .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . " RowNum = 1 AND IOLOTN<>'  '";
     if($ordbyClause!="") $queryAnagLot.=$ordbyClause;
     if($limitClause!="") $queryAnagLot.=$limitClause;
     $queryAnagLot.=" FOR FETCH ONLY";
