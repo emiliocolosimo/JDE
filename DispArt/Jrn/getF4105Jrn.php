@@ -10,7 +10,7 @@ ini_set('display_errors', 0);
 ini_set('display_startup_errors', 0);
 error_reporting(E_ALL);
 ini_set("log_errors", 1);
-ini_set("error_log", "/www/php80/htdocs/logs/getF41021Jrn/php-error.log");
+ini_set("error_log", "/www/php80/htdocs/logs/getF4105Jrn/php-error.log");
 
 $k = isset($_REQUEST['k']) ? $_REQUEST["k"] : '';
 if ($k != "sJHsdwvIFTyhDuGtZoOfevsgG1A1H2s6") {
@@ -63,40 +63,39 @@ $queryDisp .= "WITH OrderedChanges AS (
     SELECT 
         ENTRY00001 AS TIME_CHANGE,
         JOURN00002 AS TYPE_CHANGE, 
-        RRN(F41021) AS RRN_F41021, 
-        TRIM(LIITM) AS LIITM, 
-        TRIM(LIMCU) AS LIMCU,  
-        TRIM(LILOCN) AS LILOCN, 
-        TRIM(LILOTN) AS LILOTN, 
-        TRIM(LILOTS) AS LILOTS,  
-        TRIM(VARCHAR_FORMAT((DECIMAL(LIPQOH/100, 10, 2)),'9999999990.00')) AS LIPQOH, 
-        TRIM(VARCHAR_FORMAT((DECIMAL(LIHCOM/100, 10, 4)),'9999999990.00')) AS LIHCOM,
-        TRIM(LIURRF) AS LIURRF,
-        ROW_NUMBER() OVER (PARTITION BY RRN(F41021) ORDER BY ENTRY00001 DESC) AS RowNum
+        RRN(F4105) AS RRN_F4105, 
+        TRIM(COALESCE(F4105.COITM, '')) AS COITM,
+        TRIM(COALESCE(F4105.COLOTN, '')) AS COLOTN,
+        TRIM(COALESCE(F4105.COMCU, '')) AS COMCU,
+        TRIM(COALESCE(F4105.COLOCN, '')) AS COLOCN,
+        TRIM(VARCHAR_FORMAT((DECIMAL(COALESCE(F4105.COUNCS, 0)/10000000, 10, 7)),'9999999990.0000000')) AS COUNCS, 
+        TRIM(COALESCE(F4105.COLEDG, '')) AS COLEDG,
+        ROW_NUMBER() OVER (PARTITION BY RRN(F4105) ORDER BY ENTRY00001 DESC) AS RowNum
    FROM TABLE (
         QSYS2.DISPLAY_JOURNAL( 'JRGPFIL', 'RGPJRN',
-        OBJECT_NAME=>'F41021',
+        OBJECT_NAME=>'F4105',
         STARTING_RECEIVER_NAME => '*CURAVLCHN',
         OBJECT_LIBRARY=>'JRGDTA94C',
         OBJECT_OBJTYPE=>'*FILE',
         OBJECT_MEMBER=>'*ALL',
         STARTING_TIMESTAMP => '$startingTimestamp')) 
        AS JT 
-LEFT JOIN JRGDTA94C.F41021 AS F41021
-    ON JT.COUNT00001 = RRN(F41021) 
+LEFT JOIN JRGDTA94C.F4105 AS F4105
+    ON JT.COUNT00001 = RRN(F4105) WHERE COLEDG IN ('06' , 'CD' , 'CS')
+
 )
 
 SELECT * FROM OrderedChanges 
 ";
 
-$queryDisp .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . "   RowNum = 1 AND LILOTN<>'  '";
+$queryDisp .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . "   RowNum = 1 AND COLOTN<>'  ' ";
 if ($ordbyClause != "")
     $queryDisp .= $ordbyClause;
 if ($limitClause != "")
     $queryDisp .= $limitClause;
 $queryDisp .= " FOR FETCH ONLY";
 
-// echo $queryDisp;
+//echo $queryDisp;
 
 // 1️⃣ **Esegui la prima query ($queryDisp)**
 $resultDisp = odbc_exec($conn, $queryDisp);
