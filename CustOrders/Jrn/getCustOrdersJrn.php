@@ -61,16 +61,19 @@ $ordbyClause = generateOrderByClause($resArray);
 $limitClause = generateLimitClause($resArray);
 
 // Query principale
-$query = "SELECT * FROM (
+$query = "WITH OrderedChanges AS (SELECT * FROM (
 SELECT  ENTRY00001 AS TIME_CHANGE,
         SEQUE00001 AS RRN_CHANGE,
-        JOURN00002 AS TYPE_CHANGE, 
+        CASE
+        WHEN F4211.SDLTTR IN ('980', '988') THEN 'DL'
+        ELSE JOURN00002
+        END AS TYPE_CHANGE, 
         'OPEN' AS SOURCE_FILE,
         COUNT00001 AS ID_ORDER,                         
        CASE 
-           WHEN F4211.SDDCTO IN ('SQ', 'OF') THEN 'Offerta'
-           WHEN F4211.SDDCTO IN ('OB') THEN 'Richiamo'
-           ELSE 'Ordine'
+            WHEN F4211.SDDCTO IN ('SQ', 'OF') THEN 'Offerta'
+            WHEN F4211.SDDCTO IN ('OB') THEN 'Richiamo'
+            ELSE 'Ordine'
        END AS TIPO, 
        CASE 
            WHEN F4211.SDDCTO IN ('OF', 'O1', 'OB', 'OG', 'O4', 'O5') THEN 'Italia'
@@ -81,8 +84,8 @@ SELECT  ENTRY00001 AS TIME_CHANGE,
        TRIM(F4211.SDLITM) AS SDLITM,
        TRIM(F4211.SDFRGD) AS SDFRGD,
        TRIM(F4211.SDEUSE) AS SDEUSE,
-       TRIM(F4211.SDUPRC) AS SDUPRC,
-       TRIM(F4211.SDFUP) AS SDFUP,
+        TRIM(VARCHAR_FORMAT((DECIMAL(SDUPRC/100, 10, 2)),'9999999990.00')) AS SDUPRC,
+        TRIM(VARCHAR_FORMAT((DECIMAL(SDFUP/100, 10, 2)),'9999999990.00')) AS SDFUP,
        TRIM(F4211.SDUOM4) AS SDUOM4,
        TRIM(F4211.SDCRCD) AS SDCRCD,
        TRIM(F4211.SDPDDJ) AS SDPDDJ,
@@ -96,10 +99,11 @@ SELECT  ENTRY00001 AS TIME_CHANGE,
        TRIM(F4211.SDLNTY) AS SDLNTY,
        TRIM(F4211.SDDELN) AS SDDELN,
        TRIM(COALESCE((SELECT MIN(F0111.WWMLNM) FROM JRGDTA94C.F0111 AS F0111 WHERE F4211.SDCARS = F0111.WWAN8 AND F0111.WWIDLN = 0), '')) AS SDCARS,
-       TRIM(F4211.SDLNID) AS SDLNID,
-       DECIMAL(SDSOQS / 100, 14, 4) AS SDSOQS, 
-       DECIMAL(SDAEXP / 100, 14, 4) AS SDAEXP,
-       DECIMAL(SDFEA / 100, 14, 4) AS SDFEA
+        TRIM(VARCHAR_FORMAT((DECIMAL(SDLNID/100, 10, 2)),'9999999990.00')) AS SDLNID,
+        TRIM(VARCHAR_FORMAT((DECIMAL(SDSOQS/100, 10, 2)),'9999999990.00')) AS SDSOQS,
+        TRIM(VARCHAR_FORMAT((DECIMAL(SDAEXP/100, 10, 2)),'9999999990.00')) AS SDAEXP,
+        TRIM(VARCHAR_FORMAT((DECIMAL(SDFEA/100, 10, 2)),'9999999990.00')) AS SDFEA,
+        ROW_NUMBER() OVER (PARTITION BY RRN(F4211) ORDER BY ENTRY00001 DESC) AS RowNum
 FROM TABLE (
         QSYS2.DISPLAY_JOURNAL( 'JRGPFIL', 'RGPJRN',
         OBJECT_NAME=>'F4211',
@@ -113,7 +117,7 @@ LEFT JOIN JRGDTA94C.F4211 AS F4211
     ";
 
 $query .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . 
-          "TYPE_CHANGE NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS') and sdlttr<>'980' and sddcto in ('OF' , 'O1' , 'OB' , 'OG' , 'O4' , 'O5' , 'SQ' , 'O2' , 'O3' , 'O6' , 'O7') 
+          "TYPE_CHANGE NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS') and sddcto in ('OF' , 'O1' , 'OB' , 'OG' , 'O4' , 'O5' , 'SQ' , 'O2' , 'O3' , 'O6' , 'O7') 
         and sdlnty not like 'T%'
         ";
 
@@ -122,12 +126,15 @@ $query .= "union all
 SELECT * FROM (
 SELECT ENTRY00001 AS TIME_CHANGE,
         SEQUE00001 AS RRN_CHANGE,
-        JOURN00002 AS TYPE_CHANGE, 
+        CASE
+        WHEN F42119.SDLTTR IN ('980', '988') THEN 'DL'
+        ELSE JOURN00002
+        END AS TYPE_CHANGE,
         'CLOSED' AS SOURCE_FILE,
        COUNT00001 AS ID_ORDER,                         
        CASE 
-           WHEN F42119.SDDCTO IN ('SQ', 'OF') THEN 'Offerta'
-           WHEN F42119.SDDCTO IN ('OB') THEN 'Richiamo'
+            WHEN F42119.SDDCTO IN ('SQ', 'OF') THEN 'Offerta'
+            WHEN F42119.SDDCTO IN ('OB') THEN 'Richiamo'
            ELSE 'Ordine'
        END AS TIPO, 
        CASE 
@@ -139,8 +146,8 @@ SELECT ENTRY00001 AS TIME_CHANGE,
        TRIM(F42119.SDLITM) AS SDLITM,
        TRIM(F42119.SDFRGD) AS SDFRGD,
        TRIM(F42119.SDEUSE) AS SDEUSE,
-       TRIM(F42119.SDUPRC) AS SDUPRC,
-       TRIM(F42119.SDFUP) AS SDFUP,
+        TRIM(VARCHAR_FORMAT((DECIMAL(SDUPRC/100, 10, 2)),'9999999990.00')) AS SDUPRC,
+        TRIM(VARCHAR_FORMAT((DECIMAL(SDFUP/100, 10, 2)),'9999999990.00')) AS SDFUP,
        TRIM(F42119.SDUOM4) AS SDUOM4,
        TRIM(F42119.SDCRCD) AS SDCRCD,
        TRIM(F42119.SDPDDJ) AS SDPDDJ,
@@ -154,10 +161,11 @@ SELECT ENTRY00001 AS TIME_CHANGE,
         TRIM(F42119.SDLNTY) AS SDLNTY,
        TRIM(F42119.SDDELN) AS SDDELN,
        TRIM(COALESCE((SELECT MIN(F0111.WWMLNM) FROM JRGDTA94C.F0111 AS F0111 WHERE F42119.SDCARS = F0111.WWAN8 AND F0111.WWIDLN = 0), '')) AS SDCARS,
-       TRIM(F42119.SDLNID) AS SDLNID,
-       DECIMAL(SDSOQS / 100, 14, 4) AS SDSOQS, 
-       DECIMAL(SDAEXP / 100, 14, 4) AS SDAEXP,  
-        DECIMAL(SDFEA / 100, 14, 4) AS SDFEA
+        TRIM(VARCHAR_FORMAT((DECIMAL(SDLNID/100, 10, 2)),'9999999990.00')) AS SDLNID,
+        TRIM(VARCHAR_FORMAT((DECIMAL(SDSOQS/100, 10, 2)),'9999999990.00')) AS SDSOQS,
+        TRIM(VARCHAR_FORMAT((DECIMAL(SDAEXP/100, 10, 2)),'9999999990.00')) AS SDAEXP,
+        TRIM(VARCHAR_FORMAT((DECIMAL(SDFEA/100, 10, 2)),'9999999990.00')) AS SDFEA,
+        ROW_NUMBER() OVER (PARTITION BY RRN(F42119) ORDER BY ENTRY00001 DESC) AS RowNum
 FROM TABLE (
         QSYS2.DISPLAY_JOURNAL( 'JRGPFIL', 'RGPJRN',
         OBJECT_NAME=>'F42119',
@@ -171,8 +179,10 @@ LEFT JOIN JRGDTA94C.F42119 AS F42119
 ";
 
 $query .= $whrClause . (empty($whrClause) ? " WHERE " : " AND ") . 
-          "TYPE_CHANGE NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS')  and sdlttr<>'980' and sddcto in ('OF' , 'O1' , 'OB' , 'OG' , 'O4' , 'O5' , 'SQ' , 'O2' , 'O3' , 'O6' , 'O7') 
+          "TYPE_CHANGE NOT IN ('UB' , 'CB' , 'SS' , 'DW' , 'DH' , 'MS')  and sddcto in ('OF' , 'O1' , 'OB' , 'OG' , 'O4' , 'O5' , 'SQ' , 'O2' , 'O3' , 'O6' , 'O7') 
         and sdlnty not like 'T%'
+)
+SELECT * FROM OrderedChanges WHERE RowNum = 1
            ";
 
 $query .= $ordbyClause . $limitClause . " FOR FETCH ONLY";

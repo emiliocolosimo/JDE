@@ -44,6 +44,15 @@ if (isset($resArray['starting_timestamp']) && !empty($resArray['starting_timesta
     echo json_encode(["status" => "ERROR", "message" => "Missing required parameter: starting_timestamp"]);
     exit;
 }
+/*
+if (isset($resArray['Count']) && !empty($resArray['Count'])) {
+    $Count = $resArray['Count'];
+} else {
+    http_response_code(400);
+    echo json_encode(["Count" => "ERROR", "message" => "Missing required parameter: starting_timestamp"]);
+    exit;
+}
+*/
 
 $server = "Driver={IBM i Access ODBC Driver};System=127.0.0.1;Uid=" . DB2_USER . ";Pwd=" . DB2_PASS . ";TRANSLATE=1;CONNTYPE=2;CMT=0;BLOCKFETCH=1;BLOCKSIZE=2000";
 $user = DB2_USER;
