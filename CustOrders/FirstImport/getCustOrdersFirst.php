@@ -3,7 +3,7 @@ include("/www/php80/htdocs/config.inc.php");
 include("/www/php80/htdocs/query_helpers.php");
 
 header('Content-Type: application/json; charset=utf-8');
-set_time_limit(120);
+set_time_limit(1200);
 ini_set('log_errors', 1);
 ini_set("error_log", "/www/php80/htdocs/logs/getCustOrdersFirst/php-error.log");
 
