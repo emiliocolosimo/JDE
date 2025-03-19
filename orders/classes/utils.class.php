@@ -12,7 +12,8 @@ class Utils
     {
         $dateDayNbr = date('z', strtotime($date)) + 1;
         $dateYear = date('y', strtotime($date));
-        return "1" . $dateYear . str_pad($dateDayNbr, 3, "0");
+        return "1" . $dateYear . str_pad($dateDayNbr, 3, "0", STR_PAD_LEFT);
+
     }
 
     public function JULToDate($date)
@@ -27,4 +28,4 @@ class Utils
 
 
 //$Utils = new Utils();
-//echo $Utils->dateToJUL("2024-07-19");
+//echo $Utils->dateToJUL("2025-03-19");

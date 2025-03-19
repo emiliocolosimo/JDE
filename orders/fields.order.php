@@ -475,9 +475,9 @@ $costantFields["F47011"]["SYEXR1"] = "V";
 //$costantFields["F47011"]["SYPRIO"] = "0"; 
 $costantFields["F47011"]["SYPOBU"] = "      RGPM01";
 //$costantFields["F47011"]["SYPID"] = "CRM";
-$costantFields["F47011"]["SYUPMJ"] = "1" . date("y") . str_pad(date('z') + 1, 3, "0");
+$costantFields["F47011"]["SYUPMJ"] = "1" . date("y") . str_pad(date('z') + 1, 3, "0", STR_PAD_LEFT);
 $costantFields["F47011"]["SYTDAY"] = date("His");
-$costantFields["F47011"]["SYUPAJ"] = "1" . date("y") . str_pad(date('z') + 1, 3, "0");
+$costantFields["F47011"]["SYUPAJ"] = "1" . date("y") . str_pad(date('z') + 1, 3, "0", STR_PAD_LEFT);
 $costantFields["F47011"]["SYTENT"] = date("His");
 
 /*****************/
@@ -1501,9 +1501,9 @@ $costantFields["F47012"]["SZEXR1"] = "V";
 $costantFields["F47012"]["SZTMUP"] = "3";
 $costantFields["F47012"]["SZPOBU"] = "      RGPM01";
 //$costantFields["F47012"]["SZPID"] = "CRM"; 
-$costantFields["F47012"]["SZUPMJ"] = "1" . date("y") . str_pad(date('z') + 1, 3, "0");
+$costantFields["F47012"]["SZUPMJ"] = "1" . date("y") . str_pad(date('z') + 1, 3, "0", STR_PAD_LEFT);
 $costantFields["F47012"]["SZTDAY"] = date("His");
-$costantFields["F47012"]["SZUPAJ"] = "1" . date("y") . str_pad(date('z') + 1, 3, "0");
+$costantFields["F47012"]["SZUPAJ"] = "1" . date("y") . str_pad(date('z') + 1, 3, "0", STR_PAD_LEFT);
 $costantFields["F47012"]["SZTENT"] = date("His");
 $costantFields["F47012"]["SZMCU"] = "      RGPM01";
 
@@ -1598,7 +1598,7 @@ $costantFields["F4715"]["ZDKCOO"] = "00001";
 $costantFields["F4715"]["ZDEDCT"] = "CR";
 $costantFields["F4715"]["ZDFILE"] = "F47012";
 //$costantFields["F4715"]["ZDPID"] = "CRM"; 
-$costantFields["F4715"]["ZDUPMJ"] = "1" . date("y") . str_pad(date('z') + 1, 3, "0");
+$costantFields["F4715"]["ZDUPMJ"] = "1" . date("y") . str_pad(date('z') + 1, 3, "0", STR_PAD_LEFT);
 $costantFields["F4715"]["ZDTDAY"] = date("His");  
 
 

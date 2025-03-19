@@ -399,7 +399,7 @@ $updCostantFields = array();
 //$updCostantFields["F0101"]["ABUSER"] = "CRM";
 //$updCostantFields["F0101"]["ABPID"] = "CRM";
 //$updCostantFields["F0101"]["ABTORG"] = "CRM";
-$updCostantFields["F0101"]["ABUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
+$updCostantFields["F0101"]["ABUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
 $updCostantFields["F0101"]["ABUPMT"] = date("His");
 
  
@@ -559,7 +559,7 @@ $updFieldsReference["F0111"]["progre"]   =  "WWIDLN";
 //$updCostantFields["F0111"]["WWUSER"] = "CRM";
 //$updCostantFields["F0111"]["WWPID"] = "CRM";
 //$updCostantFields["F0111"]["WWTORG"] = "CRM";  
-$updCostantFields["F0111"]["WWUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
+$updCostantFields["F0111"]["WWUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
 $updCostantFields["F0111"]["WWUPMT"] = date("His"); 
 
 
@@ -705,7 +705,7 @@ $updCostantFields["F0116"]["ALEFTF"] = "1";
 //$updCostantFields["F0116"]["ALUSER"] = "CRM";
 //$updCostantFields["F0116"]["ALPID"] = "CRM";
 //$updCostantFields["F0116"]["ALTORG"] = "CRM"; 
-$updCostantFields["F0116"]["ALUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
+$updCostantFields["F0116"]["ALUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
 $updCostantFields["F0116"]["ALUPMT"] = date("His"); 
 
 /************************************/
@@ -781,7 +781,7 @@ $updFieldsReference["F0115"]["customer_phone"]  =  "WPPH1";
 //$updCostantFields["F0115"]["WPUSER"] = "CRM";
 //$updCostantFields["F0115"]["WPPID"] = "CRM";
 //$updCostantFields["F0115"]["WPTORG"] = "CRM"; 
-$updCostantFields["F0115"]["WPUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
+$updCostantFields["F0115"]["WPUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
 $updCostantFields["F0115"]["WPUPMT"] = date("His"); 
 
 
@@ -1557,7 +1557,7 @@ $updFieldsReference["F0301"]["customer_bank"]  =  "A5CACT";
 //$updCostantFields["F0301"]["A5USER"] = "CRM";
 //$updCostantFields["F0301"]["A5PID"] = "CRM";
 //$updCostantFields["F0301"]["A5TORG"] = "CRM"; 
-$updCostantFields["F0301"]["A5UPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
+$updCostantFields["F0301"]["A5UPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
 $updCostantFields["F0301"]["A5UPMT"] = date("His"); 
 
 
@@ -1617,8 +1617,8 @@ $updFieldsReference["F01017"]["custumer_billing_code"]  =  "AGAN8R";
 //$updCostantFields["F01017"]["AGUSER"] = "CRM";
 //$updCostantFields["F01017"]["AGPID"] = "CRM";
 //$updCostantFields["F01017"]["AGTORG"] = "CRM"; 
-$updCostantFields["F01017"]["AGUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
-$updCostantFields["F01017"]["AGUPAJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
+$updCostantFields["F01017"]["AGUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
+$updCostantFields["F01017"]["AGUPAJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
 $updCostantFields["F01017"]["AGUPMT"] = date("His");
 
  /***************************************/
@@ -1870,5 +1870,5 @@ $updFieldsReference["F0030"]["customer_iban_code"]  =  "AYIBAN";
 //$updCostantFields["F0030"]["AYUSER"] = "CRM";
 //$updCostantFields["F0030"]["AYPID"] = "CRM";
 //$updCostantFields["F0030"]["AYTORG"] = "CRM"; 
-$updCostantFields["F0030"]["AYUPAJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
+$updCostantFields["F0030"]["AYUPAJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
 $updCostantFields["F0030"]["AYUPMT"] = date("His");

@@ -204,4 +204,4 @@ if (!$res) {
 }
 
 
-echo '{"stat":"OK"}';
+echo '{"stat":"OK" ;' . '"OrderNumber": "' . $orderNumber . '"}';

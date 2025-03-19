@@ -433,7 +433,7 @@ $costantFields = array();
 $costantFields["F0101"]["ABMCU"] = "           1";
 $costantFields["F0101"]["ABATP"] = "N";
 $costantFields["F0101"]["ABATR"] = "Y";
-$costantFields["F0101"]["ABUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
+$costantFields["F0101"]["ABUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
 $costantFields["F0101"]["ABUPMT"] = date("His");
 /*
 $costantFields["F0101"]["ABUSER"] = "CRM";
@@ -595,7 +595,7 @@ $fieldsReference["F0111"]["progre"]   =  "WWIDLN";
 //$costantFields["F0111"]["WWUSER"] = "CRM";
 //$costantFields["F0111"]["WWPID"] = "CRM";
 //$costantFields["F0111"]["WWTORG"] = "CRM"; 
-$costantFields["F0111"]["WWUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
+$costantFields["F0111"]["WWUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
 $costantFields["F0111"]["WWUPMT"] = date("His"); 
 
 
@@ -740,7 +740,7 @@ $costantFields["F0116"]["ALEFTF"] = "1";
 //$costantFields["F0116"]["ALUSER"] = "CRM";
 //$costantFields["F0116"]["ALPID"] = "CRM";
 //$costantFields["F0116"]["ALTORG"] = "CRM"; 
-$costantFields["F0116"]["ALUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
+$costantFields["F0116"]["ALUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
 $costantFields["F0116"]["ALUPMT"] = date("His"); 
 
 /************************************/
@@ -814,7 +814,7 @@ $costantFields["F0115"]["WPRCK7"] = 1;
 //$costantFields["F0115"]["WPUSER"] = "CRM";
 //$costantFields["F0115"]["WPPID"] = "CRM";
 //$costantFields["F0115"]["WPTORG"] = "CRM"; 
-$costantFields["F0115"]["WPUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
+$costantFields["F0115"]["WPUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
 $costantFields["F0115"]["WPUPMT"] = date("His"); 
 
 
@@ -1590,7 +1590,7 @@ $costantFields["F0301"]["A5CRCA"] = "EUR";
 //$costantFields["F0301"]["A5USER"] = "CRM";
 //$costantFields["F0301"]["A5PID"] = "CRM";
 //$costantFields["F0301"]["A5TORG"] = "CRM"; 
-$costantFields["F0301"]["A5UPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
+$costantFields["F0301"]["A5UPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
 $costantFields["F0301"]["A5UPMT"] = date("His"); 
 
 
@@ -1650,8 +1650,8 @@ $costantFields["F01017"]["AGRAC"] = "1";
 //$costantFields["F01017"]["AGUSER"] = "CRM";
 //$costantFields["F01017"]["AGPID"] = "CRM";
 //$costantFields["F01017"]["AGTORG"] = "CRM"; 
-$costantFields["F01017"]["AGUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
-$costantFields["F01017"]["AGUPAJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
+$costantFields["F01017"]["AGUPMJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
+$costantFields["F01017"]["AGUPAJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
 $costantFields["F01017"]["AGUPMT"] = date("His");
 
  /***************************************/
@@ -1903,5 +1903,5 @@ $costantFields["F0030"]["AYBKTP"] = "D";
 //$costantFields["F0030"]["AYUSER"] = "CRM";
 //$costantFields["F0030"]["AYPID"] = "CRM";
 //$costantFields["F0030"]["AYTORG"] = "CRM"; 
-$costantFields["F0030"]["AYUPAJ"] = "1".date("y").str_pad(date('z') + 1,3,"0");
+$costantFields["F0030"]["AYUPAJ"] = "1".date("y").str_pad(date('z') + 1,3,"0", STR_PAD_LEFT);
 $costantFields["F0030"]["AYUPMT"] = date("His");
