@@ -1314,6 +1314,8 @@ SEGDTA;
 		
 		$.blockUI(); 
 		$("#rcd-add-form").submit();
+		document.location.href = "?task=dspIngressoConferma";
+
 		 
 	}
 	    
@@ -1758,7 +1760,8 @@ SEGDTA;
 		
 		$.blockUI(); 
 		$("#rcd-add-form").submit();
-		 
+		 			document.location.href = "?task=dspUscitaConferma";
+
 	}
 	    
 	function showResponseAdd(respobj, statusText, xhr, jform)  { 

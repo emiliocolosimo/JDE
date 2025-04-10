@@ -436,17 +436,26 @@ class HeaderInserter
         $xe = 0;
 
         //recupero numero ordine:
-        $orderNumber = $this->getOrderNumber($fieldsArray["SYTRDJ"]);
-        if (!$orderNumber) {
-            $hasErrors = true;
-            $arrErrors[$xe]["field"] = "";
-            $arrErrors[$xe]["msg"] = "F47011:errore recupero numero ordine:" . odbc_errormsg($this->odbc_conn);
-            $xe++;
-            return array("hasErrors" => $hasErrors, "arrErrors" => $arrErrors);
+
+        if (empty($fieldsArray["SYDOCO"])) {
+            $orderNumber = $this->getOrderNumber($fieldsArray["SYTRDJ"]);
+        
+            if (!$orderNumber) {
+                $hasErrors = true;
+                $arrErrors[$xe]["field"] = "";
+                $arrErrors[$xe]["msg"] = "F47011:errore recupero numero ordine:" . odbc_errormsg($this->odbc_conn);
+                $xe++;
+                return array("hasErrors" => $hasErrors, "arrErrors" => $arrErrors);
+            }
+        
+            $fieldsArray["SYDOCO"] = $orderNumber;
+            $fieldsArray["SYEDOC"] = $orderNumber;
+        
+        } else {
+            $fieldsArray["SYEDOC"] =  $fieldsArray["SYDOCO"];
+            $orderNumber = $fieldsArray["SYDOCO"];
+         //   $orderNumber = true;
         }
-        $fieldsArray["SYDOCO"] = $orderNumber;
-        $fieldsArray["SYEDOC"] = $orderNumber;
-        //recupero numero ordine [f]
 
         $query = "INSERT INTO " . $this->curLib . ".F47011 (" . implode(",", $inputFields) . ") VALUES(";
         for ($i = 0; $i < count($inputFields); $i++) {
@@ -481,7 +490,7 @@ class HeaderInserter
 
             $arrParams[] = mb_convert_encoding($curFieldValue, "ISO-8859-1", "UTF-8");
         }
-
+ 
 
         $res = odbc_execute($pstmt, $arrParams);
         if (!$res) {

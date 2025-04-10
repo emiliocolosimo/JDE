@@ -159,10 +159,6 @@ function saveTransitRecord($conn,$requestType,$codDipendente,$transitRecord) {
 	
 	//controllo che non ci sia altra timbratura entro i 10 minuti:	
 	$skip = false;
-
-	//$tims = date("H:i:s", strtotime($STTIME . ' - 1 second'));
-	//$timf = date("H:i:s", strtotime($STTIME . ' + 1 second'));
-
 	$tims = date("H:i:s",strtotime($STTIME.' - 10 minutes'));
 	$timf = date("H:i:s",strtotime($STTIME.' + 10 minutes'));
 	$query = "SELECT 1 AS CHECKT 
@@ -173,7 +169,6 @@ function saveTransitRecord($conn,$requestType,$codDipendente,$transitRecord) {
 	AND STCDDI = '".$STCDDI."' 
 	AND STSENS = '".$STSENS."' 
 	AND (STTIME > '".$tims."' AND STTIME < '".$timf."' ) 
-	AND STRECO = '0000'
 	FETCH FIRST ROW ONLY
 	";
  echo $query;
