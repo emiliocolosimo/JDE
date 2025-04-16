@@ -404,7 +404,7 @@ class VISITATORI extends WebSmartObject
 		$totPresenti = 0;
 		
 		//dipendenti da file timbrature:  
-		$filtDate = date("Y-m-d");
+		$filtDate = date(format: "Y-m-d");
 		$query = "SELECT A.STDATE, A.STTIME, COALESCE(D.BDCOGN,'') AS BDCOGN, COALESCE(D.BDNOME,'') AS BDNOME 
 		FROM BCD_DATIV2.SAVTIM0F AS A 
 		LEFT JOIN BCD_DATIV2.BDGDIP0F AS D ON A.STCDDI = D.BDCOGE 

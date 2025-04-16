@@ -58,14 +58,18 @@ class PAUSE extends WebSmartObject
 
 
 		// Gestione del POST
-		if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["filtDate"])) {
-			$_SESSION["filtDate"] = $_POST["filtDate"];
+		if ($_SERVER["REQUEST_METHOD"] === "POST") {
+			$_SESSION["filtDate"] = $_POST["filtDate"] ?? date("Y-m-d");
+			$_SESSION["filtCognome"] = $_POST["filtCognome"] ?? '';
+			$_SESSION["filtNome"] = $_POST["filtNome"] ?? '';
 			header("Location: " . $_SERVER["PHP_SELF"]);
 			exit;
 		}
 
 		// Data da visualizzare (dalla sessione o data odierna)
-		$filtDate = $_SESSION["filtDate"] ?? date("Y-m-d");
+		$filtDate = !empty($_SESSION["filtDate"]) ? $_SESSION["filtDate"] : date("Y-m-d");
+		$filtCognome = strtoupper(htmlspecialchars($_SESSION['filtCognome'] ?? ''));
+		$filtNome = strtoupper(htmlspecialchars($_SESSION['filtNome'] ?? ''));
 
 		$query = "
 		SELECT 
@@ -82,9 +86,11 @@ class PAUSE extends WebSmartObject
 		FROM BCD_DATIV2.SAVTIM0F AS A 
 		LEFT JOIN BCD_DATIV2.BDGDIP0F AS D ON A.STCDDI = D.BDCOGE 
 		WHERE A.STRECO in ('0001' , '0002') 
-		AND A.STDATE = '" . $filtDate . "'
+		AND A.STDATE = '" . $filtDate . "' 
+		AND D.BDNOME LIKE '%" . $filtNome . "%'
+  		AND D.BDCOGN LIKE '%" . $filtCognome . "%'
 		GROUP BY A.STDATE, D.BDCOGN, D.BDNOME , A.STRECO
-			Order by D.BDNOME , D.BDCOGN
+			Order by D.BDNOME , D.BDCOGN , STTIMES
 		";
 
 		$stmt = $this->db_connection->prepare($query);
@@ -142,7 +148,9 @@ class PAUSE extends WebSmartObject
 			$presNome = $record['presNome'];
 			$presCogn = $record['presCogn'];
 			$presDtIn = $record['presDtIn'];
-			$orari = array_slice($record['orari'], 0, 6);
+			$orari = $record['orari'];
+			sort($orari); // Ordina le timbrature in ordine crescente
+			$orari = array_slice($orari, 0, 6); // Prendi solo le prime 6
 
 			$ora1 = $ora2 = $ora3 = $ora4 = $ora5 = $ora6 = '';
 			foreach ($orari as $index => $ora) {
@@ -254,7 +262,19 @@ class PAUSE extends WebSmartObject
 		FROM BCD_DATIV2.SAVTIM0F AS A 
 		LEFT JOIN BCD_DATIV2.BDGDIP0F AS D ON A.STCDDI = D.BDCOGE 
 		WHERE A.STRECO = '0000' 
-		AND A.STDATE = '" . $filtDate . "'
+		AND A.STDATE = '" . $filtDate . "' 
+		AND D.BDNOME LIKE '%" . $filtNome . "%'
+  		AND D.BDCOGN LIKE '%" . $filtCognome . "%'
+		AND NOT EXISTS(
+			SELECT 1 
+			FROM BCD_DATIV2.SAVTIM0F AS B  
+			WHERE B.STTIMS > A.STTIMS 
+			AND B.STCDDI = A.STCDDI  
+			AND B.STSENS = 'U'  
+			AND A.STRECO = '0000' 
+			AND A.STDATE = '" . $filtDate . "' 
+			FETCH FIRST ROW ONLY
+		)  
 		GROUP BY A.STDATE, D.BDCOGN, D.BDNOME
 			Order by D.BDNOME , D.BDCOGN
 		";
@@ -265,67 +285,28 @@ class PAUSE extends WebSmartObject
 
 			foreach (array_keys($row) as $key) {
 				$row[$key] = htmlspecialchars(rtrim($row[$key]));
-
-
-				// make the file field names available in HTML
 				$escapedField = xl_fieldEscape($key);
 				$$escapedField = $row[$key];
 			}
 
 			$presNome = $BDNOME;
 			$presCogn = $BDCOGN;
+			$errpausagen = '';
 			$presDtIn = $this->cvtDateFromDb(str_replace("-", "", $STDATE));
 
-			// Gestione timbrature
-			$orariArray = explode(', ', $STTIMES);
-			$listaDateTime = [];
-
-			foreach ($orariArray as $orario) {
-				try {
-					$dt = new DateTime($orario);
-					$listaDateTime[] = $dt->format('H:i');
-				} catch (Exception $e) {
-					// Salta orari invalidi
-				}
-			}
-
-			// Inizializza le 6 colonne
-			$ora1 = isset($listaDateTime[0]) ? $listaDateTime[0] : '';
-			$ora2 = isset($listaDateTime[1]) ? $listaDateTime[1] : '';
-			$ora3 = isset($listaDateTime[2]) ? $listaDateTime[2] : '';
-			$ora4 = isset($listaDateTime[3]) ? $listaDateTime[3] : '';
-			$ora5 = isset($listaDateTime[4]) ? $listaDateTime[4] : '';
-			$ora6 = isset($listaDateTime[5]) ? $listaDateTime[5] : '';
-			$totPause = 0;
-
-			try {
-				if (!empty($ora1) && !empty($ora2)) {
-					$dt1 = new DateTime($ora1);
-					$dt2 = new DateTime($ora2);
-					$totPause += abs($dt2->getTimestamp() - $dt1->getTimestamp());
-				}
-
-				if (!empty($ora3) && !empty($ora4)) {
-					$dt3 = new DateTime($ora3);
-					$dt4 = new DateTime($ora4);
-					$totPause += abs($dt4->getTimestamp() - $dt3->getTimestamp());
-				}
-
-				if (!empty($ora5) && !empty($ora6)) {
-					$dt5 = new DateTime($ora5);
-					$dt6 = new DateTime($ora6);
-					$totPause += abs($dt6->getTimestamp() - $dt5->getTimestamp());
-				}
-			} catch (Exception $e) {
-				$totPause = 0; // fallback
-			}
-			$totPauseMinuti = floor($totPause / 60);
-
-			$this->writeSegment("totPresenti", array_merge(get_object_vars($this), get_defined_vars()));
+			$presentiInSede[] = ['nome' => $presNome, 'cognome' => $presCogn, 'errpausagen' => $errpausagen];
 
 			$totPresenti++;
 			$x++;
 		}
+
+		$this->writeSegment("totpresenti", array_merge(get_object_vars($this), [
+			'errpausagen' => $errpausagen,
+			'presentiInSede' => $presentiInSede,
+			'totPresenti' => $totPresenti,
+			'totpausafatta' => $totpausafatta,
+			'totinpausa' => $totinpausa
+		]));
 		$this->printPageFooter();
 	}
 
@@ -339,106 +320,107 @@ class PAUSE extends WebSmartObject
 		$time = str_pad($time, 6, "0", STR_PAD_LEFT);
 		return substr($time, 0, 2) . ":" . substr($time, 2, 2) . ":" . substr($time, 4, 2);
 	}
+
 	protected function printPageHeader()
 	{
+		$filtNome = strtoupper($_SESSION['filtNome'] ?? '');
+		$filtCognome = strtoupper($_SESSION['filtCognome'] ?? '');
+		$filtDate = $_SESSION['filtDate'] ?? date('Y-m-d');
+		$dataVis = date('d/m/Y', strtotime($_SESSION['filtDate'])) ?? date('d-m-Y');
 
 		echo <<<SEGDATA
 	<!DOCTYPE html>
 	<html>
 	  <head>
-		<meta name="generator" content="WebSmart" />
-		<meta charset="UTF-8">
-		<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+	  <meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta http-equiv="Pragma" content="no-cache" />
 		<title>Pause</title>
-		
-		<link rel="stylesheet" href="websmart/v13.2/Responsive/css/bootstrap.min.css" type="text/css" />
-		<link rel="stylesheet" href="websmart/v13.2/Responsive/css/screen.css" media="all" type="text/css" />
-		<link rel="stylesheet" href="websmart/v13.2/Responsive/css/jquery-ui.css" media="all" type="text/css" />
-		
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+		<link rel="stylesheet" href="websmart/v13.2/Responsive/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="websmart/v13.2/Responsive/css/screen.css" />
+		<link rel="stylesheet" href="websmart/v13.2/Responsive/css/jquery-ui.css" />
+	
 		<style>
-		
-		h1 {
-			font-size: 42px;	
-		}
-		#backButton, #closeListReferentiButton {
-			color: black !important;
-			font-size: 25px;
-			text-decoration: none !important;
-		} 
-		#navbottom {
-			text-align:center;	
-		} 
-		.referenteLetter {
-			font-size: 52px;
-			background-color: #92a2a8;
-			border-radius: 35px;
-			height: 70px;
-			width: 70px;
-			text-align: center;
-			float: left;
-			color: white;
-		}
-		.referenteName {
-			font-size:24px; 
-			padding-left:100px;
-			padding-top:20px;
-		}
-		table.table tr td, table.table tr th {
-			font-size:18px !important;	
-		}
-		#divTotPresenti {
-			font-size:18px !important;	
-		} 
-		#divTotPausa {
-			font-size:18px !important;	
-		} 
-		#divInPausa {
-			font-size:18px !important;	
-		} 
-		@media print {
 			h1 {
-				font-size: 16px !important;		
+				font-size: 42px;
 			}
-			#backButton, #printButton {
-				display:none;
-			}  
-			table.table tr td, table.table tr th {
-				font-size:12px !important;	
-				padding: 2px !important;
+			form .form-control {
+				font-size: 16px;
 			}
-		}
-		
-		</style> 
+			form .form-label {
+				font-weight: 500;
+			}
+			#contents {
+				padding: 20px;
+			}
+			.btn {
+				font-size: 16px;
+			}
+			@media print {
+				#printButton, form {
+					display: none;
+				}
+				table.table tr td, table.table tr th {
+					font-size: 12px !important;
+					padding: 2px !important;
+				}
+			}
+		</style>
+	
 		<script src="websmart/v13.2/js/jquery.min.js"></script>
 		<script src="websmart/v13.2/Responsive/js/bootstrap.min.js"></script>
 	  </head>
 	  <body>
-		<div id="outer-content" style="position:relative"> 
-		  <div id="page-content">
-			 
-			<div class="clearfix"></div>
-			<div id="contents"> 
-					  <div class="table-responsive">
-					<table class="table table-striped table-bordered">	
-					<thead>
-							<tr> 
-							  <input id="printButton" type="button" onclick="window.print();" class="btn btn-lg btn-primary accept" value="Stampa" /> 
-							<br>
-							<br>
-							<br>
-						<form method="POST">
-		<label for="filtDate">Scegli una data: </label>
-		<input type="date" id="filtDate" name="filtDate" value="<?= date('Y-m-d') ?>">
-		<input type="submit" value="Filtra">
-	<br><br>
-	<div id="divTotPresenti">Totale Timbrature: <span id="totPresenti"></span></div>
-					<div id="divInPausa">In Pausa: <span id="totinpausa"></span></div>
-					<div id="divTotPausa">Che hanno fatto Pausa: <span id="totpausafatta"></span></div>
-					  <br>
-					<tbody>
-	SEGDATA;
+		<div id="outer-content">
+<div id="page-content" class="container-fluid">
+  <div class="text-center my-4">
+    <img src="include/logo.jpg" alt="Logo" style="max-height: 80px;">
+  </div>
+  <div class="clearfix"></div>
+  <div id="contents">
+				<div class="text-end mb-3">
+				  <button id="printButton" type="button" onclick="window.print();" class="btn btn-outline-secondary">
+				      <i class="bi bi-printer"></i>
+				  </button>
+				</div>
+				<form method="POST" class="mb-4">
+				  <div class="row g-3 align-items-end">
+					<div class="col-md-3">
+					  <label for="filtDate" class="form-label">Data:</label>
+					  <input type="date" id="filtDate" name="filtDate" class="form-control" value="{$filtDate}">
+					</div>
+					<div class="col-md-3">
+					  <label for="filtCognome" class="form-label">Cognome:</label>
+					  <input type="text" id="filtCognome" name="filtCognome" class="form-control text-uppercase" value="{$filtCognome}">
+					</div>
+					<div class="col-md-3">
+					  <label for="filtNome" class="form-label">Nome:</label>
+					  <input type="text" id="filtNome" name="filtNome" class="form-control text-uppercase" value="{$filtNome}">
+					</div>
+					<div class="col-md-3 d-flex flex-column">
+					  <label class="form-label invisible">Azioni</label>
+					  <div class="d-flex gap-2 mt-auto">
+						<button type="submit" class="btn btn-primary w-50">Filtra</button>
+						<button type="button" class="btn btn-success w-50" onclick="resetForm()">Reset</button>
+					  </div>
+					</div>
+				  </div>
+				</form>
+	
+<div class="mb-3">
+  <div id="divTotPresenti"><strong>In sede:</strong> <span id="totPresenti"></span></div>
+  <div id="divInPausa"><strong>In Pausa:</strong> <span id="totinpausa"></span></div>
+  <div id="divTotPausa"><strong>Che hanno fatto Pausa:</strong> <span id="totpausafatta"></span></div>
+</div>
+
+<div class="text-center mb-4">
+  <h4 class="fw-bold text-primary">Data selezionata: {$dataVis}</h4>
+</div>
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered">
+						<thead>
+SEGDATA;
 		return;
 	}
 	protected function printPageFooter()
@@ -475,7 +457,6 @@ class PAUSE extends WebSmartObject
  	<td colspan="10"><strong>In Pausa:</strong></td> 
 </tr>
 		<th>Cognome Nome</th>
-		<th>Data</th>
 		<th>Inizio Pausa 1</th>
 		<th>Fine Pausa 1</th>
 		<th>Inizio Pausa 2</th>
@@ -499,7 +480,6 @@ SEGDTA;
  	<td colspan="10"><strong>Che hanno fatto Pausa:</strong></td> 
 </tr>
 		<th>Cognome Nome</th>
-		<th>Data</th>
 		<th>Inizio Pausa 1</th>
 		<th>Fine Pausa 1</th>
 		<th>Inizio Pausa 2</th>
@@ -520,12 +500,9 @@ SEGDTA;
 			echo <<<SEGDTA
 				<thead>
 						<tr style="background-color:#92a2a8;color:white;">
- 	<td colspan="10"><strong>Entrati in Sede: </strong></td> 
+ 	<td colspan="9"><strong>In Sede: </strong></td> 
 </tr>
-		<tr> 
-		<th>Cognome Nome</th>
-		<th>Data</th>
-		</tr>
+ 	<td colspan="9"><strong>Cognome Nome </strong></td> 
 		</thead>
 		<tbody>
 SEGDTA;
@@ -538,6 +515,7 @@ SEGDTA;
 			$errpausa2lunga = '';
 			$errtroppepausa = '';
 			$errinpausaattuale = '';
+			$errpausagen = '';
 
 			try {
 				$ora5Valorizzata = !empty($ora5);
@@ -557,6 +535,10 @@ SEGDTA;
 					$dt4 = new DateTime($ora4);
 					$intervallo2 = abs($dt4->getTimestamp() - $dt3->getTimestamp());
 					$condizione2 = $intervallo2 > 600;
+				}
+
+				if ($condizione1 || $condizione2 || $ora5Valorizzata || $inPausaAttuale || $condtotPauseMinuti) {
+					$errpausagen = 'style="background-color: pink;"';
 				}
 
 				if ($condizione1) {
@@ -624,6 +606,10 @@ SEGDTA;
 					$condizione2 = $intervallo2 > 600;
 				}
 
+				if ($condtotPauseMinuti) {
+					$errtotPauseMinuti = 'style="background-color: red;"';
+				}
+
 				if ($condizione1) {
 					$errpausa1lunga = 'style="background-color: red;"';
 				}
@@ -648,7 +634,6 @@ SEGDTA;
 			echo <<<SEGDTA
 <tr>
     <td $errinpausaattuale>{$presNome} {$presCogn} {$inPausaAttuale}</td>
-    <td $errinpausaattuale>{$presDtIn}</td>
     <td $errpausa1lunga>{$ora1}</td>
 	<td $errpausa1lunga>{$ora2}</td> 
  	<td $errpausa2lunga>{$ora3}</td>
@@ -663,22 +648,43 @@ SEGDTA;
 		}
 
 		if ($xlSegmentToWrite == "totpresenti") {
-			echo <<<SEGDTA
-	<tr>
-    <td>{$presNome} {$presCogn}</td>
-    <td>{$presDtIn}</td>
-</tr>
-    <script> 
-   
-    $("#totPresenti").html("$totPresenti");
-    $("#totpausafatta").html("$totpausafatta");
-	  $("#totinpausa").html("$totinpausa");
+			if (!empty($presentiInSede)) {
+				$count = 0;
+				$total = count($presentiInSede);
 
-    </script>
-SEGDTA;
+				echo '<tr>'; // apre la prima riga
+
+				foreach ($presentiInSede as $index => $presente) {
+					$presNome = htmlspecialchars($presente['nome']);
+					$presCogn = htmlspecialchars($presente['cognome']);
+					$errpausagen = $presente['errpausagen'] ?? '';
+
+					echo "<td $errpausagen>{$presCogn} {$presNome}</td>";
+					$count++;
+
+					// Chiude e apre ogni 9 celle, tranne dopo l'ultimo elemento
+					if ($count % 8 === 0 && $count < $total) {
+						echo '</tr><tr>';
+					}
+				}
+
+				// Se l'ultima riga ha meno di 9 celle, la chiude
+				if ($count % 9 !== 0) {
+					echo '</tr>';
+				}
+			}
+
+			// JS per aggiornare i contatori
+			echo <<<JS
+		<script> 
+			$("#totPresenti").html("$totPresenti");
+			$("#totpausafatta").html("$totpausafatta");
+			$("#totinpausa").html("$totinpausa");
+		</script>
+		JS;
+
 			return;
 		}
-
 
 
 		if ($xlSegmentToWrite == "nessunpresente") {
@@ -722,3 +728,12 @@ SEGDTA;
 
 
 xlLoadWebSmartObject(__FILE__, 'PAUSE'); ?>
+
+<script>
+	function resetForm() {
+		document.getElementById('filtDate').value = new Date().toISOString().split('T')[0];
+		document.getElementById('filtCognome').value = '';
+		document.getElementById('filtNome').value = '';
+		document.forms[0].submit();
+	}
+</script>
