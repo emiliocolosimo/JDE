@@ -100,6 +100,8 @@ class PAUSE extends WebSmartObject
 		$z = 0;
 
 		$raggruppati = [];
+		$presentiInSede = [];
+		$errpausagen = '';
 
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 			foreach ($row as $key => $value) {
@@ -230,6 +232,10 @@ class PAUSE extends WebSmartObject
 			$this->writeSegment("titoloinpausa", array_merge(get_object_vars($this), get_defined_vars()));
 			foreach ($inPausaList as $record) {
 				extract($record);
+			
+				$analisi = $this->getErrorePausa([$ora1, $ora2, $ora3, $ora4, $ora5, $ora6], $inPausaAttuale);
+				extract($analisi);
+			
 				$this->writeSegment("rigainpausa", array_merge(get_object_vars($this), get_defined_vars()));
 				$totinpausa++;
 			}
@@ -240,6 +246,10 @@ class PAUSE extends WebSmartObject
 			$this->writeSegment("titolopausafatta", array_merge(get_object_vars($this), get_defined_vars()));
 			foreach ($pausaFattaList as $record) {
 				extract($record);
+			
+				$analisi = $this->getErrorePausa([$ora1, $ora2, $ora3, $ora4, $ora5, $ora6], $inPausaAttuale);
+				extract($analisi);
+			
 				$this->writeSegment("rigapausafatta", array_merge(get_object_vars($this), get_defined_vars()));
 				$totpausafatta++;
 			}
@@ -252,13 +262,7 @@ class PAUSE extends WebSmartObject
 		$query = "		SELECT 
 			A.STDATE,
 			COALESCE(D.BDCOGN, '') AS BDCOGN,
-			COALESCE(D.BDNOME, '') AS BDNOME,
-			CAST(
-				XMLSERIALIZE(
-					CONTENT XMLAGG(XMLTEXT(A.STTIME || ', ') ORDER BY A.STTIME)
-					AS VARCHAR(1000)
-				)
-			AS VARCHAR(1000)) AS STTIMES
+			COALESCE(D.BDNOME, '') AS BDNOME
 		FROM BCD_DATIV2.SAVTIM0F AS A 
 		LEFT JOIN BCD_DATIV2.BDGDIP0F AS D ON A.STCDDI = D.BDCOGE 
 		WHERE A.STRECO = '0000' 
@@ -291,10 +295,14 @@ class PAUSE extends WebSmartObject
 
 			$presNome = $BDNOME;
 			$presCogn = $BDCOGN;
-			$errpausagen = '';
 			$presDtIn = $this->cvtDateFromDb(str_replace("-", "", $STDATE));
-
-			$presentiInSede[] = ['nome' => $presNome, 'cognome' => $presCogn, 'errpausagen' => $errpausagen];
+			
+			// prepara gli orari per analisi
+			
+			$presentiInSede[] = [
+				'nome' => $presNome,
+				'cognome' => $presCogn
+			];
 
 			$totPresenti++;
 			$x++;
@@ -321,12 +329,101 @@ class PAUSE extends WebSmartObject
 		return substr($time, 0, 2) . ":" . substr($time, 2, 2) . ":" . substr($time, 4, 2);
 	}
 
+	private function getErrorePausa(array $orari, bool $inPausaAttuale = false)
+{
+	$errpausa1lunga = '';
+	$errpausa2lunga = '';
+	$errtroppepausa = '';
+	$errtotPauseMinuti = '';
+	$errinpausaattuale = '';
+	$errpausagen = '';
+
+	$totPause = 0;
+	$ora1 = $orari[0] ?? '';
+	$ora2 = $orari[1] ?? '';
+	$ora3 = $orari[2] ?? '';
+	$ora4 = $orari[3] ?? '';
+	$ora5 = $orari[4] ?? '';
+	$ora6 = $orari[5] ?? '';
+
+	try {
+		$now = new DateTime();
+
+		if (!empty($ora1) && !empty($ora2)) {
+			$dt1 = new DateTime($ora1);
+			$dt2 = new DateTime($ora2);
+			$intervallo1 = abs($dt2->getTimestamp() - $dt1->getTimestamp());
+			$totPause += $intervallo1;
+			if ($intervallo1 > 600) $errpausa1lunga = 'style="background-color: red;"';
+		} elseif (!empty($ora1)) {
+			$dt1 = new DateTime($ora1);
+			$totPause += abs($now->getTimestamp() - $dt1->getTimestamp());
+			$inPausaAttuale = true;
+			if ($totPause > 600) $errpausa1lunga = 'style="background-color: red;"';
+		}
+
+		if (!empty($ora3) && !empty($ora4)) {
+			$dt3 = new DateTime($ora3);
+			$dt4 = new DateTime($ora4);
+			$intervallo2 = abs($dt4->getTimestamp() - $dt3->getTimestamp());
+			$totPause += $intervallo2;
+			if ($intervallo2 > 600) $errpausa2lunga = 'style="background-color: red;"';
+		} elseif (!empty($ora3)) {
+			$dt3 = new DateTime($ora3);
+			$totPause += abs($now->getTimestamp() - $dt3->getTimestamp());
+			$inPausaAttuale = true;
+			if ($totPause > 600) $errpausa2lunga = 'style="background-color: red;"';
+		}
+
+		if (!empty($ora5)) {
+			if (!empty($ora6)) {
+				$dt5 = new DateTime($ora5);
+				$dt6 = new DateTime($ora6);
+				$intervallo3 = abs($dt6->getTimestamp() - $dt5->getTimestamp());
+				$totPause += $intervallo3;
+			} else {
+				$dt5 = new DateTime($ora5);
+				$totPause += abs($now->getTimestamp() - $dt5->getTimestamp());
+				$inPausaAttuale = true;
+
+			}
+			$errtroppepausa = 'style="background-color: orange;"';
+		}
+
+		$totPauseMinuti = floor($totPause / 60);
+		if ($totPauseMinuti > 20) $errtotPauseMinuti = 'style="background-color: red;"';
+		if ($inPausaAttuale) $errinpausaattuale = 'style="background-color: yellow;"';
+
+		if (
+			!empty($errpausa1lunga) ||
+			!empty($errpausa2lunga) ||
+			!empty($errtroppepausa) ||
+			!empty($errtotPauseMinuti)
+		) {
+			$errpausagen = 'style="background-color: green;"';
+		}
+
+		return [
+			'errpausa1lunga' => $errpausa1lunga,
+			'errpausa2lunga' => $errpausa2lunga,
+			'errtroppepausa' => $errtroppepausa,
+			'errtotPauseMinuti' => $errtotPauseMinuti,
+			'errinpausaattuale' => $errinpausaattuale,
+			'errpausagen' => $errpausagen,
+			'inPausaAttuale' => $inPausaAttuale,
+			'totPauseMinuti' => $totPauseMinuti,
+			'totPauseHHMM' => sprintf('%dh %02dm', floor($totPauseMinuti / 60), $totPauseMinuti % 60)
+		];
+	} catch (Exception $e) {
+		return [];
+	}
+}
 	protected function printPageHeader()
 	{
 		$filtNome = strtoupper($_SESSION['filtNome'] ?? '');
 		$filtCognome = strtoupper($_SESSION['filtCognome'] ?? '');
 		$filtDate = $_SESSION['filtDate'] ?? date('Y-m-d');
-		$dataVis = date('d/m/Y', strtotime($_SESSION['filtDate'])) ?? date('d-m-Y');
+		$dataVis = date('d/m/Y', strtotime($filtDate));
 
 		echo <<<SEGDATA
 	<!DOCTYPE html>
@@ -390,13 +487,13 @@ class PAUSE extends WebSmartObject
 					  <label for="filtDate" class="form-label">Data:</label>
 					  <input type="date" id="filtDate" name="filtDate" class="form-control" value="{$filtDate}">
 					</div>
-					<div class="col-md-3">
-					  <label for="filtCognome" class="form-label">Cognome:</label>
-					  <input type="text" id="filtCognome" name="filtCognome" class="form-control text-uppercase" value="{$filtCognome}">
+										<div class="col-md-3">
+					  <label for="filtNome" class="form-label">Cognome:</label>
+					  <input type="text" id="filtNome" name="filtNome" class="form-control text-uppercase" value="{$filtNome}">
 					</div>
 					<div class="col-md-3">
-					  <label for="filtNome" class="form-label">Nome:</label>
-					  <input type="text" id="filtNome" name="filtNome" class="form-control text-uppercase" value="{$filtNome}">
+					  <label for="filtCognome" class="form-label">Nome:</label>
+					  <input type="text" id="filtCognome" name="filtCognome" class="form-control text-uppercase" value="{$filtCognome}">
 					</div>
 					<div class="col-md-3 d-flex flex-column">
 					  <label class="form-label invisible">Azioni</label>
@@ -407,16 +504,27 @@ class PAUSE extends WebSmartObject
 					</div>
 				  </div>
 				</form>
-	
-<div class="mb-3">
-  <div id="divTotPresenti"><strong>In sede:</strong> <span id="totPresenti"></span></div>
-  <div id="divInPausa"><strong>In Pausa:</strong> <span id="totinpausa"></span></div>
-  <div id="divTotPausa"><strong>Che hanno fatto Pausa:</strong> <span id="totpausafatta"></span></div>
+<div class="row mb-4 d-flex justify-content-between">
+  <!-- Totali a sinistra -->
+  <div class="col-md-3 text-start">
+    <div class="mb-1"><strong>In sede:</strong> <span id="totPresenti"></span></div>
+    <div class="mb-1"><strong>Attualmente In Pausa:</strong> <span id="totinpausa"></span></div>
+    <div class="mb-1"><strong>Che hanno fatto Pausa:</strong> <span id="totpausafatta"></span></div>
+  </div>
+
+<div class="col-md-6 text-center">
+    <div class="bg-light border rounded shadow-sm px-4 py-3 text-primary fw-bold text-start" style="font-size: 2.4rem;">
+      <i class="bi bi-calendar3 me-2" style="font-size: 2.4rem;"></i>
+      <strong>Data selezionata:</strong> {$dataVis}
+    </div>
 </div>
 
-<div class="text-center mb-4">
-  <h4 class="fw-bold text-primary">Data selezionata: {$dataVis}</h4>
+<div class="col-md-3">
 </div>
+</div>
+
+</div>
+
 				<div class="table-responsive">
 					<table class="table table-striped table-bordered">
 						<thead>
@@ -454,7 +562,7 @@ SEGDATA;
 				<thead>
 		<tr> 
 		<tr style="background-color:#92a2a8;color:white;">
- 	<td colspan="10"><strong>In Pausa:</strong></td> 
+ 	<td colspan="10"><strong>Attualmente In Pausa:</strong></td> 
 </tr>
 		<th>Cognome Nome</th>
 		<th>Inizio Pausa 1</th>
@@ -502,7 +610,7 @@ SEGDTA;
 						<tr style="background-color:#92a2a8;color:white;">
  	<td colspan="9"><strong>In Sede: </strong></td> 
 </tr>
- 	<td colspan="9"><strong>Cognome Nome </strong></td> 
+ 	<td colspan="9"><strong>Cognome Nome</strong></td> 
 		</thead>
 		<tbody>
 SEGDTA;
@@ -510,62 +618,9 @@ SEGDTA;
 		}
 
 		if ($xlSegmentToWrite == "rigainpausa") {
-			$errtotPauseMinuti = '';
-			$errpausa1lunga = '';
-			$errpausa2lunga = '';
-			$errtroppepausa = '';
-			$errinpausaattuale = '';
-			$errpausagen = '';
-
-			try {
-				$ora5Valorizzata = !empty($ora5);
-				$condizione1 = false;
-				$condizione2 = false;
-				$condtotPauseMinuti = $totPauseMinuti > 20;
-
-				if (!empty($ora1) && !empty($ora2)) {
-					$dt1 = new DateTime($ora1);
-					$dt2 = new DateTime($ora2);
-					$intervallo1 = abs($dt2->getTimestamp() - $dt1->getTimestamp());
-					$condizione1 = $intervallo1 > 600;
-				}
-
-				if (!empty($ora3) && !empty($ora4)) {
-					$dt3 = new DateTime($ora3);
-					$dt4 = new DateTime($ora4);
-					$intervallo2 = abs($dt4->getTimestamp() - $dt3->getTimestamp());
-					$condizione2 = $intervallo2 > 600;
-				}
-
-				if ($condizione1 || $condizione2 || $ora5Valorizzata || $inPausaAttuale || $condtotPauseMinuti) {
-					$errpausagen = 'style="background-color: pink;"';
-				}
-
-				if ($condizione1) {
-					$errpausa1lunga = 'style="background-color: red;"';
-				}
-
-				if ($condizione2) {
-					$errpausa2lunga = 'style="background-color: red;"';
-				}
-
-				if ($ora5Valorizzata) {
-					$errtroppepausa = 'style="background-color: orange;"';
-				}
-				if ($inPausaAttuale) {
-					$errinpausaattuale = 'style="background-color: yellow;"';
-				}
-				if ($condtotPauseMinuti) {
-					$errtotPauseMinuti = 'style="background-color: red;"';
-				}
-			} catch (Exception $e) {
-				$stileRiga = '';
-			}
-
-			echo <<<SEGDTA
+		echo <<<SEGDTA
 <tr>
-    <td $errinpausaattuale>{$presNome} {$presCogn}</td>
-    <td $errinpausaattuale>{$presDtIn}</td>
+    <td>{$presCogn} {$presNome} </td>
     <td $errpausa1lunga>{$ora1}</td>
 	<td $errpausa1lunga>{$ora2}</td> 
  	<td $errpausa2lunga>{$ora3}</td>
@@ -580,60 +635,9 @@ SEGDTA;
 		}
 
 		if ($xlSegmentToWrite == "rigapausafatta") {
-			$errtotPauseMinuti = '';
-			$errpausa1lunga = '';
-			$errpausa2lunga = '';
-			$errtroppepausa = '';
-			$errinpausaattuale = '';
-
-			try {
-				$ora5Valorizzata = !empty($ora5);
-				$condizione1 = false;
-				$condizione2 = false;
-				$condtotPauseMinuti = $totPauseMinuti > 20;
-
-				if (!empty($ora1) && !empty($ora2)) {
-					$dt1 = new DateTime($ora1);
-					$dt2 = new DateTime($ora2);
-					$intervallo1 = abs($dt2->getTimestamp() - $dt1->getTimestamp());
-					$condizione1 = $intervallo1 > 600;
-				}
-
-				if (!empty($ora3) && !empty($ora4)) {
-					$dt3 = new DateTime($ora3);
-					$dt4 = new DateTime($ora4);
-					$intervallo2 = abs($dt4->getTimestamp() - $dt3->getTimestamp());
-					$condizione2 = $intervallo2 > 600;
-				}
-
-				if ($condtotPauseMinuti) {
-					$errtotPauseMinuti = 'style="background-color: red;"';
-				}
-
-				if ($condizione1) {
-					$errpausa1lunga = 'style="background-color: red;"';
-				}
-
-				if ($condizione2) {
-					$errpausa2lunga = 'style="background-color: red;"';
-				}
-
-				if ($ora5Valorizzata) {
-					$errtroppepausa = 'style="background-color: orange;"';
-				}
-				if ($inPausaAttuale) {
-					$errinpausaattuale = 'style="background-color: yellow;"';
-				}
-				if ($condtotPauseMinuti) {
-					$errtotPauseMinuti = 'style="background-color: red;"';
-				}
-			} catch (Exception $e) {
-				$stileRiga = '';
-			}
-
-			echo <<<SEGDTA
+						echo <<<SEGDTA
 <tr>
-    <td $errinpausaattuale>{$presNome} {$presCogn} {$inPausaAttuale}</td>
+    <td $errinpausaattuale>{$presCogn} {$presNome} {$inPausaAttuale}</td>
     <td $errpausa1lunga>{$ora1}</td>
 	<td $errpausa1lunga>{$ora2}</td> 
  	<td $errpausa2lunga>{$ora3}</td>
@@ -659,7 +663,7 @@ SEGDTA;
 					$presCogn = htmlspecialchars($presente['cognome']);
 					$errpausagen = $presente['errpausagen'] ?? '';
 
-					echo "<td $errpausagen>{$presCogn} {$presNome}</td>";
+					echo "<td $errpausagen>{$presNome} {$presCogn}</td>";
 					$count++;
 
 					// Chiude e apre ogni 9 celle, tranne dopo l'ultimo elemento
@@ -736,4 +740,8 @@ xlLoadWebSmartObject(__FILE__, 'PAUSE'); ?>
 		document.getElementById('filtNome').value = '';
 		document.forms[0].submit();
 	}
+
+  setTimeout(function() {
+    location.reload();
+  }, 30000); // 30000 millisecondi = 30 secondi
 </script>
