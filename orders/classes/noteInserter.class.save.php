@@ -1,7 +1,7 @@
 <?php
 
 
-class HeaderInserter
+class NoteInserter
 {
     private $odbc_conn = null;
     private $curLib = "";
@@ -12,19 +12,34 @@ class HeaderInserter
     private $envLib = null;
     private $fieldsArray = null;
     private $validator = null;
+    private $defaultValueFields = null;
     private $defaultValuesArray = null;
     private $costantFields = null;
     private $fieldsReference = null;
+    private $headerFields = null;
+    private $orderNumber = null;
 
     public function __construct()
     {
 
     }
 
+    public function setOrderNumber($orderNumber)
+    {
+        $this->orderNumber = $orderNumber;
+    }
+
     public function setConnection($conn)
     {
 
         $this->odbc_conn = $conn;
+        return true;
+    }
+
+    public function setHeaderFields($headerFields)
+    {
+
+        $this->headerFields = $headerFields;
         return true;
     }
 
@@ -107,64 +122,37 @@ class HeaderInserter
         $mandatoryFields = $this->mandatoryFields;
         $fieldsReference = $this->fieldsReference;
         $costantFields = $this->costantFields;
-        $fieldSizes = $this->costantFields;
-
+        $headerFields = $this->headerFields;
 
         foreach ($fieldsArray as $fieldName => $fieldValue) {
-            if (isset($fieldsReference[$fieldName])) {
-                $db2FieldName = $fieldsReference[$fieldName];
-                $db2InputFields[$db2FieldName] = $fieldValue;
-            }
+            $db2FieldName = $fieldsReference[$fieldName];
+            $db2InputFields[$db2FieldName] = $fieldValue;
         }
         $fieldsArray = $db2InputFields;
-
 
         foreach ($costantFields as $fieldName => $fieldValue) {
             if (!isset($fieldsArray[$fieldName])) $fieldsArray[$fieldName] = $fieldValue;
         }
 
         //mettere qui i campi "particolari":
-        $Utils = new Utils();
-        $fieldsArray["SYTRDJ"] = $Utils->dateToJUL($fieldsArray["SYTRDJ"]);
-        $fieldsArray["SYURDT"] = $Utils->dateToJUL($fieldsArray["SYURDT"]);
+        $fieldsArray["ZDDOCO"] = $this->orderNumber;
+        $fieldsArray["ZDEDOC"] = $this->orderNumber;
+        $fieldsArray["ZDLNID"] = $fieldsArray["ZDEDLN"] * 100;
+        $fieldsArray["ZDUSER"] = $this->getUtenteJDE($headerFields["crm_user"]);
+        //$fieldsArray["ZDUSER"] = "CRM";
+        $fieldsArray["ZDTORG"] = $fieldsArray["ZDUSER"];
 
-        if ($fieldsArray["SYPDDJ"] != "") $fieldsArray["SYPDDJ"] = $Utils->dateToJUL($fieldsArray["SYPDDJ"]);
+        $fieldsArray["ZDDCTO"] = !empty($headerFields["quotation_type"])
+            ? $headerFields["quotation_type"]
+            :  $this->getSYDCTO($headerFields["quotation_recipient_code"]);
 
-        if ($fieldsArray["SYDRQJ"] != "") {
-            $fieldsArray["SYDRQJ"] = $Utils->dateToJUL($fieldsArray["SYDRQJ"]);
-            if ($fieldsArray["SYPDDJ"] == "") $fieldsArray["SYPDDJ"] = $fieldsArray["SYDRQJ"];
-        }
 
-        $fieldsArray["SYCACT"] = $this->getCodiceBanca($fieldsArray["SYAN8"]);
-        $fieldsArray["SYCRRM"] = "";
-        if ($fieldsArray["SYCRCD"] != "EUR") $fieldsArray["SYCRRM"] = "F";
-        if ($fieldsArray["SYCRRM"] == "F") {
-            $fieldsArray["SYCRR"] = $this->getCambio($fieldsArray["SYCRCD"], $fieldsArray["SYTRDJ"]);
-        }
-        $fieldsArray["SYUSER"] = $this->getUtenteJDE($fieldsArray["SYUSER"]);
-        //$fieldsArray["SYUSER"] = "CRM";
-        $fieldsArray["SYTORG"] = $fieldsArray["SYUSER"];
-        $fieldsArray["SYORBY"] = $fieldsArray["SYUSER"];
-        //$fieldsArray["SYEKCO"] = $fieldsArray["SYKCOO"];
-        //$fieldsArray["SYCO"] = $fieldsArray["SYKCOO"];
-        $fieldsArray["SYDCTO"] = !empty($fieldsArray["SYDCTO"])
-                ? $fieldsArray["SYDCTO"]
-                : $this->getSYDCTO($fieldsArray["SYAN8"]);
-//        $fieldsArray["SYDCTO"] = $this->getSYDCTO($fieldsArray["SYAN8"]);
+        //$fieldsArray["SDDCTO"] = $this->getSYDCTO($headerFields["quotation_recipient_code"]);
 
-        if ($fieldsArray["SYSHAN"] == '') $fieldsArray["SYSHAN"] = $fieldsArray["SYAN8"];
 
-        /*
-        $tmp = '';
-        for($p=0;$p<12 - strlen($fieldsArray["SYMCU"]);$p++) $tmp .= ' ';
-        $fieldsArray["SYMCU"] = $tmp.$fieldsArray["SYMCU"];
-        */
-
-        //..
-
-        $xe = 0;
         $hasErrors = false;
         $arrErrors = array();
+        $xe = 0;
         if (isset($fieldsArray)) {
             for ($i = 0; $i < count($inputFields); $i++) {
                 $currentField = $inputFields[$i];
@@ -172,11 +160,6 @@ class HeaderInserter
                 if (isset($fieldsArray[$currentField])) $$currentField = trim($fieldsArray[$currentField]);
 
                 if (in_array($currentField, $mandatoryFields) && !isset($fieldsArray[$currentField])) {
-
-                    //carico il default: ??
-                    //$fieldValue = $this->getDefaultValue($currentField);
-                    //$fieldsArray[$currentField] = $fieldValue;
-
                     $hasErrors = true;
                     $arrErrors[$xe]["field"] = $currentField;
                     $arrErrors[$xe]["msg"] = "Campo obbligatorio";
@@ -192,52 +175,9 @@ class HeaderInserter
 
         $this->fieldsArray = $fieldsArray;
 
+
         return array("hasErrors" => $hasErrors, "arrErrors" => $arrErrors);
 
-    }
-
-    /*
-    Il numero da assegnare si trova nel campo NLN001 del file F00021 letto per NLKCO="00001", NLDCT=’O1’, NLCTRY=<secolo della data ordine>, NLFY=<anno della data ordine>.
-    Al numero reperito va sommato l'anno della data ordine (2 cifre) moltiplicato per 1.000.000. Ad esempio: se la data ordine è 15/09/24 e il valore reperito in NLN001 è 127, il numero ordine sarà 24000127
-    */
-    public function getOrderNumber($orderDate)
-    {
-
-        $Utils = new Utils();
-    //  $orderDate = $Utils->JULToDate($orderDate);
-    //Order date è sempre data odierna    
-    $orderDate = date('Y-m-d');
-
-        $query = "SELECT NLN001 FROM " . $this->curLib . ".F00021 WHERE NLKCO='00001' AND NLDCT='O1' AND NLCTRY=? AND NLFY=? FETCH FIRST ROW ONLY";
-        $pstmt = odbc_prepare($this->odbc_conn, $query);
-        if (!$pstmt) return false;
-        $arrParams = array();
-        $arrParams[] = substr($orderDate, 0, 2);
-        $arrParams[] = substr($orderDate, 2, 2);
-        $res = odbc_execute($pstmt, $arrParams);
-        if (!$res) return false;
-        $row = odbc_fetch_array($pstmt);
-        if ($row && isset($row["NLN001"])) {
-
-            $oc = (int)$row["NLN001"];
-
-            $query = "UPDATE " . $this->curLib . ".F00021 SET NLN001 = ? WHERE NLKCO='00001' AND NLDCT='O1' AND NLCTRY=? AND NLFY=? WITH NC";
-            $pstmt2 = odbc_prepare($this->odbc_conn, $query);
-            if (!$pstmt2) return false;
-            $arrParams = array();
-            $arrParams[] = $oc + 1;
-            $arrParams[] = substr($orderDate, 0, 2);
-            $arrParams[] = substr($orderDate, 2, 2);
-
-            //var_dump($arrParams);
-            $res2 = odbc_execute($pstmt2, $arrParams);
-            if (!$res2) return false;
-
-            $oy = (int)substr($orderDate, 2, 2);
-            $orderNumber = $oy * 1000000 + $oc;
-            return $orderNumber;
-        }
-        return false;
     }
 
     public function getCountryCode($customerCode)
@@ -280,6 +220,22 @@ class HeaderInserter
 
     }
 
+    public function getUtenteJDE($SYTORG)
+    {
+        //utente JDE (reperito da DRKY di UDC 55/US per DRDL02=<utente CRM>
+        $query = "SELECT DRKY 
+		FROM JRGCOM94T.F0005  
+		WHERE DRSY='55' AND DRRT='US' AND DRDL02 = ? 
+		 ";
+        $pstmt = odbc_prepare($this->odbc_conn, $query);
+        $arrParams = array();
+        $arrParams[] = $SYTORG;
+        $res = odbc_execute($pstmt, $arrParams);
+        $row = odbc_fetch_array($pstmt);
+        if ($row && isset($row["DRKY"])) return $row["DRKY"];
+        return '';
+    }
+
     public function getCambio($SYCRCD, $SYTRDJ)
     {
         /*
@@ -306,34 +262,19 @@ class HeaderInserter
         return 0;
     }
 
-    public function getUtenteJDE($SYTORG)
+    public function getShortItemNumber($SZLITM)
     {
-        //utente JDE (reperito da DRKY di UDC 55/US per DRDL02=<utente CRM>
-        $query = "SELECT DRKY 
-		FROM JRGCOM94T.F0005  
-		WHERE DRSY='55' AND DRRT='US' AND DRDL02 = ? 
+        //F4101.IMITM dove F4101.IMLITM=(codice articolo)
+        $query = "SELECT IMITM 
+		FROM " . $this->curLib . ".F4101   
+		WHERE IMLITM = ? 
 		 ";
         $pstmt = odbc_prepare($this->odbc_conn, $query);
         $arrParams = array();
-        $arrParams[] = $SYTORG;
+        $arrParams[] = $SZLITM;
         $res = odbc_execute($pstmt, $arrParams);
         $row = odbc_fetch_array($pstmt);
-        if ($row && isset($row["DRKY"])) return $row["DRKY"];
-        return '';
-    }
-
-    public function getCodiceBanca($SYAN8)
-    {
-        //codice banca (preso da F0301.A5CACT per A5AN8=SYAN8)
-        $query = "SELECT A5CACT
-		FROM " . $this->curLib . ".F0301 
-		WHERE A5AN8 = ?";
-        $pstmt = odbc_prepare($this->odbc_conn, $query);
-        $arrParams = array();
-        $arrParams[] = $SYAN8;
-        $res = odbc_execute($pstmt, $arrParams);
-        $row = odbc_fetch_array($pstmt);
-        if ($row && isset($row["A5CACT"])) return $row["A5CACT"];
+        if ($row && isset($row["IMITM"])) return $row["IMITM"];
         return '';
     }
 
@@ -437,29 +378,7 @@ class HeaderInserter
         $hasErrors = false;
         $xe = 0;
 
-        //recupero numero ordine:
-
-        if (empty($fieldsArray["SYDOCO"])) {
-            $orderNumber = $this->getOrderNumber($fieldsArray["SYTRDJ"]);
-        
-            if (!$orderNumber) {
-                $hasErrors = true;
-                $arrErrors[$xe]["field"] = "";
-                $arrErrors[$xe]["msg"] = "F47011:errore recupero numero ordine:" . odbc_errormsg($this->odbc_conn);
-                $xe++;
-                return array("hasErrors" => $hasErrors, "arrErrors" => $arrErrors);
-            }
-        
-            $fieldsArray["SYDOCO"] = $orderNumber;
-            $fieldsArray["SYEDOC"] = $orderNumber;
-        
-        } else {
-            $fieldsArray["SYEDOC"] =  $fieldsArray["SYDOCO"];
-            $orderNumber = $fieldsArray["SYDOCO"];
-         //   $orderNumber = true;
-        }
-
-        $query = "INSERT INTO " . $this->curLib . ".F47011 (" . implode(",", $inputFields) . ") VALUES(";
+        $query = "INSERT INTO " . $this->curLib . ".F4715 (" . implode(",", $inputFields) . ") VALUES(";
         for ($i = 0; $i < count($inputFields); $i++) {
             if ($i > 0) $query .= ",";
             if ($fieldTypes[$inputFields[$i]] == "A") $query .= "Cast(Cast(? As Char(" . $fieldSizes[$inputFields[$i]] . ") CCSID 65535) As Char(" . $fieldSizes[$inputFields[$i]] . ") CCSID 37) ";
@@ -470,7 +389,7 @@ class HeaderInserter
         if (!$pstmt) {
             $hasErrors = true;
             $arrErrors[$xe]["field"] = "";
-            $arrErrors[$xe]["msg"] = "F0101:" . odbc_errormsg($this->odbc_conn);
+            $arrErrors[$xe]["msg"] = "F4715:" . odbc_errormsg($this->odbc_conn);
             $xe++;
             return array("hasErrors" => $hasErrors, "arrErrors" => $arrErrors);
         }
@@ -492,18 +411,17 @@ class HeaderInserter
 
             $arrParams[] = mb_convert_encoding($curFieldValue, "ISO-8859-1", "UTF-8");
         }
- 
 
         $res = odbc_execute($pstmt, $arrParams);
         if (!$res) {
             $hasErrors = true;
             $arrErrors[$xe]["field"] = "";
-            $arrErrors[$xe]["msg"] = "F47011:" . odbc_errormsg($this->odbc_conn);
+            $arrErrors[$xe]["msg"] = "F4715:" . odbc_errormsg($this->odbc_conn);
             $xe++;
             return array("hasErrors" => $hasErrors, "arrErrors" => $arrErrors);
         }
 
-        return array("hasErrors" => $hasErrors, "arrErrors" => $arrErrors, "orderNumber" => $orderNumber);
+        return array("hasErrors" => $hasErrors, "arrErrors" => $arrErrors);
 
 
     }

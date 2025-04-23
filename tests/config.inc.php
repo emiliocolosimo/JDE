@@ -5,10 +5,10 @@ define("AH_DB2_USER","JDESPYTEST");
 define("AH_DB2_PASS","JBALLS18");
 define("AH_API_KEY","9b3664a4ae6189a638dc55817ffacf9a28a79441");
 
-define("AH_MYSQL_HOST","93.95.216.226");
+define("AH_MYSQL_HOST","89.46.227.76");
 define("AH_MYSQL_USER","rgpballs_powerbi");
 define("AH_MYSQL_PASS","RgpBi23!!");
-define("AH_MYSQL_DB","rgpballs_1668184811");
+define("AH_MYSQL_DB","rgpballs_nc2d1");
  
 define("CLIENT_ID",'7982c594-1dbf-4143-9a44-38149cb100fb');
 define("CLIENT_SECRET",'hnr8Q~j_24vK8tCzOozJfZaUJTRDscQbt.uS.arc');

@@ -118,6 +118,7 @@ class NoteInserter
 
     public function checkMandatoryFields($fieldsArray)
     {
+   
         $inputFields = $this->inputFields;
         $mandatoryFields = $this->mandatoryFields;
         $fieldsReference = $this->fieldsReference;
@@ -137,7 +138,14 @@ class NoteInserter
         //mettere qui i campi "particolari":
         $fieldsArray["ZDDOCO"] = $this->orderNumber;
         $fieldsArray["ZDEDOC"] = $this->orderNumber;
-        $fieldsArray["ZDLNID"] = $fieldsArray["ZDEDLN"] * 100;
+
+        $lineNumber = $this->getLineNumber($fieldsArray["ZDDOCO"]);
+        $fieldsArray["ZDEDLN"] = $lineNumber;
+        $fieldsArray["ZDLNID"] = $lineNumber;
+     //   $fieldsArray["ZDLINS"] = $lineNumber;
+
+    // $fieldsArray["ZDLNID"] = $fieldsArray["ZDEDLN"] * 100;
+        
         $fieldsArray["ZDUSER"] = $this->getUtenteJDE($headerFields["crm_user"]);
         //$fieldsArray["ZDUSER"] = "CRM";
         $fieldsArray["ZDTORG"] = $fieldsArray["ZDUSER"];
@@ -177,6 +185,24 @@ class NoteInserter
 
 
         return array("hasErrors" => $hasErrors, "arrErrors" => $arrErrors);
+
+    }
+
+    public function getlineNumber($ZDDOCO)
+    {
+
+        $query = "SELECT COALESCE(MAX(CAST(SZEDLN AS INT)), 0) as SZEDLN FROM " . $this->curLib . ".F47012  WHERE SZDOCO = ? FETCH FIRST ROW ONLY";
+        $pstmt = odbc_prepare($this->odbc_conn, $query);
+        $arrParams = array();
+        $arrParams[] = $ZDDOCO;
+        $res = odbc_execute($pstmt, $arrParams);
+        $row = odbc_fetch_array($pstmt);
+        //var_dump($query , $row , $ZDDOCO , $row["SZLNID"]);
+        if ($row && isset($row["SZEDLN"])) {
+            return $row["SZEDLN"];
+        }
+
+        return 100;
 
     }
 

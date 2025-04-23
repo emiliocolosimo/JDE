@@ -59,10 +59,10 @@ if(!$db2conn) {
 $query = "
 select user_email, 
 ID, 
-(select meta_value from wp_usermeta wu where wu.user_id = wus.ID and meta_key = 'first_name') as uname, 
-(select meta_value from wp_usermeta wu where wu.user_id = wus.ID and meta_key = 'last_name') as usurname, 
-(select meta_value from wp_usermeta wu where wu.user_id = wus.ID and meta_key = 'locale') as ulocale  
-from wp_users wus 
+(select meta_value from aef8_usermeta wu where wu.user_id = wus.ID and meta_key = 'first_name') as uname, 
+(select meta_value from aef8_usermeta wu where wu.user_id = wus.ID and meta_key = 'last_name') as usurname, 
+(select meta_value from aef8_usermeta wu where wu.user_id = wus.ID and meta_key = 'locale') as ulocale  
+from aef8_users wus 
 where ID <= 2280     
 order by ID desc 
 limit 0, 2    

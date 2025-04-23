@@ -32,7 +32,7 @@ class WebsiteDomains {
 			exit;
 		}
 
-		$query = "select distinct(user_email) from wp_users";
+		$query = "select distinct(user_email) from aef8_users";
 		$res = mysqli_query($conn,$query);
 		if(!$res) {
 		  $errMsg = "Error mysql query: " . mysqli_error($conn);

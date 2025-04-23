@@ -1302,34 +1302,30 @@ SEGDTA;
 	  	signaturePad.clear();
 	});
       
-	function sbm_add() {
-		if(signaturePad.isEmpty()) {
-			$("#firma_lbl").addClass("has-error");
-			$("#firma_err").html("Campo obbligatorio");
-			return false;
-		}
-		
-		var jsignCode = signaturePad.toDataURL();
-		$("#signCode").val(jsignCode); 		
-		
-		$.blockUI(); 
-		$("#rcd-add-form").submit();
-		document.location.href = "?task=dspIngressoConferma";
+function sbm_add() {
+  if (signaturePad.isEmpty()) {
+    $("#firma_lbl").addClass("has-error");
+    $("#firma_err").html("Campo obbligatorio");
+    return false;
+  }
 
-		 
-	}
+  var jsignCode = signaturePad.toDataURL();
+  $("#signCode").val(jsignCode);
+
+  $.blockUI(); 
+  $("#rcd-add-form").submit(); // NON USARE respobj qui
+}
 	    
-	function showResponseAdd(respobj, statusText, xhr, jform)  { 
-		 
-		$("#firma_err").html(""); 
-		if(respobj[0].stat!="OK") {
-			$.unblockUI(); 
-    		$("#firma_err").html(respobj[0].msg);
-		}	    
-		else {	
-			document.location.href = "?task=dspIngressoConferma";
-		}  
-	} 	    
+function showResponseAdd(respobj, statusText, xhr, jform)  { 
+  $("#firma_err").html(""); 
+
+  if (respobj[0].stat != "OK") {
+    $.unblockUI(); 
+    $("#firma_err").html(respobj[0].msg);
+  } else {	
+    document.location.href = "?task=dspIngressoConferma";
+  }  
+}   
 	     
 	function isCanvasTransparent() {
 		// true if all pixels Alpha equals to zero
