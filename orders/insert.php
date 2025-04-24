@@ -20,6 +20,12 @@ $server = "Driver={IBM i Access ODBC Driver};System=127.0.0.1;Uid=" . DB2_USER .
 $user = DB2_USER;
 $pass = DB2_USER;
 $conn = odbc_connect($server, $user, $pass);
+$env = '';
+
+if(isset($_REQUEST["env"])) $env = $_REQUEST["env"];
+if($env=='') {
+	$env='prod'; //per retrocompatibilità
+}
 
 if (!$conn) {
     die('{"stat":"err", "errors": [{"field":"", "msg":"connection error"}]}');
@@ -39,6 +45,9 @@ if (!$resArray) {
 if (!isset($resArray['F47011'])) {
     die('{"stat":"err", "errors": [{"field":"", "msg":"missing F0111"}]}');
 }
+
+// Current environment
+$curLib = $envLib[$resArray['env']];
 
 /********** CONTROLLI: ************/
 
@@ -147,12 +156,10 @@ for ($i = 0; $i < count($resArray['F47012']); $i++) {
         odbc_close($conn);
         die('{"stat":"err", "errors":' . json_encode($res["arrErrors"]) . '}');
     }
-}
 
-if (isset($resArray['F4715'])) {
-    for ($i = 0; $i < count($resArray['F4715']); $i++) {
-        $currentResArray = $resArray['F4715'][$i];
-
+    //Inserisci note in base al progressive number
+    $note = $detailInserter->getNotesByProgressiveNumber($resArray['F4715'], $currentResArray['quotation_progressive_number']);
+    if ($note) {
         $noteInserter = new noteInserter();
         $noteInserter->setOrderNumber($orderNumber);
         $noteInserter->setConnection($conn);
@@ -163,9 +170,9 @@ if (isset($resArray['F4715'])) {
         $noteInserter->setFieldsReference($fieldsReference["F4715"]);
         $noteInserter->setEnvLib($envLib);
         $noteInserter->setValidator($validator["F4715"]);
-
+        $noteInserter->setLineNumber($detailInserter->getLineNumber()); // Setto il line number uguale a quello della riga di dettaglio
         $noteInserter->setEnv($resArray['env']);
-        $res = $noteInserter->checkMandatoryFields($currentResArray);
+        $res = $noteInserter->checkMandatoryFields($note);
         $res = $noteInserter->validateFields();
         $res = $noteInserter->execInsert();
         if ($res["hasErrors"]) {
@@ -176,9 +183,32 @@ if (isset($resArray['F4715'])) {
     }
 }
 
-odbc_commit($conn);
-odbc_close($conn);
+// if (isset($resArray['F4715'])) {
+//     for ($i = 0; $i < count($resArray['F4715']); $i++) {
+//         $currentResArray = $resArray['F4715'][$i];
 
+//         $noteInserter = new noteInserter();
+//         $noteInserter->setOrderNumber($orderNumber);
+//         $noteInserter->setConnection($conn);
+//         $noteInserter->setHeaderFields($resArray['F47011']['fields']);
+//         $noteInserter->setInputFields($inputFields["F4715"], $fieldType["F4715"], $fieldSize["F4715"]);
+//         $noteInserter->setCostantFields($costantFields["F4715"]);
+//         $noteInserter->setMandatoryFields($mandatoryFields["F4715"]);
+//         $noteInserter->setFieldsReference($fieldsReference["F4715"]);
+//         $noteInserter->setEnvLib($envLib);
+//         $noteInserter->setValidator($validator["F4715"]);
+
+//         $noteInserter->setEnv($resArray['env']);
+//         $res = $noteInserter->checkMandatoryFields($currentResArray);
+//         $res = $noteInserter->validateFields();
+//         $res = $noteInserter->execInsert();
+//         if ($res["hasErrors"]) {
+//             odbc_rollback($conn);
+//             odbc_close($conn);
+//             die('{"stat":"err", "errors":' . json_encode($res["arrErrors"]) . '}');
+//         }
+//     }
+// }
 
 //ESEGUO LA CALL:
 $tkconn = ToolkitService::getInstance('*LOCAL', DB2_USER, DB2_PASS);
@@ -193,7 +223,7 @@ $res = $tkconn->CLCommand("CHGLIBL LIBL(" . $envLibList[$resArray['env']] . ")")
 if (!$res) {
     $errMsg = 'Error setting library list. Code: ' . $tkconn->getErrorCode() . ' Msg: ' . $tkconn->getErrorMsg();
     die('{"stat":"OK", "warnings": [{"field":"", "msg":' . json_encode($errMsg) . '}]}');
-    exit;
+    exit; 
 }
 
 $res = $tkconn->CLCommand("CALL J40211Z ('P40211Z' 'RG0004CRM')");
@@ -203,4 +233,18 @@ if (!$res) {
     exit;
 }
 
-echo '{"stat":"OK" ,' . '"OrderNumber": "' . $orderNumber . '"}';
+$query = "SELECT SYEDSP as SYEDSP FROM " . $curLib . ".F47011  WHERE SYDOCO = ? FETCH FIRST ROW ONLY";
+$pstmt = odbc_prepare($conn, $query);
+$arrParams = array();
+$arrParams[] = $orderNumber;
+$res = odbc_execute($pstmt, $arrParams);
+$row = odbc_fetch_array($pstmt);
+if (isset($row["SYEDSP"]) && $row["SYEDSP"] != 'Y') {
+    die('{"stat":"err","errors":[{"field":"","msg":"Ordine '.$orderNumber.' non trasformato"}]}');
+} 
+
+odbc_commit($conn);
+odbc_close($conn);
+
+echo '{"stat":"OK" , "OrderNumber": "' . $orderNumber . '"}';
+

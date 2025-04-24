@@ -29,9 +29,13 @@ class DetailInserter
     {
         $this->orderNumber = $orderNumber;
     }
-    public function setlineNumber($lineNumber)
+    public function setLineNumber($lineNumber)
     {
         $this->lineNumber = $lineNumber;
+    }
+    public function getLineNumber()
+    {
+        return $this->lineNumber;
     }
 
     public function setConnection($conn)
@@ -100,7 +104,8 @@ class DetailInserter
 
         //i campi sono allineati a destra:
         $DRKY = '';
-        for ($p = 0; $p < (10 - $fieldSizes[$fieldName]); $p++) $DRKY .= ' ';
+        for ($p = 0; $p < (10 - $fieldSizes[$fieldName]); $p++)
+            $DRKY .= ' ';
         $DRKY .= $fieldValue;
 
         $query = "SELECT 1 AS VALIDFIELD  
@@ -115,7 +120,8 @@ class DetailInserter
         $arrParams[] = $DRKY;
         $res = odbc_execute($pstmt, $arrParams);
         $row = odbc_fetch_array($pstmt);
-        if ($row && $row["VALIDFIELD"] == 1) return true;
+        if ($row && $row["VALIDFIELD"] == 1)
+            return true;
 
         return false;
 
@@ -136,7 +142,8 @@ class DetailInserter
         $fieldsArray = $db2InputFields;
 
         foreach ($costantFields as $fieldName => $fieldValue) {
-            if (!isset($fieldsArray[$fieldName])) $fieldsArray[$fieldName] = $fieldValue;
+            if (!isset($fieldsArray[$fieldName]))
+                $fieldsArray[$fieldName] = $fieldValue;
         }
 
         $Utils = new Utils();
@@ -155,21 +162,25 @@ class DetailInserter
         $fieldsArray["SZPRIO"] = $headerFields["quotation_priority"];
 
 
-        if ($fieldsArray["SZPDDJ"] != "") $fieldsArray["SZPDDJ"] = $Utils->dateToJUL($fieldsArray["SZPDDJ"]);
+        if ($fieldsArray["SZPDDJ"] != "")
+            $fieldsArray["SZPDDJ"] = $Utils->dateToJUL($fieldsArray["SZPDDJ"]);
 
         if ($fieldsArray["SZDRQJ"] != "") {
             $fieldsArray["SZDRQJ"] = $Utils->dateToJUL($fieldsArray["SZDRQJ"]);
-            if ($fieldsArray["SZPDDJ"] == "") $fieldsArray["SZPDDJ"] = $fieldsArray["SZDRQJ"];
+            if ($fieldsArray["SZPDDJ"] == "")
+                $fieldsArray["SZPDDJ"] = $fieldsArray["SZDRQJ"];
         }
 
-        $fieldsArray["SZEDLN"] = $this->getLineNumber($fieldsArray["SZDOCO"]);      
-        $fieldsArray["SZLNID"] = $this->getLineNumber($fieldsArray["SZDOCO"]);  
-    
+        $this->setLineNumber($this->getLineNumberFromDb($fieldsArray["SZDOCO"]));
+        $fieldsArray["SZEDLN"] = $this->lineNumber;
+        $fieldsArray["SZLNID"] = $this->lineNumber;
+
         // $fieldsArray["SZEDLN"] = $fieldsArray["SZEDLN"] * 100;
         // $fieldsArray["SZLNID"] = $fieldsArray["SZEDLN"];
-    
+
         $fieldsArray["SZITM"] = $this->getShortItemNumber($fieldsArray["SZLITM"]);
-        if ($fieldsArray["SZSHAN"] == '') $fieldsArray["SZSHAN"] = $fieldsArray["SZAN8"];
+        if ($fieldsArray["SZSHAN"] == '')
+            $fieldsArray["SZSHAN"] = $fieldsArray["SZAN8"];
 
         /*
         $ubi =  $this->getItemLocation($fieldsArray["SZITM"]);
@@ -208,7 +219,7 @@ class DetailInserter
 
         $fieldsArray["SZDCTO"] = !empty($headerFields["quotation_type"])
             ? $headerFields["quotation_type"]
-            :  $this->getSYDCTO($headerFields["quotation_recipient_code"]);
+            : $this->getSYDCTO($headerFields["quotation_recipient_code"]);
 
         /*
         $tmp = '';
@@ -223,7 +234,8 @@ class DetailInserter
             for ($i = 0; $i < count($inputFields); $i++) {
                 $currentField = $inputFields[$i];
 
-                if (isset($fieldsArray[$currentField])) $$currentField = trim($fieldsArray[$currentField]);
+                if (isset($fieldsArray[$currentField]))
+                    $$currentField = trim($fieldsArray[$currentField]);
 
                 if (in_array($currentField, $mandatoryFields) && !isset($fieldsArray[$currentField])) {
                     $hasErrors = true;
@@ -246,7 +258,7 @@ class DetailInserter
 
     }
 
-    public function getLineNumber($SZDOCO)
+    public function getLineNumberFromDb($SZDOCO)
     {
 
         $query = "SELECT MAX(CAST(SZLNID AS INT)) + 100 as SZLNID FROM " . $this->curLib . ".F47012  WHERE SZDOCO = ? FETCH FIRST ROW ONLY";
@@ -285,9 +297,11 @@ class DetailInserter
     {
 
         $countryCode = $this->getCountryCode($customerCode);
-        if (!$countryCode) return "";
+        if (!$countryCode)
+            return "";
 
-        if ($countryCode == "IT") return "O1";
+        if ($countryCode == "IT")
+            return "O1";
 
         $query = "SELECT 1 AS ISCEE FROM BCD_DATIV2.NAZCEE0F WHERE NCCDNA = ? FETCH FIRST ROW ONLY";
         $pstmt = odbc_prepare($this->odbc_conn, $query);
@@ -315,7 +329,8 @@ class DetailInserter
         $arrParams[] = $SYTORG;
         $res = odbc_execute($pstmt, $arrParams);
         $row = odbc_fetch_array($pstmt);
-        if ($row && isset($row["DRKY"])) return $row["DRKY"];
+        if ($row && isset($row["DRKY"]))
+            return $row["DRKY"];
         return '';
     }
 
@@ -341,7 +356,8 @@ class DetailInserter
         $arrParams[] = $SYTRDJ;
         $res = odbc_execute($pstmt, $arrParams);
         $row = odbc_fetch_array($pstmt);
-        if ($row && isset($row["CXCRRD"])) return $row["CXCRRD"];
+        if ($row && isset($row["CXCRRD"]))
+            return $row["CXCRRD"];
         return 0;
     }
 
@@ -357,7 +373,8 @@ class DetailInserter
         $arrParams[] = $SZLITM;
         $res = odbc_execute($pstmt, $arrParams);
         $row = odbc_fetch_array($pstmt);
-        if ($row && isset($row["IMITM"])) return $row["IMITM"];
+        if ($row && isset($row["IMITM"]))
+            return $row["IMITM"];
         return '';
     }
 
@@ -374,7 +391,8 @@ class DetailInserter
         $res = odbc_execute($pstmt, $arrParams);
         $row = odbc_fetch_array($pstmt);
 
-        if ($row && is_array($row)) return $row;
+        if ($row && is_array($row))
+            return $row;
 
 
         return '';
@@ -392,7 +410,8 @@ class DetailInserter
         foreach ($validator as $fieldName => $validatorCode) {
 
             $fieldValue = "";
-            if (isset($fieldsArray[$fieldName])) $fieldValue = $fieldsArray[$fieldName];
+            if (isset($fieldsArray[$fieldName]))
+                $fieldValue = $fieldsArray[$fieldName];
             $va = explode("/", $validatorCode);
             $DRSY = $va[0];
             $DRRT = $va[1];
@@ -459,7 +478,8 @@ class DetailInserter
         $row = odbc_fetch_array($pstmt);
         if ($row) {
             $defVal = $row["FRDVAL"];
-            if (trim($defVal) == '' && $fieldTypes[$fieldName] == 'S') $defVal = 0;
+            if (trim($defVal) == '' && $fieldTypes[$fieldName] == 'S')
+                $defVal = 0;
 
             return rtrim($defVal);
         }
@@ -482,9 +502,12 @@ class DetailInserter
 
         $query = "INSERT INTO " . $this->curLib . ".F47012 (" . implode(",", $inputFields) . ") VALUES(";
         for ($i = 0; $i < count($inputFields); $i++) {
-            if ($i > 0) $query .= ",";
-            if ($fieldTypes[$inputFields[$i]] == "A") $query .= "Cast(Cast(? As Char(" . $fieldSizes[$inputFields[$i]] . ") CCSID 65535) As Char(" . $fieldSizes[$inputFields[$i]] . ") CCSID 37) ";
-            else $query .= "?";
+            if ($i > 0)
+                $query .= ",";
+            if ($fieldTypes[$inputFields[$i]] == "A")
+                $query .= "Cast(Cast(? As Char(" . $fieldSizes[$inputFields[$i]] . ") CCSID 65535) As Char(" . $fieldSizes[$inputFields[$i]] . ") CCSID 37) ";
+            else
+                $query .= "?";
         }
         $query .= ") WITH NC";
         $pstmt = odbc_prepare($this->odbc_conn, $query);
@@ -499,7 +522,8 @@ class DetailInserter
         for ($i = 0; $i < count($inputFields); $i++) {
             $curFieldName = $inputFields[$i];
 
-            if (isset($fieldsArray[$curFieldName])) $curFieldValue = $fieldsArray[$curFieldName];
+            if (isset($fieldsArray[$curFieldName]))
+                $curFieldValue = $fieldsArray[$curFieldName];
             else {
                 //per questi inserimenti non va preso il default da tabella,
                 //carico il default in base al tipo di campo
@@ -526,6 +550,19 @@ class DetailInserter
         return array("hasErrors" => $hasErrors, "arrErrors" => $arrErrors);
 
 
+    }
+
+    public function getNotesByProgressiveNumber($resArray, $progressiveNumber)
+    {
+        if (!isset($resArray)) return null;
+
+        foreach ($resArray as $item) {
+            if ($item['quotation_progressive_number'] == $progressiveNumber) {
+                return $item;
+            }
+        }
+    
+        return null; // se non trovato
     }
 
 }

@@ -18,6 +18,7 @@ class NoteInserter
     private $fieldsReference = null;
     private $headerFields = null;
     private $orderNumber = null;
+    private $lineNumber = null;
 
     public function __construct()
     {
@@ -27,6 +28,11 @@ class NoteInserter
     public function setOrderNumber($orderNumber)
     {
         $this->orderNumber = $orderNumber;
+    }
+    
+    public function setLineNumber($lineNumber)
+    {
+        $this->lineNumber = $lineNumber;
     }
 
     public function setConnection($conn)
@@ -139,9 +145,9 @@ class NoteInserter
         $fieldsArray["ZDDOCO"] = $this->orderNumber;
         $fieldsArray["ZDEDOC"] = $this->orderNumber;
 
-        $lineNumber = $this->getLineNumber($fieldsArray["ZDDOCO"]);
-        $fieldsArray["ZDEDLN"] = $lineNumber;
-        $fieldsArray["ZDLNID"] = $lineNumber;
+        // $lineNumber = $this->getLineNumber($fieldsArray["ZDDOCO"]);
+        $fieldsArray["ZDEDLN"] = $this->lineNumber;
+        $fieldsArray["ZDLNID"] = $this->lineNumber;
      //   $fieldsArray["ZDLINS"] = $lineNumber;
 
     // $fieldsArray["ZDLNID"] = $fieldsArray["ZDEDLN"] * 100;
@@ -188,7 +194,7 @@ class NoteInserter
 
     }
 
-    public function getlineNumber($ZDDOCO)
+    public function getlineNumberFromDb($ZDDOCO)
     {
 
         $query = "SELECT COALESCE(MAX(CAST(SZEDLN AS INT)), 0) as SZEDLN FROM " . $this->curLib . ".F47012  WHERE SZDOCO = ? FETCH FIRST ROW ONLY";

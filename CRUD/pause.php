@@ -269,6 +269,16 @@ class PAUSE extends WebSmartObject
 		AND A.STDATE = '" . $filtDate . "' 
 		AND D.BDNOME LIKE '%" . $filtNome . "%'
   		AND D.BDCOGN LIKE '%" . $filtCognome . "%'
+
+	  
+		GROUP BY A.STDATE, D.BDCOGN, D.BDNOME
+			Order by D.BDNOME , D.BDCOGN
+		";
+		$stmt = $this->db_connection->prepare($query);
+		$result = $stmt->execute();
+		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+/*
 		AND NOT EXISTS(
 			SELECT 1 
 			FROM BCD_DATIV2.SAVTIM0F AS B  
@@ -278,15 +288,9 @@ class PAUSE extends WebSmartObject
 			AND A.STRECO = '0000' 
 			AND A.STDATE = '" . $filtDate . "' 
 			FETCH FIRST ROW ONLY
-		)  
-		GROUP BY A.STDATE, D.BDCOGN, D.BDNOME
-			Order by D.BDNOME , D.BDCOGN
-		";
-		$stmt = $this->db_connection->prepare($query);
-		$result = $stmt->execute();
-		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
+			*/
 			foreach (array_keys($row) as $key) {
 				$row[$key] = htmlspecialchars(rtrim($row[$key]));
 				$escapedField = xl_fieldEscape($key);
@@ -422,6 +426,7 @@ class PAUSE extends WebSmartObject
 	{
 		$filtNome = strtoupper($_SESSION['filtNome'] ?? '');
 		$filtCognome = strtoupper($_SESSION['filtCognome'] ?? '');
+		$FiltErr = strtoupper($_SESSION['FiltErr'] ?? '');
 		$filtDate = $_SESSION['filtDate'] ?? date('Y-m-d');
 		$dataVis = date('d/m/Y', strtotime($filtDate));
 
@@ -495,6 +500,12 @@ class PAUSE extends WebSmartObject
 					  <label for="filtCognome" class="form-label">Nome:</label>
 					  <input type="text" id="filtCognome" name="filtCognome" class="form-control text-uppercase" value="{$filtCognome}">
 					</div>
+					
+					<div class="col-md-3">
+					  <label for="filtErr" class="form-label">Errore:</label>
+					  <input type="text" id="filtErr" name="filtErr" class="form-control text-uppercase" value="{$FiltErr}">
+					</div>
+					
 					<div class="col-md-3 d-flex flex-column">
 					  <label class="form-label invisible">Azioni</label>
 					  <div class="d-flex gap-2 mt-auto">
@@ -507,7 +518,7 @@ class PAUSE extends WebSmartObject
 <div class="row mb-4 d-flex justify-content-between">
   <!-- Totali a sinistra -->
   <div class="col-md-3 text-start">
-    <div class="mb-1"><strong>In sede:</strong> <span id="totPresenti"></span></div>
+    <div class="mb-1"><strong>Presenti:</strong> <span id="totPresenti"></span></div>
     <div class="mb-1"><strong>Attualmente In Pausa:</strong> <span id="totinpausa"></span></div>
     <div class="mb-1"><strong>Che hanno fatto Pausa:</strong> <span id="totpausafatta"></span></div>
   </div>
@@ -608,7 +619,7 @@ SEGDTA;
 			echo <<<SEGDTA
 				<thead>
 						<tr style="background-color:#92a2a8;color:white;">
- 	<td colspan="9"><strong>In Sede: </strong></td> 
+ 	<td colspan="9"><strong>Presenti: </strong></td> 
 </tr>
  	<td colspan="9"><strong>Cognome Nome</strong></td> 
 		</thead>
