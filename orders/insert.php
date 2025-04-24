@@ -22,9 +22,10 @@ $pass = DB2_USER;
 $conn = odbc_connect($server, $user, $pass);
 $env = '';
 
-if(isset($_REQUEST["env"])) $env = $_REQUEST["env"];
-if($env=='') {
-	$env='prod'; //per retrocompatibilità
+if (isset($_REQUEST["env"]))
+    $env = $_REQUEST["env"];
+if ($env == '') {
+    $env = 'prod'; //per retrocompatibilità
 }
 
 if (!$conn) {
@@ -160,25 +161,34 @@ for ($i = 0; $i < count($resArray['F47012']); $i++) {
     //Inserisci note in base al progressive number
     $note = $detailInserter->getNotesByProgressiveNumber($resArray['F4715'], $currentResArray['quotation_progressive_number']);
     if ($note) {
-        $noteInserter = new noteInserter();
-        $noteInserter->setOrderNumber($orderNumber);
-        $noteInserter->setConnection($conn);
-        $noteInserter->setHeaderFields($resArray['F47011']['fields']);
-        $noteInserter->setInputFields($inputFields["F4715"], $fieldType["F4715"], $fieldSize["F4715"]);
-        $noteInserter->setCostantFields($costantFields["F4715"]);
-        $noteInserter->setMandatoryFields($mandatoryFields["F4715"]);
-        $noteInserter->setFieldsReference($fieldsReference["F4715"]);
-        $noteInserter->setEnvLib($envLib);
-        $noteInserter->setValidator($validator["F4715"]);
-        $noteInserter->setLineNumber($detailInserter->getLineNumber()); // Setto il line number uguale a quello della riga di dettaglio
-        $noteInserter->setEnv($resArray['env']);
-        $res = $noteInserter->checkMandatoryFields($note);
-        $res = $noteInserter->validateFields();
-        $res = $noteInserter->execInsert();
-        if ($res["hasErrors"]) {
-            odbc_rollback($conn);
-            odbc_close($conn);
-            die('{"stat":"err", "errors":' . json_encode($res["arrErrors"]) . '}');
+        // Controllo dei 60 caratteri
+        $wrapped = wordwrap($note['quotation_notes'], 60, "|", false);
+        $notes = explode("|", $wrapped);
+        $lineNumberNote = 1;
+        foreach ($notes as $noteTxt) {
+            $note['quotation_notes'] = $noteTxt;
+            $noteInserter = new noteInserter();
+            $noteInserter->setOrderNumber($orderNumber);
+            $noteInserter->setConnection($conn);
+            $noteInserter->setHeaderFields($resArray['F47011']['fields']);
+            $noteInserter->setInputFields($inputFields["F4715"], $fieldType["F4715"], $fieldSize["F4715"]);
+            $noteInserter->setCostantFields($costantFields["F4715"]);
+            $noteInserter->setMandatoryFields($mandatoryFields["F4715"]);
+            $noteInserter->setFieldsReference($fieldsReference["F4715"]);
+            $noteInserter->setEnvLib($envLib);
+            $noteInserter->setValidator($validator["F4715"]);
+            $noteInserter->setLineNumber($detailInserter->getLineNumber()); // Setto il line number uguale a quello della riga di dettaglio
+            $noteInserter->setLineNumberNote($lineNumberNote); // Setto il line number uguale a quello della riga di dettaglio
+            $noteInserter->setEnv($resArray['env']);
+            $res = $noteInserter->checkMandatoryFields($note);
+            $res = $noteInserter->validateFields();
+            $res = $noteInserter->execInsert();
+            if ($res["hasErrors"]) {
+                odbc_rollback($conn);
+                odbc_close($conn);
+                die('{"stat":"err", "errors":' . json_encode($res["arrErrors"]) . '}');
+            }
+            $lineNumberNote++;
         }
     }
 }
@@ -223,7 +233,7 @@ $res = $tkconn->CLCommand("CHGLIBL LIBL(" . $envLibList[$resArray['env']] . ")")
 if (!$res) {
     $errMsg = 'Error setting library list. Code: ' . $tkconn->getErrorCode() . ' Msg: ' . $tkconn->getErrorMsg();
     die('{"stat":"OK", "warnings": [{"field":"", "msg":' . json_encode($errMsg) . '}]}');
-    exit; 
+    exit;
 }
 
 $res = $tkconn->CLCommand("CALL J40211Z ('P40211Z' 'RG0004CRM')");
@@ -240,8 +250,8 @@ $arrParams[] = $orderNumber;
 $res = odbc_execute($pstmt, $arrParams);
 $row = odbc_fetch_array($pstmt);
 if (isset($row["SYEDSP"]) && $row["SYEDSP"] != 'Y') {
-    die('{"stat":"err","errors":[{"field":"","msg":"Ordine '.$orderNumber.' non trasformato"}]}');
-} 
+    die('{"stat":"err","errors":[{"field":"","msg":"Ordine ' . $orderNumber . ' non trasformato"}]}');
+}
 
 odbc_commit($conn);
 odbc_close($conn);

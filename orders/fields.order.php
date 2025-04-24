@@ -1588,7 +1588,7 @@ $fieldSize["F4715"]["ZDUPMJ"] = "6,0";
 $fieldSize["F4715"]["ZDTDAY"] = "6,0";
 
 //TODO: 
-$fieldsReference["F4715"]["quotation_progressive_number"] = "ZDLINS";
+//$fieldsReference["F4715"]["quotation_progressive_number"] = "ZDLINS";
 $fieldsReference["F4715"]["quotation_notes"] = "ZDTXLN";
 $fieldsReference["F4715"]["row_number"] = "ZDEDLN";
 $fieldsReference["F4715"]["crm_user"] = "ZDUSER";

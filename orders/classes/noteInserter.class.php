@@ -19,6 +19,7 @@ class NoteInserter
     private $headerFields = null;
     private $orderNumber = null;
     private $lineNumber = null;
+    private $lineNumberNote = null; // ZDLINS
 
     public function __construct()
     {
@@ -33,6 +34,11 @@ class NoteInserter
     public function setLineNumber($lineNumber)
     {
         $this->lineNumber = $lineNumber;
+    }
+
+    public function setLineNumberNote($lineNumberNote)
+    {
+        $this->lineNumberNote = $lineNumberNote;
     }
 
     public function setConnection($conn)
@@ -148,7 +154,7 @@ class NoteInserter
         // $lineNumber = $this->getLineNumber($fieldsArray["ZDDOCO"]);
         $fieldsArray["ZDEDLN"] = $this->lineNumber;
         $fieldsArray["ZDLNID"] = $this->lineNumber;
-     //   $fieldsArray["ZDLINS"] = $lineNumber;
+        $fieldsArray["ZDLINS"] = $this->lineNumberNote;
 
     // $fieldsArray["ZDLNID"] = $fieldsArray["ZDEDLN"] * 100;
         
