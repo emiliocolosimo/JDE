@@ -162,11 +162,11 @@ function saveTransitRecord($conn,$requestType,$codDipendente,$transitRecord) {
 	//controllo che non ci sia altra timbratura entro i 10 minuti:	
 	$skip = false;
 
-	$tims = date("H:i:s", strtotime($STTIME . ' - 1 second'));
-	$timf = date("H:i:s", strtotime($STTIME . ' + 1 second'));
+	//$tims = date("H:i:s", strtotime($STTIME . ' - 1 second'));
+	//a$timf = date("H:i:s", strtotime($STTIME . ' + 1 second'));
 
-	//$tims = date("H:i:s",strtotime($STTIME.' - 10 minutes'));
-	//$timf = date("H:i:s",strtotime($STTIME.' + 10 minutes'));
+	$tims = date("H:i:s",strtotime($STTIME.' - 15 minutes'));
+	$timf = date("H:i:s",strtotime($STTIME.' + 15 minutes'));
 	$query = "SELECT 1 AS CHECKT 
 	FROM BCD_DATIV2.SAVTIM0F AS F 
 	WHERE STYEAR = '".$STYEAR."' 
@@ -188,7 +188,7 @@ function saveTransitRecord($conn,$requestType,$codDipendente,$transitRecord) {
 	
 	if(!$skip) {
 		$query = "
-		INSERT INTO BCD_DATIV2.SAVTIM0F (
+		INSERT INTO BCD_DATIV2.SAVTIM1F (
 		STTPRE,
 		STSENS,
 		STTYPE,

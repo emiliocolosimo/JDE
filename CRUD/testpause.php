@@ -264,7 +264,9 @@ $recordData = array_merge(compact(
 			} else {
 				$pausaFattaList[] = $recordData;
 			}
-	}
+		
+	} 
+
 		$showInPausa = $_SESSION["chkInPausa"] ?? true;
 		$showError = $_SESSION["chkError"] ?? 1;
 

@@ -408,14 +408,14 @@ class VISITATORI extends WebSmartObject
 		$query = "SELECT A.STDATE, A.STTIME, COALESCE(D.BDCOGN,'') AS BDCOGN, COALESCE(D.BDNOME,'') AS BDNOME 
 		FROM BCD_DATIV2.SAVTIM0F AS A 
 		LEFT JOIN BCD_DATIV2.BDGDIP0F AS D ON A.STCDDI = D.BDCOGE 
-		WHERE A.STSENS = 'E' 
+		WHERE A.STSENS = 'E' AND A.STRECO='0000'
 		AND A.STDATE = '".$filtDate."'
 		AND NOT EXISTS(
 			SELECT 1 
 			FROM BCD_DATIV2.SAVTIM0F AS B  
 			WHERE B.STTIMS > A.STTIMS 
 			AND B.STCDDI = A.STCDDI  
-			AND B.STSENS = 'U' 
+			AND B.STSENS = 'U' AND B.STRECO='0000'
 			FETCH FIRST ROW ONLY
 		)  
 		"; 
@@ -1756,8 +1756,6 @@ SEGDTA;
 		
 		$.blockUI(); 
 		$("#rcd-add-form").submit();
-		 			document.location.href = "?task=dspUscitaConferma";
-
 	}
 	    
 	function showResponseAdd(respobj, statusText, xhr, jform)  { 

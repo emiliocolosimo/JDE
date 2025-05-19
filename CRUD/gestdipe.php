@@ -24,7 +24,7 @@ class gest_dipe extends WebSmartObject
 		'sort' => '',
 		'page' => 1,
 		'listSize' => 20,
-		'filters' => array('BDNOME' => '', 'BDCOGN' => '', 'BDCOGE' => '', 'BDBADG' => '')
+		'filters' => array('BDNOME' => '', 'BDCOGN' => '', 'BDCOGE' => '', 'BDBADG' => '', 'BDREPA' => '', 'BDTIMB' => '', 'BDBDTM' => '')
 	);
 	
 	
@@ -61,7 +61,12 @@ class gest_dipe extends WebSmartObject
 			"BDNOME" => array("validators"=> array("WSRequired")),
 			"BDCOGN" => array("validators"=> array("WSRequired")),
 			"BDCOGE" => array("validators"=> array("WSRequired")),
-			"BDBADG" => array("validators"=> array("WSRequired")));
+			"BDBADG" => array("validators"=> array("WSRequired")),
+			"BDREPA" => array("validators"=> array("WSRequired")),
+			"BDTIMB" => array("validators"=> array("WSRequired")),
+			"BDBDTM" => array());
+			//"BDBDTM" => array("validators"=> array("WSRequired")));
+
 		$this->optionalIndicator = "(Optional)";
 		
 		// Run the specified task
@@ -248,6 +253,9 @@ class gest_dipe extends WebSmartObject
 		$BDCOGN = "";
 		$BDCOGE = "";
 		$BDBADG = "";
+		$BDREPA = "";
+		$BDTIMB = "";
+		$BDBDTM = "";
 		
 		// Output the segment
 		$this->writeSegment('RcdAdd', array_merge(get_object_vars($this), get_defined_vars()));
@@ -262,9 +270,10 @@ class gest_dipe extends WebSmartObject
 		$BDNOME = strtoupper(xl_get_parameter('BDNOME'));
 		$BDCOGN = strtoupper(xl_get_parameter('BDCOGN'));
 		$BDCOGE = strtoupper(xl_get_parameter('BDCOGE'));
-		
 		$BDBADG = str_pad($BDBADG,16,"0",STR_PAD_LEFT);
-		 
+		$BDREPA = strtoupper(xl_get_parameter('BDREPA')); 
+		$BDTIMB = strtoupper(xl_get_parameter('BDTIMB')); 
+		$BDBDTM = str_pad($BDBDTM,16,"0",STR_PAD_LEFT);
 		// Do any add validation here
 		$isValid = $this->validate();
 		
@@ -294,7 +303,7 @@ class gest_dipe extends WebSmartObject
 		}
 		
 		// Prepare the statement to add the record
-		$insertSql = 'INSERT INTO BCD_DATIV2.BDGDIP0F (BDNOME, BDCOGN, BDCOGE, BDBADG) VALUES(:BDNOME, :BDCOGN, :BDCOGE, :BDBADG)' . ' WITH NC';
+		$insertSql = 'INSERT INTO BCD_DATIV2.BDGDIP0F (BDNOME, BDCOGN, BDCOGE, BDBADG, BDREPA, BDTIMB, BDBDTM ) VALUES(:BDNOME, :BDCOGN, :BDCOGE, :BDBADG, :BDREPA, :BDTIMB, :BDBDTM)' . ' WITH NC';
 		$stmt = $this->db_connection->prepare($insertSql);
 		if (!$stmt)
 		{
@@ -306,7 +315,10 @@ class gest_dipe extends WebSmartObject
 		$stmt->bindValue(':BDCOGN', $BDCOGN, PDO::PARAM_STR);
 		$stmt->bindValue(':BDCOGE', $BDCOGE, PDO::PARAM_STR);
 		$stmt->bindValue(':BDBADG', $BDBADG, PDO::PARAM_STR);
-		
+		$stmt->bindValue(':BDREPA', $BDREPA, PDO::PARAM_STR);
+		$stmt->bindValue(':BDTIMB', $BDTIMB, PDO::PARAM_STR);
+		$stmt->bindValue(':BDBDTM', $BDBDTM, PDO::PARAM_STR);
+
 		// Execute the insert statement
 		$result = $stmt->execute();
 		if ($result === false) 
@@ -348,10 +360,24 @@ class gest_dipe extends WebSmartObject
 		
 		$record = $this->getRecord($keyFieldArray);
 		extract($record);
-		
+		// Recupera tutti i badge in ordine crescente
+$query = "SELECT BDBADG FROM BCD_DATIV2.BDGDIP0F ORDER BY BDBADG";
+$stmt = $this->db_connection->prepare($query);
+$stmt->execute();
+$badges = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+$index = array_search($BDBADG, $badges);
+$prevBadge = $badges[$index - 1] ?? '';
+$nextBadge = $badges[$index + 1] ?? '';
+
+
+
+
 		// Output the segment
-		$this->writeSegment('RcdChange', array_merge(get_object_vars($this), get_defined_vars()));
-	}
+$this->writeSegment('RcdChange', array_merge(get_object_vars($this), get_defined_vars(), [
+    'nextBadge' => $nextBadge,
+    'prevBadge' => $prevBadge
+]));	}
 	
 	protected function getRecord($keyFieldArray, $excludeFromReturn = array(), $oldKeyFields = false)
 	{
@@ -400,9 +426,14 @@ class gest_dipe extends WebSmartObject
 		$BDNOME = strtoupper(xl_get_parameter('BDNOME'));
 		$BDCOGN = strtoupper(xl_get_parameter('BDCOGN'));
 		$BDCOGE = strtoupper(xl_get_parameter('BDCOGE'));
-		$BDBADG = strtoupper(xl_get_parameter('BDBADG'));
+		$BDBADG = strtoupper(string: xl_get_parameter('BDBADG'));
 		$BDBADG = str_pad($BDBADG,16,"0",STR_PAD_LEFT);
-		
+		$BDREPA = strtoupper(xl_get_parameter(xl_sField: 'BDREPA'));
+		$BDTIMB = strtoupper(xl_get_parameter(xl_sField: 'BDTIMB'));
+		$BDBDTM = strtoupper(string: xl_get_parameter('BDBDTM'));
+		$BDBDTM = str_pad($BDBDTM,16,"0",STR_PAD_LEFT);
+
+
 		//Protect Key Fields from being Changed
 		//$BDBADG = $BDBADG_;
 		
@@ -419,7 +450,7 @@ class gest_dipe extends WebSmartObject
 		}
 		
 		// Construct and prepare the SQL to update the record
-		$updateSql = 'UPDATE BCD_DATIV2.BDGDIP0F SET BDNOME = :BDNOME, BDCOGN = :BDCOGN, BDCOGE = :BDCOGE, BDBADG = :BDBADG ';
+		$updateSql = 'UPDATE BCD_DATIV2.BDGDIP0F SET BDNOME = :BDNOME, BDCOGN = :BDCOGN, BDCOGE = :BDCOGE, BDBADG = :BDBADG, BDREPA = :BDREPA, BDTIMB = :BDTIMB, BDBDTM = :BDBDTM ';
 		$updateSql .= ' ' . $this->buildRecordWhere() . ' WITH NC';
 		$stmt = $this->db_connection->prepare($updateSql);
 		if (!$stmt)
@@ -433,7 +464,12 @@ class gest_dipe extends WebSmartObject
 		$stmt->bindValue(':BDCOGE', $BDCOGE, PDO::PARAM_STR);
 		$stmt->bindValue(':BDBADG', $BDBADG, PDO::PARAM_STR);
 		$stmt->bindValue(':BDBADG_', $BDBADG_, PDO::PARAM_STR);
-		
+		$stmt->bindValue(':BDREPA', $BDREPA, PDO::PARAM_STR);
+		$stmt->bindValue(':BDTIMB', $BDTIMB, PDO::PARAM_STR);
+		$stmt->bindValue(':BDBDTM', $BDBDTM, PDO::PARAM_STR);
+		//$stmt->bindValue(':BDBDTM_', $BDBDTM_, PDO::PARAM_STR);
+
+
 		// Execute the update statement
 		$result = $stmt->execute();
 		if ($result === false)
@@ -453,6 +489,12 @@ class gest_dipe extends WebSmartObject
 		$this->programState['filters']['BDCOGN'] = xl_get_parameter('filter_BDCOGN');
 		$this->programState['filters']['BDCOGE'] = xl_get_parameter('filter_BDCOGE');
 		$this->programState['filters']['BDBADG'] = xl_get_parameter('filter_BDBADG');
+		$this->programState['filters']['BDREPA'] = xl_get_parameter('filter_BDREPA');
+		$this->programState['filters']['BDTIMB'] = xl_get_parameter('filter_BDTIMB');
+		$this->programState['filters']['BDBDTM'] = xl_get_parameter('filter_BDBDTM');
+
+
+
 		
 		// Update the program state
 		$this->updateState();
@@ -570,15 +612,26 @@ class gest_dipe extends WebSmartObject
 		{ 
 			$stmt->bindValue(':BDBADG', strtolower($this->programState['filters']['BDBADG']), PDO::PARAM_STR);
 		}
-		
-		
+		if ($this->programState['filters']['BDREPA'] != '')
+		{
+			$stmt->bindValue(':BDREPA', '%' . strtolower($this->programState['filters']['BDREPA']) . '%', PDO::PARAM_STR);
+		}
+			if ($this->programState['filters']['BDTIMB'] != '')
+		{
+			$stmt->bindValue(':BDTIMB', '%' . strtolower($this->programState['filters']['BDTIMB']) . '%', PDO::PARAM_STR);
+		}
+				if ($this->programState['filters']['BDBDTM'] != '')
+		{ 
+			$stmt->bindValue(':BDBDTM', strtolower($this->programState['filters']['BDBDTM']), PDO::PARAM_STR);
+		}
 		return $stmt;
 	}
 	
 	// Build SQL Select string
 	protected function buildSelectString()
 	{
-		$selString = 'SELECT BCD_DATIV2.BDGDIP0F.BDBADG, BCD_DATIV2.BDGDIP0F.BDNOME, BCD_DATIV2.BDGDIP0F.BDCOGN, BCD_DATIV2.BDGDIP0F.BDCOGE FROM BCD_DATIV2.BDGDIP0F';
+		$selString = 'SELECT BCD_DATIV2.BDGDIP0F.BDBADG, BCD_DATIV2.BDGDIP0F.BDNOME, BCD_DATIV2.BDGDIP0F.BDCOGN, BCD_DATIV2.BDGDIP0F.BDCOGE , BCD_DATIV2.BDGDIP0F.BDREPA, BCD_DATIV2.BDGDIP0F.BDTIMB , BCD_DATIV2.BDGDIP0F.BDBDTM 
+		FROM BCD_DATIV2.BDGDIP0F';
 		
 		return $selString;
 	}
@@ -616,7 +669,24 @@ class gest_dipe extends WebSmartObject
 			$whereClause = $whereClause . $link . ' lower(BCD_DATIV2.BDGDIP0F.BDBADG) = :BDBADG';
 			$link = " AND ";
 		}
-		
+				// Filter by BDREPA
+		if ($this->programState['filters']['BDREPA'] != '')
+		{
+			$whereClause = $whereClause . $link . ' lower(BCD_DATIV2.BDGDIP0F.BDREPA) LIKE :BDREPA';
+			$link = " AND ";
+		}
+				// Filter by BDTIMB
+		if ($this->programState['filters']['BDTIMB'] != '')
+		{
+			$whereClause = $whereClause . $link . ' lower(BCD_DATIV2.BDGDIP0F.BDTIMB) LIKE :BDTIMB';
+			$link = " AND ";
+		}
+				// Filter by BDBADG
+		if ($this->programState['filters']['BDBDTM'] != '')
+		{
+			$whereClause = $whereClause . $link . ' lower(BCD_DATIV2.BDGDIP0F.BDBDTM) = :BDBDTM';
+			$link = " AND ";
+		}
 		return $whereClause;
 	}
 	
@@ -649,7 +719,7 @@ class gest_dipe extends WebSmartObject
 	// Build SQL Select string
 	protected function buildRecordSelectString()
 	{
-		$selString = 'SELECT BCD_DATIV2.BDGDIP0F.BDBADG, BCD_DATIV2.BDGDIP0F.BDNOME, BCD_DATIV2.BDGDIP0F.BDCOGN, BCD_DATIV2.BDGDIP0F.BDCOGE FROM BCD_DATIV2.BDGDIP0F';
+		$selString = 'SELECT BCD_DATIV2.BDGDIP0F.BDBADG, BCD_DATIV2.BDGDIP0F.BDNOME, BCD_DATIV2.BDGDIP0F.BDCOGN, BCD_DATIV2.BDGDIP0F.BDCOGE, BCD_DATIV2.BDGDIP0F.BDREPA , BCD_DATIV2.BDGDIP0F.BDTIMB , BCD_DATIV2.BDGDIP0F.BDBDTM FROM BCD_DATIV2.BDGDIP0F';
 		
 		return $selString;
 	}
@@ -845,6 +915,18 @@ class gest_dipe extends WebSmartObject
                   <label for="filter_BDBADG">BADGE</label>
                   <input id="filter_BDBADG" class="form-control" type="text" name="filter_BDBADG" maxlength="18" value="{$programState['filters']['BDBADG']}"/>
                 </div>
+				                <div class="filter-group form-group col-sm-4 col-lg-2">
+                  <label for="filter_BDREPA">REPARTO</label>
+                  <input id="filter_BDREPA" class="form-control" type="text" name="filter_BDREPA" maxlength="18" value="{$programState['filters']['BDREPA']}"/>
+                </div>
+				                <div class="filter-group form-group col-sm-4 col-lg-2">
+                  <label for="filter_BDTIMB">TIMBRATORE</label>
+                  <input id="filter_BDTIMB" class="form-control" type="text" name="filter_BDTIMB" maxlength="2" value="{$programState['filters']['BDTIMB']}"/>
+                </div>
+				                <div class="filter-group form-group col-sm-4 col-lg-2">
+                  <label for="filter_BDBDTM">BADGE TEMPORANEO</label>
+                  <input id="filter_BDBDTM" class="form-control" type="text" name="filter_BDBDTM" maxlength="18" value="{$programState['filters']['BDBDTM']}"/>
+                </div>
               </div>
               <div class="row">
                 <div class="col-sm-2">
@@ -880,6 +962,15 @@ class gest_dipe extends WebSmartObject
                 <th>
                   <a class="list-header" href="$pf_scriptname?sidx=BDBADG&amp;rnd=$rnd">BADGE</a>
                 </th>
+				     <th>
+                  <a class="list-header" href="$pf_scriptname?sidx=BDREPA&amp;rnd=$rnd">REPARTO</a>
+                </th>
+								     <th>
+                  <a class="list-header" href="$pf_scriptname?sidx=BDTIMB&amp;rnd=$rnd">TIMBRATORE</a>
+                </th>
+								     <th>
+                  <a class="list-header" href="$pf_scriptname?sidx=BDBDTM&amp;rnd=$rnd">BADGE TEMPORANEO</a>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -889,7 +980,13 @@ SEGDTA;
 	}
 	if($xlSegmentToWrite == "listdetails")
 	{
-
+		$timbMap = [
+//	'  ' => 'DA DEFINIRE',
+    '70' => 'INGRESSO',
+    '71' => 'MAGAZZINO',
+    '72' => 'PRODUZIONE'
+];
+$labelTimb = $timbMap[trim($BDTIMB)] ?? ' ';
 		echo <<<SEGDTA
 
 <tr>
@@ -905,6 +1002,9 @@ SEGDTA;
   <td class="text">$BDCOGN</td>
   <td class="text">$BDCOGE</td>
   <td class="text">$BDBADG</td>
+  <td class="text">$BDREPA</td>
+  <td class="text">$labelTimb</td>
+    <td class="text">$BDBDTM</td>
 </tr>
 
 SEGDTA;
@@ -912,7 +1012,6 @@ SEGDTA;
 	}
 	if($xlSegmentToWrite == "listfooter")
 	{
-
 		echo <<<SEGDTA
 </table>
 <span id="list-paging-bottom" class="list-paging">
@@ -1003,6 +1102,18 @@ SEGDTA;
             <div class="form-group row">
               <label class="col-sm-4">BADGE HEX:</label>
               <div class="col-sm-8">$BDBADG</div>
+            </div>
+			            <div class="form-group row">
+              <label class="col-sm-4">REPARTO:</label>
+              <div class="col-sm-8">$BDREPA</div>
+            </div>
+			 <div class="form-group row">
+              <label class="col-sm-4">TIMBRATORE:</label>
+              <div class="col-sm-8">$BDTIMB</div>
+            </div>
+			<div class="form-group row">
+              <label class="col-sm-4">BADGE HEX TEMPORANEO:</label>
+              <div class="col-sm-8">$BDBDTM</div>
             </div>
           </div>
           
@@ -1210,6 +1321,98 @@ SEGDTA;
 </html>
 
 SEGDTA;
+ $this->displayErrorClass('BDREPA'); 
+		echo <<<SEGDTA
+">
+                <label for="addBDREPA">REPARTO
+SEGDTA;
+ $this->displayIndicator('BDREPA'); 
+		echo <<<SEGDTA
+</label>
+                <div>
+				  <select id="addBDREPA" class="form-control" name="BDREPA">
+				    <option value="DA DEFINIRE" <?php if($BDREPA == 'DA DEFINIRE') echo 'selected'; ?>DA DEFINIRE</option>
+  <option value="UFFICIO" <?php if($BDREPA == 'UFFICIO') echo 'selected'; ?>UFFICIO</option>
+  <option value="MAGAZZINO" <?php if($BDREPA == 'MAGAZZINO') echo 'selected'; ?>MAGAZZINO</option>
+  <option value="PRODUZIONE" <?php if($BDREPA == 'PRODUZIONE') echo 'selected'; ?>PRODUZIONE</option>
+    <option value="LABORATORIO" <?php if($BDREPA == 'LABORATORIO') echo 'selected'; ?>LABORATORIO</option>
+
+</select>                  <span class="error-text">
+SEGDTA;
+ $this->displayError('BDREPA', array('REPARTO')); 
+		echo <<<SEGDTA
+</span>
+                </div>
+              </div>
+              <div class="form-group 
+SEGDTA;
+ $this->displayErrorClass('BDTIMB'); 
+		echo <<<SEGDTA
+">
+                <label for="addBDTIMB">TIMBRATORE
+SEGDTA;
+ $this->displayIndicator('BDTIMB'); 
+		echo <<<SEGDTA
+</label>
+                <div>
+		<select id="addBDTIMB" class="form-control" name="BDTIMB">
+		 <option value="  " <?php if($BDTIMB == '  ') echo 'selected'; ?>DA DEFINIRE</option>
+  	<option value="70" <?php if($BDTIMB == '70') echo 'selected'; ?>INGRESSO</option>
+ 	<option value="71" <?php if($BDTIMB == '71') echo 'selected'; ?>MAGAZZINO</option>
+  	<option value="72" <?php if($BDTIMB == '72') echo 'selected'; ?>PRODUZIONE</option>
+</select>                  <span class="error-text">
+SEGDTA;
+ $this->displayError('BDTIMB', array('TIMBRATORE')); 
+		echo <<<SEGDTA
+</span>
+                </div>
+              </div>
+              <div class="form-group 
+SEGDTA;
+ $this->displayErrorClass('BDBDTM'); 
+		echo <<<SEGDTA
+">
+                <label for="addBDBDTM">BADGE HEX TEMPORANEO
+SEGDTA;
+ $this->displayIndicator('BDBDTM'); 
+		echo <<<SEGDTA
+</label>
+                <div>
+                  <input type="text" id="addBDBDTM" class="form-control" name="BDBDTM" size="16" maxlength="16" value="$BDBDTM">
+                  <span class="error-text">
+SEGDTA;
+ $this->displayError('BDBDTM', array('BADGE HEX TEMPORANEO')); 
+		echo <<<SEGDTA
+</span>
+                </div>
+              </div>	
+            </div>
+            <div id="navbottom">
+              <input type="submit" class="btn btn-primary accept" value="Add" />
+              <input type="button" class="btn btn-default cancel" value="Cancel" />
+            </div>		
+          </form>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+		jQuery(function() {
+			// Focus the first input on page load
+			jQuery("input:enabled:first").focus();
+			
+			// Bind event to the Back button
+			jQuery(".cancel").click(goback);
+			function goback()
+			{
+				window.location.replace("$pf_scriptname?page={$programState['page']}");
+				return false;
+			}
+		});
+	</script>
+  </body>
+</html>
+
+SEGDTA;
 		return;
 	}
 	if($xlSegmentToWrite == "rcdchange")
@@ -1249,6 +1452,9 @@ SEGDTA;
           <form id="change-form" action="$pf_scriptname" method="post">
             <input type="hidden" name="task" value="endchange" />
             <input id="BDBADG_" type="hidden" name="BDBADG_" value="$BDBADG" />
+			<div id="navbottom">
+
+</div>
             <div id="changefields"><div class="notice 
 SEGDTA;
  if(!$this->showRequiredIndicator) echo "hidden nodisplay"; 
@@ -1329,13 +1535,98 @@ SEGDTA;
 		echo <<<SEGDTA
 </span>
                 </div>
+              </div>
+              <div class="form-group 
+
+SEGDTA;
+ $this->displayErrorClass('BDREPA'); 
+		echo <<<SEGDTA
+">
+                <label for="chgBDREPA">REPARTO
+SEGDTA;
+ $this->displayIndicator('BDREPA'); 
+		echo <<<SEGDTA
+</label>
+                             <div>
+				  <select id="addBDREPA" class="form-control" name="BDREPA">
+	 <option value="DA DEFINIRE" <?php if($BDREPA == 'DA DEFINIRE') echo 'selected'; ?>DA DEFINIRE</option>
+  <option value="UFFICIO" <?php if($BDREPA == 'UFFICIO') echo 'selected'; ?>UFFICIO</option>
+  <option value="MAGAZZINO" <?php if($BDREPA == 'MAGAZZINO') echo 'selected'; ?>MAGAZZINO</option>
+  <option value="PRODUZIONE" <?php if($BDREPA == 'PRODUZIONE') echo 'selected'; ?>PRODUZIONE</option>
+    <option value="LABORATORIO" <?php if($BDREPA == 'LABORATORIO') echo 'selected'; ?>LABORATORIO</option>
+
+</select>                  <span class="error-text">
+SEGDTA;
+ $this->displayError('BDREPA', array('REPARTO')); 
+		echo <<<SEGDTA
+</span>
+                </div>
+              </div>
+              <div class="form-group 
+SEGDTA;
+ $this->displayErrorClass('BDTIMB'); 
+		echo <<<SEGDTA
+">
+                <label for="chgBDTIMB">TIMBRATORE
+SEGDTA;
+ $this->displayIndicator('BDTIMB'); 
+		echo <<<SEGDTA
+</label>
+                <div>
+	<select id="chgBDTIMB" class="form-control" name="BDTIMB">
+		 <option value="  " <?php if($BDTIMB == '  ') echo 'selected'; ?>DA DEFINIRE</option>
+  	<option value="70" <?php if($BDTIMB == '70') echo 'selected'; ?>INGRESSO</option>
+ 	<option value="71" <?php if($BDTIMB == '71') echo 'selected'; ?>MAGAZZINO</option>
+  	<option value="72" <?php if($BDTIMB == '72') echo 'selected'; ?>PRODUZIONE</option>
+	</select>                  <span class="error-text">
+SEGDTA;
+ $this->displayError('BDTIMB', array('TIMBRATORE')); 
+		echo <<<SEGDTA
+</span>
+                </div>
+              </div>
+              <div class="form-group 
+SEGDTA;
+ $this->displayErrorClass('BDBDTM'); 
+		echo <<<SEGDTA
+">
+                <label for="chgBDBDTM">BADGE TEMPORANEO HEX 
+SEGDTA;
+
+$this->displayIndicator('BDBDTM'); 
+		echo <<<SEGDTA
+</label>
+                <div>
+	<select id="chgBDBDTM" class="form-control" name="BDBDTM">
+
+		 <option value="00000000000000" <?php if($BDBDTM == '00000000000000') echo 'selected'; ?>NESSUNO</option>
+  <option value="04FA56D6FF6180" <?php if($BDBDTM == '04FA56D6FF6180') echo 'selected'; ?>JOLLY 1</option>
+  <option value="04EB2874BF6180" <?php if($BDBDTM == '04EB2874BF6180') echo 'selected'; ?>JOLLY 2</option>
+  <option value="0406ED76BF6180" <?php if($BDBDTM == '0406ED76BF6180') echo 'selected'; ?>JOLLY 3</option>
+    <option value="04F025D7FF6180" <?php if($BDBDTM == '04F025D7FF6180') echo 'selected'; ?>JOLLY 4</option>
+  <option value="04FBC5D6FF6180" <?php if($BDBDTM == '04FBC5D6FF6180') echo 'selected'; ?>JOLLY 5</option>
+</select>                  <span class="error-text">
+
+
+
+
+                  
+SEGDTA;
+
+$this->displayError('BDBDTM', array('BADGE TEMPORANEO HEX')); 
+		echo <<<SEGDTA
+</span>
+                </div>
               </div>              
               
               	
             </div>
             <div id="navbottom">
-              <input type="submit" class="btn btn-primary accept" value="Change" />
-              <input type="button" class="btn btn-default cancel" value="Cancel" />
+  <input type="submit" class="btn btn-primary accept" value="Change" />
+  <input type="button" class="btn btn-default cancel" value="Cancel" />
+  
+  <a href="{$pf_scriptname}?task=beginchange&BDBADG={$nextBadge}" class="btn btn-info">Avanti</a>
+  <a href="{$pf_scriptname}?task=beginchange&BDBADG={$prevBadge}" class="btn btn-info">Indietro</a>
             </div>		
           </form>
         </div>
