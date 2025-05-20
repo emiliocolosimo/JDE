@@ -76,7 +76,7 @@ class PAUSE extends WebSmartObject
 		if (!isset($_SESSION["chkInPausa"])) $_SESSION["chkInPausa"] = 1;
 		if (!isset($_SESSION["chkPausaFatta"])) $_SESSION["chkPausaFatta"] = 1;
 		if (!isset($_SESSION["chkPresenti"])) $_SESSION["chkPresenti"] = 1;
-		if (!isset($_SESSION["chkError"])) $_SESSION["chkError"] = 1;
+		if (!isset($_SESSION["chkError"])) $_SESSION["chkError"] = 0;
 
 		$query = "
 		SELECT 
@@ -264,7 +264,9 @@ $recordData = array_merge(compact(
 			} else {
 				$pausaFattaList[] = $recordData;
 			}
-	}
+		
+	} 
+
 		$showInPausa = $_SESSION["chkInPausa"] ?? true;
 		$showError = $_SESSION["chkError"] ?? 1;
 
@@ -503,12 +505,13 @@ if ($showPresenti) {
 		return [];
 	}
 }
+
 	protected function printPageHeader()
 	{
 		$filtNome = strtoupper($_SESSION['filtNome'] ?? '');
 		$filtCognome = strtoupper($_SESSION['filtCognome'] ?? '');
 		$filtDate = $_SESSION['filtDate'] ?? date('Y-m-d');
-		$dataVis = date('d/m/Y', strtotime($filtDate));
+		$dataVis = date('d/m/Y', strtotime(datetime: $filtDate));
 		$chkInPausaChecked = isset($_SESSION['chkInPausa']) && $_SESSION['chkInPausa'] ? 'checked' : '';
 		$chkPausaFattaChecked = isset($_SESSION['chkPausaFatta']) && $_SESSION['chkPausaFatta'] ? 'checked' : '';
 		$chkPresentiChecked = isset($_SESSION['chkPresenti']) && $_SESSION['chkPresenti'] ? 'checked' : '';
@@ -527,10 +530,28 @@ if ($showPresenti) {
 	  <meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Pause</title>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-		<link rel="stylesheet" href="websmart/v13.2/Responsive/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="websmart/v13.2/Responsive/css/screen.css" />
-		<link rel="stylesheet" href="websmart/v13.2/Responsive/css/jquery-ui.css" />
+	
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- jQuery UI CSS -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+
+<!-- CSS personalizzato -->
+<link rel="stylesheet" href="websmart/v13.2/Responsive/css/screen.css">
+
+<!-- jQuery e jQuery UI -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
 	
 		<style>
 			h1 {
@@ -557,96 +578,92 @@ if ($showPresenti) {
 					padding: 2px !important;
 				}
 			}
+			::placeholder {
+				color: rgba(0, 0, 0, 0.05);
+			}
 		</style>
-	
-		<script src="websmart/v13.2/js/jquery.min.js"></script>
-		<script src="websmart/v13.2/Responsive/js/bootstrap.min.js"></script>
 	  </head>
 	  <body>
 		<div id="outer-content">
 <div id="page-content" class="container-fluid">
-  <div class="text-center my-4">
-    <img src="include/logo.jpg" alt="Logo" style="max-height: 80px;">
+  <div class="d-flex justify-content-between align-items-center mt-0 mb-1 px-2">
+    <div>
+      <button id="printButton" type="button" onclick="window.print();" class="btn btn-outline-secondary">
+          <i class="bi bi-printer"></i>
+      </button>
+    </div>
+    <img src="include/logo.jpg" alt="Logo" style="max-height: 60px;">
+    <div class="dropdown">
+   <button class="btn btn-light dropdown-toggle" type="button" id="menuDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-three-dots-vertical" style="font-size: 1.5rem;"></i>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menuDropdown">
+        <li>
+          <a class="dropdown-item" href="#" onclick="window.open('https://jde.rgpballs.com/crud/gestdipe.php', '_blank'); return false;">
+            <i class="bi bi-person-lines-fill me-2"></i>Gestione Dipendente
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="#" onclick="openPopupTimbratura(''); return false;">
+            <i class="bi bi-plus-circle me-2"></i>Inserisci Timbratura
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="clearfix"></div>
   <div id="contents">
-				<div class="text-end mb-3">
-				  <button id="printButton" type="button" onclick="window.print();" class="btn btn-outline-secondary">
-				      <i class="bi bi-printer"></i>
-				  </button>
-				</div>
-				<form method="POST" class="mb-5">
-				  <div class="row g-3 align-items-end">
-					<div class="col-md-3">
-					  <label for="filtDate" class="form-label">Data:</label>
-					  <input type="date" id="filtDate" name="filtDate" class="form-control" value="{$filtDate}" onchange="this.form.submit();">
-					</div>
-					<div class="col-md-3">
-					  <label for="filtNome" class="form-label">Cognome:</label>
-					  <input type="text" id="filtNome" name="filtNome" class="form-control text-uppercase" value="{$filtNome}" onchange="this.form.submit();">
-					</div>
-					<div class="col-md-3">
-					  <label for="filtCognome" class="form-label">Nome:</label>
-					  <input type="text" id="filtCognome" name="filtCognome" class="form-control text-uppercase" value="{$filtCognome}" onchange="this.form.submit();">
-					</div>
-<br>
-<br>
-<br>
-<br>
-<div class="col-md-9 d-flex flex-column mt-5">
+    <div class="row mb-1">
+      <div class="col-12">
+        <form method="POST" class="mb-3" id="filter-form">
+          <div class="d-flex justify-content-start align-items-center gap-4">
+            <div class="btn-group flex-wrap gap-2" role="group" aria-label="Toggle segmenti">
+              <input type="checkbox" class="btn-check" id="chkInPausa" name="chkInPausa" value="1" {$chkInPausaChecked} autocomplete="off" form="filter-form" onchange="this.form.submit();">
+              <label class="btn {$chkInPausaBtnClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="chkInPausa">
+                <i class="bi bi-pause-circle"></i> In Pausa
+              </label>
+              <input type="checkbox" class="btn-check" id="chkPausaFatta" name="chkPausaFatta" value="1" {$chkPausaFattaChecked} autocomplete="off" form="filter-form" onchange="this.form.submit();">
+              <label class="btn {$chkPausaFattaBtnClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="chkPausaFatta">
+                <i class="bi bi-check-circle"></i> Pausa Fatta
+              </label>
+              <input type="checkbox" class="btn-check" id="chkPresenti" name="chkPresenti" value="1" {$chkPresentiChecked} autocomplete="off" form="filter-form" onchange="this.form.submit();">
+              <label class="btn {$chkPresentiBtnClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="chkPresenti">
+                <i class="bi bi-person-fill-check"></i> Presenti
+              </label>
+              <input type="checkbox" class="btn-check" id="chkError" name="chkError" value="1" {$chkError} autocomplete="off" form="filter-form" onchange="this.form.submit();">
+              <label class="btn {$chkErrorBtnClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="chkError">
+                <i class="bi bi-exclamation-triangle-fill"></i> Errori
+              </label>
+            </div>
+            <div class="bg-light border rounded shadow-sm px-3 py-1 text-primary fw-bold ms-4" style="font-size: 1.05rem;">
+              <div class="d-flex flex-row gap-3">
+                <div><strong>Presenti:</strong> <span id="totPresenti"></span></div>
+                <div><strong>Attualmente In Pausa:</strong> <span id="totinpausa"></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="row g-2 align-items-end">
+            <div class="col-md-2" style="max-width: 150px;">
+              <input type="date" id="filtDate" name="filtDate" class="form-control" style="width: 100%;" value="{$filtDate}" onchange="this.form.submit();">
+            </div>
+            <div class="col-md-2 ms-n2 style="max-width: 150px;">
+              <input type="text" id="filtNome" name="filtNome" class="form-control text-uppercase" placeholder="Cognome" value="{$filtNome}" onchange="this.form.submit();">
+            </div>
+            <div class="col-md-2 ms-n2 style="max-width: 150px;">
+              <input type="text" id="filtCognome" name="filtCognome" placeholder="Nome" class="form-control text-uppercase"  value="{$filtCognome}" onchange="this.form.submit();">
+            </div>
+            <div class="col-md-3 d-flex flex-column">
+              <label class="form-label invisible">Azioni</label>
+              <div class="d-flex gap-2 mt-auto">
+                <button type="submit" class="btn btn-primary w-50">Filtra</button>
+                <button type="button" class="btn btn-success w-50" onclick="resetForm()">Reset</button>
+              </div>
+            </div>
+            <div class="col-md-9"></div>
+            <div class="col-md-3"></div>
+          </div>
+        </form>
 
-  <div class="btn-group flex-wrap gap-2" role="group" aria-label="Toggle segmenti">
-
-    <input type="checkbox" class="btn-check" id="chkInPausa" name="chkInPausa" value="1" {$chkInPausaChecked} autocomplete="off" onchange="this.form.submit();">
-    <label class="btn {$chkInPausaBtnClass} d-flex align-items-center gap-2 px-3 py-2" for="chkInPausa">
-      <i class="bi bi-pause-circle"></i> In Pausa
-    </label>
-
-    <input type="checkbox" class="btn-check" id="chkPausaFatta" name="chkPausaFatta" value="1" {$chkPausaFattaChecked} autocomplete="off" onchange="this.form.submit();">
-    <label class="btn {$chkPausaFattaBtnClass} d-flex align-items-center gap-2 px-3 py-2" for="chkPausaFatta">
-      <i class="bi bi-check-circle"></i> Pausa Fatta
-    </label>
-
-    <input type="checkbox" class="btn-check" id="chkPresenti" name="chkPresenti" value="1" {$chkPresentiChecked} autocomplete="off" onchange="this.form.submit();">
-    <label class="btn {$chkPresentiBtnClass} d-flex align-items-center gap-2 px-3 py-2" for="chkPresenti">
-      <i class="bi bi-person-fill-check"></i> Presenti
-    </label>
-
-    <input type="checkbox" class="btn-check" id="chkError" name="chkError" value="1" {$chkError} autocomplete="off" onchange="this.form.submit();">
-    <label class="btn {$chkErrorBtnClass} d-flex align-items-center gap-2 px-3 py-2" for="chkError">
-      <i class="bi bi-exclamation-triangle-fill"></i> Errori
-    </label>  
-	</div> 
-	 </div>
-					<div class="col-md-3 d-flex flex-column">
-					  <label class="form-label invisible">Azioni</label>
-					  <div class="d-flex gap-2 mt-auto">
-						<button type="submit" class="btn btn-primary w-50">Filtra</button>
-						<button type="button" class="btn btn-success w-50" onclick="resetForm()">Reset</button>
-					  </div>
-					</div>
-				  </div>
-				</form>
-<div class="row mb-4 d-flex justify-content-between">
-  <!-- Totali a sinistra -->
-  <div class="col-md-3 text-start">
-    <div class="mb-1"><strong>Presenti:</strong> <span id="totPresenti"></span></div>
-    <div class="mb-1"><strong>Attualmente In Pausa:</strong> <span id="totinpausa"></span></div>
-    <div class="mb-1"><strong>Che hanno fatto Pausa:</strong> <span id="totpausafatta"></span></div>
-  </div>
-
-<div class="col-md-6 text-center">
-    <div class="bg-light border rounded shadow-sm px-4 py-3 text-primary fw-bold text-start" style="font-size: 2.4rem;">
-      <i class="bi bi-calendar3 me-2" style="font-size: 2.4rem;"></i>
-      <strong>Data selezionata:</strong> {$dataVis}
-    </div>
-</div>
-
-<div class="col-md-3">
-</div>
-</div>
-
-</div>
 
 				<div class="table-responsive">
 					<table class="table table-striped table-bordered">
@@ -687,6 +704,7 @@ if ($xlSegmentToWrite == "titoloinpausa") {
 		<tr style="background-color:#92a2a8;color:white;">
  	<td colspan="10"><strong>Attualmente In Pausa:</strong></td> 
 </tr>
+<th style="width: 50px;"></th>		
 		<th>Cognome Nome</th>
 		<th>ID Badge</th>
 		<th>Inizio Pausa 1</th>
@@ -711,7 +729,8 @@ SEGDTA;
 		<tr style="background-color:#92a2a8;color:white;">
  	<td colspan="10"><strong>Che hanno fatto Pausa:</strong></td> 
 </tr>
-		<th>Cognome Nome</th>
+<th style="width: 50px;"></th>		
+<th>Cognome Nome</th>
 		<th>ID Badge</th>
 		<th>Inizio Pausa 1</th>
 		<th>Fine Pausa 1</th>
@@ -736,6 +755,7 @@ SEGDTA;
  	<td colspan="9"><strong>Presenti: </strong></td> 
 </tr>
 			<tr>
+			<th style="width: 50px;"></th>		
 				<th>Cognome Nome</th>
 				<th>ID Badge</th>
 				<th>Orario 1</th>
@@ -754,7 +774,18 @@ SEGDTA;
 		if ($xlSegmentToWrite == "rigainpausa") {
 		echo <<<SEGDTA
 <tr>
-    <td>{$presCogn} {$presNome}</td>
+										<td>
+		<button onclick="openGestioneDipendente('{$IdGest}')" title="Gestione Dipendente"
+  class="btn btn-primary btn-sm px-2 py-0" style="font-size: 1.35rem; line-height: 1;">
+  <i class="bi bi-credit-card"></i>
+</button>
+<button onclick="openPopupTimbratura('{$IdGest}')" title="Aggiungi timbratura"
+  class="btn btn-warning btn-sm px-2 py-0" style="font-size: 1.35rem; line-height: 1;">
+  <i class="bi bi-plus-circle"></i>
+</button></td></td>
+    <td>{$presCogn} {$presNome}
+
+ </td>
 	<td>{$IdGest}</td>
 	<td $errpausa1lunga $errIdTimbDeid>{$ora1}</td>
 	<td $errpausa1lunga $errIdTimbDeid>{$ora2}</td> 
@@ -772,6 +803,15 @@ SEGDTA;
 		if ($xlSegmentToWrite == "rigapausafatta") {
 						echo <<<SEGDTA
 <tr>
+    <td>
+		<button onclick="openGestioneDipendente('{$IdGest}')" title="Gestione Dipendente"
+  class="btn btn-primary btn-sm px-2 py-0" style="font-size: 1.35rem; line-height: 1;">
+  <i class="bi bi-credit-card"></i>
+</button>
+<button onclick="openPopupTimbratura('{$IdGest}')" title="Aggiungi timbratura"
+  class="btn btn-warning btn-sm px-2 py-0" style="font-size: 1.35rem; line-height: 1;">
+  <i class="bi bi-plus-circle"></i>
+</button></td>	</td>
     <td $errinpausaattuale>{$presCogn} {$presNome} {$inPausaAttuale}</td>
 	<td>{$IdGest}</td>
     <td $errpausa1lunga $errIdTimbDeid>{$ora1}</td>
@@ -788,7 +828,16 @@ SEGDTA;
 		}
 		if ($xlSegmentToWrite == "inerrore") {
 						echo <<<SEGDTA
-<tr>
+						<tr>
+    <td
+		<button onclick="openGestioneDipendente('{$IdGest}')" title="Gestione Dipendente"
+  class="btn btn-primary btn-sm px-2 py-0" style="font-size: 1.35rem; line-height: 1;">
+  <i class="bi bi-credit-card"></i>
+</button>
+<button onclick="openPopupTimbratura('{$IdGest}')" title="Aggiungi timbratura"
+  class="btn btn-warning btn-sm px-2 py-0" style="font-size: 1.35rem; line-height: 1;">
+  <i class="bi bi-plus-circle"></i>
+</button></td>
     <td $errinpausaattuale>{$presCogn} {$presNome} {$IdGest} {$inPausaAttuale}</td>
     <td $errpausa1lunga>{$ora1}</td>
 	<td $errpausa1lunga>{$ora2}</td> 
@@ -820,16 +869,26 @@ if ($xlSegmentToWrite == "totpresenti") {
 			$ora5 = $orari[4] ?? '';
 			$ora6 = $orari[5] ?? '';
 
-			echo "<tr>
-				<td>{$presCogn} {$presNome}</td>
-				<td>{$IdGest}</td>
-				<td>{$ora1}</td>
-				<td>{$ora2}</td>
-				<td>{$ora3}</td>
-				<td>{$ora4}</td>
-				<td>{$ora5}</td>
-				<td>{$ora6}</td>
-			</tr>";
+echo "<tr>
+	<td>
+		<button onclick=\"openGestioneDipendente('{$IdGest}')\" title=\"Gestione Dipendente\"
+			class=\"btn btn-primary btn-sm px-2 py-0\" style=\"font-size: 1.35rem; line-height: 1;\">
+			<i class=\"bi bi-credit-card\"></i>
+		</button>
+		<button onclick=\"openPopupTimbratura('{$IdGest}')\" title=\"Aggiungi timbratura\" 
+			class=\"btn btn-warning btn-sm px-2 py-0\" style=\"font-size: 1.35rem; line-height: 1;\">
+			<i class=\"bi bi-plus-circle\"></i>
+		</button>
+	</td>
+	<td>{$presCogn} {$presNome}</td>
+	<td>{$IdGest}</td>
+	<td>{$ora1}</td>
+	<td>{$ora2}</td>
+	<td>{$ora3}</td>
+	<td>{$ora4}</td>
+	<td>{$ora5}</td>
+	<td>{$ora6}</td>
+</tr>";
 		}
 	}
 
@@ -895,10 +954,41 @@ xlLoadWebSmartObject(__FILE__, 'PAUSE'); ?>
 	document.getElementById('chkInPausa').checked = true;
     document.getElementById('chkPausaFatta').checked = true;
     document.getElementById('chkPresenti').checked = true;
+	document.getElementById('chkError').checked = false;
     document.forms[0].submit();
   }
 
   setTimeout(function() {
     location.reload();
 }, 30000); // 30000 millisecondi = 30 secondi
+
+function openPopupTimbratura(BDBADG) {
+    const width = 600;
+    const height = 900;
+    const left = (window.screen.width - width) / 2;
+    const top = (window.screen.height - height) / 2;
+    const url = 'https://jde.rgpballs.com/crud/savManTimbratura.php?BDBADG=' + encodeURIComponent(BDBADG);
+    
+    window.open(
+        url,
+        'popupTimbratura',
+        `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`
+    );
+}
+
+function openGestioneDipendente(BDCOGE) {
+    const rnd = Math.floor(Math.random() * 99999);
+    const url = 'https://jde.rgpballs.com/crud/gestdipe.php?task=beginchange&BDCOGE=' + encodeURIComponent(BDCOGE) + '&rnd=' + rnd;
+
+    const width = 700;
+    const height = 750;
+    const left = (window.screen.width - width) / 2;
+    const top = (window.screen.height - height) / 2;
+
+    window.open(
+        url,
+        'popupGestioneDipendente',
+        `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`
+    );
+}
 </script>

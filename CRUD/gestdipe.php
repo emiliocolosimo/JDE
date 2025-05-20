@@ -23,7 +23,7 @@ class gest_dipe extends WebSmartObject
 		'sortDir' => '',
 		'sort' => '',
 		'page' => 1,
-		'listSize' => 20,
+		'listSize' => 9999,
 		'filters' => array('BDNOME' => '', 'BDCOGN' => '', 'BDCOGE' => '', 'BDBADG' => '', 'BDREPA' => '', 'BDTIMB' => '', 'BDBDTM' => '')
 	);
 	
@@ -53,7 +53,9 @@ class gest_dipe extends WebSmartObject
 		}
 		
 		header('Content-Type: text/html; charset=iso-8859-1');		
-		
+		if (isset($_SESSION[$this->pf_scriptname])) {
+    $this->programState = $_SESSION[$this->pf_scriptname];
+}
 		// Fetch the program state
 		$this->getState();
 		
@@ -243,8 +245,14 @@ class gest_dipe extends WebSmartObject
 		}
 		
 		// Redirect to the original page of the main list
-		header("Location: $this->pf_scriptname?page=" . $this->programState['page']);
-	}
+$go = xl_get_parameter('go');
+if ($go == 'next' && !empty($_POST['BDBADG_NEXT'])) {
+    header("Location: $this->pf_scriptname?task=beginchange&BDBADG=" . urlencode($_POST['BDBADG_NEXT']));
+} elseif ($go == 'prev' && !empty($_POST['BDBADG_PREV'])) {
+    header("Location: $this->pf_scriptname?task=beginchange&BDBADG=" . urlencode($_POST['BDBADG_PREV']));
+} else {
+    header("Location: $this->pf_scriptname?page=" . $this->programState['page']);
+}	}
 	
 	// Show the add page
 	protected function beginAdd()
@@ -327,12 +335,32 @@ class gest_dipe extends WebSmartObject
 		}
 		
 		// Redirect to the original page of the main list
-		header("Location: $this->pf_scriptname?page=" . $this->programState['page']);
-	}
+$go = xl_get_parameter('go');
+if ($go == 'next' && !empty($_POST['BDBADG_NEXT'])) {
+    header("Location: $this->pf_scriptname?task=beginchange&BDBADG=" . urlencode($_POST['BDBADG_NEXT']));
+} elseif ($go == 'prev' && !empty($_POST['BDBADG_PREV'])) {
+    header("Location: $this->pf_scriptname?task=beginchange&BDBADG=" . urlencode($_POST['BDBADG_PREV']));
+} else {
+    header("Location: $this->pf_scriptname?page=" . $this->programState['page']);
+}	}
 	
 	// Show the change page
 	protected function beginChange()
 	{
+		// Se non è stato passato BDBADG ma è presente BDCOGE nell'URL
+if (empty($_GET['BDBADG']) && !empty($_GET['BDCOGE'])) {
+    $BDCOGE = $_GET['BDCOGE'];
+    // Cerca il BDBADG corrispondente
+    $stmt = $this->db_connection->prepare("SELECT BDBADG FROM BCD_DATIV2.BDGDIP0F WHERE BDCOGE = ? FETCH FIRST 1 ROW ONLY");
+    $stmt->execute([$BDCOGE]);
+	$starter = 'BDCOGE';
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result && isset($result['BDBADG'])) {
+        $_GET['BDBADG'] = $result['BDBADG'];
+        $_REQUEST['BDBADG'] = $result['BDBADG']; // Per sicurezza su sistemi che usano $_REQUEST
+    }
+}
 		// Fetch parameters which identify the record
 		$keyFieldArray = $this->getParameters(xl_FieldEscape($this->uniqueFields));
 		
@@ -478,8 +506,14 @@ $this->writeSegment('RcdChange', array_merge(get_object_vars($this), get_defined
 		}
 		
 		// Redirect to the original page of the main list
-		header("Location: $this->pf_scriptname?page=" . $this->programState['page']);
-	}
+$go = xl_get_parameter('go');
+if ($go == 'next' && !empty($_POST['BDBADG_NEXT'])) {
+    header("Location: $this->pf_scriptname?task=beginchange&BDBADG=" . urlencode($_POST['BDBADG_NEXT']));
+} elseif ($go == 'prev' && !empty($_POST['BDBADG_PREV'])) {
+    header("Location: $this->pf_scriptname?task=beginchange&BDBADG=" . urlencode($_POST['BDBADG_PREV']));
+} else {
+    header("Location: $this->pf_scriptname?page=" . $this->programState['page']);
+}	}
 	
 	// Load list with filters
 	protected function filterList()
@@ -857,8 +891,28 @@ $this->writeSegment('RcdChange', array_merge(get_object_vars($this), get_defined
 	// Output the requested segment:
 
 	if($xlSegmentToWrite == "listheader")
-	{
-
+	{	
+$valBDREPA  = $this->programState['filters']['BDREPA'] ?? '';
+$valBDTIMB  = $this->programState['filters']['BDTIMB'] ?? '';
+$valBDBDTM = $this->programState['filters']['BDBDTM'] ?? '';
+$optionsBDTIMB = '';
+$optionsBDTIMB .= '<option value=""' . ($valBDTIMB == '' ? ' selected' : '') . '>-- Tutti --</option>';
+$optionsBDTIMB .= '<option value="70"' . ($valBDTIMB == '70' ? ' selected' : '') . '>INGRESSO</option>';
+$optionsBDTIMB .= '<option value="71"' . ($valBDTIMB == '71' ? ' selected' : '') . '>UFFICIO</option>';
+$optionsBDTIMB .= '<option value="72"' . ($valBDTIMB == '72' ? ' selected' : '') . '>PRODUZIONE</option>';
+$optionsBDREPA = '';
+$optionsBDREPA .= '<option value=""' . ($valBDREPA == '' ? ' selected' : '') . '>-- Tutti --</option>';
+$optionsBDREPA .= '<option value="MAGAZZINO"' . ($valBDREPA == 'MAGAZZINO' ? ' selected' : '') . '>MAGAZZINO</option>';
+$optionsBDREPA .= '<option value="UFFICIO"' . ($valBDREPA == 'UFFICIO' ? ' selected' : '') . '>UFFICIO</option>';
+$optionsBDREPA .= '<option value="PRODUZIONE"' . ($valBDREPA == 'PRODUZIONE' ? ' selected' : '') . '>PRODUZIONE</option>';
+$optionsBDREPA .= '<option value="LABORATORIO"' . ($valBDREPA == 'LABORATORIO' ? ' selected' : '') . '>LABORATORIO</option>';
+$optionsBDBDTM = '';
+$optionsBDBDTM .= '<option value=""' . ($valBDBDTM == '' ? ' selected' : '') . '>-- Tutti --</option>';
+$optionsBDBDTM .= '<option value="0004FA56D6FF6180"' . ($valBDBDTM == '0004FA56D6FF6180' ? ' selected' : '') . '>JOLLY 1</option>';
+$optionsBDBDTM .= '<option value="0004EB2874BF6180"' . ($valBDBDTM == '0004EB2874BF6180' ? ' selected' : '') . '>JOLLY 2</option>';
+$optionsBDBDTM .= '<option value="000406ED76BF6180"' . ($valBDBDTM == '000406ED76BF6180' ? ' selected' : '') . '>JOLLY 3</option>';
+$optionsBDBDTM .= '<option value="0004F025D7FF6180"' . ($valBDBDTM == '0004F025D7FF6180' ? ' selected' : '') . '>JOLLY 4</option>';
+$optionsBDBDTM .= '<option value="0004FBC5D6FF6180"' . ($valBDBDTM == '0004FBC5D6FF6180' ? ' selected' : '') . '>JOLLY 5</option>';
 		echo <<<SEGDTA
 <!DOCTYPE html>
 <html>
@@ -916,21 +970,29 @@ $this->writeSegment('RcdChange', array_merge(get_object_vars($this), get_defined
                   <input id="filter_BDBADG" class="form-control" type="text" name="filter_BDBADG" maxlength="18" value="{$programState['filters']['BDBADG']}"/>
                 </div>
 				                <div class="filter-group form-group col-sm-4 col-lg-2">
-                  <label for="filter_BDREPA">REPARTO</label>
-                  <input id="filter_BDREPA" class="form-control" type="text" name="filter_BDREPA" maxlength="18" value="{$programState['filters']['BDREPA']}"/>
+				  				    <label for="filter_BDREPA">REPARTO</label>
+ 	 <select id="filter_BDREPA" class="form-control" name="filter_BDREPA"">
+$optionsBDREPA
+	 </select>
                 </div>
 				                <div class="filter-group form-group col-sm-4 col-lg-2">
-                  <label for="filter_BDTIMB">TIMBRATORE</label>
-                  <input id="filter_BDTIMB" class="form-control" type="text" name="filter_BDTIMB" maxlength="2" value="{$programState['filters']['BDTIMB']}"/>
+				    <label for="filter_BDTIMB">TIMBRATORE</label>
+<select id="filter_BDTIMB" class="form-control" name="filter_BDTIMB">
+  $optionsBDTIMB
+</select>
                 </div>
-				                <div class="filter-group form-group col-sm-4 col-lg-2">
-                  <label for="filter_BDBDTM">BADGE TEMPORANEO</label>
-                  <input id="filter_BDBDTM" class="form-control" type="text" name="filter_BDBDTM" maxlength="18" value="{$programState['filters']['BDBDTM']}"/>
-                </div>
+<div class="filter-group form-group col-sm-4 col-lg-2">
+  <label for="filter_BDBDTM">BADGE TEMPORANEO</label>
+  <select id="filter_BDBDTM" class="form-control" name="filter_BDBDTM" value="{$programState['filters']['BDBDTM']}">
+$optionsBDBDTM
+  </select>
+</div>
               </div>
               <div class="row">
                 <div class="col-sm-2">
                   <input id="filter-button" class="btn btn-primary filter" type="submit" value="Cerca" />
+				    <button type="button" class="btn btn-secondary" onclick="resetAndSubmit()">Reset</button>
+
                 </div>
               </div>
             </div>
@@ -1322,22 +1384,22 @@ SEGDTA;
 
 SEGDTA;
  $this->displayErrorClass('BDREPA'); 
-		echo <<<SEGDTA
-">
-                <label for="addBDREPA">REPARTO
-SEGDTA;
- $this->displayIndicator('BDREPA'); 
+ $sel_REPA1 = ($BDREPA == 'DA DEFINIRE') ? 'selected' : '';
+$sel_REPA2 = ($BDREPA == 'UFFICIO') ? 'selected' : '';
+$sel_REPA3 = ($BDREPA == 'MAGAZZINO') ? 'selected' : '';
+$sel_REPA4 = ($BDREPA == 'PRODUZIONE') ? 'selected' : '';
+$sel_REPA5 = ($BDREPA == 'LABORATORIO') ? 'selected' : '';
 		echo <<<SEGDTA
 </label>
-                <div>
-				  <select id="addBDREPA" class="form-control" name="BDREPA">
-				    <option value="DA DEFINIRE" <?php if($BDREPA == 'DA DEFINIRE') echo 'selected'; ?>DA DEFINIRE</option>
-  <option value="UFFICIO" <?php if($BDREPA == 'UFFICIO') echo 'selected'; ?>UFFICIO</option>
-  <option value="MAGAZZINO" <?php if($BDREPA == 'MAGAZZINO') echo 'selected'; ?>MAGAZZINO</option>
-  <option value="PRODUZIONE" <?php if($BDREPA == 'PRODUZIONE') echo 'selected'; ?>PRODUZIONE</option>
-    <option value="LABORATORIO" <?php if($BDREPA == 'LABORATORIO') echo 'selected'; ?>LABORATORIO</option>
-
-</select>                  <span class="error-text">
+                             <div>
+<select id="addBDREPA" class="form-control" name="BDREPA">
+  <option value="DA DEFINIRE" $sel_REPA1>DA DEFINIRE</option>
+  <option value="UFFICIO" $sel_REPA2>UFFICIO</option>
+  <option value="MAGAZZINO" $sel_REPA3>MAGAZZINO</option>
+  <option value="PRODUZIONE" $sel_REPA4>PRODUZIONE</option>
+  <option value="LABORATORIO" $sel_REPA5>LABORATORIO</option>
+</select>
+<span class="error-text">
 SEGDTA;
  $this->displayError('BDREPA', array('REPARTO')); 
 		echo <<<SEGDTA
@@ -1351,17 +1413,23 @@ SEGDTA;
 ">
                 <label for="addBDTIMB">TIMBRATORE
 SEGDTA;
- $this->displayIndicator('BDTIMB'); 
-		echo <<<SEGDTA
+$this->displayIndicator('BDTIMB'); 
+$sel_TIMB0 = ($BDTIMB == '  ') ? 'selected' : '';
+$sel_TIMB1 = ($BDTIMB == '70') ? 'selected' : '';
+$sel_TIMB2 = ($BDTIMB == '71') ? 'selected' : '';
+$sel_TIMB3 = ($BDTIMB == '72') ? 'selected' : '';
+echo <<<SEGDTA
 </label>
-                <div>
-		<select id="addBDTIMB" class="form-control" name="BDTIMB">
-		 <option value="  " <?php if($BDTIMB == '  ') echo 'selected'; ?>DA DEFINIRE</option>
-  	<option value="70" <?php if($BDTIMB == '70') echo 'selected'; ?>INGRESSO</option>
- 	<option value="71" <?php if($BDTIMB == '71') echo 'selected'; ?>MAGAZZINO</option>
-  	<option value="72" <?php if($BDTIMB == '72') echo 'selected'; ?>PRODUZIONE</option>
-</select>                  <span class="error-text">
+  <div>
+    <select id="addBDTIMB" class="form-control" name="BDTIMB">
+      <option value="  " $sel_TIMB0>DA DEFINIRE</option>
+      <option value="70" $sel_TIMB1>INGRESSO</option>
+      <option value="71" $sel_TIMB2>MAGAZZINO</option>
+      <option value="72" $sel_TIMB3>PRODUZIONE</option>
+    </select>
+    <span class="error-text">
 SEGDTA;
+
  $this->displayError('BDTIMB', array('TIMBRATORE')); 
 		echo <<<SEGDTA
 </span>
@@ -1369,51 +1437,33 @@ SEGDTA;
               </div>
               <div class="form-group 
 SEGDTA;
+
  $this->displayErrorClass('BDBDTM'); 
 		echo <<<SEGDTA
 ">
                 <label for="addBDBDTM">BADGE HEX TEMPORANEO
 SEGDTA;
- $this->displayIndicator('BDBDTM'); 
+
+$this->displayIndicator('BDBDTM'); 
+$sel_JOLLY0 = ($BDBDTM == '00000000000000') ? 'selected' : '';
+$sel_JOLLY1 = ($BDBDTM == '04FA56D6FF6180') ? 'selected' : '';
+$sel_JOLLY2 = ($BDBDTM == '04EB2874BF6180') ? 'selected' : '';
+$sel_JOLLY3 = ($BDBDTM == '0406ED76BF6180') ? 'selected' : '';
+$sel_JOLLY4 = ($BDBDTM == '04F025D7FF6180') ? 'selected' : '';
+$sel_JOLLY5 = ($BDBDTM == '04FBC5D6FF6180') ? 'selected' : '';
 		echo <<<SEGDTA
 </label>
                 <div>
-                  <input type="text" id="addBDBDTM" class="form-control" name="BDBDTM" size="16" maxlength="16" value="$BDBDTM">
-                  <span class="error-text">
+    <select id="chgBDBDTM" class="form-control" name="BDBDTM">
+      <option value="00000000000000" $sel_JOLLY0>NESSUNO</option>
+      <option value="04FA56D6FF6180" $sel_JOLLY1>JOLLY 1</option>
+      <option value="04EB2874BF6180" $sel_JOLLY2>JOLLY 2</option>
+      <option value="0406ED76BF6180" $sel_JOLLY3>JOLLY 3</option>
+      <option value="04F025D7FF6180" $sel_JOLLY4>JOLLY 4</option>
+      <option value="04FBC5D6FF6180" $sel_JOLLY5>JOLLY 5</option>
+    </select>
+                <span class="error-text">
 SEGDTA;
- $this->displayError('BDBDTM', array('BADGE HEX TEMPORANEO')); 
-		echo <<<SEGDTA
-</span>
-                </div>
-              </div>	
-            </div>
-            <div id="navbottom">
-              <input type="submit" class="btn btn-primary accept" value="Add" />
-              <input type="button" class="btn btn-default cancel" value="Cancel" />
-            </div>		
-          </form>
-        </div>
-      </div>
-    </div>
-    <script type="text/javascript">
-		jQuery(function() {
-			// Focus the first input on page load
-			jQuery("input:enabled:first").focus();
-			
-			// Bind event to the Back button
-			jQuery(".cancel").click(goback);
-			function goback()
-			{
-				window.location.replace("$pf_scriptname?page={$programState['page']}");
-				return false;
-			}
-		});
-	</script>
-  </body>
-</html>
-
-SEGDTA;
-		return;
 	}
 	if($xlSegmentToWrite == "rcdchange")
 	{
@@ -1545,17 +1595,22 @@ SEGDTA;
                 <label for="chgBDREPA">REPARTO
 SEGDTA;
  $this->displayIndicator('BDREPA'); 
+ $sel_REPA1 = ($BDREPA == 'DA DEFINIRE') ? 'selected' : '';
+$sel_REPA2 = ($BDREPA == 'UFFICIO') ? 'selected' : '';
+$sel_REPA3 = ($BDREPA == 'MAGAZZINO') ? 'selected' : '';
+$sel_REPA4 = ($BDREPA == 'PRODUZIONE') ? 'selected' : '';
+$sel_REPA5 = ($BDREPA == 'LABORATORIO') ? 'selected' : '';
 		echo <<<SEGDTA
 </label>
                              <div>
-				  <select id="addBDREPA" class="form-control" name="BDREPA">
-	 <option value="DA DEFINIRE" <?php if($BDREPA == 'DA DEFINIRE') echo 'selected'; ?>DA DEFINIRE</option>
-  <option value="UFFICIO" <?php if($BDREPA == 'UFFICIO') echo 'selected'; ?>UFFICIO</option>
-  <option value="MAGAZZINO" <?php if($BDREPA == 'MAGAZZINO') echo 'selected'; ?>MAGAZZINO</option>
-  <option value="PRODUZIONE" <?php if($BDREPA == 'PRODUZIONE') echo 'selected'; ?>PRODUZIONE</option>
-    <option value="LABORATORIO" <?php if($BDREPA == 'LABORATORIO') echo 'selected'; ?>LABORATORIO</option>
-
-</select>                  <span class="error-text">
+<select id="chgBDREPA" class="form-control" name="BDREPA">
+  <option value="DA DEFINIRE" $sel_REPA1>DA DEFINIRE</option>
+  <option value="UFFICIO" $sel_REPA2>UFFICIO</option>
+  <option value="MAGAZZINO" $sel_REPA3>MAGAZZINO</option>
+  <option value="PRODUZIONE" $sel_REPA4>PRODUZIONE</option>
+  <option value="LABORATORIO" $sel_REPA5>LABORATORIO</option>
+</select>
+                  <span class="error-text">
 SEGDTA;
  $this->displayError('BDREPA', array('REPARTO')); 
 		echo <<<SEGDTA
@@ -1564,56 +1619,64 @@ SEGDTA;
               </div>
               <div class="form-group 
 SEGDTA;
- $this->displayErrorClass('BDTIMB'); 
-		echo <<<SEGDTA
+$this->displayErrorClass('BDTIMB'); 
+echo <<<SEGDTA
 ">
-                <label for="chgBDTIMB">TIMBRATORE
+  <label for="chgBDTIMB">TIMBRATORE
 SEGDTA;
- $this->displayIndicator('BDTIMB'); 
-		echo <<<SEGDTA
+$this->displayIndicator('BDTIMB'); 
+$sel_TIMB0 = ($BDTIMB == '  ') ? 'selected' : '';
+$sel_TIMB1 = ($BDTIMB == '70') ? 'selected' : '';
+$sel_TIMB2 = ($BDTIMB == '71') ? 'selected' : '';
+$sel_TIMB3 = ($BDTIMB == '72') ? 'selected' : '';
+echo <<<SEGDTA
 </label>
-                <div>
-	<select id="chgBDTIMB" class="form-control" name="BDTIMB">
-		 <option value="  " <?php if($BDTIMB == '  ') echo 'selected'; ?>DA DEFINIRE</option>
-  	<option value="70" <?php if($BDTIMB == '70') echo 'selected'; ?>INGRESSO</option>
- 	<option value="71" <?php if($BDTIMB == '71') echo 'selected'; ?>MAGAZZINO</option>
-  	<option value="72" <?php if($BDTIMB == '72') echo 'selected'; ?>PRODUZIONE</option>
-	</select>                  <span class="error-text">
+  <div>
+    <select id="chgBDTIMB" class="form-control" name="BDTIMB">
+      <option value="  " $sel_TIMB0>DA DEFINIRE</option>
+      <option value="70" $sel_TIMB1>INGRESSO</option>
+      <option value="71" $sel_TIMB2>MAGAZZINO</option>
+      <option value="72" $sel_TIMB3>PRODUZIONE</option>
+    </select> 
+
+    <span class="error-text">
 SEGDTA;
- $this->displayError('BDTIMB', array('TIMBRATORE')); 
-		echo <<<SEGDTA
+$this->displayError('BDTIMB', array('TIMBRATORE')); 
+echo <<<SEGDTA
 </span>
-                </div>
-              </div>
-              <div class="form-group 
+  </div>
+</div>
 SEGDTA;
+
  $this->displayErrorClass('BDBDTM'); 
 		echo <<<SEGDTA
-">
-                <label for="chgBDBDTM">BADGE TEMPORANEO HEX 
+
+                <label for="addBDBDTM">BADGE HEX TEMPORANEO 
 SEGDTA;
 
 $this->displayIndicator('BDBDTM'); 
+$sel_JOLLY0 = ($BDBDTM == '00000000000000') ? 'selected' : '';
+$sel_JOLLY1 = ($BDBDTM == '04FA56D6FF6180') ? 'selected' : '';
+$sel_JOLLY2 = ($BDBDTM == '04EB2874BF6180') ? 'selected' : '';
+$sel_JOLLY3 = ($BDBDTM == '0406ED76BF6180') ? 'selected' : '';
+$sel_JOLLY4 = ($BDBDTM == '04F025D7FF6180') ? 'selected' : '';
+$sel_JOLLY5 = ($BDBDTM == '04FBC5D6FF6180') ? 'selected' : '';
 		echo <<<SEGDTA
 </label>
                 <div>
-	<select id="chgBDBDTM" class="form-control" name="BDBDTM">
-
-		 <option value="00000000000000" <?php if($BDBDTM == '00000000000000') echo 'selected'; ?>NESSUNO</option>
-  <option value="04FA56D6FF6180" <?php if($BDBDTM == '04FA56D6FF6180') echo 'selected'; ?>JOLLY 1</option>
-  <option value="04EB2874BF6180" <?php if($BDBDTM == '04EB2874BF6180') echo 'selected'; ?>JOLLY 2</option>
-  <option value="0406ED76BF6180" <?php if($BDBDTM == '0406ED76BF6180') echo 'selected'; ?>JOLLY 3</option>
-    <option value="04F025D7FF6180" <?php if($BDBDTM == '04F025D7FF6180') echo 'selected'; ?>JOLLY 4</option>
-  <option value="04FBC5D6FF6180" <?php if($BDBDTM == '04FBC5D6FF6180') echo 'selected'; ?>JOLLY 5</option>
-</select>                  <span class="error-text">
-
-
-
-
-                  
+    <select id="chgBDBDTM" class="form-control" name="BDBDTM">
+      <option value="00000000000000" $sel_JOLLY0>NESSUNO</option>
+      <option value="04FA56D6FF6180" $sel_JOLLY1>JOLLY 1</option>
+      <option value="04EB2874BF6180" $sel_JOLLY2>JOLLY 2</option>
+      <option value="0406ED76BF6180" $sel_JOLLY3>JOLLY 3</option>
+      <option value="04F025D7FF6180" $sel_JOLLY4>JOLLY 4</option>
+      <option value="04FBC5D6FF6180" $sel_JOLLY5>JOLLY 5</option>
+    </select>
+           <span class="error-text">
 SEGDTA;
 
-$this->displayError('BDBDTM', array('BADGE TEMPORANEO HEX')); 
+if($starter == 'BDCOGE') { 
+$this->displayError('BDBDTM', array('BADGE HEX TEMPORANEO')); 
 		echo <<<SEGDTA
 </span>
                 </div>
@@ -1622,11 +1685,23 @@ $this->displayError('BDBDTM', array('BADGE TEMPORANEO HEX'));
               	
             </div>
             <div id="navbottom">
-  <input type="submit" class="btn btn-primary accept" value="Change" />
-  <input type="button" class="btn btn-default cancel" value="Cancel" />
-  
-  <a href="{$pf_scriptname}?task=beginchange&BDBADG={$nextBadge}" class="btn btn-info">Avanti</a>
-  <a href="{$pf_scriptname}?task=beginchange&BDBADG={$prevBadge}" class="btn btn-info">Indietro</a>
+  <input type="submit" class="btn btn-primary accept" value="Salva e Chiudi" onclick="submitAndClose();" />
+  <input type="button" class="btn btn-default cancel" value="Cancel" onclick="window.close();" />	
+
+<script>
+function submitAndClose() {
+  const form = document.getElementById('change-form');
+  if (form) {
+    form.submit();
+    setTimeout(() => {
+    window.opener.location.reload();
+    window.close();
+    }, 500);
+  }
+}
+
+</script>
+
             </div>		
           </form>
         </div>
@@ -1655,7 +1730,53 @@ $this->displayError('BDBDTM', array('BADGE TEMPORANEO HEX'));
 SEGDTA;
 		return;
 	}
+	else
+	$this->displayError('BDBDTM', array('BADGE HEX TEMPORANEO')); 
+		echo <<<SEGDTA
+</span>
+                </div>
+              </div>              
+              
+              	
+            </div>
+            <div id="navbottom">
+  <input type="submit" class="btn btn-primary accept" value="Change" />
+  <input type="button" class="btn btn-default cancel" value="Cancel" />
+  
+  <button type="submit" name="go" value="prev" class="btn btn-info">Indietro</button>
+  <button type="submit" name="go" value="next" class="btn btn-info">Avanti</button>
+  <input type="hidden" name="BDBADG_PREV" value="$prevBadge">
+  <input type="hidden" name="BDBADG_NEXT" value="$nextBadge">
 
+            </div>		
+          </form>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+		jQuery(function() {
+			
+			//jQuery("input[name='BDBADG']").attr("disabled",true);
+			
+			// Focus the first input on page load
+			jQuery("input:enabled:first").focus();
+			
+			// Bind event to the Back button
+			jQuery(".cancel").click(goback);
+			function goback()
+			{
+				window.location.replace("$pf_scriptname?page={$programState['page']}");
+				return false;
+			}
+		});
+	</script>
+  </body>
+</html>
+
+SEGDTA;
+		return;
+	}
+	
 		// If we reach here, the segment is not found
 		echo("Segment $xlSegmentToWrite is not defined! ");
 	}
@@ -1692,3 +1813,25 @@ SEGDTA;
 // Auto-load this WebSmart object (by calling xlLoadWebSmartObject) if this script is called directly (not via an include/require).
 // Comment this line out if you do not wish this object to be invoked directly.
 xlLoadWebSmartObject(__FILE__, 'gest_dipe');?>
+<script>
+function resetAndSubmit() {
+  const form = document.getElementById('filter-form');
+  if (form) {
+    // Pulisce tutti gli input e i select
+    form.querySelectorAll('input[type="text"], select').forEach(el => el.value = '');
+    form.submit();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('filter-form');
+  if (!form) return;
+
+  // Aggiungi listener a tutti i campi input e select nel form
+  form.querySelectorAll('input[type="text"], select').forEach(field => {
+    field.addEventListener('change', () => {
+      form.submit();
+    });
+  });
+});
+</script>

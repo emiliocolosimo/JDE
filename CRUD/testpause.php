@@ -505,6 +505,7 @@ if ($showPresenti) {
 		return [];
 	}
 }
+
 	protected function printPageHeader()
 	{
 		$filtNome = strtoupper($_SESSION['filtNome'] ?? '');
@@ -560,9 +561,7 @@ if ($showPresenti) {
 				}
 			}
 		</style>
-	
-		<script src="websmart/v13.2/js/jquery.min.js"></script>
-		<script src="websmart/v13.2/Responsive/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	  </head>
 	  <body>
 		<div id="outer-content">
@@ -570,6 +569,23 @@ if ($showPresenti) {
   <div class="text-center my-4">
     <img src="include/logo.jpg" alt="Logo" style="max-height: 80px;">
   </div>
+ <div class="dropdown text-end" style="position: absolute; top: 20px; right: 20px;">
+  <button class="btn btn-light dropdown-toggle" type="button" id="menuDropdown" data-bs-toggle="dropdown" aria-expanded="true">
+    <i class="bi bi-three-dots-vertical" style="font-size: 1.5rem;"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menuDropdown">
+    <li>
+<a class="dropdown-item" href="#" onclick="window.open('https://jde.rgpballs.com/crud/gestdipe.php', '_blank'); return false;">
+        <i class="bi bi-person-lines-fill me-2"></i>Gestione Dipendente
+      </a>
+    </li>
+    <li>
+      <a class="dropdown-item" href="#" onclick="openPopupTimbratura(''); return false;">
+        <i class="bi bi-plus-circle me-2"></i>Inserisci Timbratura
+      </a>
+    </li>
+  </ul>
+</div>
   <div class="clearfix"></div>
   <div id="contents">
 				<div class="text-end mb-3">
@@ -689,6 +705,7 @@ if ($xlSegmentToWrite == "titoloinpausa") {
 		<tr style="background-color:#92a2a8;color:white;">
  	<td colspan="10"><strong>Attualmente In Pausa:</strong></td> 
 </tr>
+<th style="width: 50px;"></th>		
 		<th>Cognome Nome</th>
 		<th>ID Badge</th>
 		<th>Inizio Pausa 1</th>
@@ -713,7 +730,8 @@ SEGDTA;
 		<tr style="background-color:#92a2a8;color:white;">
  	<td colspan="10"><strong>Che hanno fatto Pausa:</strong></td> 
 </tr>
-		<th>Cognome Nome</th>
+<th style="width: 50px;"></th>		
+<th>Cognome Nome</th>
 		<th>ID Badge</th>
 		<th>Inizio Pausa 1</th>
 		<th>Fine Pausa 1</th>
@@ -738,6 +756,7 @@ SEGDTA;
  	<td colspan="9"><strong>Presenti: </strong></td> 
 </tr>
 			<tr>
+			<th style="width: 50px;"></th>		
 				<th>Cognome Nome</th>
 				<th>ID Badge</th>
 				<th>Orario 1</th>
@@ -756,7 +775,18 @@ SEGDTA;
 		if ($xlSegmentToWrite == "rigainpausa") {
 		echo <<<SEGDTA
 <tr>
-    <td>{$presCogn} {$presNome}</td>
+										<td>
+		<button onclick="openGestioneDipendente('{$IdGest}')" title="Gestione Dipendente"
+  class="btn btn-primary btn-sm px-2 py-0" style="font-size: 1.35rem; line-height: 1;">
+  <i class="bi bi-credit-card"></i>
+</button>
+<button onclick="openPopupTimbratura('{$IdGest}')" title="Aggiungi timbratura"
+  class="btn btn-warning btn-sm px-2 py-0" style="font-size: 1.35rem; line-height: 1;">
+  <i class="bi bi-plus-circle"></i>
+</button></td></td>
+    <td>{$presCogn} {$presNome}
+
+ </td>
 	<td>{$IdGest}</td>
 	<td $errpausa1lunga $errIdTimbDeid>{$ora1}</td>
 	<td $errpausa1lunga $errIdTimbDeid>{$ora2}</td> 
@@ -774,6 +804,15 @@ SEGDTA;
 		if ($xlSegmentToWrite == "rigapausafatta") {
 						echo <<<SEGDTA
 <tr>
+    <td>
+		<button onclick="openGestioneDipendente('{$IdGest}')" title="Gestione Dipendente"
+  class="btn btn-primary btn-sm px-2 py-0" style="font-size: 1.35rem; line-height: 1;">
+  <i class="bi bi-credit-card"></i>
+</button>
+<button onclick="openPopupTimbratura('{$IdGest}')" title="Aggiungi timbratura"
+  class="btn btn-warning btn-sm px-2 py-0" style="font-size: 1.35rem; line-height: 1;">
+  <i class="bi bi-plus-circle"></i>
+</button></td>	</td>
     <td $errinpausaattuale>{$presCogn} {$presNome} {$inPausaAttuale}</td>
 	<td>{$IdGest}</td>
     <td $errpausa1lunga $errIdTimbDeid>{$ora1}</td>
@@ -790,7 +829,16 @@ SEGDTA;
 		}
 		if ($xlSegmentToWrite == "inerrore") {
 						echo <<<SEGDTA
-<tr>
+						<tr>
+    <td
+		<button onclick="openGestioneDipendente('{$IdGest}')" title="Gestione Dipendente"
+  class="btn btn-primary btn-sm px-2 py-0" style="font-size: 1.35rem; line-height: 1;">
+  <i class="bi bi-credit-card"></i>
+</button>
+<button onclick="openPopupTimbratura('{$IdGest}')" title="Aggiungi timbratura"
+  class="btn btn-warning btn-sm px-2 py-0" style="font-size: 1.35rem; line-height: 1;">
+  <i class="bi bi-plus-circle"></i>
+</button></td>
     <td $errinpausaattuale>{$presCogn} {$presNome} {$IdGest} {$inPausaAttuale}</td>
     <td $errpausa1lunga>{$ora1}</td>
 	<td $errpausa1lunga>{$ora2}</td> 
@@ -822,16 +870,26 @@ if ($xlSegmentToWrite == "totpresenti") {
 			$ora5 = $orari[4] ?? '';
 			$ora6 = $orari[5] ?? '';
 
-			echo "<tr>
-				<td>{$presCogn} {$presNome}</td>
-				<td>{$IdGest}</td>
-				<td>{$ora1}</td>
-				<td>{$ora2}</td>
-				<td>{$ora3}</td>
-				<td>{$ora4}</td>
-				<td>{$ora5}</td>
-				<td>{$ora6}</td>
-			</tr>";
+echo "<tr>
+	<td>
+		<button onclick=\"openGestioneDipendente('{$IdGest}')\" title=\"Gestione Dipendente\"
+			class=\"btn btn-primary btn-sm px-2 py-0\" style=\"font-size: 1.35rem; line-height: 1;\">
+			<i class=\"bi bi-credit-card\"></i>
+		</button>
+		<button onclick=\"openPopupTimbratura('{$IdGest}')\" title=\"Aggiungi timbratura\" 
+			class=\"btn btn-warning btn-sm px-2 py-0\" style=\"font-size: 1.35rem; line-height: 1;\">
+			<i class=\"bi bi-plus-circle\"></i>
+		</button>
+	</td>
+	<td>{$presCogn} {$presNome}</td>
+	<td>{$IdGest}</td>
+	<td>{$ora1}</td>
+	<td>{$ora2}</td>
+	<td>{$ora3}</td>
+	<td>{$ora4}</td>
+	<td>{$ora5}</td>
+	<td>{$ora6}</td>
+</tr>";
 		}
 	}
 
@@ -897,10 +955,41 @@ xlLoadWebSmartObject(__FILE__, 'PAUSE'); ?>
 	document.getElementById('chkInPausa').checked = true;
     document.getElementById('chkPausaFatta').checked = true;
     document.getElementById('chkPresenti').checked = true;
+	document.getElementById('chkError').checked = false;
     document.forms[0].submit();
   }
 
   setTimeout(function() {
     location.reload();
 }, 30000); // 30000 millisecondi = 30 secondi
+
+function openPopupTimbratura(BDBADG) {
+    const width = 600;
+    const height = 900;
+    const left = (window.screen.width - width) / 2;
+    const top = (window.screen.height - height) / 2;
+    const url = 'https://jde.rgpballs.com/crud/savManTimbratura.php?BDBADG=' + encodeURIComponent(BDBADG);
+    
+    window.open(
+        url,
+        'popupTimbratura',
+        `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`
+    );
+}
+
+function openGestioneDipendente(BDCOGE) {
+    const rnd = Math.floor(Math.random() * 99999);
+    const url = 'https://jde.rgpballs.com/crud/gestdipe.php?task=beginchange&BDCOGE=' + encodeURIComponent(BDCOGE) + '&rnd=' + rnd;
+
+    const width = 700;
+    const height = 750;
+    const left = (window.screen.width - width) / 2;
+    const top = (window.screen.height - height) / 2;
+
+    window.open(
+        url,
+        'popupGestioneDipendente',
+        `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`
+    );
+}
 </script>
