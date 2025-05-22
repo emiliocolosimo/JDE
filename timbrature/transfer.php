@@ -203,6 +203,10 @@ if($cntTimbrature>0) {
 //....
 error_log("fine procedura");
 	  
-
-
+echo "<html><body style='font-family: sans-serif; padding: 20px;'>";
+echo "<h2>Invio completato</h2>";
+echo "<p>Timbrature inviate: <strong>{$cntTimbrature}</strong></p>";
+echo "<p>Progressivo elaborazione: <strong>{$progrElab}</strong></p>";
+echo "<button onclick=\"window.close()\" style='margin-top: 20px; padding: 10px 20px; font-size: 16px;'>Chiudi</button>";
+echo "</body></html>";
 
