@@ -37,7 +37,7 @@ class PAUSE extends WebSmartObject
 <td {$errStyle} title="ID Origine: {$IdOrin} - {$deviceLabel} - {$Tipo} - {$Senso}" style="position: relative;">
   {$ora}
   <div class="dropdown d-inline">
-    <i class="bi bi-pencil-square text-secondary dropdown-toggle" style="cursor: pointer;" data-bs-toggle="dropdown" aria-expanded="false" title="Azioni disponibili"></i>
+   <i class="bi bi-pencil text-secondary dropdown-toggle" style="font-size: 0.9rem;" style="cursor: pointer;" data-bs-toggle="dropdown" aria-expanded="false" title="Azioni disponibili"></i>
     <ul class="dropdown-menu dropdown-menu-end" style="z-index: 1050;">
 HTML;
 
@@ -626,10 +626,19 @@ SEGDATA;
 				<thead>
 		<tr> 
 		<tr style="background-color:#92a2a8;color:white;">
+    table.table tr td, table.table tr th {
+  border: 1px solid #ccc !important;
+  padding: 6px 8px;
+  text-align: center;
+  vertical-align: middle;
+}
+.table td.text-start, .table th.text-start {
+  text-align: left !important;
+}
 </tr>
 <th style="width: 110px;">In Pausa:</th>		
-		<th>Cognome Nome</th>
-		<th>ID Badge</th>
+<th class="text-start">Cognome Nome</th>
+<th class="text-start">ID Badge</th>
 		<th>Inizio Pausa 1</th>
 		<th>Fine Pausa 1</th>
 		<th>Inizio Pausa 2</th>
@@ -655,8 +664,8 @@ SEGDTA;
 </tr>
 			<tr>
 			<th style="width: 50px;">Dipendenti:</th>		
-				<th>Cognome Nome</th>
-				<th>ID Badge</th>
+<th class="text-start">Cognome Nome</th>
+<th class="text-start">ID Badge</th>
 				<th>Orario 1</th>
 				<th>Orario 2</th>
 				<th>Orario 3</th>
@@ -671,7 +680,7 @@ SEGDTA;
 		}
 
         if ($xlSegmentToWrite == "totpresenti") {
-          if (!empty($chiaviTotali)) {
+            if (!empty($chiaviTotali)) {
                 foreach ($chiaviTotali as $chiave) {
                     $presente = $presentiInSede[$chiave];
                     $presNome = htmlspecialchars($presente['nome']);
@@ -680,7 +689,6 @@ SEGDTA;
                     $oraripause = array_pad($presente['oraripause'] ?? [], 6, '');
                     $orarilavoro = array_pad($presente['orarilavoro'] ?? [], 6, '');
 
-                    // Separazione ID e metadati per lavoro e pausa (nuovo calcolo con oraripause separato)
                     $countLavoro = count($presente['orarilavoro'] ?? []);
                     $countPausa = count($presente['oraripause'] ?? []);
 
@@ -696,28 +704,30 @@ SEGDTA;
                     $TipoLavoro = array_pad(array_slice($presente['tipo'], 0, $countLavoro), 6, '');
                     $TipoPausa  = array_pad(array_slice($presente['tipo'], $countLavoro, $countPausa), 6, '');
 
+                    // --- BLOCCO SOSTITUITO ---
+                    // Intestazione dipendente
+                    echo "<tr style='background-color: #d6eaf8; font-weight: bold;'>
+  <td colspan='9'>{$presCogn} {$presNome} - Badge: {$IdGest}</td>
+</tr>";
+
                     // Riga 1 - tipo 0000
-                    echo "<tr style='background-color: #e9f7ef; font-weight: normal;'>";
-                    echo "<td>
-          <button onclick=\"openGestioneDipendente('{$IdGest}')\" class='btn btn-primary btn-sm px-2 py-0' title='Gestione Dipendente'>
-            <i class='bi bi-credit-card'></i>
-          </button>
-          <button onclick=\"openPopupTimbratura('{$IdGest}')\" class='btn btn-warning btn-sm px-2 py-0' title='Aggiungi timbratura'>
-            <i class='bi bi-plus-circle'></i>
-          </button>
-        </td>";
-                    echo "<td>
-        <a href='#' onclick=\"filtraPerNomeCognome('{$presCogn}', '{$presNome}'); return false;\">{$presCogn} {$presNome}</a>
-      </td>";
-                   
-                    echo "<td>{$IdGest}</td>";
+                    echo "<tr style='background-color: #e9f7ef;'>";
+                    echo "<td class='text-center'>
+  <button onclick=\"openGestioneDipendente('{$IdGest}')\" class='btn btn-primary btn-sm px-2 py-0' title='Gestione Dipendente'>
+    <i class='bi bi-credit-card'></i>
+  </button>
+  <button onclick=\"openPopupTimbratura('{$IdGest}')\" class='btn btn-warning btn-sm px-2 py-0' title='Aggiungi timbratura'>
+    <i class='bi bi-plus-circle'></i>
+  </button>
+</td>";
+                    echo "<td class='text-start'></td><td class='text-start'></td>";
                     for ($i = 0; $i < 6; $i++) {
-                            echo $this->renderDropdownMenu($orarilavoro[$i], '', $IdOrinLavoro[$i], $DeIdLavoro[$i], $TipoLavoro[$i], $SensoLavoro[$i]);
+                        echo $this->renderDropdownMenu($orarilavoro[$i], '', $IdOrinLavoro[$i], $DeIdLavoro[$i], $TipoLavoro[$i], $SensoLavoro[$i]);
                     }
                     echo "</tr>";
 
                     // Riga 2 - tipo 0001
-                    echo "<tr style='background-color: #fdf2e9; font-weight: normal;'>";
+                    echo "<tr style='background-color: #fffaf0;'>";
                     echo "<td colspan='3'></td>";
                     for ($i = 0; $i < 6; $i++) {
                         echo $this->renderDropdownMenu($oraripause[$i], '', $IdOrinPausa[$i], $DeIdPausa[$i], $TipoPausa[$i], $SensoPausa[$i]);
@@ -725,7 +735,8 @@ SEGDTA;
                     echo "</tr>";
 
                     // Riga separatrice
-                    //echo "<tr style='height: 10px; background-color: transparent;'><td colspan='10'></td></tr>";
+                    echo "<tr><td colspan='9' style='height: 8px; background-color: transparent;'></td></tr>";
+                    // --- FINE BLOCCO SOSTITUITO ---
                 }
             }
             // Aggiungi riga vuota alla fine della tabella per risolvere bug grafico menù
