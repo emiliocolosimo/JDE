@@ -19,7 +19,7 @@ class PAUSE extends WebSmartObject
     /**
      * Renderizza una cella orario con menu a discesa azioni.
      */
-    private function renderDropdownMenu($ora, $errStyle, $IdOrin, $DeId, $tipo, $senso)
+    private function renderDropdownMenu($ora, $errStyle , $IdOrin , $DeId , $Tipo , $Senso )
     {
         if (empty($ora)) {
             return "<td></td>";
@@ -34,28 +34,34 @@ class PAUSE extends WebSmartObject
         };
 
         $html = <<<HTML
-<td {$errStyle} title="ID Origine: {$IdOrin} - {$deviceLabel} - {$tipo} - {$senso}" style="position: relative;">{$ora}
+<td {$errStyle} title="ID Origine: {$IdOrin} - {$deviceLabel} - {$Tipo} - {$Senso}" style="position: relative;">
+  {$ora}
   <div class="dropdown d-inline">
     <i class="bi bi-pencil-square text-secondary dropdown-toggle" style="cursor: pointer;" data-bs-toggle="dropdown" aria-expanded="false" title="Azioni disponibili"></i>
     <ul class="dropdown-menu dropdown-menu-end" style="z-index: 1050;">
 HTML;
 
-if ($tipo === '0000') {
-    $html .= <<<HTML
+        // Unifica la gestione delle voci del menu
+        if ($Tipo === '0000') {
+            $html .= <<<HTML
       <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('pause.php?convertiinpausa={$IdOrin}'); return false;">Converti in pausa</a></li>
 HTML;
-}
-
-if ($tipo === '0001' || ($tipo === '0000' && $senso === 'E')) {
-    $html .= <<<HTML
+            if ($Senso === 'E') {
+                $html .= <<<HTML
       <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('pause.php?convertiinuscita={$IdOrin}'); return false;">Converti in uscita</a></li>
 HTML;
-} 
-if ($tipo === '0001' || $tipo === '0000' && $senso === 'U') {
-    $html .= <<<HTML
+            }
+            if ($Senso === 'U') {
+                $html .= <<<HTML
       <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('pause.php?convertiinentrata={$IdOrin}'); return false;">Converti in entrata</a></li>
 HTML;
-}
+            }
+        } elseif ($Tipo === '0001') {
+            $html .= <<<HTML
+      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('pause.php?convertiinuscita={$IdOrin}'); return false;">Converti in uscita</a></li>
+      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('pause.php?convertiinentrata={$IdOrin}'); return false;">Converti in entrata</a></li>
+HTML;
+        }
 
         $html .= <<<HTML
       <li><a class="dropdown-item text-danger" href="#" onclick="richiediPasswordPerAzione('pause.php?elimina={$IdOrin}'); return false;">Elimina</a></li>
@@ -183,284 +189,6 @@ HTML;
 		if (!isset($_SESSION["chkPresenti"])) $_SESSION["chkPresenti"] = 1;
 		if (!isset($_SESSION["chkError"])) $_SESSION["chkError"] = 0;
 
-        $query = "
-        SELECT 
-            A.STDATE,
-            VARCHAR(A.STTIME) AS STTIME,
-            COALESCE(D.BDCOGN, '') AS BDCOGN,
-            COALESCE(D.BDNOME, '') AS BDNOME,
-            COALESCE(A.STRECO, '') AS STRECO,
-            COALESCE(A.STDEID, '') AS STDEID,
-            COALESCE(A.STCDDI, '') AS STCDDI,
-            COALESCE(D.BDTIMB, '') AS BDTIMB,
-            COALESCE(A.STORIN, '') AS STORIN,
-            COALESCE(A.STSENS, '') AS STSENS
-        FROM BCD_DATIV2.SAVTIM0F AS A
-        LEFT JOIN BCD_DATIV2.BDGDIP0F AS D ON A.STCDDI = D.BDCOGE
-        WHERE A.STRECO IN ('0001', '0001')
-            AND A.STDATE = '" . $filtDate . "'
-            AND D.BDNOME LIKE '%" . $filtNome . "%'
-            AND D.BDCOGN LIKE '%" . $filtCognome . "%'
-        ORDER BY D.BDNOME, D.BDCOGN, A.STTIME
-        ";
-
-        $stmt = $this->db_connection->prepare($query);
-        $result = $stmt->execute();
-        $y = 0;
-        $x = 0;
-        $z = 0;
-
-        $raggruppati = [];
-        $presentiInSede = [];
-        $errpausagen = '';
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            foreach ($row as $key => $value) {
-                $row[$key] = htmlspecialchars(rtrim($value));
-                $escapedField = xl_fieldEscape($key);
-                $$escapedField = $row[$key];
-            }
-            if (!isset($row['STRECO'])) $row['STRECO'] = '';
-            if (!isset($row['STSENS'])) $row['STSENS'] = '';
-
-            $presNome = $BDCOGN;
-            $presCogn = $BDNOME;
-            $presStreco = $STRECO;
-            $presStsens = $STSENS;
-            $DeId = $STDEID;
-            $IdGest = $STCDDI;
-            $IdTimb = $BDTIMB;
-            $IdOrin = $STORIN;
-            $presDtIn = $this->cvtDateFromDb(str_replace("-", "", $STDATE));
-            $presSens = $STSENS;
-            $presTipo = $STRECO;
-            $chiave = $presNome . '|' . $presCogn . '|' . $presDtIn ;
-
-            // Nuovo: singolo orario per riga
-            $orario = preg_match('/^\d{6}$/', $STTIME) ? substr($this->cvtTimeFromDb($STTIME), 0, 5) : substr($STTIME, 0, 5);
-
-            if (!isset($raggruppati[$chiave])) {
-                $raggruppati[$chiave] = [
-                    'presNome' => $presNome,
-                    'presCogn' => $presCogn,
-                    'presDtIn' => $presDtIn,
-                    'IdGest' => $IdGest,
-                    'IdTimb' => $IdTimb,
-                    'DeId' => $DeId,
-                    'tipo' => [],
-                    'senso' => [],
-                    'orari' => [],
-                    'idorin' => [],
-                    'DeIdList' => [],
-                ];
-            }
-            $raggruppati[$chiave]['orari'][] = $orario;
-            $raggruppati[$chiave]['idorin'][] = $STORIN;
-            $raggruppati[$chiave]['tipo'][] = $STRECO;
-            $raggruppati[$chiave]['senso'][] = $STSENS;
-            $raggruppati[$chiave]['DeIdList'][] = $STDEID;
-        }
-
-		// Stampa le righe raggruppate
-		$y = 0;
-		$z = 0;
-		$inPausaList = [];
-		$pausaFattaList = [];
-		
-		foreach ($raggruppati as $record) {
-			$presNome = $record['presNome'];
-			$presCogn = $record['presCogn'];
-			$presDtIn = $record['presDtIn'];
-			$IdGest = $record['IdGest'];
-			$IdTimb = $record['IdTimb'];
-			$DeId = $record['DeId'];
-			$orari = $record['orari'];
-			// --- Normalizzazione orari: formato HH:MM ---
-			$idorin = $record['idorin'] ?? [];
-			$presTipo = $record['tipo'] ?? [];
-			$PresSens = $record['senso'] ?? [];
-            $this->currentDeviceId = $DeId;
-			sort($orari); // Ordina le timbrature in ordine crescente
-			$orari = array_slice($orari, 0, 6); // Prendi solo le prime 6
-			$idorin = array_slice($idorin, 0, 6); // Allineamento con gli orari
-            $deids = array_slice($record['DeIdList'] ?? array_fill(0, 6, $DeId), 0, 6);
-			$presTipo = array_slice($presTipo, 0, 6); // Allineamento con gli orari
-			$presSens = array_slice($PresSens, 0, 6); // Allineamento con gli orari 
-			$DeId1 = $deids[0] ?? '';
-			$DeId2 = $deids[1] ?? '';
-			$DeId3 = $deids[2] ?? '';
-			$DeId4 = $deids[3] ?? '';
-			$DeId5 = $deids[4] ?? '';
-			$DeId6 = $deids[5] ?? '';
-			$ora1 = $orari[0] ?? '';
-			$ora2 = $orari[1] ?? '';
-			$ora3 = $orari[2] ?? '';
-			$ora4 = $orari[3] ?? '';
-			$ora5 = $orari[4] ?? '';
-			$ora6 = $orari[5] ?? '';
-			$IdOrin1 = $idorin[0] ?? '';
-			$IdOrin2 = $idorin[1] ?? '';
-			$IdOrin3 = $idorin[2] ?? '';
-			$IdOrin4 = $idorin[3] ?? '';
-			$IdOrin5 = $idorin[4] ?? '';
-			$IdOrin6 = $idorin[5] ?? '';
-			$presTipo1 = $presTipo[0] ?? '';
-			$presTipo2 = $presTipo[1] ?? '';
-			$presTipo3 = $presTipo[2] ?? '';
-			$presTipo4 = $presTipo[3] ?? '';
-			$presTipo5 = $presTipo[4] ?? '';
-			$presTipo6 = $presTipo[5] ?? '';
-			$presSens1 = $presSens[0] ?? '';
-			$presSens2 = $presSens[1] ?? '';
-			$presSens3 = $presSens[2] ?? '';
-			$presSens4 = $presSens[3] ?? '';
-			$presSens5 = $presSens[4] ?? '';
-			$presSens6 = $presSens[5] ?? '';
-
-			$errIdTimbDeid = '';
-			if ($IdTimb !== $DeId && $IdTimb !== '' && $DeId !== '') {
-				$errIdTimbDeid = 'style="background-color: ORANGE;"';
-			}
-			$totPause = 0;
-			$inPausaAttuale = false;
-			try {
-				$now = new DateTime();
-				if (!empty($ora1) && !empty($ora2)) {
-					$dt1 = new DateTime($ora1);
-					$dt2 = new DateTime($ora2);
-					$totPause += abs($dt2->getTimestamp() - $dt1->getTimestamp());
-				} elseif (!empty($ora1) && empty($ora2)) {
-					$dt1 = new DateTime($ora1);
-					$totPause += abs($now->getTimestamp() - $dt1->getTimestamp());
-					$inPausaAttuale = true;
-				}
-				if (!empty($ora3) && !empty($ora4)) {
-					$dt3 = new DateTime($ora3);
-					$dt4 = new DateTime($ora4);
-					$totPause += abs($dt4->getTimestamp() - $dt3->getTimestamp());
-				} elseif (!empty($ora3) && empty($ora4)) {
-					$dt3 = new DateTime($ora3);
-					$totPause += abs($now->getTimestamp() - $dt3->getTimestamp());
-					$inPausaAttuale = true;
-				}
-				if (!empty($ora5) && !empty($ora6)) {
-					$dt5 = new DateTime($ora5);
-					$dt6 = new DateTime($ora6);
-					$totPause += abs($dt6->getTimestamp() - $dt5->getTimestamp());
-				} elseif (!empty($ora5) && empty($ora6)) {
-					$dt5 = new DateTime($ora5);
-					$totPause += abs($now->getTimestamp() - $dt5->getTimestamp());
-					$inPausaAttuale = true;
-				}
-			} catch (Exception $e) {
-				$totPause = 0;
-				$inPausaAttuale = false;
-			}
-			$totPauseMinuti = floor($totPause / 60);
-			$hh = floor($totPauseMinuti / 60);
-			$mm = $totPauseMinuti % 60;
-			$totPauseHHMM = sprintf('%dh %02dm', $hh, $mm);
-			$analisi = $this->getErrorePausa([$ora1, $ora2, $ora3, $ora4, $ora5, $ora6], $inPausaAttuale);
-			extract($analisi);
-			$recordData = array_merge(compact(
-				'presNome',
-				'presCogn',
-				'presDtIn',
-				'IdGest',
-				'ora1',
-				'ora2',
-				'ora3',
-				'ora4',
-				'ora5',
-				'ora6',
-				'totPauseMinuti',
-				'totPauseHHMM',
-				'inPausaAttuale',
-				'DeId',
-				'IdTimb',
-				'errIdTimbDeid',
-				'DeId1',
-				'DeId2',
-				'DeId3',
-				'DeId4',
-				'DeId5',
-				'DeId6',
-				'IdOrin1',
-				'IdOrin2',
-				'IdOrin3',
-				'IdOrin4',
-				'IdOrin5',
-				'IdOrin6',	
-				'presTipo',
-				'presSens',
-				'presTipo1',
-				'presTipo2',
-				'presTipo3',
-				'presTipo4',
-				'presTipo5',
-				'presTipo6',
-				'presSens1',
-				'presSens2',
-				'presSens3',
-				'presSens4',
-				'presSens5',
-				'presSens6'
-			), $analisi);
-			if ($inPausaAttuale) {
-				$inPausaList[] = $recordData;
-			} else {
-				$pausaFattaList[] = $recordData;
-			}
-		}
-
-		$showInPausa = $_SESSION["chkInPausa"] ?? true;
-		$showError = $_SESSION["chkError"] ?? 1;
-
-		// --- PRIMA in pausa ---
-		if ($showInPausa && !empty($inPausaList)) {
-			$this->writeSegment("titoloinpausa", array_merge(get_object_vars($this), get_defined_vars()));
-	foreach ($inPausaList as $record) {
-	extract($record);
-	$analisi = $this->getErrorePausa([$ora1, $ora2, $ora3, $ora4, $ora5, $ora6], $inPausaAttuale);
-	extract($analisi);
-
-	// MOSTRA SOLO RECORD IN ERRORE SE chkError È ATTIVO
-	if ($showError && empty($errpausagen)) {
-		continue;
-	}
-
-	$this->writeSegment("rigainpausa", array_merge(get_object_vars($this), get_defined_vars()));
-	$totinpausa++;
-}
-		}
-		
-		$showPausaFatta = $_SESSION["chkPausaFatta"] ?? 1;
-
-		// --- POI chi ha fatto pausa ---
-
-		if ($showPausaFatta && !empty($pausaFattaList)) {
-			$this->writeSegment("titolopausafatta", array_merge(get_object_vars($this), get_defined_vars()));
-foreach ($pausaFattaList as $record) {
-	extract($record);
-	$analisi = $this->getErrorePausa([$ora1, $ora2, $ora3, $ora4, $ora5, $ora6], $inPausaAttuale);
-	extract($analisi);
-
-	// MOSTRA SOLO RECORD IN ERRORE SE chkError È ATTIVO
-	if ($showError && empty($errpausagen)) {
-		continue;
-	}
-
-	$this->writeSegment("rigapausafatta", array_merge(get_object_vars($this), get_defined_vars()));
-	$totpausafatta++;
-}
-		}
-
-		//TOTALE ORE:
-		$showPresenti = $_SESSION["chkPresenti"] ?? 1;
-		if ($showPresenti && $x == 0) {
-			$this->writeSegment("hPresenti", array_merge(get_object_vars($this), get_defined_vars()));
-		}
-
 		$query = "SELECT 
     '" . $filtDate . "' AS STDATE,
     COALESCE(D.BDCOGN, '') AS BDCOGN,
@@ -468,40 +196,21 @@ foreach ($pausaFattaList as $record) {
     COALESCE(D.BDCOGE, '') AS BDCOGE,
     COALESCE(A.STORIN, '') AS STORIN,
     COALESCE(A.STDEID, '') AS STDEID,
-    CAST(
-        XMLSERIALIZE(
-            CONTENT XMLAGG(XMLTEXT(
-                A.STTIME || '|' || COALESCE(A.STSENS, '') || '|' || COALESCE(A.STRECO, '') || '|' || COALESCE(A.STDEID, '') || '|' || COALESCE(A.STORIN, '') || ','
-            ) ORDER BY A.STTIME)
-            AS VARCHAR(3000)
-        )
-    AS VARCHAR(3000)) AS STINFOS
+    COALESCE(A.STSENS, '') AS STSENS,
+    COALESCE(A.STRECO, '') AS STRECO,
+	A.STTIME AS STTIME
 FROM BCD_DATIV2.BDGDIP0F AS D
 LEFT JOIN BCD_DATIV2.SAVTIM0F AS A 
     ON D.BDCOGE = A.STCDDI 
-    AND A.STRECO = '0000'
-    AND A.STDATE = '" . $filtDate . "'
+        AND A.STDATE = '" . $filtDate . "'
 		WHERE D.BDNOME LIKE '%" . $filtNome . "%'
   AND D.BDCOGN LIKE '%" . $filtCognome . "%'
-GROUP BY 
-    D.BDCOGN, D.BDNOME, D.BDCOGE, A.STORIN, A.STDEID
 ORDER BY 
-    D.BDNOME, D.BDCOGN
+    D.BDNOME, D.BDCOGN 
 		";
 		$stmt = $this->db_connection->prepare($query);
 		$result = $stmt->execute();
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-			/*
-			AND NOT EXISTS(
-				SELECT 1 
-				FROM BCD_DATIV2.SAVTIM0F AS B  
-				WHERE B.STTIMS > A.STTIMS 
-				AND B.STCDDI = A.STCDDI  
-				AND B.STSENS = 'U'  
-				AND A.STRECO = '0000' 
-				AND A.STDATE = '" . $filtDate . "' 
-				FETCH FIRST ROW ONLY
-			*/
 			foreach (array_keys($row) as $key) {
 				$row[$key] = htmlspecialchars(rtrim($row[$key]));
 				$escapedField = xl_fieldEscape($key);
@@ -511,76 +220,114 @@ ORDER BY
 			$presNome = $BDCOGN;
 			$presCogn = $BDNOME;
 			$IdGest = $BDCOGE;
-			$IdOrin = $STORIN;
 			$DeId = $STDEID;
+			$Senso = $STSENS;
+			$Tipo = $STRECO;
 			$presDtIn = $this->cvtDateFromDb(str_replace("-", "", $STDATE));
+			$presDtInTime = $this->cvtTimeFromDb(str_replace("-", "", $STTIME));
 			$chiave = $presNome . '|' . $presCogn . '|' . $presDtIn;
 
-			// Parsing di STINFOS per recuperare orari, senso, tipo, idorin, DeId
-			$infoArray = explode(',', $STINFOS);
-			foreach ($infoArray as $record) {
-				if (empty($record)) continue;
-				list($time, $senso, $tipo, $deid, $idorin) = explode('|', $record);
-				try {
-					$dt = new DateTime($time);
-					$ora = $dt->format('H:i');
+			try {
+				$dt = new DateTime($STTIME);
+				$ora = $dt->format('H:i');
+
+				if ($Tipo === '0000') {
 					if (!isset($presentiInSede[$chiave])) {
 						$presentiInSede[$chiave] = [
 							'nome' => $presNome,
 							'cognome' => $presCogn,
 							'IdGest' => $IdGest,
-							'orari' => [],
+							'orarilavoro' => [],
 							'idorin' => [],
 							'DeId' => [],
 							'senso' => [],
 							'tipo' => []
 						];
 					}
-					$presentiInSede[$chiave]['orari'][] = $ora;
-					$presentiInSede[$chiave]['idorin'][] = $idorin;
-					$presentiInSede[$chiave]['DeId'][] = $deid;
-					$presentiInSede[$chiave]['senso'][] = $senso;
-					$presentiInSede[$chiave]['tipo'][] = $tipo;
-				} catch (Exception $e) {
-					continue;
+					$presentiInSede[$chiave]['orarilavoro'][] = $ora;
+					$presentiInSede[$chiave]['idorin'][] = $STORIN;
+					$presentiInSede[$chiave]['DeId'][] = $DeId;
+					$presentiInSede[$chiave]['senso'][] = $Senso;
+					$presentiInSede[$chiave]['tipo'][] = $Tipo;
+				} elseif ($Tipo === '0001') {
+					if (!isset($datipause[$chiave])) {
+						$datipause[$chiave] = [
+							'nome' => $presNome,
+							'cognome' => $presCogn,
+							'IdGest' => $IdGest,
+							'oraripause' => [],
+							'idorin' => [],
+							'DeId' => [],
+							'senso' => [],
+							'tipo' => []
+						];
+					}
+					$datipause[$chiave]['oraripause'][] = $ora;
+					$datipause[$chiave]['idorin'][] = $STORIN;
+					$datipause[$chiave]['DeId'][] = $DeId;
+					$datipause[$chiave]['senso'][] = $Senso;
+					$datipause[$chiave]['tipo'][] = $Tipo;
 				}
+			} catch (Exception $e) {
+				continue;
 			}
-			// Ordina orari e riallinea gli altri array associati
-			if (isset($presentiInSede[$chiave])) {
-				$combined = [];
-				foreach ($presentiInSede[$chiave]['orari'] as $i => $time) {
-					$combined[] = [
-						'time' => $time,
-						'idorin' => $presentiInSede[$chiave]['idorin'][$i] ?? '',
-						'DeId' => $presentiInSede[$chiave]['DeId'][$i] ?? '',
-						'senso' => $presentiInSede[$chiave]['senso'][$i] ?? '',
-						'tipo' => $presentiInSede[$chiave]['tipo'][$i] ?? '',
-					];
-				}
-				usort($combined, fn($a, $b) => strcmp($a['time'], $b['time']));
-				$presentiInSede[$chiave]['orari'] = array_column($combined, 'time');
-				$presentiInSede[$chiave]['idorin'] = array_column($combined, 'idorin');
-				$presentiInSede[$chiave]['DeId'] = array_column($combined, 'DeId');
-				$presentiInSede[$chiave]['senso'] = array_column($combined, 'senso');
-				$presentiInSede[$chiave]['tipo'] = array_column($combined, 'tipo');
+			if ($Tipo === '0000') {
+				$this->ordinaSegmento($presentiInSede, $chiave, 'orarilavoro');
+				$this->currentDeviceId = $DeId;
+				$totPresenti++;
+			} elseif ($Tipo === '0001') {
+				$this->ordinaSegmento($datipause, $chiave, 'oraripause');
 			}
-			// Assegna currentDeviceId anche per i presenti
-			$this->currentDeviceId = $DeId;
-			$totPresenti++;
-			$x++;
 		}
-$showPresenti = $_SESSION["chkPresenti"] ?? 1;
-if ($showPresenti) {
-            $this->writeSegment("totpresenti", array_merge(get_object_vars($this), [
-                'errpausagen' => $errpausagen,
-                'presentiInSede' => $presentiInSede,
-                'totPresenti' => $totPresenti,
-                'totpausafatta' => $totpausafatta,
-                'totinpausa' => $totinpausa
-            ]));
+
+		// Fusione completa: anche chi ha solo pause (0001)
+		$chiaviTotali = array_unique(array_merge(array_keys($presentiInSede), array_keys($datipause)));
+
+		foreach ($chiaviTotali as $chiave) {
+		    if (!isset($presentiInSede[$chiave])) {
+		        $presentiInSede[$chiave] = $datipause[$chiave];
+		    } elseif (isset($datipause[$chiave])) {
+		        $presentiInSede[$chiave]['oraripause'] = $datipause[$chiave]['oraripause'];
+		        $presentiInSede[$chiave]['idorin'] = array_merge($presentiInSede[$chiave]['idorin'], $datipause[$chiave]['idorin']);
+		        $presentiInSede[$chiave]['DeId'] = array_merge($presentiInSede[$chiave]['DeId'], $datipause[$chiave]['DeId']);
+		        $presentiInSede[$chiave]['senso'] = array_merge($presentiInSede[$chiave]['senso'], $datipause[$chiave]['senso']);
+		        $presentiInSede[$chiave]['tipo'] = array_merge($presentiInSede[$chiave]['tipo'], $datipause[$chiave]['tipo']);
+		    }
+		}
+
+if ($_SESSION["chkPresenti"] ?? 1) {
+    if (!empty($chiaviTotali)) {
+        $this->writeSegment("hpresenti", array_merge(get_object_vars($this), get_defined_vars()));
+        $this->writeSegment("totpresenti", array_merge(get_object_vars($this), get_defined_vars()));
+    } else {
+        $this->writeSegment("nessunpresente", array_merge(get_object_vars($this), get_defined_vars()));
+    }
 }
-		$this->printPageFooter();
-	}
+$this->printPageFooter();
+
+}
+    private function ordinaSegmento(&$array, $chiave, $campoOrari) {
+        if (!isset($array[$chiave][$campoOrari])) return;
+
+        $combined = [];
+        foreach ($array[$chiave][$campoOrari] as $i => $time) {
+            $combined[] = [
+                'time' => $time,
+                'idorin' => $array[$chiave]['idorin'][$i] ?? '',
+                'DeId' => $array[$chiave]['DeId'][$i] ?? '',
+                'senso' => $array[$chiave]['senso'][$i] ?? '',
+                'tipo' => $array[$chiave]['tipo'][$i] ?? '',
+            ];
+        }
+
+        usort($combined, fn($a, $b) => strcmp($a['time'], $b['time']));
+
+        $array[$chiave][$campoOrari] = array_column($combined, 'time');
+        $array[$chiave]['idorin'] = array_column($combined, 'idorin');
+        $array[$chiave]['DeId'] = array_column($combined, 'DeId');
+        $array[$chiave]['senso'] = array_column($combined, 'senso');
+        $array[$chiave]['tipo'] = array_column($combined, 'tipo');
+    }
 
 	protected function cvtDateFromDb($date)
 	{
@@ -593,7 +340,7 @@ if ($showPresenti) {
 		return substr($time, 0, 2) . ":" . substr($time, 2, 2);
 	}
 
-	private function getErrorePausa(array $orari, bool $inPausaAttuale = false)
+	private function getErrorePausa(array $oraripause, bool $inPausaAttuale = false)
 {
 	$errpausa1lunga = '';
 	$errpausa2lunga = '';
@@ -602,37 +349,37 @@ if ($showPresenti) {
 	$errinpausaattuale = '';
 	$errpausagen = '';
 	$totPause = 0;
-	$ora1 = $orari[0] ?? '';
-	$ora2 = $orari[1] ?? '';
-	$ora3 = $orari[2] ?? '';
-	$ora4 = $orari[3] ?? '';
-	$ora5 = $orari[4] ?? '';
-	$ora6 = $orari[5] ?? '';
+	$orapausa1 = $oraripause[0] ?? '';
+	$orapausa2 = $oraripause[1] ?? '';
+	$orapausa3 = $oraripause[2] ?? '';
+	$orapausa4 = $oraripause[3] ?? '';
+	$orapausa5 = $oraripause[4] ?? '';
+	$orapausa6 = $oraripause[5] ?? '';
 
 	try {
 		$now = new DateTime();
 
-		if (!empty($ora1) && !empty($ora2)) {
-			$dt1 = new DateTime($ora1);
-			$dt2 = new DateTime($ora2);
+		if (!empty($orapausa1) && !empty($orapausa2)) {
+			$dt1 = new DateTime($orapausa1);
+			$dt2 = new DateTime($orapausa2);
 			$intervallo1 = abs($dt2->getTimestamp() - $dt1->getTimestamp());
 			$totPause += $intervallo1;
 			if ($intervallo1 > 600) $errpausa1lunga = 'style="background-color: red;"';
-		} elseif (!empty($ora1)) {
-			$dt1 = new DateTime($ora1);
+		} elseif (!empty($orapausa1)) {
+			$dt1 = new DateTime($orapausa1);
 			$totPause += abs($now->getTimestamp() - $dt1->getTimestamp());
 			$inPausaAttuale = true;
 			if ($totPause > 600) $errpausa1lunga = 'style="background-color: red;"';
 		}
 
-		if (!empty($ora3) && !empty($ora4)) {
-			$dt3 = new DateTime($ora3);
-			$dt4 = new DateTime($ora4);
+		if (!empty($orapausa3) && !empty($orapausa4)) {
+			$dt3 = new DateTime($orapausa3);
+			$dt4 = new DateTime($orapausa4);
 			$intervallo2 = abs($dt4->getTimestamp() - $dt3->getTimestamp());
 			$totPause += $intervallo2;
 			if ($intervallo2 > 600) $errpausa2lunga = 'style="background-color: red;"';
-		} elseif (!empty($ora3)) {
-			$dt3 = new DateTime($ora3);
+		} elseif (!empty($orapausa3)) {
+			$dt3 = new DateTime($orapausa3);
 			$durataPausa2 = 0;
 			$durataPausa2 += abs($now->getTimestamp() - $dt3->getTimestamp());
 			$totPause += abs($now->getTimestamp() - $dt3->getTimestamp());
@@ -640,14 +387,14 @@ if ($showPresenti) {
 			if ($durataPausa2 > 600) $errpausa2lunga = 'style="background-color: red;"';
 		}
 
-		if (!empty($ora5)) {
-			if (!empty($ora6)) {
-				$dt5 = new DateTime($ora5);
-				$dt6 = new DateTime($ora6);
+		if (!empty($orapausa5)) {
+			if (!empty($orapausa6)) {
+				$dt5 = new DateTime($orapausa5);
+				$dt6 = new DateTime($orapausa6);
 				$intervallo3 = abs($dt6->getTimestamp() - $dt5->getTimestamp());
 				$totPause += $intervallo3;
 			} else {
-				$dt5 = new DateTime($ora5);
+				$dt5 = new DateTime($orapausa5);
 				$totPause += abs($now->getTimestamp() - $dt5->getTimestamp());
 				$inPausaAttuale = true;
 
@@ -690,12 +437,10 @@ if ($showPresenti) {
 		$filtCognome = strtoupper($_SESSION['filtCognome'] ?? '');
 		$filtDate = $_SESSION['filtDate'] ?? date('Y-m-d');
 		$chkInPausaChecked = isset($_SESSION['chkInPausa']) && $_SESSION['chkInPausa'] ? 'checked' : '';
-		$chkPausaFattaChecked = isset($_SESSION['chkPausaFatta']) && $_SESSION['chkPausaFatta'] ? 'checked' : '';
 		$chkPresentiChecked = isset($_SESSION['chkPresenti']) && $_SESSION['chkPresenti'] ? 'checked' : '';
 		$chkError = isset($_SESSION['chkError']) && $_SESSION['chkError'] ? 'checked' : '';
 
 		$chkInPausaBtnClass = isset($_SESSION['chkInPausa']) && $_SESSION['chkInPausa'] ? 'btn-primary' : 'btn-outline-primary';
-		$chkPausaFattaBtnClass = isset($_SESSION['chkPausaFatta']) && $_SESSION['chkPausaFatta'] ? 'btn-primary' : 'btn-outline-primary';
 		$chkPresentiBtnClass = isset($_SESSION['chkPresenti']) && $_SESSION['chkPresenti'] ? 'btn-primary' : 'btn-outline-primary';
 		$chkErrorBtnClass = isset($_SESSION['chkError']) && $_SESSION['chkError'] ? 'btn-danger' : 'btn-outline-danger';
 
@@ -818,7 +563,6 @@ if ($showPresenti) {
               </div>
             </div>
           </div>
-		  <div class="col-md-4">              </div>
 
           <!-- Colonna 3: Filtri e bottoni -->
           <div class="col-md-4 d-flex align-items-end">
@@ -876,43 +620,15 @@ SEGDATA;
 
 		// Output the requested segment:
 
-if ($xlSegmentToWrite == "titoloinpausa") {
+        if ($xlSegmentToWrite == "titoloinpausa") {
 
 			echo <<<SEGDTA
 				<thead>
 		<tr> 
 		<tr style="background-color:#92a2a8;color:white;">
- <!----	<td colspan="10"><strong>Attualmente In Pausa:</strong></td> ----->
 </tr>
 <th style="width: 110px;">In Pausa:</th>		
 		<th>Cognome Nome</th>
-		<th>ID Badge</th>
-		<th>Inizio Pausa 1</th>
-		<th>Fine Pausa 1</th>
-		<th>Inizio Pausa 2</th>
-		<th>Fine Pausa 2</th>
-		<th>Inizio Pausa 3</th>
-		<th>Fine Pausa 3</th>
-		<th>Totale Pausa</th>
-					</tr>
-				</thead>
-				<tbody>
-SEGDTA;
-			return;
-		}
-
-		if ($xlSegmentToWrite == "titolopausafatta") {
-
-			echo <<<SEGDTA
-				<thead>
-		<tr> 
-		<tr style="background-color:#92a2a8;color:white;">
-				<th></th>
-
-  <!----	<td colspan="10"><strong>Che hanno fatto Pausa:</strong></td> ----->
-</tr>
-<th style="width: 110px;">Pause Fatte:</th>		
-<th>Cognome Nome</th>
 		<th>ID Badge</th>
 		<th>Inizio Pausa 1</th>
 		<th>Fine Pausa 1</th>
@@ -934,7 +650,6 @@ SEGDTA;
 			echo <<<SEGDTA
 				<thead>
 						<tr style="background-color:#92a2a8;color:white;">
- <!----	<td colspan="9"><strong>Presenti: </strong></td> ----->
  				<th></th>
 
 </tr>
@@ -955,238 +670,62 @@ SEGDTA;
 			return;
 		}
 
-        if ($xlSegmentToWrite == "rigainpausa") {
-            // idorin: array (può essere non definito per vecchi record)
-            // Inizializza gli array a 6 elementi
-            $idOrin = array_pad($idorin ?? [], 6, '');
-            $senso = array_pad($presSens ?? $senso ?? [], 6, '');
-            $tipo = array_pad($presTipo ?? $tipo ?? [], 6, '');
-            $tipo1 = $tipo[0] ?? '';
-            $tipo2 = $tipo[1] ?? '';
-            $tipo3 = $tipo[2] ?? '';
-            $tipo4 = $tipo[3] ?? '';
-            $tipo5 = $tipo[4] ?? '';
-            $tipo6 = $tipo[5] ?? '';
-            $senso1 = $senso[0] ?? '';
-            $senso2 = $senso[1] ?? '';
-            $senso3 = $senso[2] ?? '';
-            $senso4 = $senso[3] ?? '';
-            $senso5 = $senso[4] ?? '';
-            $senso6 = $senso[5] ?? '';
-            // Safe access for fixed array indexes
-            $senso3 = $senso[2] ?? '';
-            $senso4 = $senso[3] ?? '';
-            $senso5 = $senso[4] ?? '';
-            $senso6 = $senso[5] ?? '';
-            $tipo3 = $tipo[2] ?? '';
-            $tipo4 = $tipo[3] ?? '';
-            $tipo5 = $tipo[4] ?? '';
-            $tipo6 = $tipo[5] ?? '';
-            $IdOrin3 = $idOrin[2] ?? '';
-            $IdOrin4 = $idOrin[3] ?? '';
-            $IdOrin5 = $idOrin[4] ?? '';
-            $IdOrin6 = $idOrin[5] ?? '';
-            echo "<tr>
-    <td>
-        <button onclick=\"openGestioneDipendente('{$IdGest}')\" title=\"Gestione Dipendente\"
-            class=\"btn btn-primary btn-sm px-2 py-0\" style=\"font-size: 1.35rem; line-height: 1;\">
-            <i class=\"bi bi-credit-card\"></i>
-        </button>
-        <button onclick=\"openPopupTimbratura('{$IdGest}')\" title=\"Aggiungi timbratura\"
-            class=\"btn btn-warning btn-sm px-2 py-0\" style=\"font-size: 1.35rem; line-height: 1;\">
-            <i class=\"bi bi-plus-circle\"></i>
-        </button>
-    </td>
-<td>
-  <a href=\"#\" onclick=\"filtraPerNomeCognome('{$presCogn}', '{$presNome}'); return false;\" title=\"Filtra per questo utente\">
-    {$presCogn} {$presNome} 
-  </a>
-</td>
-<td>{$IdGest}</td>
-    {$this->renderDropdownMenu($ora1, "$errpausa1lunga $errIdTimbDeid", $idOrin[0], $DeId1, $tipo1, $senso1)}
-    {$this->renderDropdownMenu($ora2, "$errpausa1lunga $errIdTimbDeid", $idOrin[1], $DeId2, $tipo2, $senso2)}
-    {$this->renderDropdownMenu($ora3, "$errpausa2lunga $errIdTimbDeid", $idOrin[2], $DeId3, $tipo3, $senso3)}
-    {$this->renderDropdownMenu($ora4, "$errpausa2lunga $errIdTimbDeid", $idOrin[3], $DeId4, $tipo4, $senso4)}
-    {$this->renderDropdownMenu($ora5, "$errtroppepausa $errIdTimbDeid", $idOrin[4], $DeId5, $tipo5, $senso5)}
-    {$this->renderDropdownMenu($ora6, "$errtroppepausa $errIdTimbDeid", $idOrin[5], $DeId6, $tipo6, $senso6)}
-    <td $errtotPauseMinuti>{$totPauseMinuti}</td>
-</tr>";
-            return;
-        }
-
-        if ($xlSegmentToWrite == "rigapausafatta") {
-            // Inizializza le variabili di errore per evitare undefined variable
-            $errinpausaattuale = $errpausa1lunga = $errpausa2lunga = $errtroppepausa = $errtotPauseMinuti = '';
-            $idOrin = array_pad($idorin ?? [], 6, '');
-            $senso = array_pad($presSens ?? $senso ?? [], 6, '');
-            $tipo = array_pad($presTipo ?? $tipo ?? [], 6, '');
-            $tipo1 = $tipo[0] ?? '';
-            $tipo2 = $tipo[1] ?? '';
-            $tipo3 = $tipo[2] ?? '';
-            $tipo4 = $tipo[3] ?? '';
-            $tipo5 = $tipo[4] ?? '';
-            $tipo6 = $tipo[5] ?? '';
-            $senso1 = $senso[0] ?? '';
-            $senso2 = $senso[1] ?? '';
-            $senso3 = $senso[2] ?? '';
-            $senso4 = $senso[3] ?? '';
-            $senso5 = $senso[4] ?? '';
-            $senso6 = $senso[5] ?? '';
-            // Safe access for fixed array indexes
-            $senso3 = $senso[2] ?? '';
-            $senso4 = $senso[3] ?? '';
-            $senso5 = $senso[4] ?? '';
-            $senso6 = $senso[5] ?? '';
-            $tipo3 = $tipo[2] ?? '';
-            $tipo4 = $tipo[3] ?? '';
-            $tipo5 = $tipo[4] ?? '';
-            $tipo6 = $tipo[5] ?? '';
-            $IdOrin3 = $idOrin[2] ?? '';
-            $IdOrin4 = $idOrin[3] ?? '';
-            $IdOrin5 = $idOrin[4] ?? '';
-            $IdOrin6 = $idOrin[5] ?? '';
-            echo "<tr>
-    <td>
-        <button onclick=\"openGestioneDipendente('{$IdGest}')\" title=\"Gestione Dipendente\"
-            class=\"btn btn-primary btn-sm px-2 py-0\" style=\"font-size: 1.35rem; line-height: 1;\">
-            <i class=\"bi bi-credit-card\"></i>
-        </button>
-        <button onclick=\"openPopupTimbratura('{$IdGest}')\" title=\"Aggiungi timbratura\"
-            class=\"btn btn-warning btn-sm px-2 py-0\" style=\"font-size: 1.35rem; line-height: 1;\">
-            <i class=\"bi bi-plus-circle\"></i>
-        </button>
-    </td>
-<td $errinpausaattuale>
-  <a href=\"#\" onclick=\"filtraPerNomeCognome('{$presCogn}', '{$presNome}'); return false;\" title=\"Filtra per questo utente\">
-    {$presCogn} {$presNome} {$inPausaAttuale}
-	  </a>
-</td>
-<td>{$IdGest}</td>  
-    {$this->renderDropdownMenu($ora1, "$errpausa1lunga $errIdTimbDeid", $idOrin[0], $DeId1, $tipo1, $senso1)}
-    {$this->renderDropdownMenu($ora2, "$errpausa1lunga $errIdTimbDeid", $idOrin[1], $DeId2, $tipo2, $senso2)}
-    {$this->renderDropdownMenu($ora3, "$errpausa2lunga $errIdTimbDeid", $idOrin[2], $DeId3, $tipo3, $senso3)}
-    {$this->renderDropdownMenu($ora4, "$errpausa2lunga $errIdTimbDeid", $idOrin[3], $DeId4, $tipo4, $senso4)}
-    {$this->renderDropdownMenu($ora5, "$errtroppepausa $errIdTimbDeid", $idOrin[4], $DeId5, $tipo5, $senso5)}
-    {$this->renderDropdownMenu($ora6, "$errtroppepausa $errIdTimbDeid", $idOrin[5], $DeId6, $tipo6, $senso6)}
-    <td $errtotPauseMinuti>{$totPauseMinuti}</td>
-</tr>";
-            return;
-        }
-        if ($xlSegmentToWrite == "inerrore") {
-            $idOrin = array_pad($idorin ?? [], 6, '');
-            $senso = array_pad($presSens ?? $senso ?? [], 6, '');
-            $tipo = array_pad($presTipo ?? $tipo ?? [], 6, '');
-            echo "<tr>
-    <td>
-        <button onclick=\"openGestioneDipendente('{$IdGest}')\" title=\"Gestione Dipendente\"
-            class=\"btn btn-primary btn-sm px-2 py-0\" style=\"font-size: 1.35rem; line-height: 1;\">
-            <i class=\"bi bi-credit-card\"></i>
-        </button>
-        <button onclick=\"openPopupTimbratura('{$IdGest}')\" title=\"Aggiungi timbratura\"
-            class=\"btn btn-warning btn-sm px-2 py-0\" style=\"font-size: 1.35rem; line-height: 1;\">
-            <i class=\"bi bi-plus-circle\"></i>
-        </button>
-    </td>
-<td $errinpausaattuale>
-  <a href=\"#\" onclick=\"filtraPerNomeCognome('{$presCogn}', '{$presNome}'); return false;\" title=\"Filtra per questo utente\">
-    {$presCogn} {$presNome} {$inPausaAttuale}
-  </a>
-</td>
-<td>{$IdGest}</td>
-    {$this->renderDropdownMenu($ora1, "$errpausa1lunga $errIdTimbDeid", $idOrin[0], $DeId1, $tipo[0], $senso[0])}
-    {$this->renderDropdownMenu($ora2, "$errpausa1lunga $errIdTimbDeid", $idOrin[1], $DeId2, $tipo[1], $senso[1])}
-    {$this->renderDropdownMenu($ora3, "$errpausa2lunga $errIdTimbDeid", $idOrin[2], $DeId3, $tipo[2], $senso[2])}
-    {$this->renderDropdownMenu($ora4, "$errpausa2lunga $errIdTimbDeid", $idOrin[3], $DeId4, $tipo[3], $senso[3])}
-    {$this->renderDropdownMenu($ora5, "$errtroppepausa $errIdTimbDeid", $idOrin[4], $DeId5, $tipo[4], $senso[4])}
-    {$this->renderDropdownMenu($ora6, "$errtroppepausa $errIdTimbDeid", $idOrin[5], $DeId6, $tipo[5], $senso[5])}
-    <td $errtotPauseMinuti>{$totPauseMinuti}</td>
-</tr>";
-            return;
-        }
-
         if ($xlSegmentToWrite == "totpresenti") {
-            if (!empty($presentiInSede)) {
-                foreach ($presentiInSede as $presente) {
+          if (!empty($chiaviTotali)) {
+                foreach ($chiaviTotali as $chiave) {
+                    $presente = $presentiInSede[$chiave];
                     $presNome = htmlspecialchars($presente['nome']);
                     $presCogn = htmlspecialchars($presente['cognome']);
                     $IdGest = htmlspecialchars($presente['IdGest']);
-                    $orari = $presente['orari'] ?? [];
-                    // Normalizza tutti gli array a 6 elementi
-                    $idorin = array_pad($presente['idorin'] ?? [], 6, '');
-                    $senso = array_pad($presente['senso'] ?? [], 6, '');
-                    $tipo = array_pad($presente['tipo'] ?? [], 6, '');
-                    $DeIdArr = array_pad($presente['DeId'] ?? [], 6, '');
-                    // Se DeId non è array, crea array con valore ripetuto
-                    if (!is_array($presente['DeId'])) {
-                        $DeIdArr = array_fill(0, 6, $presente['DeId'] ?? '');
+                    $oraripause = array_pad($presente['oraripause'] ?? [], 6, '');
+                    $orarilavoro = array_pad($presente['orarilavoro'] ?? [], 6, '');
+
+                    // Separazione ID e metadati per lavoro e pausa (nuovo calcolo con oraripause separato)
+                    $countLavoro = count($presente['orarilavoro'] ?? []);
+                    $countPausa = count($presente['oraripause'] ?? []);
+
+                    $IdOrinLavoro = array_pad(array_slice($presente['idorin'], 0, $countLavoro), 6, '');
+                    $IdOrinPausa  = array_pad(array_slice($presente['idorin'], $countLavoro, $countPausa), 6, '');
+
+                    $DeIdLavoro = array_pad(array_slice($presente['DeId'], 0, $countLavoro), 6, '');
+                    $DeIdPausa  = array_pad(array_slice($presente['DeId'], $countLavoro, $countPausa), 6, '');
+
+                    $SensoLavoro = array_pad(array_slice($presente['senso'], 0, $countLavoro), 6, '');
+                    $SensoPausa  = array_pad(array_slice($presente['senso'], $countLavoro, $countPausa), 6, '');
+
+                    $TipoLavoro = array_pad(array_slice($presente['tipo'], 0, $countLavoro), 6, '');
+                    $TipoPausa  = array_pad(array_slice($presente['tipo'], $countLavoro, $countPausa), 6, '');
+
+                    // Riga 1 - tipo 0000
+                    echo "<tr style='background-color: #e9f7ef; font-weight: normal;'>";
+                    echo "<td>
+          <button onclick=\"openGestioneDipendente('{$IdGest}')\" class='btn btn-primary btn-sm px-2 py-0' title='Gestione Dipendente'>
+            <i class='bi bi-credit-card'></i>
+          </button>
+          <button onclick=\"openPopupTimbratura('{$IdGest}')\" class='btn btn-warning btn-sm px-2 py-0' title='Aggiungi timbratura'>
+            <i class='bi bi-plus-circle'></i>
+          </button>
+        </td>";
+                    echo "<td>
+        <a href='#' onclick=\"filtraPerNomeCognome('{$presCogn}', '{$presNome}'); return false;\">{$presCogn} {$presNome}</a>
+      </td>";
+                   
+                    echo "<td>{$IdGest}</td>";
+                    for ($i = 0; $i < 6; $i++) {
+                            echo $this->renderDropdownMenu($orarilavoro[$i], '', $IdOrinLavoro[$i], $DeIdLavoro[$i], $TipoLavoro[$i], $SensoLavoro[$i]);
                     }
-                    $DeId1 = $DeIdArr[0] ?? '';
-                    $DeId2 = $DeIdArr[1] ?? '';
-                    $DeId3 = $DeIdArr[2] ?? '';
-                    $DeId4 = $DeIdArr[3] ?? '';
-                    $DeId5 = $DeIdArr[4] ?? '';
-                    $DeId6 = $DeIdArr[5] ?? '';
-                    $ora1 = $orari[0] ?? '';
-                    $ora2 = $orari[1] ?? '';
-                    $ora3 = $orari[2] ?? '';
-                    $ora4 = $orari[3] ?? '';
-                    $ora5 = $orari[4] ?? '';
-                    $ora6 = $orari[5] ?? '';
-                    $IdOrin1 = $idorin[0] ?? '';
-                    $IdOrin2 = $idorin[1] ?? '';
-                    $IdOrin3 = $idorin[2] ?? '';
-                    $IdOrin4 = $idorin[3] ?? '';
-                    $IdOrin5 = $idorin[4] ?? '';
-                    $IdOrin6 = $idorin[5] ?? '';
-                    $tipo1 = $tipo[0] ?? '';
-                    $tipo2 = $tipo[1] ?? '';
-                    $tipo3 = $tipo[2] ?? '';
-                    $tipo4 = $tipo[3] ?? '';
-                    $tipo5 = $tipo[4] ?? '';
-                    $tipo6 = $tipo[5] ?? '';
-                    $senso1 = $senso[0] ?? '';
-                    $senso2 = $senso[1] ?? '';
-                    $senso3 = $senso[2] ?? '';
-                    $senso4 = $senso[3] ?? '';
-                    $senso5 = $senso[4] ?? '';
-                    $senso6 = $senso[5] ?? '';
-                    $senso3 = $senso[2] ?? '';
-                    $senso4 = $senso[3] ?? '';
-                    $senso5 = $senso[4] ?? '';
-                    $senso6 = $senso[5] ?? '';
-                    $tipo3 = $tipo[2] ?? '';
-                    $tipo4 = $tipo[3] ?? '';
-                    $tipo5 = $tipo[4] ?? '';
-                    $tipo6 = $tipo[5] ?? '';
-                    $IdOrin3 = $idorin[2] ?? '';
-                    $IdOrin4 = $idorin[3] ?? '';
-                    $IdOrin5 = $idorin[4] ?? '';
-                    $IdOrin6 = $idorin[5] ?? '';
-                    echo "<tr>
-    <td>
-        <button onclick=\"openGestioneDipendente('{$IdGest}')\" title=\"Gestione Dipendente\"
-            class=\"btn btn-primary btn-sm px-2 py-0\" style=\"font-size: 1.35rem; line-height: 1;\">
-            <i class=\"bi bi-credit-card\"></i>
-        </button>
-        <button onclick=\"openPopupTimbratura('{$IdGest}')\" title=\"Aggiungi timbratura\" 
-            class=\"btn btn-warning btn-sm px-2 py-0\" style=\"font-size: 1.35rem; line-height: 1;\">
-            <i class=\"bi bi-plus-circle\"></i>
-        </button>
-    </td>
-<td>
-  <a href=\"#\" onclick=\"filtraPerNomeCognome('{$presCogn}', '{$presNome}'); return false;\" title=\"Filtra per questo utente\">
-    {$presCogn} {$presNome}
-  </a>
-</td>
-<td>{$IdGest}</td>
-    {$this->renderDropdownMenu($ora1, '', $IdOrin1, $DeId1, $tipo1, $senso1)}
-    {$this->renderDropdownMenu($ora2, '', $IdOrin2, $DeId2, $tipo2, $senso2)}
-    {$this->renderDropdownMenu($ora3, '', $IdOrin3, $DeId3, $tipo3, $senso3)}
-    {$this->renderDropdownMenu($ora4, '', $IdOrin4, $DeId4, $tipo4, $senso4)}
-    {$this->renderDropdownMenu($ora5, '', $IdOrin5, $DeId5, $tipo5, $senso5)}
-    {$this->renderDropdownMenu($ora6, '', $IdOrin6, $DeId6, $tipo6, $senso6)}    
-</tr>
-";
+                    echo "</tr>";
+
+                    // Riga 2 - tipo 0001
+                    echo "<tr style='background-color: #fdf2e9; font-weight: normal;'>";
+                    echo "<td colspan='3'></td>";
+                    for ($i = 0; $i < 6; $i++) {
+                        echo $this->renderDropdownMenu($oraripause[$i], '', $IdOrinPausa[$i], $DeIdPausa[$i], $TipoPausa[$i], $SensoPausa[$i]);
+                    }
+                    echo "</tr>";
+
+                    // Riga separatrice
+                    //echo "<tr style='height: 10px; background-color: transparent;'><td colspan='10'></td></tr>";
                 }
             }
             // Aggiungi riga vuota alla fine della tabella per risolvere bug grafico menù
@@ -1286,9 +825,6 @@ function openPopupTimbratura(BDBADG) {
     document.getElementById('inputPasswordModal').focus();
   }, { once: true });
 }
-// --- Funzione per conversione timbratura ---
-// --- Funzione per conversione timbratura ---
-</script>
 </script>
     <!-- Modal per richiesta password -->
     <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
