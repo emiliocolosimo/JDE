@@ -65,6 +65,7 @@ HTML;
 
         $html .= <<<HTML
       <li><a class="dropdown-item text-danger" href="#" onclick="richiediPasswordPerAzione('pause.php?elimina={$IdOrin}'); return false;">Elimina</a></li>
+      <li><a class="dropdown-item text-warning" href="pause.php?richiedisistemazione={$IdOrin}">Richiedi Sistemazione</a></li>
     </ul>
   </div>
 </td>
@@ -146,6 +147,20 @@ HTML;
             exit;
         }
 
+        // Gestione azione "richiedi sistemazione"
+        if (isset($_GET['richiedisistemazione'])) {
+            $IdOrin = $_GET['richiedisistemazione'];
+            if (!empty($IdOrin)) {
+                $query = "UPDATE BCD_DATIV2.SAVTIM0F 
+                          SET STTYPE = '5' 
+                          WHERE STORIN = ? and STTRAS=' '";
+                $stmt = $this->db_connection->prepare($query);
+                $stmt->execute([$IdOrin]);
+            }
+            header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+            exit;
+        }
+
 
 
 		header('Content-Type: text/html; charset=iso-8859-1');
@@ -166,9 +181,7 @@ HTML;
 			$_SESSION["filtDate"] = $_POST["filtDate"] ?? date("Y-m-d");
 			$_SESSION["filtCognome"] = $_POST["filtCognome"] ?? '';
 			$_SESSION["filtNome"] = $_POST["filtNome"] ?? '';
-			$_SESSION["chkInPausa"] = isset($_POST["chkInPausa"]) ? 1 : 0;
-			$_SESSION["chkPausaFatta"] = isset($_POST["chkPausaFatta"]) ? 1 : 0;
-			$_SESSION["chkPresenti"] = isset($_POST["chkPresenti"]) ? 1 : 0;
+			$_SESSION["filtroTipo"] = $_POST["filtroTipo"] ?? 'presenti';
 			$_SESSION["chkError"] = isset($_POST["chkError"]) ? 1 : 0;
 			header("Location: " . $_SERVER["PHP_SELF"]);
 			exit;
@@ -184,13 +197,13 @@ HTML;
 		$filtCognome = strtoupper(htmlspecialchars($_SESSION['filtCognome'] ?? ''));
 		$filtNome = strtoupper(htmlspecialchars($_SESSION['filtNome'] ?? ''));
 
-		if (!isset($_SESSION["chkInPausa"])) $_SESSION["chkInPausa"] = 1;
-		if (!isset($_SESSION["chkPausaFatta"])) $_SESSION["chkPausaFatta"] = 1;
-		if (!isset($_SESSION["chkPresenti"])) $_SESSION["chkPresenti"] = 1;
+		if (!isset($_SESSION["filtroTipo"])) $_SESSION["filtroTipo"] = 'presenti';
 		if (!isset($_SESSION["chkError"])) $_SESSION["chkError"] = 0;
 
-		$query = "SELECT 
-    '" . $filtDate . "' AS STDATE,
+        // Attiva filtro errori se richiesto
+        $chkError = $_SESSION["chkError"] ?? 0;
+
+		$query = "SELECT
     COALESCE(D.BDCOGN, '') AS BDCOGN,
     COALESCE(D.BDNOME, '') AS BDNOME,
     COALESCE(D.BDCOGE, '') AS BDCOGE,
@@ -198,23 +211,31 @@ HTML;
     COALESCE(A.STDEID, '') AS STDEID,
     COALESCE(A.STSENS, '') AS STSENS,
     COALESCE(A.STRECO, '') AS STRECO,
-	A.STTIME AS STTIME
+    COALESCE(A.STTYPE, '') AS STTYPE,
+    COALESCE(CHAR(A.STDATE), '') AS STDATE,
+    COALESCE(CHAR(A.STTIME), '') AS STTIME
 FROM BCD_DATIV2.BDGDIP0F AS D
-LEFT JOIN BCD_DATIV2.SAVTIM0F AS A 
-    ON D.BDCOGE = A.STCDDI 
-        AND A.STDATE = '" . $filtDate . "'
-		WHERE D.BDNOME LIKE '%" . $filtNome . "%'
-  AND D.BDCOGN LIKE '%" . $filtCognome . "%'
+LEFT JOIN BCD_DATIV2.SAVTIM0F AS A
+    ON D.BDCOGE = A.STCDDI AND A.STDATE = '" . $filtDate . "'  and
+    D.BDNOME LIKE '%" . $filtNome . "%'
+    AND D.BDCOGN LIKE '%" . $filtCognome . "%'
 ORDER BY 
-    D.BDNOME, D.BDCOGN 
-		";
+    D.BDNOME, D.BDCOGN";
+		// Forza che anche i record senza timbrature abbiano STTIME valorizzato (anche se vuoto)
 		$stmt = $this->db_connection->prepare($query);
 		$result = $stmt->execute();
+		// Inizializza variabili prima del ciclo
+		$presentiInSede = [];
+		$datipause = [];
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 			foreach (array_keys($row) as $key) {
 				$row[$key] = htmlspecialchars(rtrim($row[$key]));
 				$escapedField = xl_fieldEscape($key);
 				$$escapedField = $row[$key];
+			}
+			// Assicurati che STTYPE sia sempre presente
+			if (!isset($row['STTYPE'])) {
+				$STTYPE = '';
 			}
 
 			$presNome = $BDCOGN;
@@ -228,48 +249,89 @@ ORDER BY
 			$chiave = $presNome . '|' . $presCogn . '|' . $presDtIn;
 
 			try {
-				$dt = new DateTime($STTIME);
-				$ora = $dt->format('H:i');
+			    if (!empty($STTIME)) {
+			        $dt = new DateTime($STTIME);
+			        $ora = $dt->format('H:i');
+			    } else {
+			        $ora = ''; // valore vuoto per record senza timbrature
+			    }
 
-				if ($Tipo === '0000') {
-					if (!isset($presentiInSede[$chiave])) {
-						$presentiInSede[$chiave] = [
-							'nome' => $presNome,
-							'cognome' => $presCogn,
-							'IdGest' => $IdGest,
-							'orarilavoro' => [],
-							'idorin' => [],
-							'DeId' => [],
-							'senso' => [],
-							'tipo' => []
-						];
-					}
-					$presentiInSede[$chiave]['orarilavoro'][] = $ora;
-					$presentiInSede[$chiave]['idorin'][] = $STORIN;
-					$presentiInSede[$chiave]['DeId'][] = $DeId;
-					$presentiInSede[$chiave]['senso'][] = $Senso;
-					$presentiInSede[$chiave]['tipo'][] = $Tipo;
-				} elseif ($Tipo === '0001') {
-					if (!isset($datipause[$chiave])) {
-						$datipause[$chiave] = [
-							'nome' => $presNome,
-							'cognome' => $presCogn,
-							'IdGest' => $IdGest,
-							'oraripause' => [],
-							'idorin' => [],
-							'DeId' => [],
-							'senso' => [],
-							'tipo' => []
-						];
-					}
-					$datipause[$chiave]['oraripause'][] = $ora;
-					$datipause[$chiave]['idorin'][] = $STORIN;
-					$datipause[$chiave]['DeId'][] = $DeId;
-					$datipause[$chiave]['senso'][] = $Senso;
-					$datipause[$chiave]['tipo'][] = $Tipo;
-				}
+			    if ($Tipo === '0000') {
+			        if (!isset($presentiInSede[$chiave])) {
+			            $presentiInSede[$chiave] = [
+			                'nome' => $presNome,
+			                'cognome' => $presCogn,
+			                'IdGest' => $IdGest,
+			                'orarilavoro' => [],
+			                'idorin' => [],
+			                'DeId' => [],
+			                'senso' => [],
+			                'tipo' => [],
+			                'dasistemare' => []
+			            ];
+			        }
+			        if (!empty($ora)) {
+			            $presentiInSede[$chiave]['orarilavoro'][] = $ora;
+			            $presentiInSede[$chiave]['idorin'][] = $STORIN;
+			            $presentiInSede[$chiave]['DeId'][] = $DeId;
+			            $presentiInSede[$chiave]['senso'][] = $Senso;
+			            $presentiInSede[$chiave]['tipo'][] = $Tipo;
+			            $presentiInSede[$chiave]['dasistemare'][] = $STTYPE;
+			        }
+			    } elseif ($Tipo === '0001') {
+			        if (!isset($datipause[$chiave])) {
+			            $datipause[$chiave] = [
+			                'nome' => $presNome,
+			                'cognome' => $presCogn,
+			                'IdGest' => $IdGest,
+			                'oraripause' => [],
+			                'idorin' => [],
+			                'DeId' => [],
+			                'senso' => [],
+			                'tipo' => [],
+			                'dasistemare' => []
+			            ];
+			        }
+			        if (!empty($ora)) {
+			            $datipause[$chiave]['oraripause'][] = $ora;
+			            $datipause[$chiave]['idorin'][] = $STORIN;
+			            $datipause[$chiave]['DeId'][] = $DeId;
+			            $datipause[$chiave]['senso'][] = $Senso;
+			            $datipause[$chiave]['tipo'][] = $Tipo;
+			            $datipause[$chiave]['dasistemare'][] = $STTYPE;
+			        }
+			    } elseif (empty($Tipo)) {
+			        // Nessuna timbratura ma presente in anagrafica
+			        if (!isset($presentiInSede[$chiave])) {
+			            $presentiInSede[$chiave] = [
+			                'nome' => $presNome,
+			                'cognome' => $presCogn,
+			                'IdGest' => $IdGest,
+			                'orarilavoro' => [],
+			                'oraripause' => [],
+			                'idorin' => [],
+			                'DeId' => [],
+			                'senso' => [],
+			                'tipo' => [],
+			                'dasistemare' => []
+			            ];
+			        }
+			    }
 			} catch (Exception $e) {
-				continue;
+			    // Anche in caso di errore, includi il dipendente con dati vuoti
+			    if (!isset($presentiInSede[$chiave])) {
+			        $presentiInSede[$chiave] = [
+			            'nome' => $presNome,
+			            'cognome' => $presCogn,
+			            'IdGest' => $IdGest,
+			            'orarilavoro' => [],
+			            'oraripause' => [],
+			            'idorin' => [],
+			            'DeId' => [],
+			            'senso' => [],
+			            'tipo' => []
+			        ];
+			    }
 			}
 			if ($Tipo === '0000') {
 				$this->ordinaSegmento($presentiInSede, $chiave, 'orarilavoro');
@@ -280,6 +342,10 @@ ORDER BY
 			}
 		}
 
+		// Inizializza $datipause se non esiste
+		if (!isset($datipause)) {
+		    $datipause = [];
+		}
 		// Fusione completa: anche chi ha solo pause (0001)
 		$chiaviTotali = array_unique(array_merge(array_keys($presentiInSede), array_keys($datipause)));
 
@@ -295,15 +361,108 @@ ORDER BY
 		    }
 		}
 
-if ($_SESSION["chkPresenti"] ?? 1) {
-    if (!empty($chiaviTotali)) {
-        $this->writeSegment("hpresenti", array_merge(get_object_vars($this), get_defined_vars()));
-        $this->writeSegment("totpresenti", array_merge(get_object_vars($this), get_defined_vars()));
-    } else {
-        $this->writeSegment("nessunpresente", array_merge(get_object_vars($this), get_defined_vars()));
-    }
-}
-$this->printPageFooter();
+        // Filtro errori pause (se attivo)
+        if ($chkError) {
+            foreach ($presentiInSede as $chiave => $dati) {
+                $oraripause = $dati['oraripause'] ?? [];
+                $errore = false;
+                for ($i = 0; $i < 6; $i += 2) {
+                    $inizio = $oraripause[$i] ?? '';
+                    $fine = $oraripause[$i + 1] ?? '';
+                    if (!empty($inizio)) {
+                        try {
+                            $dt1 = new DateTime($inizio);
+                            $dt2 = !empty($fine) ? new DateTime($fine) : new DateTime();
+                            $durata = abs($dt2->getTimestamp() - $dt1->getTimestamp()) / 60;
+                            if ($durata > 10) {
+                                $errore = true;
+                                break;
+                            }
+                        } catch (Exception $e) {}
+                    }
+                }
+                if (!$errore) {
+                    unset($presentiInSede[$chiave]);
+                }
+            }
+        }
+
+        // FILTRI RADIO: applica filtro in base a filtroTipo
+        if ($_SESSION["filtroTipo"] === 'inpausa') {
+            // Filtro: mostra solo chi è attualmente in pausa (almeno una pausa iniziata e non conclusa)
+            foreach ($presentiInSede as $chiave => $dati) {
+                $oraripause = $dati['oraripause'] ?? [];
+                $inPausa = false;
+                for ($i = 0; $i < count($oraripause); $i += 2) {
+                    if (!empty($oraripause[$i]) && empty($oraripause[$i + 1])) {
+                        $inPausa = true;
+                        break;
+                    }
+                }
+                if (!$inPausa) {
+                    unset($presentiInSede[$chiave]);
+                }
+            }
+        } elseif ($_SESSION["filtroTipo"] === 'pausafatta') {
+            // Filtro: mostra solo chi ha effettuato almeno una pausa completa (inizio e fine)
+            foreach ($presentiInSede as $chiave => $dati) {
+                $oraripause = $dati['oraripause'] ?? [];
+                $pausaFatta = false;
+                for ($i = 0; $i < count($oraripause); $i += 2) {
+                    if (!empty($oraripause[$i]) && !empty($oraripause[$i + 1])) {
+                        $pausaFatta = true;
+                        break;
+                    }
+                }
+                if (!$pausaFatta) {
+                    unset($presentiInSede[$chiave]);
+                }
+            }
+        } elseif ($_SESSION["filtroTipo"] === 'nopausa') {
+            // Filtro: mostra solo chi non ha effettuato alcuna pausa
+            foreach ($presentiInSede as $chiave => $dati) {
+                $oraripause = $dati['oraripause'] ?? [];
+                $nessunaPausa = true;
+                for ($i = 0; $i < count($oraripause); $i += 2) {
+                    if (!empty($oraripause[$i])) {
+                        $nessunaPausa = false;
+                        break;
+                    }
+                }
+                if (!$nessunaPausa) {
+                    unset($presentiInSede[$chiave]);
+                }
+            }
+        } elseif ($_SESSION["filtroTipo"] === 'presenti') {
+            // Filtro: mostra solo chi ha almeno una timbratura di lavoro
+            foreach ($presentiInSede as $chiave => $dati) {
+                $orarilavoro = $dati['orarilavoro'] ?? [];
+                $haTimbrature = false;
+                foreach ($orarilavoro as $orario) {
+                    if (!empty($orario)) {
+                        $haTimbrature = true;
+                        break;
+                    }
+                }
+                if (!$haTimbrature) {
+                    unset($presentiInSede[$chiave]);
+                }
+            }
+        }
+
+        // --- AGGIUNTA: imposta presentiDaVisualizzare ---
+        $presentiDaVisualizzare = $presentiInSede;
+
+        // --- SOSTITUZIONE BLOCCO ---
+        // Mostra sempre i presenti filtrati dal radio (tutti/inpausa/pausafatta)
+        $chiaviFiltrate = array_keys($presentiDaVisualizzare);
+        if (!empty($chiaviFiltrate)) {
+            $this->writeSegment("hpresenti", array_merge(get_object_vars($this), ['presentiInSede' => $presentiDaVisualizzare, 'chiaviTotali' => $chiaviFiltrate]));
+            $this->writeSegment("totpresenti", array_merge(get_object_vars($this), ['presentiInSede' => $presentiDaVisualizzare, 'chiaviTotali' => $chiaviFiltrate]));
+        } else {
+            $this->writeSegment("nessunpresente", array_merge(get_object_vars($this), ['presentiInSede' => [], 'chiaviTotali' => []]));
+        }
+        $this->printPageFooter();
 
 }
     private function ordinaSegmento(&$array, $chiave, $campoOrari) {
@@ -355,7 +514,7 @@ $this->printPageFooter();
 	$orapausa4 = $oraripause[3] ?? '';
 	$orapausa5 = $oraripause[4] ?? '';
 	$orapausa6 = $oraripause[5] ?? '';
-
+  $durataPausa1 = ($oraripause[1]-$oraripause[0 ]) ?? 0;
 	try {
 		$now = new DateTime();
 
@@ -431,18 +590,88 @@ $this->printPageFooter();
 	}
 }
 
+    /**
+     * Calcola la durata di ciascuna delle 3 possibili pause singole (in minuti).
+     * @param array $oraripause Array di orari delle pause (max 6: inizio1, fine1, inizio2, fine2, inizio3, fine3)
+     * @return array Array di 3 stringhe (es. "10 min") o '' se non calcolabile
+     */
+    private function calcolaDuratePauseSingole(array $oraripause): array {
+        $durate = [];
+        for ($i = 0; $i < 6; $i += 2) {
+            $inizio = $oraripause[$i] ?? '';
+            $fine = $oraripause[$i + 1] ?? '';
+            if (!empty($inizio) && !empty($fine)) {
+                try {
+                    $dt1 = new DateTime($inizio);
+                    $dt2 = new DateTime($fine);
+                    $secondi = abs($dt2->getTimestamp() - $dt1->getTimestamp());
+                    $minuti = floor($secondi / 60);
+                    $durate[] = "{$minuti} min";
+                } catch (Exception $e) {
+                    $durate[] = '';
+                }
+            } else {
+                try {
+                    $dt1 = new DateTime($inizio);
+                    $dt2 = new DateTime(); // ora attuale
+                    $secondi = abs($dt2->getTimestamp() - $dt1->getTimestamp());
+                    $minuti = floor($secondi / 60);
+                    $durate[] = "{$minuti} min";
+                } catch (Exception $e) {
+                    $durate[] = '';
+                }
+            }
+        }
+        return $durate;
+    }
+
+    /**
+     * Calcola la durata di ciascuna delle 3 possibili fasce di lavoro singole (in formato HH:MM).
+     * @param array $orarilavoro Array di orari di lavoro (max 6: inizio1, fine1, inizio2, fine2, inizio3, fine3)
+     * @return array Array di 3 stringhe (es. "01:30") o '' se non calcolabile
+     */
+    private function calcolaDurateLavoroSingole(array $orarilavoro): array {
+        $durate = [];
+        for ($i = 0; $i < 6; $i += 2) {
+            $inizio = $orarilavoro[$i] ?? '';
+            $fine = $orarilavoro[$i + 1] ?? '';
+            if (!empty($inizio) && !empty($fine)) {
+                try {
+                    $dt1 = new DateTime($inizio);
+                    $dt2 = new DateTime($fine);
+                    $secondi = abs($dt2->getTimestamp() - $dt1->getTimestamp());
+                    $durate[] = gmdate('H:i', $secondi);
+                } catch (Exception $e) {
+                    $durate[] = '';
+                }
+            } else {
+                try {
+                    $dt1 = new DateTime($inizio);
+                    $dt2 = new DateTime(); // ora attuale
+                    $secondi = abs($dt2->getTimestamp() - $dt1->getTimestamp());
+                    $durate[] = gmdate('H:i', $secondi);
+                } catch (Exception $e) {
+                    $durate[] = '';
+                }
+            }
+        }
+        return $durate;
+    }
+
 	protected function printPageHeader()
 	{
 		$filtNome = strtoupper($_SESSION['filtNome'] ?? '');
 		$filtCognome = strtoupper($_SESSION['filtCognome'] ?? '');
 		$filtDate = $_SESSION['filtDate'] ?? date('Y-m-d');
-		$chkInPausaChecked = isset($_SESSION['chkInPausa']) && $_SESSION['chkInPausa'] ? 'checked' : '';
-		$chkPresentiChecked = isset($_SESSION['chkPresenti']) && $_SESSION['chkPresenti'] ? 'checked' : '';
 		$chkError = isset($_SESSION['chkError']) && $_SESSION['chkError'] ? 'checked' : '';
-
-		$chkInPausaBtnClass = isset($_SESSION['chkInPausa']) && $_SESSION['chkInPausa'] ? 'btn-primary' : 'btn-outline-primary';
-		$chkPresentiBtnClass = isset($_SESSION['chkPresenti']) && $_SESSION['chkPresenti'] ? 'btn-primary' : 'btn-outline-primary';
 		$chkErrorBtnClass = isset($_SESSION['chkError']) && $_SESSION['chkError'] ? 'btn-danger' : 'btn-outline-danger';
+		$filtroTipo = $_SESSION['filtroTipo'] ?? 'presenti';
+		// Dynamic classes for radio buttons
+		$btnInPausaClass = ($filtroTipo === 'inpausa') ? 'btn-primary' : 'btn-outline-primary';
+		$btnPausaFattaClass = ($filtroTipo === 'pausafatta') ? 'btn-primary' : 'btn-outline-primary';
+		$btnPresentiClass = ($filtroTipo === 'presenti') ? 'btn-primary' : 'btn-outline-primary';
+		$btnNoPausaClass = ($filtroTipo === 'nopausa') ? 'btn-primary' : 'btn-outline-primary';
+		$btnTuttiClass = ($filtroTipo === 'tutti') ? 'btn-primary' : 'btn-outline-primary';
 
 		echo <<<SEGDATA
 	<!DOCTYPE html>
@@ -493,6 +722,10 @@ $this->printPageFooter();
 			.placeholder {
 				color: rgba(0, 0, 255, 0.05);
 			}
+			@keyframes lampeggia {
+				0%, 100% { opacity: 1; }
+				50% { opacity: 0.3; }
+			}
 		</style>
 	  </head>
 	  <body>
@@ -534,21 +767,34 @@ $this->printPageFooter();
     <div class="col-12">
       <form method="POST" id="filter-form" class="mb-0">
         <div class="row align-items-center g-0 mb-3">
-          <!-- Colonna 1: Checkbox -->
+          <!-- Colonna 1: Radio Button -->
           <div class="col-md-4">
             <div class="btn-group flex-wrap gap-2" role="group" aria-label="Toggle segmenti">
-              <input type="checkbox" class="btn-check" id="chkInPausa" name="chkInPausa" value="1" {$chkInPausaChecked} autocomplete="off" onchange="this.form.submit();">
-              <label class="btn {$chkInPausaBtnClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="chkInPausa">
+              <input type="radio" class="btn-check" name="filtroTipo" id="filtroInPausa" value="inpausa" ($filtroTipo === 'inpausa') ? 'checked' : ''  onchange="this.form.submit();">
+              <label class="btn {$btnInPausaClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="filtroInPausa">
                 <i class="bi bi-pause-circle"></i> In Pausa
               </label>
-              <input type="checkbox" class="btn-check" id="chkPausaFatta" name="chkPausaFatta" value="1" {$chkPausaFattaChecked} autocomplete="off" onchange="this.form.submit();">
-              <label class="btn {$chkPausaFattaBtnClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="chkPausaFatta">
-                <i class="bi bi-check-circle"></i> Pause Fatte:
+
+              <input type="radio" class="btn-check" name="filtroTipo" id="filtroPausaFatta" value="pausafatta" ($filtroTipo === 'pausafatta') ? 'checked' : ''  onchange="this.form.submit();">
+              <label class="btn {$btnPausaFattaClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="filtroPausaFatta">
+                <i class="bi bi-check-circle"></i> Pause Fatte
               </label>
-              <input type="checkbox" class="btn-check" id="chkPresenti" name="chkPresenti" value="1" {$chkPresentiChecked} autocomplete="off" onchange="this.form.submit();">
-              <label class="btn {$chkPresentiBtnClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="chkPresenti">
+
+              <input type="radio" class="btn-check" name="filtroTipo" id="filtroPresenti" value="presenti" ($filtroTipo === 'presenti') ? 'checked' : '' onchange="this.form.submit();">
+              <label class="btn {$btnPresentiClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="filtroPresenti">
                 <i class="bi bi-person-fill-check"></i> Presenti
               </label>
+
+              <input type="radio" class="btn-check" name="filtroTipo" id="filtroNoPausa" value="nopausa" ($filtroTipo === 'nopausa') ? 'checked' : '' onchange="this.form.submit();">
+              <label class="btn {$btnNoPausaClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="filtroNoPausa">
+                <i class="bi bi-x-circle"></i> Nessuna Pausa
+              </label>
+
+              <input type="radio" class="btn-check" name="filtroTipo" id="filtroTutti" value="tutti" ($filtroTipo === 'tutti') ? 'checked' : '' onchange="this.form.submit();">
+              <label class="btn {$btnTuttiClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="filtroTutti">
+                <i class="bi bi-list-ul"></i> Tutti
+              </label>
+
               <input type="checkbox" class="btn-check" id="chkError" name="chkError" value="1" {$chkError} autocomplete="off" onchange="this.form.submit();">
               <label class="btn {$chkErrorBtnClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="chkError">
                 <i class="bi bi-exclamation-triangle-fill"></i> Errori
@@ -617,43 +863,6 @@ SEGDATA;
 		}
 		// Make sure it's case insensitive
 		$xlSegmentToWrite = strtolower($xlSegmentToWrite);
-
-		// Output the requested segment:
-
-        if ($xlSegmentToWrite == "titoloinpausa") {
-
-			echo <<<SEGDTA
-				<thead>
-		<tr> 
-		<tr style="background-color:#92a2a8;color:white;">
-    table.table tr td, table.table tr th {
-  border: 1px solid #ccc !important;
-  padding: 6px 8px;
-  text-align: center;
-  vertical-align: middle;
-}
-.table td.text-start, .table th.text-start {
-  text-align: left !important;
-}
-</tr>
-<th style="width: 110px;">In Pausa:</th>		
-<th class="text-start">Cognome Nome</th>
-<th class="text-start">ID Badge</th>
-		<th>Inizio Pausa 1</th>
-		<th>Fine Pausa 1</th>
-		<th>Inizio Pausa 2</th>
-		<th>Fine Pausa 2</th>
-		<th>Inizio Pausa 3</th>
-		<th>Fine Pausa 3</th>
-		<th>Totale Pausa</th>
-					</tr>
-				</thead>
-				<tbody>
-SEGDTA;
-			return;
-		}
-
-
 		if ($xlSegmentToWrite == "hpresenti") {
 
 			echo <<<SEGDTA
@@ -665,13 +874,16 @@ SEGDTA;
 			<tr>
 			<th style="width: 50px;">Dipendenti:</th>		
 <th class="text-start">Cognome Nome</th>
-<th class="text-start">ID Badge</th>
 				<th>Orario 1</th>
 				<th>Orario 2</th>
 				<th>Orario 3</th>
 				<th>Orario 4</th>
 				<th>Orario 5</th>
 				<th>Orario 6</th>
+        <th>Totale 1</th>
+      	<th>Totale 2</th>
+    		<th>Totale 3</th>
+              
 			</tr>
 		</thead>
 		<tbody>
@@ -680,8 +892,15 @@ SEGDTA;
 		}
 
         if ($xlSegmentToWrite == "totpresenti") {
+            // Fallback per evitare warning su variabili non definite
+            $totPresenti = $totPresenti ?? 0;
+            $totpausafatta = $totpausafatta ?? 0;
+            $totinpausa = $totinpausa ?? 0;
             if (!empty($chiaviTotali)) {
                 foreach ($chiaviTotali as $chiave) {
+                    if (!isset($presentiInSede[$chiave])) {
+                        continue;
+                    }
                     $presente = $presentiInSede[$chiave];
                     $presNome = htmlspecialchars($presente['nome']);
                     $presCogn = htmlspecialchars($presente['cognome']);
@@ -704,11 +923,98 @@ SEGDTA;
                     $TipoLavoro = array_pad(array_slice($presente['tipo'], 0, $countLavoro), 6, '');
                     $TipoPausa  = array_pad(array_slice($presente['tipo'], $countLavoro, $countPausa), 6, '');
 
-                    // --- BLOCCO SOSTITUITO ---
-                    // Intestazione dipendente
-                    echo "<tr style='background-color: #d6eaf8; font-weight: bold;'>
-  <td colspan='9'>{$presCogn} {$presNome} - Badge: {$IdGest}</td>
-</tr>";
+                    $DaSistemareLavoro = array_pad(array_slice($presente['dasistemare'] ?? [], 0, $countLavoro), 6, '');
+                    $DaSistemarePausa  = array_pad(array_slice($presente['dasistemare'] ?? [], $countLavoro, $countPausa), 6, '');
+
+                    // Recupera STTYPE per questa persona (se presente), altrimenti stringa vuota
+                    $STTYPE = '';
+                    if (isset($presente['STTYPE'])) {
+                        $STTYPE = $presente['STTYPE'];
+                    } elseif (isset($presente['sttype'])) {
+                        $STTYPE = $presente['sttype'];
+                    } elseif (isset($presente['Sttype'])) {
+                        $STTYPE = $presente['Sttype'];
+                    }
+
+                    // Calcola le durate delle pause singole
+                    $durateSingole = $this->calcolaDuratePauseSingole($oraripause);
+                    // Determina stili per la durata della prima pausa
+                    $oraPausa1 = $oraripause[0] ?? '';
+                    $oraPausa2 = $oraripause[1] ?? '';
+                    $styleDurata1 = '';
+                    if (!empty($oraPausa1)) {
+                        try {
+                            $dt1 = new DateTime($oraPausa1);
+                            $dt2 = !empty($oraPausa2) ? new DateTime($oraPausa2) : new DateTime(); // se in corso, confronta con ora attuale
+                            $secondi = abs($dt2->getTimestamp() - $dt1->getTimestamp());
+                            $minuti = floor($secondi / 60);
+                            if (empty($oraPausa2)) {
+                                if ($minuti > 12) {
+                                    $styleDurata1 = 'style="background-color: red; font-weight: bold; animation: lampeggia 1s infinite;"';
+                                } else {
+                                    $styleDurata1 = 'style="background-color: #fff3cd; font-weight: bold;"';
+                                }
+                            } elseif ($minuti <= 10) {
+                                $styleDurata1 = 'style="color: green; font-weight: bold;"';
+                            } elseif ($minuti == 11) {
+                                $styleDurata1 = 'style="color: orange; font-weight: bold;"';
+                            } elseif ($minuti >= 12) {
+                                $styleDurata1 = 'style="color: red; font-weight: bold;"';
+                            }
+                        } catch (Exception $e) {}
+                    }
+                    // Durata 2
+                    $styleDurata2 = '';
+                    $oraPausa3 = $oraripause[2] ?? '';
+                    $oraPausa4 = $oraripause[3] ?? '';
+                    if (!empty($oraPausa3)) {
+                        try {
+                            $dt1 = new DateTime($oraPausa3);
+                            $dt2 = !empty($oraPausa4) ? new DateTime($oraPausa4) : new DateTime();
+                            $secondi = abs($dt2->getTimestamp() - $dt1->getTimestamp());
+                            $minuti = floor($secondi / 60);
+                            if (empty($oraPausa4)) {
+                                if ($minuti > 12) {
+                                    $styleDurata2 = 'style="background-color: red; font-weight: bold; animation: lampeggia 1s infinite;"';
+                                } else {
+                                    $styleDurata2 = 'style="background-color: #fff3cd; font-weight: bold;"';
+                                }
+                            } elseif ($minuti <= 10) {
+                                $styleDurata2 = 'style="color: green; font-weight: bold;"';
+                            } elseif ($minuti == 11) {
+                                $styleDurata2 = 'style="color: orange; font-weight: bold;"';
+                            } elseif ($minuti >= 12) {
+                                $styleDurata2 = 'style="color: red; font-weight: bold;"';
+                            }
+                        } catch (Exception $e) {}
+                    }
+                    // Durata 3
+                    $styleDurata3 = '';
+                    $oraPausa5 = $oraripause[4] ?? '';
+                    $oraPausa6 = $oraripause[5] ?? '';
+                    if (!empty($oraPausa5)) {
+                        try {
+                            $dt1 = new DateTime($oraPausa5);
+                            $dt2 = !empty($oraPausa6) ? new DateTime($oraPausa6) : new DateTime();
+                            $secondi = abs($dt2->getTimestamp() - $dt1->getTimestamp());
+                            $minuti = floor($secondi / 60);
+                            if (empty($oraPausa6)) {
+                                if ($minuti > 12) {
+                                    $styleDurata3 = 'style="background-color: red; font-weight: bold; animation: lampeggia 1s infinite;"';
+                                } else {
+                                    $styleDurata3 = 'style="background-color: #fff3cd; font-weight: bold;"';
+                                }
+                            } elseif ($minuti <= 10) {
+                                $styleDurata3 = 'style="color: green; font-weight: bold;"';
+                            } elseif ($minuti == 11) {
+                                $styleDurata3 = 'style="color: orange; font-weight: bold;"';
+                            } elseif ($minuti >= 12) {
+                                $styleDurata3 = 'style="color: red; font-weight: bold;"';
+                            }
+                        } catch (Exception $e) {}
+                    }
+                    // Calcola le durate del lavoro singole
+                    $durateLavoro = $this->calcolaDurateLavoroSingole($orarilavoro);
 
                     // Riga 1 - tipo 0000
                     echo "<tr style='background-color: #e9f7ef;'>";
@@ -720,27 +1026,40 @@ SEGDTA;
     <i class='bi bi-plus-circle'></i>
   </button>
 </td>";
-                    echo "<td class='text-start'></td><td class='text-start'></td>";
+                    echo "<td><div class='d-flex justify-content-between fw-bold' style='gap: 0.15rem;'><span>{$presCogn} {$presNome} - Badge: {$IdGest}</span><span>Ingresso:</span></div></td>";
                     for ($i = 0; $i < 6; $i++) {
-                        echo $this->renderDropdownMenu($orarilavoro[$i], '', $IdOrinLavoro[$i], $DeIdLavoro[$i], $TipoLavoro[$i], $SensoLavoro[$i]);
+                        $oraRenderizzata = $orarilavoro[$i];
+                        if ($TipoLavoro[$i] === '0000' && $DaSistemareLavoro[$i] === '5' && !empty($oraRenderizzata)) {
+                            $oraRenderizzata = "<u style='text-decoration-color: red; text-decoration-thickness: 2px;'>{$oraRenderizzata}</u>";
+                        }
+                        echo $this->renderDropdownMenu($oraRenderizzata, '', $IdOrinLavoro[$i], $DeIdLavoro[$i], $TipoLavoro[$i], $SensoLavoro[$i]);
                     }
+                    echo "<td>" . ($durateLavoro[0] !== "00:00" ? $durateLavoro[0] . ' h' : '') . "</td>";
+                    echo "<td>" . ($durateLavoro[1] !== "00:00" ? $durateLavoro[1] . ' h' : '') . "</td>";
+                    echo "<td>" . ($durateLavoro[2] !== "00:00" ? $durateLavoro[2] . ' h' : '') . "</td>";
                     echo "</tr>";
 
                     // Riga 2 - tipo 0001
                     echo "<tr style='background-color: #fffaf0;'>";
-                    echo "<td colspan='3'></td>";
+                    echo "<td colspan='2' style='text-align: right; font-weight: bold;'>Pause:</td>";     
                     for ($i = 0; $i < 6; $i++) {
-                        echo $this->renderDropdownMenu($oraripause[$i], '', $IdOrinPausa[$i], $DeIdPausa[$i], $TipoPausa[$i], $SensoPausa[$i]);
+                        $oraRenderizzata = $oraripause[$i];
+                        if ($TipoPausa[$i] === '0001' && $DaSistemarePausa[$i] === '5' && !empty($oraRenderizzata)) {
+                            $oraRenderizzata = "<u style='text-decoration-color: red; text-decoration-thickness: 2px;'>{$oraRenderizzata}</u>";
+                        }
+                        echo $this->renderDropdownMenu($oraRenderizzata, '', $IdOrinPausa[$i], $DeIdPausa[$i], $TipoPausa[$i], $SensoPausa[$i]);
                     }
+                    echo "<td {$styleDurata1}>" . (!empty($oraPausa1) ? $durateSingole[0] : '') . "</td>";
+                    echo "<td {$styleDurata2}>" . (!empty($oraPausa3) ? $durateSingole[1] : '') . "</td>";
+                    echo "<td {$styleDurata3}>" . (!empty($oraPausa5) ? $durateSingole[2] : '') . "</td>";
                     echo "</tr>";
 
                     // Riga separatrice
-                    echo "<tr><td colspan='9' style='height: 8px; background-color: transparent;'></td></tr>";
-                    // --- FINE BLOCCO SOSTITUITO ---
+                    echo "<tr><td colspan='11' style='height: 8px; background-color: transparent;'></td></tr>";
                 }
             }
             // Aggiungi riga vuota alla fine della tabella per risolvere bug grafico menù
-            echo "<tr style='border: none !important;'><td colspan='10' style='height: 150px; border: none !important; background-color: transparent !important;'></td></tr>";
+            echo "<tr style='border: none !important;'><td colspan='11' style='height: 150px; border: none !important; background-color: transparent !important;'></td></tr>";
             // JS per contatori
             echo <<<JS
     <script> 
@@ -797,15 +1116,47 @@ xlLoadWebSmartObject(__FILE__, 'PAUSE'); ?>
 
 <script>
   function resetForm() {
+    const form = document.getElementById('filter-form');
+    if (!form) return;
+
     document.getElementById('filtDate').value = new Date().toISOString().split('T')[0];
-    document.getElementById('filtCognome').value = '';
     document.getElementById('filtNome').value = '';
-	document.getElementById('chkInPausa').checked = true;
-    document.getElementById('chkPausaFatta').checked = true;
-    document.getElementById('chkPresenti').checked = true;
-	document.getElementById('chkError').checked = false;
-    document.forms[0].submit();
+    document.getElementById('filtCognome').value = '';
+
+    // Reset radio buttons (filtroTipo)
+    const radioButtons = document.querySelectorAll('input[name="filtroTipo"]');
+    radioButtons.forEach(rb => rb.checked = false);
+    const defaultRadio = document.getElementById('filtroPresenti');
+    if (defaultRadio) defaultRadio.checked = true;
+
+    // Reset checkbox errori
+    const chkError = document.getElementById('chkError');
+    if (chkError) chkError.checked = false;
+
+    form.submit();
   }
+
+  // Rendi chkInPausa e chkPausaFatta mutuamente esclusivi e invia il form
+  document.addEventListener('DOMContentLoaded', function () {
+    const chkInPausa = document.getElementById('chkInPausa');
+    const chkPausaFatta = document.getElementById('chkPausaFatta');
+
+    if (chkInPausa && chkPausaFatta) {
+      chkInPausa.addEventListener('change', function () {
+        if (this.checked) {
+          chkPausaFatta.checked = false;
+        }
+        this.form.submit();
+      });
+
+      chkPausaFatta.addEventListener('change', function () {
+        if (this.checked) {
+          chkInPausa.checked = false;
+        }
+        this.form.submit();
+      });
+    }
+  });
 
   setTimeout(function() {
     location.reload();
