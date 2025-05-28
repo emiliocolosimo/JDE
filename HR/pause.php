@@ -225,11 +225,12 @@ STDATE: {$STDATE}
 	protected function dspListaPresenti()
 	{
 		if ($_SERVER["REQUEST_METHOD"] === "POST") {
-			$_SESSION["filtDate"] = $_POST["filtDate"] ?? date("Y-m-d");
-			$_SESSION["filtCognome"] = $_POST["filtCognome"] ?? '';
-			$_SESSION["filtNome"] = $_POST["filtNome"] ?? '';
-			$_SESSION["filtroTipo"] = $_POST["filtroTipo"] ?? 'presenti';
+			$_SESSION["filtDate"] = $_POST["filtDate"] ?? $_SESSION["filtDate"] ?? date("Y-m-d");
+			$_SESSION["filtCognome"] = $_POST["filtCognome"] ?? $_SESSION["filtCognome"] ?? '';
+			$_SESSION["filtNome"] = $_POST["filtNome"] ?? $_SESSION["filtNome"] ?? '';
+			$_SESSION["filtroTipo"] = $_POST["filtroTipo"] ?? $_SESSION["filtroTipo"] ?? 'presenti';
 			$_SESSION["chkError"] = isset($_POST["chkError"]) ? 1 : 0;
+			$_SESSION["chkMancanti"] = isset($_POST["chkMancanti"]) ? 1 : 0;
 			header("Location: " . $_SERVER["PHP_SELF"]);
 			exit;
 		}
@@ -435,7 +436,7 @@ ORDER BY
                             $dt1 = new DateTime($inizio);
                             $dt2 = !empty($fine) ? new DateTime($fine) : new DateTime();
                             $durata = abs($dt2->getTimestamp() - $dt1->getTimestamp()) / 60;
-                            if ($durata > 10) {
+                            if ($durata > 11) {
                                 $errore = true;
                                 break;
                             }
@@ -509,10 +510,28 @@ ORDER BY
                     unset($presentiInSede[$chiave]);
                 }
             }
+            // Filtro timbrature mancanti
+            if ($_SESSION["chkMancanti"]) {
+                foreach ($presentiInSede as $chiave => $dati) {
+                    $orarilavoro = $dati['orarilavoro'] ?? [];
+                    $mancante = false;
+                    for ($i = 0; $i < count($orarilavoro); $i += 2) {
+                        if (!empty($orarilavoro[$i]) && empty($orarilavoro[$i + 1])) {
+                            $mancante = true;
+                            break;
+                        }
+                    }
+                    if (!$mancante) {
+                        unset($presentiInSede[$chiave]);
+                    }
+                }
+            }
         }
 
         // --- AGGIUNTA: imposta presentiDaVisualizzare ---
         $presentiDaVisualizzare = $presentiInSede;
+
+     
 
         // --- SOSTITUZIONE BLOCCO ---
         // Mostra sempre i presenti filtrati dal radio (tutti/inpausa/pausafatta)
@@ -562,96 +581,106 @@ ORDER BY
 		return substr($time, 0, 2) . ":" . substr($time, 2, 2);
 	}
 
-	private function getErrorePausa(array $oraripause, bool $inPausaAttuale = false)
-{
-	$errpausa1lunga = '';
-	$errpausa2lunga = '';
-	$errtroppepausa = '';
-	$errtotPauseMinuti = '';
-	$errinpausaattuale = '';
-	$errpausagen = '';
-	$totPause = 0;
-	$orapausa1 = $oraripause[0] ?? '';
-	$orapausa2 = $oraripause[1] ?? '';
-	$orapausa3 = $oraripause[2] ?? '';
-	$orapausa4 = $oraripause[3] ?? '';
-	$orapausa5 = $oraripause[4] ?? '';
-	$orapausa6 = $oraripause[5] ?? '';
-  $durataPausa1 = ($oraripause[1]-$oraripause[0 ]) ?? 0;
-	try {
-		$now = new DateTime();
+    private function getErrorePausa(array $oraripause, bool $inPausaAttuale = false)
+    {
+        $errpausa1lunga = '';
+        $errpausa2lunga = '';
+        $errtroppepausa = '';
+        $errtotPauseMinuti = '';
+        $errinpausaattuale = '';
+        $errpausagen = '';
+        $totPause = 0;
+        $orapausa1 = $oraripause[0] ?? '';
+        $orapausa2 = $oraripause[1] ?? '';
+        $orapausa3 = $oraripause[2] ?? '';
+        $orapausa4 = $oraripause[3] ?? '';
+        $orapausa5 = $oraripause[4] ?? '';
+        $orapausa6 = $oraripause[5] ?? '';
+        $durataPausa1 = ($oraripause[1] - $oraripause[0]) ?? 0;
+        try {
+            $now = new DateTime();
 
-		if (!empty($orapausa1) && !empty($orapausa2)) {
-			$dt1 = new DateTime($orapausa1);
-			$dt2 = new DateTime($orapausa2);
-			$intervallo1 = abs($dt2->getTimestamp() - $dt1->getTimestamp());
-			$totPause += $intervallo1;
-			if ($intervallo1 > 600) $errpausa1lunga = 'style="background-color: red;"';
-		} elseif (!empty($orapausa1)) {
-			$dt1 = new DateTime($orapausa1);
-			$totPause += abs($now->getTimestamp() - $dt1->getTimestamp());
-			$inPausaAttuale = true;
-			if ($totPause > 600) $errpausa1lunga = 'style="background-color: red;"';
-		}
+            if (!empty($orapausa1) && !empty($orapausa2)) {
+                $dt1 = new DateTime($orapausa1);
+                $dt2 = new DateTime($orapausa2);
+                $intervallo1 = abs($dt2->getTimestamp() - $dt1->getTimestamp());
+                $totPause += $intervallo1;
+                if ($intervallo1 > 660) $errpausa1lunga = 'style="background-color: red;"';
+            } elseif (!empty($orapausa1)) {
+                $dt1 = new DateTime($orapausa1);
+                $totPause += abs($now->getTimestamp() - $dt1->getTimestamp());
+                $inPausaAttuale = true;
+                if ($totPause > 660) $errpausa1lunga = 'style="background-color: red;"';
+            }
 
-		if (!empty($orapausa3) && !empty($orapausa4)) {
-			$dt3 = new DateTime($orapausa3);
-			$dt4 = new DateTime($orapausa4);
-			$intervallo2 = abs($dt4->getTimestamp() - $dt3->getTimestamp());
-			$totPause += $intervallo2;
-			if ($intervallo2 > 600) $errpausa2lunga = 'style="background-color: red;"';
-		} elseif (!empty($orapausa3)) {
-			$dt3 = new DateTime($orapausa3);
-			$durataPausa2 = 0;
-			$durataPausa2 += abs($now->getTimestamp() - $dt3->getTimestamp());
-			$totPause += abs($now->getTimestamp() - $dt3->getTimestamp());
-			$inPausaAttuale = true;
-			if ($durataPausa2 > 600) $errpausa2lunga = 'style="background-color: red;"';
-		}
+            if (!empty($orapausa3) && !empty($orapausa4)) {
+                $dt3 = new DateTime($orapausa3);
+                $dt4 = new DateTime($orapausa4);
+                $intervallo2 = abs($dt4->getTimestamp() - $dt3->getTimestamp());
+                $totPause += $intervallo2;
+                if ($intervallo2 > 660) $errpausa2lunga = 'style="background-color: red;"';
+            } elseif (!empty($orapausa3)) {
+                $dt3 = new DateTime($orapausa3);
+                $durataPausa2 = 0;
+                $durataPausa2 += abs($now->getTimestamp() - $dt3->getTimestamp());
+                $totPause += abs($now->getTimestamp() - $dt3->getTimestamp());
+                $inPausaAttuale = true;
+                if ($durataPausa2 > 660) $errpausa2lunga = 'style="background-color: red;"';
+            }
 
-		if (!empty($orapausa5)) {
-			if (!empty($orapausa6)) {
-				$dt5 = new DateTime($orapausa5);
-				$dt6 = new DateTime($orapausa6);
-				$intervallo3 = abs($dt6->getTimestamp() - $dt5->getTimestamp());
-				$totPause += $intervallo3;
-			} else {
-				$dt5 = new DateTime($orapausa5);
-				$totPause += abs($now->getTimestamp() - $dt5->getTimestamp());
-				$inPausaAttuale = true;
+            if (!empty($orapausa5)) {
+                if (!empty($orapausa6)) {
+                    $dt5 = new DateTime($orapausa5);
+                    $dt6 = new DateTime($orapausa6);
+                    $intervallo3 = abs($dt6->getTimestamp() - $dt5->getTimestamp());
+                    $totPause += $intervallo3;
+                } else {
+                    $dt5 = new DateTime($orapausa5);
+                    $totPause += abs($now->getTimestamp() - $dt5->getTimestamp());
+                    $inPausaAttuale = true;
 
-			}
-			$errtroppepausa = 'style="background-color: orange;"';
-		}
+                }
+                $errtroppepausa = 'style="background-color: orange;"';
+            }
 
-		$totPauseMinuti = floor($totPause / 60);
-		if ($totPauseMinuti > 20) $errtotPauseMinuti = 'style="background-color: red;"';
-		if ($inPausaAttuale) $errinpausaattuale = 'style="background-color: yellow;"';
+            $totPauseMinuti = floor($totPause / 60);
+            if ($totPauseMinuti > 20) $errtotPauseMinuti = 'style="background-color: red;"';
+            if ($inPausaAttuale) $errinpausaattuale = 'style="background-color: yellow;"';
 
-		if (
-			!empty($errpausa1lunga) ||
-			!empty($errpausa2lunga) ||
-			!empty($errtroppepausa) ||
-			!empty($errtotPauseMinuti)
-		) {
-			$errpausagen = 'style="background-color: green;"';
-		}
+            if (
+                !empty($errpausa1lunga) ||
+                !empty($errpausa2lunga) ||
+                !empty($errtroppepausa) ||
+                !empty($errtotPauseMinuti)
+            ) {
+                $errpausagen = 'style="background-color: green;"';
+            }
 
-		return [
-			'errpausa1lunga' => $errpausa1lunga,
-			'errpausa2lunga' => $errpausa2lunga,
-			'errtroppepausa' => $errtroppepausa,
-			'errtotPauseMinuti' => $errtotPauseMinuti,
-			'errinpausaattuale' => $errinpausaattuale,
-			'errpausagen' => $errpausagen,
-			'inPausaAttuale' => $inPausaAttuale,
-			'totPauseMinuti' => $totPauseMinuti,
-			'totPauseHHMM' => sprintf('%dh %02dm', floor($totPauseMinuti / 60), $totPauseMinuti % 60)
-		];
-	} catch (Exception $e) {
-		return [];
-	}
-}
+            return [
+                'errpausa1lunga' => $errpausa1lunga,
+                'errpausa2lunga' => $errpausa2lunga,
+                'errtroppepausa' => $errtroppepausa,
+                'errtotPauseMinuti' => $errtotPauseMinuti,
+                'errinpausaattuale' => $errinpausaattuale,
+                'errpausagen' => $errpausagen,
+                'inPausaAttuale' => $inPausaAttuale,
+                'totPauseMinuti' => $totPauseMinuti,
+                'totPauseHHMM' => sprintf('%dh %02dm', floor($totPauseMinuti / 60), $totPauseMinuti % 60)
+            ];
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+
+    /**
+     * Controlla se c'è una timbratura di entrata lavoro senza uscita dopo le 12:30.
+     * @param array $orarilavoro Array di orari di lavoro (max 6: inizio1, fine1, inizio2, fine2, inizio3, fine3)
+     * @return array Array con eventuali errori di lavoro
+     */
+    /**
+     * Verifica se una stringa rappresenta un orario valido nel formato HH:MM:SS.
+     */
+
 
     /**
      * Calcola la durata di ciascuna delle 3 possibili pause singole (in minuti).
@@ -728,6 +757,8 @@ ORDER BY
 		$filtDate = $_SESSION['filtDate'] ?? date('Y-m-d');
 		$chkError = isset($_SESSION['chkError']) && $_SESSION['chkError'] ? 'checked' : '';
 		$chkErrorBtnClass = isset($_SESSION['chkError']) && $_SESSION['chkError'] ? 'btn-danger' : 'btn-outline-danger';
+		$chkMancanti = isset($_SESSION['chkMancanti']) && $_SESSION['chkMancanti'] ? 'checked' : '';
+    $chkMancantiBtnClass = !empty($_SESSION['chkMancanti']) ? 'btn-danger active' : 'btn-outline-danger';
 		$filtroTipo = $_SESSION['filtroTipo'] ?? 'presenti';
 		// Dynamic classes for radio buttons
 		$btnInPausaClass = ($filtroTipo === 'inpausa') ? 'btn-primary' : 'btn-outline-primary';
@@ -860,7 +891,11 @@ ORDER BY
 
               <input type="checkbox" class="btn-check" id="chkError" name="chkError" value="1" {$chkError} autocomplete="off" onchange="this.form.submit();">
               <label class="btn {$chkErrorBtnClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="chkError">
-                <i class="bi bi-exclamation-triangle-fill"></i> Errori
+                <i class="bi bi-exclamation-triangle-fill"></i> Errori Pause
+              </label>
+              <input type="checkbox" class="btn-check" id="chkMancanti" name="chkMancanti" value="1" {$chkMancanti} autocomplete="off" onchange="this.form.submit();">
+              <label class="btn {$chkMancantiBtnClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1 ms-2" for="chkMancanti">
+                <i class="bi bi-plus-circle-fill"></i> Errori Entrata/Uscita 
               </label>
             </div>
           </div>
@@ -1083,6 +1118,8 @@ SEGDTA;
                     // Calcola le durate del lavoro singole
                     $durateLavoro = $this->calcolaDurateLavoroSingole($orarilavoro);
 
+                    // AGGIUNTA: calcola stili errore lavoro
+
                     // Riga 1 - tipo 0000
                     echo "<tr style='background-color: #e9f7ef;'>";
                     echo "<td class='text-center'>
@@ -1095,15 +1132,20 @@ SEGDTA;
 </td>";
                     echo "<td><div class='d-flex justify-content-between fw-bold' style='gap: 0.15rem;'><span>{$presCogn} {$presNome} - Badge: {$IdGest}</span><span>Ingresso:</span></div></td>";
                     for ($i = 0; $i < 6; $i++) {
-                        $oraRenderizzata = $orarilavoro[$i];
-                        if ($TipoLavoro[$i] === '0000' && $DaSistemareLavoro[$i] === '5' && !empty($oraRenderizzata)) {
-                            $oraRenderizzata = "<span style='text-decoration: underline; text-decoration-color: red; font-weight: bold;'>{$oraRenderizzata}</span>";
+                        $chkMancanti = false;
+                        if ($i % 2 === 1 && !empty($orarilavoro[$i - 1]) && empty($orarilavoro[$i])) {
+                            $chkMancanti = true;
+                            $oraRenderizzata = "<button onclick=\"openPopupTimbratura('{$IdGest}')\" class='btn btn-warning btn-sm px-2 py-0' title='Aggiungi timbratura'>
+        <i class='bi bi-plus-circle'></i>
+    </button>";
+                        } else {
+                            $oraRenderizzata = $orarilavoro[$i];
+                            if ($TipoLavoro[$i] === '0000' && $DaSistemareLavoro[$i] === '5' && !empty($oraRenderizzata)) {
+                                $oraRenderizzata = "<span style='text-decoration: underline; text-decoration-color: red; font-weight: bold;'>{$oraRenderizzata}</span>";
+                            } elseif ($TipoLavoro[$i] === '0000' && $DaSistemareLavoro[$i] === '9' && !empty($oraRenderizzata)) {
+                                $oraRenderizzata = "<span style='text-decoration: underline; text-decoration-color: green;'>{$oraRenderizzata}</span>";
+                            }
                         }
-                        elseif ($TipoLavoro[$i] === '0000' && $DaSistemareLavoro[$i] === '9' && !empty($oraRenderizzata)) {
-                            $oraRenderizzata = "<span style='text-decoration: underline; text-decoration-color: green;'>{$oraRenderizzata}</span>";
-                        }
-
-                        
                         echo $this->renderDropdownMenu($oraRenderizzata, '', $IdOrinLavoro[$i], $DeIdLavoro[$i], $TipoLavoro[$i], $SensoLavoro[$i], $filtDate,  $IdGest , $trasmessaLavoro[$i]);
                     }
                     echo "<td>" . ($durateLavoro[0] !== "00:00" ? $durateLavoro[0] . ' h' : '') . "</td>";
@@ -1211,6 +1253,16 @@ xlLoadWebSmartObject(__FILE__, 'PAUSE'); ?>
 
     form.submit();
   }
+
+  // Gestione indipendente del checkbox "Errori" (chkError)
+  document.addEventListener('DOMContentLoaded', function () {
+    const chkError = document.getElementById('chkError');
+    if (chkError) {
+      chkError.addEventListener('change', function () {
+        this.form.submit();
+      });
+    }
+  });
 
   // Rendi chkInPausa e chkPausaFatta mutuamente esclusivi e invia il form
   document.addEventListener('DOMContentLoaded', function () {

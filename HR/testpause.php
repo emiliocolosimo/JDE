@@ -19,11 +19,20 @@ class PAUSE extends WebSmartObject
     /**
      * Renderizza una cella orario con menu a discesa azioni.
      */
-    private function renderDropdownMenu($ora, $errStyle , $IdOrin , $DeId , $Tipo , $Senso )
+    private function renderDropdownMenu($ora, $errStyle , $IdOrin , $DeId , $Tipo , $Senso , $STDATE , $IdGest , $trasmessa)
     {
+        // Assegna i valori agli array globali per evitare warning
+        $GLOBALS['STDATE'] = $STDATE;
         if (empty($ora)) {
             return "<td></td>";
         }
+
+        // Escaping degli URL per sicurezza (addslashes + ENT_QUOTES)
+        $urlConvertiPausa = htmlspecialchars(addslashes("pause.php?convertiinpausa={$IdOrin}&stdate={$STDATE}&sttime={$ora}&idgest={$IdGest}"), ENT_QUOTES);
+        $urlConvertiUscita = htmlspecialchars(addslashes("pause.php?convertiinuscita={$IdOrin}&stdate={$STDATE}&sttime={$ora}&idgest={$IdGest}"), ENT_QUOTES);
+        $urlConvertiEntrata = htmlspecialchars(addslashes("pause.php?convertiinentrata={$IdOrin}&stdate={$STDATE}&sttime={$ora}&idgest={$IdGest}"), ENT_QUOTES);
+        $urlElimina = htmlspecialchars(addslashes("pause.php?elimina={$IdOrin}&stdate={$STDATE}&sttime={$ora}&idgest={$IdGest}"), ENT_QUOTES);
+        $urlRichiediSistemazione = htmlspecialchars(addslashes("pause.php?richiedisistemazione={$IdOrin}&stdate={$STDATE}&sttime={$ora}&idgest={$IdGest}"), ENT_QUOTES);
 
         // Descrizione leggibile per il device
         $deviceLabel = match($DeId) {
@@ -32,40 +41,49 @@ class PAUSE extends WebSmartObject
             '72' => 'Produzione',
             default => 'Dispositivo sconosciuto'
         };
-
         $html = <<<HTML
 <td {$errStyle} title="ID Origine: {$IdOrin} - {$deviceLabel} - {$Tipo} - {$Senso}" style="position: relative;">
   {$ora}
   <div class="dropdown d-inline">
+HTML;
+        if (trim($trasmessa ?? '') !== '') {
+            $html .= <<<HTML
+   <i class="bi bi-slash-circle text-muted" style="font-size: 0.9rem;" title="Timbratura già trasferita" disabled></i>
+HTML;
+        } else {
+            $html .= <<<HTML
    <i class="bi bi-pencil text-secondary dropdown-toggle" style="font-size: 0.9rem;" style="cursor: pointer;" data-bs-toggle="dropdown" aria-expanded="false" title="Azioni disponibili"></i>
+HTML;
+        }
+        $html .= <<<HTML
     <ul class="dropdown-menu dropdown-menu-end" style="z-index: 1050;">
 HTML;
 
         // Unifica la gestione delle voci del menu
         if ($Tipo === '0000') {
             $html .= <<<HTML
-      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('pause.php?convertiinpausa={$IdOrin}'); return false;">Converti in pausa</a></li>
+      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('{$urlConvertiPausa}'); return false;">Converti in pausa</a></li>
 HTML;
             if ($Senso === 'E') {
                 $html .= <<<HTML
-      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('pause.php?convertiinuscita={$IdOrin}'); return false;">Converti in uscita</a></li>
+      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('{$urlConvertiUscita}'); return false;">Converti in uscita</a></li>
 HTML;
             }
             if ($Senso === 'U') {
                 $html .= <<<HTML
-      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('pause.php?convertiinentrata={$IdOrin}'); return false;">Converti in entrata</a></li>
+      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('{$urlConvertiEntrata}'); return false;">Converti in entrata</a></li>
 HTML;
             }
         } elseif ($Tipo === '0001') {
             $html .= <<<HTML
-      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('pause.php?convertiinuscita={$IdOrin}'); return false;">Converti in uscita</a></li>
-      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('pause.php?convertiinentrata={$IdOrin}'); return false;">Converti in entrata</a></li>
+      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('{$urlConvertiUscita}'); return false;">Converti in uscita</a></li>
+      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('{$urlConvertiEntrata}'); return false;">Converti in entrata</a></li>
 HTML;
         }
 
         $html .= <<<HTML
-      <li><a class="dropdown-item text-danger" href="#" onclick="richiediPasswordPerAzione('pause.php?elimina={$IdOrin}'); return false;">Elimina</a></li>
-      <li><a class="dropdown-item text-warning" href="pause.php?richiedisistemazione={$IdOrin}">Richiedi Sistemazione</a></li>
+      <li><a class="dropdown-item text-danger" href="#" onclick="richiediPasswordPerAzione('{$urlElimina}'); return false;">Elimina</a></li>
+      <li><a class="dropdown-item text-warning" href="{$urlRichiediSistemazione}">Richiedi Sistemazione</a></li>
     </ul>
   </div>
 </td>
@@ -96,12 +114,13 @@ HTML;
         // Gestione azione "converti in pausa"
         if (isset($_GET['convertiinpausa'])) {
             $IdOrin = $_GET['convertiinpausa'];
+            $IdGest = $_GET['idgest'] ?? '';
             if (!empty($IdOrin)) {
                 $query = "UPDATE BCD_DATIV2.SAVTIM0F 
-                          SET STRECO = '0001' 
-                          WHERE STORIN = ? and STRECO = '0000' and STTRAS=' '";
+                          SET STRECO = '0001' , STTYPE = '9'
+                          WHERE STORIN = ? and STRECO = '0000' and STTRAS=' ' AND STCDDI = ?";
                 $stmt = $this->db_connection->prepare($query);
-                $stmt->execute([$IdOrin]);
+                $stmt->execute([$IdOrin, $IdGest, $ora, $STDATE]);
             }
             header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
             exit;
@@ -109,39 +128,52 @@ HTML;
 
         // Gestione azione "converti in entrata"
         if (isset($_GET['convertiinentrata'])) {
-            $IdOrin = $_GET['convertiinentrata'];
+         $rawDate = $_GET['stdate'] ?? '';
+            $dt = DateTime::createFromFormat('Y-m-d', $rawDate);
+            $STDATE = $dt ? $dt->format('Y-m-d') : '';
+           $ora = $_GET['sttime'] ?? '';    $IdOrin = $_GET['convertiinentrata'];
+            $IdGest = $_GET['idgest'] ?? '';
             if (!empty($IdOrin)) {
                 $query = "UPDATE BCD_DATIV2.SAVTIM0F 
-                          SET STRECO = '0000' , STSENS = 'E' 
-                          WHERE STORIN = ? and STTRAS=' '";
+                          SET STRECO = '0000' , STSENS = 'E' , STTYPE = '9'
+                          WHERE STORIN = ? and STTRAS=' ' AND STCDDI = ? AND STTIME = ? AND STDATE = ?";
                 $stmt = $this->db_connection->prepare($query);
-                $stmt->execute([$IdOrin]);
+                $stmt->execute([$IdOrin, $IdGest, $ora, $STDATE]);
             }
             header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
             exit;
         }
         // Gestione azione "converti in uscita"
         if (isset($_GET['convertiinuscita'])) {
-            $IdOrin = $_GET['convertiinuscita'];
+           $rawDate = $_GET['stdate'] ?? '';
+            $dt = DateTime::createFromFormat('Y-m-d', $rawDate);
+            $STDATE = $dt ? $dt->format('Y-m-d') : '';
+           $ora = $_GET['sttime'] ?? '';
+          $IdOrin = $_GET['convertiinuscita'];
+            $IdGest = $_GET['idgest'] ?? '';
             if (!empty($IdOrin)) {
                 $query = "UPDATE BCD_DATIV2.SAVTIM0F 
-                          SET STRECO = '0000' , STSENS = 'U' 
-                          WHERE STORIN = ? and STTRAS=' '";
+                          SET STRECO = '0000' , STSENS = 'U' , STTYPE = '9'
+                          WHERE STORIN = ? and STTRAS=' ' AND STCDDI = ? AND STTIME = ? AND STDATE = ?";
                 $stmt = $this->db_connection->prepare($query);
-                $stmt->execute([$IdOrin]);
+                $stmt->execute([$IdOrin, $IdGest, $ora, $STDATE]);
             }
             header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
             exit;
         }
         // Gestione azione "elimina"
         if (isset($_GET['elimina'])) {
-            $IdOrin = $_GET['elimina'];
+          $rawDate = $_GET['stdate'] ?? '';
+            $dt = DateTime::createFromFormat('Y-m-d', $rawDate);
+            $STDATE = $dt ? $dt->format('Y-m-d') : '';
+           $ora = $_GET['sttime'] ?? '';    
+          $IdOrin = $_GET['elimina'];
+            $IdGest = $_GET['idgest'] ?? '';
             if (!empty($IdOrin)) {
-                $query = "delete BCD_DATIV2.SAVTIM0F 
-                           WHERE STTRAS=' ' AND
-						   STORIN = ?";
+                $query = "delete from BCD_DATIV2.SAVTIM0F 
+                           WHERE STORIN = ? and STTRAS=' ' AND STCDDI = ? AND STTIME = ? AND STDATE = ?";
                 $stmt = $this->db_connection->prepare($query);
-                $stmt->execute([$IdOrin]);
+                $stmt->execute([$IdOrin, $IdGest, $ora, $STDATE]);
             }
             header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
             exit;
@@ -149,13 +181,28 @@ HTML;
 
         // Gestione azione "richiedi sistemazione"
         if (isset($_GET['richiedisistemazione'])) {
+            $rawDate = $_GET['stdate'] ?? '';
+            $dt = DateTime::createFromFormat('Y-m-d', $rawDate);
+            $STDATE = $dt ? $dt->format('Y-m-d') : '';
+           $ora = $_GET['sttime'] ?? '';
+
+
             $IdOrin = $_GET['richiedisistemazione'];
+            $IdGest = $_GET['idgest'] ?? '';
             if (!empty($IdOrin)) {
                 $query = "UPDATE BCD_DATIV2.SAVTIM0F 
                           SET STTYPE = '5' 
-                          WHERE STORIN = ? and STTRAS=' '";
+                          WHERE STORIN = ? and STTRAS=' ' AND STCDDI = ? AND STTIME = ? AND STDATE = ?";
                 $stmt = $this->db_connection->prepare($query);
-                $stmt->execute([$IdOrin]);
+                $stmt->execute([$IdOrin, $IdGest, $ora, $STDATE]);
+             /*   echo "<pre style='background: #f5f5f5; padding: 10px; border: 1px solid #ccc;'>
+QUERY: {$query}
+STORIN: {$IdOrin}
+STCDDI: {$IdGest}
+STTIME: {$ora}
+STDATE: {$STDATE}
+</pre>";
+                exit; */ 
             }
             header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
             exit;
@@ -178,11 +225,12 @@ HTML;
 	protected function dspListaPresenti()
 	{
 		if ($_SERVER["REQUEST_METHOD"] === "POST") {
-			$_SESSION["filtDate"] = $_POST["filtDate"] ?? date("Y-m-d");
-			$_SESSION["filtCognome"] = $_POST["filtCognome"] ?? '';
-			$_SESSION["filtNome"] = $_POST["filtNome"] ?? '';
-			$_SESSION["filtroTipo"] = $_POST["filtroTipo"] ?? 'presenti';
+			$_SESSION["filtDate"] = $_POST["filtDate"] ?? $_SESSION["filtDate"] ?? date("Y-m-d");
+			$_SESSION["filtCognome"] = $_POST["filtCognome"] ?? $_SESSION["filtCognome"] ?? '';
+			$_SESSION["filtNome"] = $_POST["filtNome"] ?? $_SESSION["filtNome"] ?? '';
+			$_SESSION["filtroTipo"] = $_POST["filtroTipo"] ?? $_SESSION["filtroTipo"] ?? 'presenti';
 			$_SESSION["chkError"] = isset($_POST["chkError"]) ? 1 : 0;
+			$_SESSION["chkMancanti"] = isset($_POST["chkMancanti"]) ? 1 : 0;
 			header("Location: " . $_SERVER["PHP_SELF"]);
 			exit;
 		}
@@ -212,6 +260,7 @@ HTML;
     COALESCE(A.STSENS, '') AS STSENS,
     COALESCE(A.STRECO, '') AS STRECO,
     COALESCE(A.STTYPE, '') AS STTYPE,
+    COALESCE(A.STTRAS, '') AS STTRAS,
     COALESCE(CHAR(A.STDATE), '') AS STDATE,
     COALESCE(CHAR(A.STTIME), '') AS STTIME
 FROM BCD_DATIV2.BDGDIP0F AS D
@@ -227,6 +276,7 @@ ORDER BY
 		// Inizializza variabili prima del ciclo
 		$presentiInSede = [];
 		$datipause = [];
+  
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 			foreach (array_keys($row) as $key) {
 				$row[$key] = htmlspecialchars(rtrim($row[$key]));
@@ -244,6 +294,7 @@ ORDER BY
 			$DeId = $STDEID;
 			$Senso = $STSENS;
 			$Tipo = $STRECO;
+      $Trasmessa = $STTRAS;
 			$presDtIn = $this->cvtDateFromDb(str_replace("-", "", $STDATE));
 			$presDtInTime = $this->cvtTimeFromDb(str_replace("-", "", $STTIME));
 			$chiave = $presNome . '|' . $presCogn . '|' . $presDtIn;
@@ -251,7 +302,7 @@ ORDER BY
 			try {
 			    if (!empty($STTIME)) {
 			        $dt = new DateTime($STTIME);
-			        $ora = $dt->format('H:i');
+			        $ora = $dt->format('H:i:s');
 			    } else {
 			        $ora = ''; // valore vuoto per record senza timbrature
 			    }
@@ -267,6 +318,7 @@ ORDER BY
 			                'DeId' => [],
 			                'senso' => [],
 			                'tipo' => [],
+                      'trasmessa' => [],
 			                'dasistemare' => []
 			            ];
 			        }
@@ -276,6 +328,7 @@ ORDER BY
 			            $presentiInSede[$chiave]['DeId'][] = $DeId;
 			            $presentiInSede[$chiave]['senso'][] = $Senso;
 			            $presentiInSede[$chiave]['tipo'][] = $Tipo;
+                  $presentiInSede[$chiave]['trasmessa'][] = $Trasmessa;
 			            $presentiInSede[$chiave]['dasistemare'][] = $STTYPE;
 			        }
 			    } elseif ($Tipo === '0001') {
@@ -289,6 +342,7 @@ ORDER BY
 			                'DeId' => [],
 			                'senso' => [],
 			                'tipo' => [],
+                      'trasmessa' => [],
 			                'dasistemare' => []
 			            ];
 			        }
@@ -298,6 +352,7 @@ ORDER BY
 			            $datipause[$chiave]['DeId'][] = $DeId;
 			            $datipause[$chiave]['senso'][] = $Senso;
 			            $datipause[$chiave]['tipo'][] = $Tipo;
+                  $datipause[$chiave]['trasmessa'][] = $Trasmessa;
 			            $datipause[$chiave]['dasistemare'][] = $STTYPE;
 			        }
 			    } elseif (empty($Tipo)) {
@@ -313,6 +368,8 @@ ORDER BY
 			                'DeId' => [],
 			                'senso' => [],
 			                'tipo' => [],
+                                            'trasmessa' => [],
+
 			                'dasistemare' => []
 			            ];
 			        }
@@ -329,7 +386,10 @@ ORDER BY
 			            'idorin' => [],
 			            'DeId' => [],
 			            'senso' => [],
-			            'tipo' => []
+			            'tipo' => [],
+                                        'trasmessa' => [],
+
+                   'dasistemare' => []
 			        ];
 			    }
 			}
@@ -358,6 +418,8 @@ ORDER BY
 		        $presentiInSede[$chiave]['DeId'] = array_merge($presentiInSede[$chiave]['DeId'], $datipause[$chiave]['DeId']);
 		        $presentiInSede[$chiave]['senso'] = array_merge($presentiInSede[$chiave]['senso'], $datipause[$chiave]['senso']);
 		        $presentiInSede[$chiave]['tipo'] = array_merge($presentiInSede[$chiave]['tipo'], $datipause[$chiave]['tipo']);
+            $presentiInSede[$chiave]['trasmessa'] = array_merge($presentiInSede[$chiave]['trasmessa'], $datipause[$chiave]['trasmessa']);
+		        $presentiInSede[$chiave]['dasistemare'] = array_merge($presentiInSede[$chiave]['dasistemare'], $datipause[$chiave]['dasistemare']);
 		    }
 		}
 
@@ -374,7 +436,7 @@ ORDER BY
                             $dt1 = new DateTime($inizio);
                             $dt2 = !empty($fine) ? new DateTime($fine) : new DateTime();
                             $durata = abs($dt2->getTimestamp() - $dt1->getTimestamp()) / 60;
-                            if ($durata > 10) {
+                            if ($durata > 11) {
                                 $errore = true;
                                 break;
                             }
@@ -448,10 +510,28 @@ ORDER BY
                     unset($presentiInSede[$chiave]);
                 }
             }
+            // Filtro timbrature mancanti
+            if ($_SESSION["chkMancanti"]) {
+                foreach ($presentiInSede as $chiave => $dati) {
+                    $orarilavoro = $dati['orarilavoro'] ?? [];
+                    $mancante = false;
+                    for ($i = 0; $i < count($orarilavoro); $i += 2) {
+                        if (!empty($orarilavoro[$i]) && empty($orarilavoro[$i + 1])) {
+                            $mancante = true;
+                            break;
+                        }
+                    }
+                    if (!$mancante) {
+                        unset($presentiInSede[$chiave]);
+                    }
+                }
+            }
         }
 
         // --- AGGIUNTA: imposta presentiDaVisualizzare ---
         $presentiDaVisualizzare = $presentiInSede;
+
+     
 
         // --- SOSTITUZIONE BLOCCO ---
         // Mostra sempre i presenti filtrati dal radio (tutti/inpausa/pausafatta)
@@ -476,6 +556,7 @@ ORDER BY
                 'DeId' => $array[$chiave]['DeId'][$i] ?? '',
                 'senso' => $array[$chiave]['senso'][$i] ?? '',
                 'tipo' => $array[$chiave]['tipo'][$i] ?? '',
+                'trasmessa' => $array[$chiave]['trasmessa'][$i] ?? ''
             ];
         }
 
@@ -486,6 +567,7 @@ ORDER BY
         $array[$chiave]['DeId'] = array_column($combined, 'DeId');
         $array[$chiave]['senso'] = array_column($combined, 'senso');
         $array[$chiave]['tipo'] = array_column($combined, 'tipo');
+        $array[$chiave]['trasmessa'] = array_column($combined, 'trasmessa');
     }
 
 	protected function cvtDateFromDb($date)
@@ -499,96 +581,106 @@ ORDER BY
 		return substr($time, 0, 2) . ":" . substr($time, 2, 2);
 	}
 
-	private function getErrorePausa(array $oraripause, bool $inPausaAttuale = false)
-{
-	$errpausa1lunga = '';
-	$errpausa2lunga = '';
-	$errtroppepausa = '';
-	$errtotPauseMinuti = '';
-	$errinpausaattuale = '';
-	$errpausagen = '';
-	$totPause = 0;
-	$orapausa1 = $oraripause[0] ?? '';
-	$orapausa2 = $oraripause[1] ?? '';
-	$orapausa3 = $oraripause[2] ?? '';
-	$orapausa4 = $oraripause[3] ?? '';
-	$orapausa5 = $oraripause[4] ?? '';
-	$orapausa6 = $oraripause[5] ?? '';
-  $durataPausa1 = ($oraripause[1]-$oraripause[0 ]) ?? 0;
-	try {
-		$now = new DateTime();
+    private function getErrorePausa(array $oraripause, bool $inPausaAttuale = false)
+    {
+        $errpausa1lunga = '';
+        $errpausa2lunga = '';
+        $errtroppepausa = '';
+        $errtotPauseMinuti = '';
+        $errinpausaattuale = '';
+        $errpausagen = '';
+        $totPause = 0;
+        $orapausa1 = $oraripause[0] ?? '';
+        $orapausa2 = $oraripause[1] ?? '';
+        $orapausa3 = $oraripause[2] ?? '';
+        $orapausa4 = $oraripause[3] ?? '';
+        $orapausa5 = $oraripause[4] ?? '';
+        $orapausa6 = $oraripause[5] ?? '';
+        $durataPausa1 = ($oraripause[1] - $oraripause[0]) ?? 0;
+        try {
+            $now = new DateTime();
 
-		if (!empty($orapausa1) && !empty($orapausa2)) {
-			$dt1 = new DateTime($orapausa1);
-			$dt2 = new DateTime($orapausa2);
-			$intervallo1 = abs($dt2->getTimestamp() - $dt1->getTimestamp());
-			$totPause += $intervallo1;
-			if ($intervallo1 > 600) $errpausa1lunga = 'style="background-color: red;"';
-		} elseif (!empty($orapausa1)) {
-			$dt1 = new DateTime($orapausa1);
-			$totPause += abs($now->getTimestamp() - $dt1->getTimestamp());
-			$inPausaAttuale = true;
-			if ($totPause > 600) $errpausa1lunga = 'style="background-color: red;"';
-		}
+            if (!empty($orapausa1) && !empty($orapausa2)) {
+                $dt1 = new DateTime($orapausa1);
+                $dt2 = new DateTime($orapausa2);
+                $intervallo1 = abs($dt2->getTimestamp() - $dt1->getTimestamp());
+                $totPause += $intervallo1;
+                if ($intervallo1 > 660) $errpausa1lunga = 'style="background-color: red;"';
+            } elseif (!empty($orapausa1)) {
+                $dt1 = new DateTime($orapausa1);
+                $totPause += abs($now->getTimestamp() - $dt1->getTimestamp());
+                $inPausaAttuale = true;
+                if ($totPause > 660) $errpausa1lunga = 'style="background-color: red;"';
+            }
 
-		if (!empty($orapausa3) && !empty($orapausa4)) {
-			$dt3 = new DateTime($orapausa3);
-			$dt4 = new DateTime($orapausa4);
-			$intervallo2 = abs($dt4->getTimestamp() - $dt3->getTimestamp());
-			$totPause += $intervallo2;
-			if ($intervallo2 > 600) $errpausa2lunga = 'style="background-color: red;"';
-		} elseif (!empty($orapausa3)) {
-			$dt3 = new DateTime($orapausa3);
-			$durataPausa2 = 0;
-			$durataPausa2 += abs($now->getTimestamp() - $dt3->getTimestamp());
-			$totPause += abs($now->getTimestamp() - $dt3->getTimestamp());
-			$inPausaAttuale = true;
-			if ($durataPausa2 > 600) $errpausa2lunga = 'style="background-color: red;"';
-		}
+            if (!empty($orapausa3) && !empty($orapausa4)) {
+                $dt3 = new DateTime($orapausa3);
+                $dt4 = new DateTime($orapausa4);
+                $intervallo2 = abs($dt4->getTimestamp() - $dt3->getTimestamp());
+                $totPause += $intervallo2;
+                if ($intervallo2 > 660) $errpausa2lunga = 'style="background-color: red;"';
+            } elseif (!empty($orapausa3)) {
+                $dt3 = new DateTime($orapausa3);
+                $durataPausa2 = 0;
+                $durataPausa2 += abs($now->getTimestamp() - $dt3->getTimestamp());
+                $totPause += abs($now->getTimestamp() - $dt3->getTimestamp());
+                $inPausaAttuale = true;
+                if ($durataPausa2 > 660) $errpausa2lunga = 'style="background-color: red;"';
+            }
 
-		if (!empty($orapausa5)) {
-			if (!empty($orapausa6)) {
-				$dt5 = new DateTime($orapausa5);
-				$dt6 = new DateTime($orapausa6);
-				$intervallo3 = abs($dt6->getTimestamp() - $dt5->getTimestamp());
-				$totPause += $intervallo3;
-			} else {
-				$dt5 = new DateTime($orapausa5);
-				$totPause += abs($now->getTimestamp() - $dt5->getTimestamp());
-				$inPausaAttuale = true;
+            if (!empty($orapausa5)) {
+                if (!empty($orapausa6)) {
+                    $dt5 = new DateTime($orapausa5);
+                    $dt6 = new DateTime($orapausa6);
+                    $intervallo3 = abs($dt6->getTimestamp() - $dt5->getTimestamp());
+                    $totPause += $intervallo3;
+                } else {
+                    $dt5 = new DateTime($orapausa5);
+                    $totPause += abs($now->getTimestamp() - $dt5->getTimestamp());
+                    $inPausaAttuale = true;
 
-			}
-			$errtroppepausa = 'style="background-color: orange;"';
-		}
+                }
+                $errtroppepausa = 'style="background-color: orange;"';
+            }
 
-		$totPauseMinuti = floor($totPause / 60);
-		if ($totPauseMinuti > 20) $errtotPauseMinuti = 'style="background-color: red;"';
-		if ($inPausaAttuale) $errinpausaattuale = 'style="background-color: yellow;"';
+            $totPauseMinuti = floor($totPause / 60);
+            if ($totPauseMinuti > 20) $errtotPauseMinuti = 'style="background-color: red;"';
+            if ($inPausaAttuale) $errinpausaattuale = 'style="background-color: yellow;"';
 
-		if (
-			!empty($errpausa1lunga) ||
-			!empty($errpausa2lunga) ||
-			!empty($errtroppepausa) ||
-			!empty($errtotPauseMinuti)
-		) {
-			$errpausagen = 'style="background-color: green;"';
-		}
+            if (
+                !empty($errpausa1lunga) ||
+                !empty($errpausa2lunga) ||
+                !empty($errtroppepausa) ||
+                !empty($errtotPauseMinuti)
+            ) {
+                $errpausagen = 'style="background-color: green;"';
+            }
 
-		return [
-			'errpausa1lunga' => $errpausa1lunga,
-			'errpausa2lunga' => $errpausa2lunga,
-			'errtroppepausa' => $errtroppepausa,
-			'errtotPauseMinuti' => $errtotPauseMinuti,
-			'errinpausaattuale' => $errinpausaattuale,
-			'errpausagen' => $errpausagen,
-			'inPausaAttuale' => $inPausaAttuale,
-			'totPauseMinuti' => $totPauseMinuti,
-			'totPauseHHMM' => sprintf('%dh %02dm', floor($totPauseMinuti / 60), $totPauseMinuti % 60)
-		];
-	} catch (Exception $e) {
-		return [];
-	}
-}
+            return [
+                'errpausa1lunga' => $errpausa1lunga,
+                'errpausa2lunga' => $errpausa2lunga,
+                'errtroppepausa' => $errtroppepausa,
+                'errtotPauseMinuti' => $errtotPauseMinuti,
+                'errinpausaattuale' => $errinpausaattuale,
+                'errpausagen' => $errpausagen,
+                'inPausaAttuale' => $inPausaAttuale,
+                'totPauseMinuti' => $totPauseMinuti,
+                'totPauseHHMM' => sprintf('%dh %02dm', floor($totPauseMinuti / 60), $totPauseMinuti % 60)
+            ];
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+
+    /**
+     * Controlla se c'è una timbratura di entrata lavoro senza uscita dopo le 12:30.
+     * @param array $orarilavoro Array di orari di lavoro (max 6: inizio1, fine1, inizio2, fine2, inizio3, fine3)
+     * @return array Array con eventuali errori di lavoro
+     */
+    /**
+     * Verifica se una stringa rappresenta un orario valido nel formato HH:MM:SS.
+     */
+
 
     /**
      * Calcola la durata di ciascuna delle 3 possibili pause singole (in minuti).
@@ -665,6 +757,8 @@ ORDER BY
 		$filtDate = $_SESSION['filtDate'] ?? date('Y-m-d');
 		$chkError = isset($_SESSION['chkError']) && $_SESSION['chkError'] ? 'checked' : '';
 		$chkErrorBtnClass = isset($_SESSION['chkError']) && $_SESSION['chkError'] ? 'btn-danger' : 'btn-outline-danger';
+		$chkMancanti = isset($_SESSION['chkMancanti']) && $_SESSION['chkMancanti'] ? 'checked' : '';
+    $chkMancantiBtnClass = !empty($_SESSION['chkMancanti']) ? 'btn-danger active' : 'btn-outline-danger';
 		$filtroTipo = $_SESSION['filtroTipo'] ?? 'presenti';
 		// Dynamic classes for radio buttons
 		$btnInPausaClass = ($filtroTipo === 'inpausa') ? 'btn-primary' : 'btn-outline-primary';
@@ -797,7 +891,11 @@ ORDER BY
 
               <input type="checkbox" class="btn-check" id="chkError" name="chkError" value="1" {$chkError} autocomplete="off" onchange="this.form.submit();">
               <label class="btn {$chkErrorBtnClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="chkError">
-                <i class="bi bi-exclamation-triangle-fill"></i> Errori
+                <i class="bi bi-exclamation-triangle-fill"></i> Errori Pause
+              </label>
+              <input type="checkbox" class="btn-check" id="chkMancanti" name="chkMancanti" value="1" {$chkMancanti} autocomplete="off" onchange="this.form.submit();">
+              <label class="btn {$chkMancantiBtnClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1 ms-2" for="chkMancanti">
+                <i class="bi bi-plus-circle-fill"></i> Errori Entrata/Uscita 
               </label>
             </div>
           </div>
@@ -861,7 +959,8 @@ SEGDATA;
 		foreach ($segmentVars as $arraykey => $arrayvalue) {
 			${$arraykey} = $arrayvalue;
 		}
-		// Make sure it's case insensitive
+        // Assicura che $filtDate sia valorizzato per questo segmento
+        $filtDate = $_SESSION['filtDate'] ?? date('Y-m-d');		// Make sure it's case insensitive
 		$xlSegmentToWrite = strtolower($xlSegmentToWrite);
 		if ($xlSegmentToWrite == "hpresenti") {
 
@@ -923,8 +1022,11 @@ SEGDTA;
                     $TipoLavoro = array_pad(array_slice($presente['tipo'], 0, $countLavoro), 6, '');
                     $TipoPausa  = array_pad(array_slice($presente['tipo'], $countLavoro, $countPausa), 6, '');
 
-                    $DaSistemareLavoro = array_pad(array_slice($presente['dasistemare'] ?? [], 0, $countLavoro), 6, '');
-                    $DaSistemarePausa  = array_pad(array_slice($presente['dasistemare'] ?? [], $countLavoro, $countPausa), 6, '');
+                    $DaSistemareLavoro = array_pad(array_slice($presente['dasistemare'], 0, $countLavoro), 6, '');
+                    $DaSistemarePausa  = array_pad(array_slice($presente['dasistemare'], $countLavoro, $countPausa), 6, '');
+
+                    $trasmessaLavoro = array_pad(array_slice($presente['trasmessa'], 0, $countLavoro), 6, '');
+                    $trasmessaPausa  = array_pad(array_slice($presente['trasmessa'], $countLavoro, $countPausa), 6, '');
 
                     // Recupera STTYPE per questa persona (se presente), altrimenti stringa vuota
                     $STTYPE = '';
@@ -1016,6 +1118,8 @@ SEGDTA;
                     // Calcola le durate del lavoro singole
                     $durateLavoro = $this->calcolaDurateLavoroSingole($orarilavoro);
 
+                    // AGGIUNTA: calcola stili errore lavoro
+
                     // Riga 1 - tipo 0000
                     echo "<tr style='background-color: #e9f7ef;'>";
                     echo "<td class='text-center'>
@@ -1028,11 +1132,21 @@ SEGDTA;
 </td>";
                     echo "<td><div class='d-flex justify-content-between fw-bold' style='gap: 0.15rem;'><span>{$presCogn} {$presNome} - Badge: {$IdGest}</span><span>Ingresso:</span></div></td>";
                     for ($i = 0; $i < 6; $i++) {
-                        $oraRenderizzata = $orarilavoro[$i];
-                        if ($TipoLavoro[$i] === '0000' && $DaSistemareLavoro[$i] === '5' && !empty($oraRenderizzata)) {
-                            $oraRenderizzata = "<u style='text-decoration-color: red; text-decoration-thickness: 2px;'>{$oraRenderizzata}</u>";
+                        $chkMancanti = false;
+                        if ($i % 2 === 1 && !empty($orarilavoro[$i - 1]) && empty($orarilavoro[$i])) {
+                            $chkMancanti = true;
+                            $oraRenderizzata = "<button onclick=\"openPopupTimbratura('{$IdGest}')\" class='btn btn-warning btn-sm px-2 py-0' title='Aggiungi timbratura'>
+        <i class='bi bi-plus-circle'></i>
+    </button>";
+                        } else {
+                            $oraRenderizzata = $orarilavoro[$i];
+                            if ($TipoLavoro[$i] === '0000' && $DaSistemareLavoro[$i] === '5' && !empty($oraRenderizzata)) {
+                                $oraRenderizzata = "<span style='text-decoration: underline; text-decoration-color: red; font-weight: bold;'>{$oraRenderizzata}</span>";
+                            } elseif ($TipoLavoro[$i] === '0000' && $DaSistemareLavoro[$i] === '9' && !empty($oraRenderizzata)) {
+                                $oraRenderizzata = "<span style='text-decoration: underline; text-decoration-color: green;'>{$oraRenderizzata}</span>";
+                            }
                         }
-                        echo $this->renderDropdownMenu($oraRenderizzata, '', $IdOrinLavoro[$i], $DeIdLavoro[$i], $TipoLavoro[$i], $SensoLavoro[$i]);
+                        echo $this->renderDropdownMenu($oraRenderizzata, '', $IdOrinLavoro[$i], $DeIdLavoro[$i], $TipoLavoro[$i], $SensoLavoro[$i], $filtDate,  $IdGest , $trasmessaLavoro[$i]);
                     }
                     echo "<td>" . ($durateLavoro[0] !== "00:00" ? $durateLavoro[0] . ' h' : '') . "</td>";
                     echo "<td>" . ($durateLavoro[1] !== "00:00" ? $durateLavoro[1] . ' h' : '') . "</td>";
@@ -1045,9 +1159,13 @@ SEGDTA;
                     for ($i = 0; $i < 6; $i++) {
                         $oraRenderizzata = $oraripause[$i];
                         if ($TipoPausa[$i] === '0001' && $DaSistemarePausa[$i] === '5' && !empty($oraRenderizzata)) {
-                            $oraRenderizzata = "<u style='text-decoration-color: red; text-decoration-thickness: 2px;'>{$oraRenderizzata}</u>";
+                            $oraRenderizzata = "<span style='text-decoration: underline; text-decoration-color: red; font-weight: bold;'>{$oraRenderizzata}</span>";
                         }
-                        echo $this->renderDropdownMenu($oraRenderizzata, '', $IdOrinPausa[$i], $DeIdPausa[$i], $TipoPausa[$i], $SensoPausa[$i]);
+                        elseif ($TipoPausa[$i] === '0001' && $DaSistemarePausa[$i] === '9' && !empty($oraRenderizzata)) {
+                            $oraRenderizzata = "<span style='text-decoration: underline; text-decoration-color: green; '>{$oraRenderizzata}</span>";
+                        }
+                        // Assicura che $STTIME sia valorizzato per evitare warning
+                        echo $this->renderDropdownMenu($oraRenderizzata, '', $IdOrinPausa[$i], $DeIdPausa[$i], $TipoPausa[$i], $SensoPausa[$i], $filtDate, $IdGest , $trasmessaPausa[$i]);
                     }
                     echo "<td {$styleDurata1}>" . (!empty($oraPausa1) ? $durateSingole[0] : '') . "</td>";
                     echo "<td {$styleDurata2}>" . (!empty($oraPausa3) ? $durateSingole[1] : '') . "</td>";
@@ -1135,6 +1253,16 @@ xlLoadWebSmartObject(__FILE__, 'PAUSE'); ?>
 
     form.submit();
   }
+
+  // Gestione indipendente del checkbox "Errori" (chkError)
+  document.addEventListener('DOMContentLoaded', function () {
+    const chkError = document.getElementById('chkError');
+    if (chkError) {
+      chkError.addEventListener('change', function () {
+        this.form.submit();
+      });
+    }
+  });
 
   // Rendi chkInPausa e chkPausaFatta mutuamente esclusivi e invia il form
   document.addEventListener('DOMContentLoaded', function () {
