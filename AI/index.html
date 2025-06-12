@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>AI RGPBALLS</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        #chat { max-width: 600px; margin: auto; }
+        .message { margin: 10px 0; }
+        .user { font-weight: bold; color: #007bff; }
+        .ai { color: #28a745; }
+    </style>
+</head>
+<body>
+    <div id="chat">
+        <h2>AI RGPBALLS</h2>
+        <div id="messages"></div>
+        <form id="chat-form">
+            <textarea id="prompt" rows="4" style="width: 100%;" placeholder="Scrivi un messaggio..."></textarea><br>
+            <button type="submit">Invia</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('chat-form');
+        const promptInput = document.getElementById('prompt');
+        const messagesDiv = document.getElementById('messages');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const message = promptInput.value.trim();
+            if (!message) return;
+
+            appendMessage('Tu', message, 'user');
+            promptInput.value = '';
+            
+            try {
+                const response = await fetch('connect.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message })
+                });
+
+                const data = await response.json();
+                appendMessage('ChatGPT', data.reply, 'ai');
+            } catch (error) {
+                appendMessage('Errore', 'Impossibile connettersi all’API.', 'ai');
+            }
+        });
+
+        function appendMessage(sender, text, type) {
+            const div = document.createElement('div');
+            div.className = `message ${type}`;
+            div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+            messagesDiv.appendChild(div);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    </script>
+</body>
+</html>

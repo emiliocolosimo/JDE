@@ -1,4 +1,40 @@
 <?php
+session_start();
+
+
+// Verifica se l'utente è loggato e ha il badge salvato in sessione
+
+if (!isset($_SESSION['redirect_to']) && isset($_SERVER['HTTP_REFERER'])) {
+    $_SESSION['redirect_to'] = $_SERVER['HTTP_REFERER'];
+}
+
+$utenti = [
+    'admin' => 'password123',
+    'emilio' => 'emilio'
+];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $utente = $_POST['utente'] ?? '';
+    $password = $_POST['password'] ?? '';
+
+    if (isset($utenti[$utente]) && $utenti[$utente] === $password) {
+        $_SESSION['autenticato'] = true;
+        $_SESSION['utente'] = $utente;
+        $redirect = $_SESSION['redirect_to'] ;
+        unset($_SESSION['redirect_to']);
+        
+        header("Location: $redirect");
+        exit;
+    } else {
+        $errore = "Credenziali non valide.";
+    }
+}
+
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+    exit;
+}
 if (!function_exists('xlLoadWebSmartObject')) {
 	function xlLoadWebSmartObject($file, $class)
 	{
@@ -21,18 +57,41 @@ class PAUSE extends WebSmartObject
      */
     private function renderDropdownMenu($ora, $errStyle , $IdOrin , $DeId , $Tipo , $Senso , $STDATE , $IdGest , $trasmessa)
     {
+//      $orahhmm = $ora->format('H:i');
         // Assegna i valori agli array globali per evitare warning
         $GLOBALS['STDATE'] = $STDATE;
         if (empty($ora)) {
             return "<td></td>";
         }
 
+        // Normalizza $ora e $STDATE come stringhe nei formati richiesti
+        $oraStr = '';
+        $dataStr = '';
+        // $ora potrebbe essere già formattato, oppure HTML con tag (es: span), quindi estrai solo l'orario se necessario
+        if (!empty($ora) && preg_match('/^\d{2}:\d{2}(:\d{2})?$/', strip_tags($ora))) {
+            $oraStr = strip_tags($ora);
+            if (strlen($oraStr) === 5) $oraStr .= ':00';
+        } else {
+            // fallback: tenta di estrarre l'orario da una stringa tipo "HH:MM"
+            if (preg_match('/(\d{2}:\d{2})(:\d{2})?/', $ora, $matches)) {
+                $oraStr = $matches[0];
+                if (strlen($oraStr) === 5) $oraStr .= ':00';
+            }
+        }
+        // $STDATE dovrebbe già essere Y-m-d
+        if (!empty($STDATE) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $STDATE)) {
+            $dataStr = $STDATE;
+        } else {
+            // fallback: tenta conversione da altri formati
+            $dt = DateTime::createFromFormat('d-m-Y', $STDATE);
+            if ($dt) $dataStr = $dt->format('Y-m-d');
+        }
         // Escaping degli URL per sicurezza (addslashes + ENT_QUOTES)
-        $urlConvertiPausa = htmlspecialchars(addslashes("pause.php?convertiinpausa={$IdOrin}&stdate={$STDATE}&sttime={$ora}&idgest={$IdGest}"), ENT_QUOTES);
-        $urlConvertiUscita = htmlspecialchars(addslashes("pause.php?convertiinuscita={$IdOrin}&stdate={$STDATE}&sttime={$ora}&idgest={$IdGest}"), ENT_QUOTES);
-        $urlConvertiEntrata = htmlspecialchars(addslashes("pause.php?convertiinentrata={$IdOrin}&stdate={$STDATE}&sttime={$ora}&idgest={$IdGest}"), ENT_QUOTES);
-        $urlElimina = htmlspecialchars(addslashes("pause.php?elimina={$IdOrin}&stdate={$STDATE}&sttime={$ora}&idgest={$IdGest}"), ENT_QUOTES);
-        $urlRichiediSistemazione = htmlspecialchars(addslashes("pause.php?richiedisistemazione={$IdOrin}&stdate={$STDATE}&sttime={$ora}&idgest={$IdGest}"), ENT_QUOTES);
+        $urlConvertiPausa = htmlspecialchars(addslashes("pause.php?convertiinpausa={$IdOrin}&stdate={$dataStr}&sttime={$oraStr}&idgest={$IdGest}"), ENT_QUOTES);
+        $urlConvertiUscita = htmlspecialchars(addslashes("pause.php?convertiinuscita={$IdOrin}&stdate={$dataStr}&sttime={$oraStr}&idgest={$IdGest}"), ENT_QUOTES);
+        $urlConvertiEntrata = htmlspecialchars(addslashes("pause.php?convertiinentrata={$IdOrin}&stdate={$dataStr}&sttime={$oraStr}&idgest={$IdGest}"), ENT_QUOTES);
+        $urlElimina = htmlspecialchars(addslashes("pause.php?elimina={$IdOrin}&stdate={$dataStr}&sttime={$oraStr}&idgest={$IdGest}"), ENT_QUOTES);
+        $urlRichiediSistemazione = htmlspecialchars(addslashes("pause.php?richiedisistemazione={$IdOrin}&stdate={$dataStr}&sttime={$oraStr}&idgest={$IdGest}"), ENT_QUOTES);
 
         // Descrizione leggibile per il device
         $deviceLabel = match($DeId) {
@@ -41,16 +100,22 @@ class PAUSE extends WebSmartObject
             '72' => 'Produzione',
             default => 'Dispositivo sconosciuto'
         };
+
+If (isset($_SESSION['autenticato']) && $_SESSION['autenticato'] === true) {
+
         $html = <<<HTML
 <td {$errStyle} title="ID Origine: {$IdOrin} - {$deviceLabel} - {$Tipo} - {$Senso}" style="position: relative;">
   {$ora}
   <div class="dropdown d-inline">
 HTML;
+
         if (trim($trasmessa ?? '') !== '') {
             $html .= <<<HTML
    <i class="bi bi-slash-circle text-muted" style="font-size: 0.9rem;" title="Timbratura già trasferita" disabled></i>
 HTML;
-        } else {
+        } else 
+        
+        {
             $html .= <<<HTML
    <i class="bi bi-pencil text-secondary dropdown-toggle" style="font-size: 0.9rem;" style="cursor: pointer;" data-bs-toggle="dropdown" aria-expanded="false" title="Azioni disponibili"></i>
 HTML;
@@ -58,38 +123,84 @@ HTML;
         $html .= <<<HTML
     <ul class="dropdown-menu dropdown-menu-end" style="z-index: 1050;">
 HTML;
-
         // Unifica la gestione delle voci del menu
         if ($Tipo === '0000') {
+            // Link "Converti in Pausa" AGGIORNATO secondo istruzioni
             $html .= <<<HTML
-      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('{$urlConvertiPausa}'); return false;">Converti in pausa</a></li>
+      <li>
+        <a href="?convertiinpausa=1&idorin={$IdOrin}&idgest={$IdGest}&sttime={$oraStr}&stdate={$dataStr}" class="dropdown-item text-warning">
+            <i class="bi bi-pause-circle-fill"></i> Converti in Pausa
+        </a>
+      </li>
 HTML;
             if ($Senso === 'E') {
                 $html .= <<<HTML
-      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('{$urlConvertiUscita}'); return false;">Converti in uscita</a></li>
+      <li>
+        <a href="?convertiinuscita=1&idorin={$IdOrin}&idgest={$IdGest}&sttime={$oraStr}&stdate={$dataStr}" class="dropdown-item text-primary">
+            <i class="bi bi-box-arrow-right"></i> Converti in Uscita
+        </a>
+      </li>
 HTML;
             }
             if ($Senso === 'U') {
                 $html .= <<<HTML
-      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('{$urlConvertiEntrata}'); return false;">Converti in entrata</a></li>
+      <li>
+        <a href="?convertiinentrata=1&idorin={$IdOrin}&idgest={$IdGest}&sttime={$oraStr}&stdate={$dataStr}" class="dropdown-item text-success">
+            <i class="bi bi-box-arrow-in-right"></i> Converti in Entrata
+        </a>
+      </li>
 HTML;
             }
         } elseif ($Tipo === '0001') {
             $html .= <<<HTML
-      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('{$urlConvertiUscita}'); return false;">Converti in uscita</a></li>
-      <li><a class="dropdown-item" href="#" onclick="richiediPasswordPerAzione('{$urlConvertiEntrata}'); return false;">Converti in entrata</a></li>
+      <li>
+        <a href="?convertiinuscita=1&idorin={$IdOrin}&idgest={$IdGest}&sttime={$oraStr}&stdate={$dataStr}" class="dropdown-item text-primary">
+            <i class="bi bi-box-arrow-right"></i> Converti in Uscita
+        </a>
+      </li>
+      <li>
+        <a href="?convertiinentrata=1&idorin={$IdOrin}&idgest={$IdGest}&sttime={$oraStr}&stdate={$dataStr}" class="dropdown-item text-success">
+            <i class="bi bi-box-arrow-in-right"></i> Converti in Entrata
+        </a>
+      </li>
 HTML;
         }
 
         $html .= <<<HTML
-      <li><a class="dropdown-item text-danger" href="#" onclick="richiediPasswordPerAzione('{$urlElimina}'); return false;">Elimina</a></li>
-      <li><a class="dropdown-item text-warning" href="{$urlRichiediSistemazione}">Richiedi Sistemazione</a></li>
+      <li>
+        <a href="?elimina=1&idorin={$IdOrin}&idgest={$IdGest}&sttime={$oraStr}&stdate={$dataStr}" class="dropdown-item text-danger">
+            <i class="bi bi-trash3-fill"></i> Elimina
+        </a>
+      </li>
+      <li>
+        <a href="?richiedisistemazione=1&idorin={$IdOrin}&idgest={$IdGest}&sttime={$oraStr}&stdate={$dataStr}" class="dropdown-item text-secondary">
+            <i class="bi bi-wrench-adjustable-circle-fill"></i> Richiedi Sistemazione
+        </a>
+      </li>
     </ul>
   </div>
 </td>
-HTML;
-        return $html;
+HTML; } 
+
+else {
+    $oraHHMM = '';
+    if (!empty($ora)) {
+        $oraPulita = strip_tags($ora);
+        if (preg_match('/^\d{2}:\d{2}/', $oraPulita, $matches)) {
+            $oraHHMM = $matches[0];
+        }
     }
+    $html = <<<HTML
+<td {$errStyle} title="ID Origine: {$IdOrin} - {$deviceLabel} - {$Tipo} - {$Senso}" style="position: relative;">
+  {$oraHHMM}
+  <div class="dropdown d-inline">
+        <a href="?richiedisistemazione=1&idorin={$IdOrin}&idgest={$IdGest}&sttime={$oraStr}&stdate={$dataStr}" title="Richiedi sistemazione timbratura" style="font-size: 0.9rem;">
+          <i class="bi bi-person-check-fill" style="font-size: 0.9rem;"></i> </a>
+HTML;
+}
+        return $html;
+    }     
+
 	public function runMain()
 	{
 		error_reporting(E_ALL);
@@ -113,12 +224,17 @@ HTML;
 		}
         // Gestione azione "converti in pausa"
         if (isset($_GET['convertiinpausa'])) {
-            $IdOrin = $_GET['convertiinpausa'];
+            // Assicura che $ora e $STDATE siano definite
+            $rawDate = $_GET['stdate'] ?? '';
+            $dt = DateTime::createFromFormat('Y-m-d', $rawDate);
+            $STDATE = $dt ? $dt->format('Y-m-d') : '';
+            $ora = $_GET['sttime'] ?? '';
+            $IdOrin = $_GET['idorin'] ?? '';
             $IdGest = $_GET['idgest'] ?? '';
             if (!empty($IdOrin)) {
                 $query = "UPDATE BCD_DATIV2.SAVTIM0F 
                           SET STRECO = '0001' , STTYPE = '9'
-                          WHERE STORIN = ? and STRECO = '0000' and STTRAS=' ' AND STCDDI = ?";
+                          WHERE STORIN = ? and STTRAS=' ' AND STCDDI = ? AND STTIME = ? AND STDATE = ?";
                 $stmt = $this->db_connection->prepare($query);
                 $stmt->execute([$IdOrin, $IdGest, $ora, $STDATE]);
             }
@@ -128,10 +244,11 @@ HTML;
 
         // Gestione azione "converti in entrata"
         if (isset($_GET['convertiinentrata'])) {
-         $rawDate = $_GET['stdate'] ?? '';
+            $rawDate = $_GET['stdate'] ?? '';
             $dt = DateTime::createFromFormat('Y-m-d', $rawDate);
             $STDATE = $dt ? $dt->format('Y-m-d') : '';
-           $ora = $_GET['sttime'] ?? '';    $IdOrin = $_GET['convertiinentrata'];
+            $ora = $_GET['sttime'] ?? '';
+            $IdOrin = $_GET['idorin'] ?? '';
             $IdGest = $_GET['idgest'] ?? '';
             if (!empty($IdOrin)) {
                 $query = "UPDATE BCD_DATIV2.SAVTIM0F 
@@ -145,11 +262,11 @@ HTML;
         }
         // Gestione azione "converti in uscita"
         if (isset($_GET['convertiinuscita'])) {
-           $rawDate = $_GET['stdate'] ?? '';
+            $rawDate = $_GET['stdate'] ?? '';
             $dt = DateTime::createFromFormat('Y-m-d', $rawDate);
             $STDATE = $dt ? $dt->format('Y-m-d') : '';
-           $ora = $_GET['sttime'] ?? '';
-          $IdOrin = $_GET['convertiinuscita'];
+            $ora = $_GET['sttime'] ?? '';
+            $IdOrin = $_GET['idorin'] ?? '';
             $IdGest = $_GET['idgest'] ?? '';
             if (!empty($IdOrin)) {
                 $query = "UPDATE BCD_DATIV2.SAVTIM0F 
@@ -161,16 +278,18 @@ HTML;
             header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
             exit;
         }
+        //AND STCDDI = ? AND STTIME = ? AND STDATE = ?
         // Gestione azione "elimina"
         if (isset($_GET['elimina'])) {
-          $rawDate = $_GET['stdate'] ?? '';
+            $rawDate = $_GET['stdate'] ?? '';
             $dt = DateTime::createFromFormat('Y-m-d', $rawDate);
             $STDATE = $dt ? $dt->format('Y-m-d') : '';
-           $ora = $_GET['sttime'] ?? '';    
-          $IdOrin = $_GET['elimina'];
+            $ora = $_GET['sttime'] ?? '';    
+            $IdOrin = $_GET['idorin'] ?? '';
             $IdGest = $_GET['idgest'] ?? '';
             if (!empty($IdOrin)) {
-                $query = "delete from BCD_DATIV2.SAVTIM0F 
+                $query = "UPDATE BCD_DATIV2.SAVTIM0F 
+                          SET STRECO = '0002' , STTYPE = '9'
                            WHERE STORIN = ? and STTRAS=' ' AND STCDDI = ? AND STTIME = ? AND STDATE = ?";
                 $stmt = $this->db_connection->prepare($query);
                 $stmt->execute([$IdOrin, $IdGest, $ora, $STDATE]);
@@ -184,9 +303,7 @@ HTML;
             $rawDate = $_GET['stdate'] ?? '';
             $dt = DateTime::createFromFormat('Y-m-d', $rawDate);
             $STDATE = $dt ? $dt->format('Y-m-d') : '';
-           $ora = $_GET['sttime'] ?? '';
-
-
+            $ora = $_GET['sttime'] ?? '';
             $IdOrin = $_GET['richiedisistemazione'];
             $IdGest = $_GET['idgest'] ?? '';
             if (!empty($IdOrin)) {
@@ -225,7 +342,8 @@ STDATE: {$STDATE}
 	protected function dspListaPresenti()
 	{
 		if ($_SERVER["REQUEST_METHOD"] === "POST") {
-			$_SESSION["filtDate"] = $_POST["filtDate"] ?? $_SESSION["filtDate"] ?? date("Y-m-d");
+			$_SESSION["filtDateFrom"] = $_POST["filtDateFrom"] ?? $_SESSION["filtDateFrom"] ?? date("Y-m-d");
+      $_SESSION["filtDateTo"] = $_POST["filtDateTo"] ?? $_SESSION["filtDateTo"] ?? date("Y-m-d");
 			$_SESSION["filtCognome"] = $_POST["filtCognome"] ?? $_SESSION["filtCognome"] ?? '';
 			$_SESSION["filtNome"] = $_POST["filtNome"] ?? $_SESSION["filtNome"] ?? '';
 			$_SESSION["filtroTipo"] = $_POST["filtroTipo"] ?? $_SESSION["filtroTipo"] ?? 'presenti';
@@ -241,7 +359,8 @@ STDATE: {$STDATE}
 		$totinpausa = 0;
 
 		// Data da visualizzare (dalla sessione o data odierna)
-		$filtDate = !empty($_SESSION["filtDate"]) ? $_SESSION["filtDate"] : date("Y-m-d");
+		$filtDateFrom = !empty($_SESSION["filtDateFrom"]) ? $_SESSION["filtDateFrom"] : date("Y-m-d");
+    $filtDateTo = !empty($_SESSION["filtDateTo"]) ? $_SESSION["filtDateTo"] : date("Y-m-d");
 		$filtCognome = strtoupper(htmlspecialchars($_SESSION['filtCognome'] ?? ''));
 		$filtNome = strtoupper(htmlspecialchars($_SESSION['filtNome'] ?? ''));
 
@@ -254,6 +373,8 @@ STDATE: {$STDATE}
 		$query = "SELECT
     COALESCE(D.BDCOGN, '') AS BDCOGN,
     COALESCE(D.BDNOME, '') AS BDNOME,
+    COALESCE(D.BDPASS, '') AS BDPASS,
+    COALESCE(D.BDAUTH, '') AS BDAUTH,
     COALESCE(D.BDCOGE, '') AS BDCOGE,
     COALESCE(A.STORIN, '') AS STORIN,
     COALESCE(A.STDEID, '') AS STDEID,
@@ -265,7 +386,7 @@ STDATE: {$STDATE}
     COALESCE(CHAR(A.STTIME), '') AS STTIME
 FROM BCD_DATIV2.BDGDIP0F AS D
 LEFT JOIN BCD_DATIV2.SAVTIM0F AS A
-    ON D.BDCOGE = A.STCDDI AND A.STDATE = '" . $filtDate . "'  and
+    ON D.BDCOGE = A.STCDDI AND A.STDATE between '" . $filtDateFrom . "' and  '" . $filtDateTo . "' and
     D.BDNOME LIKE '%" . $filtNome . "%'
     AND D.BDCOGN LIKE '%" . $filtCognome . "%'
 ORDER BY 
@@ -290,6 +411,8 @@ ORDER BY
 
 			$presNome = $BDCOGN;
 			$presCogn = $BDNOME;
+ //     $AUTH = $BDAUTH;
+   //   $PASS = $BDPASS;
 			$IdGest = $BDCOGE;
 			$DeId = $STDEID;
 			$Senso = $STSENS;
@@ -313,6 +436,7 @@ ORDER BY
 			                'nome' => $presNome,
 			                'cognome' => $presCogn,
 			                'IdGest' => $IdGest,
+                      'data' => [],
 			                'orarilavoro' => [],
 			                'idorin' => [],
 			                'DeId' => [],
@@ -324,6 +448,7 @@ ORDER BY
 			        }
 			        if (!empty($ora)) {
 			            $presentiInSede[$chiave]['orarilavoro'][] = $ora;
+                  $presentiInSede[$chiave]['data'][] = $presDtIn;
 			            $presentiInSede[$chiave]['idorin'][] = $STORIN;
 			            $presentiInSede[$chiave]['DeId'][] = $DeId;
 			            $presentiInSede[$chiave]['senso'][] = $Senso;
@@ -337,6 +462,7 @@ ORDER BY
 			                'nome' => $presNome,
 			                'cognome' => $presCogn,
 			                'IdGest' => $IdGest,
+                      'data' => [],
 			                'oraripause' => [],
 			                'idorin' => [],
 			                'DeId' => [],
@@ -348,6 +474,7 @@ ORDER BY
 			        }
 			        if (!empty($ora)) {
 			            $datipause[$chiave]['oraripause'][] = $ora;
+                  $datipause[$chiave]['data'][] = $presDtIn;
 			            $datipause[$chiave]['idorin'][] = $STORIN;
 			            $datipause[$chiave]['DeId'][] = $DeId;
 			            $datipause[$chiave]['senso'][] = $Senso;
@@ -362,14 +489,14 @@ ORDER BY
 			                'nome' => $presNome,
 			                'cognome' => $presCogn,
 			                'IdGest' => $IdGest,
+                      'data' => [],
 			                'orarilavoro' => [],
 			                'oraripause' => [],
 			                'idorin' => [],
 			                'DeId' => [],
 			                'senso' => [],
 			                'tipo' => [],
-                                            'trasmessa' => [],
-
+                      'trasmessa' => [],
 			                'dasistemare' => []
 			            ];
 			        }
@@ -380,6 +507,7 @@ ORDER BY
 			        $presentiInSede[$chiave] = [
 			            'nome' => $presNome,
 			            'cognome' => $presCogn,
+                  'data' => [],
 			            'IdGest' => $IdGest,
 			            'orarilavoro' => [],
 			            'oraripause' => [],
@@ -414,6 +542,7 @@ ORDER BY
 		        $presentiInSede[$chiave] = $datipause[$chiave];
 		    } elseif (isset($datipause[$chiave])) {
 		        $presentiInSede[$chiave]['oraripause'] = $datipause[$chiave]['oraripause'];
+            $presentiInSede[$chiave]['data'] = array_merge($presentiInSede[$chiave]['data'], $datipause[$chiave]['data']);
 		        $presentiInSede[$chiave]['idorin'] = array_merge($presentiInSede[$chiave]['idorin'], $datipause[$chiave]['idorin']);
 		        $presentiInSede[$chiave]['DeId'] = array_merge($presentiInSede[$chiave]['DeId'], $datipause[$chiave]['DeId']);
 		        $presentiInSede[$chiave]['senso'] = array_merge($presentiInSede[$chiave]['senso'], $datipause[$chiave]['senso']);
@@ -510,17 +639,31 @@ ORDER BY
                     unset($presentiInSede[$chiave]);
                 }
             }
-            // Filtro timbrature mancanti
-            if ($_SESSION["chkMancanti"]) {
+            // Filtro timbrature mancanti: solo se manca l'orario 2 (fine primo turno) dopo le 12:30
+            // o manca l'orario 4 (fine secondo turno) dopo le 17:00
+            if (isset($_SESSION["chkMancanti"]) && $_SESSION["chkMancanti"]) {
                 foreach ($presentiInSede as $chiave => $dati) {
                     $orarilavoro = $dati['orarilavoro'] ?? [];
                     $mancante = false;
-                    for ($i = 0; $i < count($orarilavoro); $i += 2) {
-                        if (!empty($orarilavoro[$i]) && empty($orarilavoro[$i + 1])) {
+
+                    // Orario 2 (index 1) richiede Orario 1 (index 0) presente
+                    if (!empty($orarilavoro[0]) && empty($orarilavoro[1])) {
+                        $now = new DateTime();
+                        $limite = new DateTime($now->format('Y-m-d') . ' 12:30:00');
+                        if ($now >= $limite) {
                             $mancante = true;
-                            break;
                         }
                     }
+
+                    // Orario 4 (index 3) richiede Orario 3 (index 2) presente
+                    if (!empty($orarilavoro[2]) && empty($orarilavoro[3])) {
+                        $now = new DateTime();
+                        $limite = new DateTime($now->format('Y-m-d') . ' 17:00:00');
+                        if ($now >= $limite) {
+                            $mancante = true;
+                        }
+                    }
+
                     if (!$mancante) {
                         unset($presentiInSede[$chiave]);
                     }
@@ -530,8 +673,6 @@ ORDER BY
 
         // --- AGGIUNTA: imposta presentiDaVisualizzare ---
         $presentiDaVisualizzare = $presentiInSede;
-
-     
 
         // --- SOSTITUZIONE BLOCCO ---
         // Mostra sempre i presenti filtrati dal radio (tutti/inpausa/pausafatta)
@@ -553,6 +694,7 @@ ORDER BY
             $combined[] = [
                 'time' => $time,
                 'idorin' => $array[$chiave]['idorin'][$i] ?? '',
+                'data' => $array[$chiave]['data'][$i] ?? '',
                 'DeId' => $array[$chiave]['DeId'][$i] ?? '',
                 'senso' => $array[$chiave]['senso'][$i] ?? '',
                 'tipo' => $array[$chiave]['tipo'][$i] ?? '',
@@ -564,6 +706,7 @@ ORDER BY
 
         $array[$chiave][$campoOrari] = array_column($combined, 'time');
         $array[$chiave]['idorin'] = array_column($combined, 'idorin');
+        $array[$chiave]['data'] = array_column($combined, 'data');
         $array[$chiave]['DeId'] = array_column($combined, 'DeId');
         $array[$chiave]['senso'] = array_column($combined, 'senso');
         $array[$chiave]['tipo'] = array_column($combined, 'tipo');
@@ -754,7 +897,8 @@ ORDER BY
 	{
 		$filtNome = strtoupper($_SESSION['filtNome'] ?? '');
 		$filtCognome = strtoupper($_SESSION['filtCognome'] ?? '');
-		$filtDate = $_SESSION['filtDate'] ?? date('Y-m-d');
+		$filtDateFrom = $_SESSION['filtDateFrom'] ?? date('Y-m-d');
+    $filtDateTo = $_SESSION['filtDaTeto'] ?? date('Y-m-d');
 		$chkError = isset($_SESSION['chkError']) && $_SESSION['chkError'] ? 'checked' : '';
 		$chkErrorBtnClass = isset($_SESSION['chkError']) && $_SESSION['chkError'] ? 'btn-danger' : 'btn-outline-danger';
 		$chkMancanti = isset($_SESSION['chkMancanti']) && $_SESSION['chkMancanti'] ? 'checked' : '';
@@ -766,6 +910,7 @@ ORDER BY
 		$btnPresentiClass = ($filtroTipo === 'presenti') ? 'btn-primary' : 'btn-outline-primary';
 		$btnNoPausaClass = ($filtroTipo === 'nopausa') ? 'btn-primary' : 'btn-outline-primary';
 		$btnTuttiClass = ($filtroTipo === 'tutti') ? 'btn-primary' : 'btn-outline-primary';
+
 
 		echo <<<SEGDATA
 	<!DOCTYPE html>
@@ -823,15 +968,23 @@ ORDER BY
 		</style>
 	  </head>
 	  <body>
-		<div id="outer-content">
+    		<div id="outer-content">
 <div id="page-content" class="container-fluid">
   <div class="d-flex justify-content-between align-items-center mt-0 mb-1 px-2">
+
     <div>
       <button id="printButton" type="button" onclick="window.print();" class="btn btn-outline-secondary">
           <i class="bi bi-printer"></i>
       </button>
     </div>
+
+   
     <img src="include/logo.jpg" alt="Logo" style="max-height: 60px;">
+
+    
+
+
+    
     <div class="dropdown">
    <button class="btn btn-light dropdown-toggle" type="button" id="menuDropdown" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-three-dots-vertical" style="font-size: 1.5rem;"></i>
@@ -847,14 +1000,16 @@ ORDER BY
             <i class="bi bi-plus-circle me-3"></i>Inserisci Timbratura
           </a>
         </li>
-		        <li>
-        <a class="dropdown-item" href="#" onclick="apriPopupTransfer(); return false;">
-  <i class="bi bi-person-lines-fill me-2"></i>Invia Timbrature a Commercialista
-</a>
+        <li>
+          <a class="dropdown-item" href="#" onclick="window.open('https://jde.rgpballs.com/timbrature/transfer.php', '_blank'); return false;">
+            <i class="bi bi-person-lines-fill me-2"></i>Invia Timbrature a Commercialista
+          </a>
         </li>
       </ul>
     </div>
+</td>   
   </div>
+      </div>
 <div class="clearfix"></div>
 <div id="contents">
   <div class="row mb-1">
@@ -893,26 +1048,66 @@ ORDER BY
               <label class="btn {$chkErrorBtnClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1" for="chkError">
                 <i class="bi bi-exclamation-triangle-fill"></i> Errori Pause
               </label>
-              <input type="checkbox" class="btn-check" id="chkMancanti" name="chkMancanti" value="1" {$chkMancanti} autocomplete="off" onchange="this.form.submit();">
+SEGDATA;
+If (isset($_SESSION['autenticato']) && $_SESSION['autenticato'] === true) {
+  $utente = $_SESSION['utente'] ?? 'Utente';
+    echo <<<SEGDATA
+      <input type="checkbox" class="btn-check" id="chkMancanti" name="chkMancanti" value="1" {$chkMancanti} autocomplete="off" onchange="this.form.submit();">
               <label class="btn {$chkMancantiBtnClass} btn-sm d-inline-flex align-items-center gap-2 px-2 py-1 ms-2" for="chkMancanti">
                 <i class="bi bi-plus-circle-fill"></i> Errori Entrata/Uscita 
               </label>
-            </div>
+              </div>
           </div>
           <!-- Colonna 2: Totali -->
           <div class="col-md-4 d-flex justify-content-center">
             <div class="bg-light border rounded shadow-sm px-3 py-1 text-primary fw-bold m-0" style="font-size: 1.20rem;">
               <div class="d-flex flex-row gap-2">
-                <div><strong>Attualmente In Pausa:</strong> <span id="totinpausa"></span></div>
+
+               <div><a>Benvenuto {$utente}</a><br>
+                             </div>
+            <div class="bg-light border rounded shadow-sm px-1 py-1 text-secondary" style="font-size: 0.7rem;">
+
+               <a href="?logout=1" class="text-decoration-none fw-bold">Logout</a>
+              </div>
+
               </div>
             </div>
           </div>
+
+SEGDATA;
+} else {
+  echo <<<SEGDATA
+
+              </div>
+          </div>
+<form method="POST">
+    <div class="col-md-4 d-flex justify-content-center">
+            <div class="bg-light border rounded shadow-sm px-2 py-1 text-primary fw-bold m-0" style="font-size: 0.9rem;">
+              <div class="d-flex flex-row gap-2">
+      <input type="text" name="utente" placeholder="Utente" class="form-control" required>
+    </div>
+      <input type="password" name="password" placeholder="Password" class="form-control" required>
+  <div class="row justify-content-center">
+    <div class="col-md-4 text-center">
+      <button type="submit" class="btn btn-primary">Accedi</button>
+    </div>
+  </div>
+    </div>
+    </div>
+</form>
+      
+SEGDATA;
+}
+    echo <<<SEGDATA
 
           <!-- Colonna 3: Filtri e bottoni -->
           <div class="col-md-4 d-flex align-items-end">
             <div class="row w-100 g-0 align-items-end" style="line-height: 0;">
               <div class="col-md-4" style="max-width: 150px;">
-                <input type="date" id="filtDate" name="filtDate" class="form-control" style="width: 100%;" value="{$filtDate}" onchange="this.form.submit();">
+                <input type="date" id="filtDateFrom" name="filtDateFrom" class="form-control" style="width: 100%;" value="{$filtDateFrom}" onchange="this.form.submit();" placeholder="Data da">
+              </div>
+              <div class="col-md-4 ps-1" style="max-width: 150px;">
+                <input type="date" id="filtDateTo" name="filtDateTo" class="form-control" style="width: 100%;" value="{$filtDateTo}" onchange="this.form.submit();" placeholder="Data a">
               </div>
               <div class="col-md-4 ps-1" style="max-width: 150px;">
                 <input type="text" id="filtNome" name="filtNome" class="form-control text-uppercase" placeholder="Cognome" value="{$filtNome}" onchange="this.form.submit();">
@@ -933,7 +1128,10 @@ ORDER BY
       </form>
 				<div class="table-responsive">
 					<table class="table table-striped table-bordered">
-						<thead>
+						<thead> 
+
+
+
 SEGDATA;
 		return;
 	}
@@ -960,8 +1158,9 @@ SEGDATA;
 			${$arraykey} = $arrayvalue;
 		}
         // Assicura che $filtDate sia valorizzato per questo segmento
-        $filtDate = $_SESSION['filtDate'] ?? date('Y-m-d');		// Make sure it's case insensitive
-		$xlSegmentToWrite = strtolower($xlSegmentToWrite);
+        $filtDateFrom = $_SESSION['filtDateFrom'] ?? date('Y-m-d');		// Make sure it's case insensitive
+        $filtDateTo = $_SESSION['filtDateTo'] ?? date('Y-m-d');
+	$xlSegmentToWrite = strtolower($xlSegmentToWrite);
 		if ($xlSegmentToWrite == "hpresenti") {
 
 			echo <<<SEGDTA
@@ -971,8 +1170,16 @@ SEGDATA;
 
 </tr>
 			<tr>
-			<th style="width: 50px;">Dipendenti:</th>		
-<th class="text-start">Cognome Nome</th>
+SEGDTA;
+
+if (isset($_SESSION['autenticato']) && $_SESSION['autenticato'] === true) {
+
+		echo '<th style="width: 50px;">Dipendenti: </th>';
+
+}
+			echo <<<SEGDTA
+
+      <th class="text-start">Cognome Nome</th>
 				<th>Orario 1</th>
 				<th>Orario 2</th>
 				<th>Orario 3</th>
@@ -1004,6 +1211,7 @@ SEGDTA;
                     $presNome = htmlspecialchars($presente['nome']);
                     $presCogn = htmlspecialchars($presente['cognome']);
                     $IdGest = htmlspecialchars($presente['IdGest']);
+                    $presDtIn = $presente['data'][0] ?? '';
                     $oraripause = array_pad($presente['oraripause'] ?? [], 6, '');
                     $orarilavoro = array_pad($presente['orarilavoro'] ?? [], 6, '');
 
@@ -1027,6 +1235,8 @@ SEGDTA;
 
                     $trasmessaLavoro = array_pad(array_slice($presente['trasmessa'], 0, $countLavoro), 6, '');
                     $trasmessaPausa  = array_pad(array_slice($presente['trasmessa'], $countLavoro, $countPausa), 6, '');
+
+
 
                     // Recupera STTYPE per questa persona (se presente), altrimenti stringa vuota
                     $STTYPE = '';
@@ -1121,23 +1331,40 @@ SEGDTA;
                     // AGGIUNTA: calcola stili errore lavoro
 
                     // Riga 1 - tipo 0000
-                    echo "<tr style='background-color: #e9f7ef;'>";
-                    echo "<td class='text-center'>
-  <button onclick=\"openGestioneDipendente('{$IdGest}')\" class='btn btn-primary btn-sm px-2 py-0' title='Gestione Dipendente'>
-    <i class='bi bi-credit-card'></i>
-  </button>
-  <button onclick=\"openPopupTimbratura('{$IdGest}')\" class='btn btn-warning btn-sm px-2 py-0' title='Aggiungi timbratura'>
-    <i class='bi bi-plus-circle'></i>
-  </button>
-</td>";
-                    echo "<td><div class='d-flex justify-content-between fw-bold' style='gap: 0.15rem;'><span>{$presCogn} {$presNome} - Badge: {$IdGest}</span><span>Ingresso:</span></div></td>";
+        echo "<tr style='background-color: #e9f7ef;'>";
+                if (isset($_SESSION['autenticato']) && $_SESSION['autenticato'] === true) {
+
+        echo "<td class='text-center'>";
+            echo "<button onclick=\"openGestioneDipendente('{$IdGest}')\" class='btn btn-primary btn-sm px-2 py-0' title='Gestione Dipendente'>
+                    <i class='bi bi-credit-card'></i>
+                  </button>
+                  <button onclick=\"openPopupTimbratura('{$IdGest}')\" class='btn btn-warning btn-sm px-2 py-0' title='Aggiungi timbratura'>
+                    <i class='bi bi-plus-circle'></i>
+                  </button>";
+  echo "</td>";        }
+
+                         if (isset($_SESSION['autenticato']) && $_SESSION['autenticato'] === true) {
+                    echo "<td><div class='d-flex justify-content-between fw-bold' style='gap: 0.15rem;'><span>{$presCogn} {$presNome} - Badge: {$IdGest}</span><span>Ingressi:</span></div></td>";
+                        } else {
+                            echo "<td><div class='d-flex justify-content-between fw-bold' style='gap: 0.15rem;'><span>{$presCogn} {$presNome}</span><span>Ingressi:</span></div></td>";
+                        }
                     for ($i = 0; $i < 6; $i++) {
-                        $chkMancanti = false;
+                        // Gestione pulsante "aggiungi timbratura" in base all'indice orario e ora limite
                         if ($i % 2 === 1 && !empty($orarilavoro[$i - 1]) && empty($orarilavoro[$i])) {
-                            $chkMancanti = true;
-                            $oraRenderizzata = "<button onclick=\"openPopupTimbratura('{$IdGest}')\" class='btn btn-warning btn-sm px-2 py-0' title='Aggiungi timbratura'>
-        <i class='bi bi-plus-circle'></i>
-    </button>";
+                            $now = new DateTime();
+                            $oraLimite = match ($i) {
+                                1 => new DateTime($now->format('Y-m-d') . ' 12:30:00'),
+                                3 => new DateTime($now->format('Y-m-d') . ' 17:00:00'),
+                                default => new DateTime('tomorrow') // disabilita altri
+                            };
+                            if ($now >= $oraLimite) {
+                                $chkMancanti = true;
+                                $oraRenderizzata = "<button onclick=\"openPopupTimbratura('{$IdGest}')\" class='btn btn-warning btn-sm px-2 py-0' title='Aggiungi timbratura'>
+                                    <i class='bi bi-plus-circle'></i>
+                                </button>";
+                            } else {
+                                $oraRenderizzata = '';
+                            }
                         } else {
                             $oraRenderizzata = $orarilavoro[$i];
                             if ($TipoLavoro[$i] === '0000' && $DaSistemareLavoro[$i] === '5' && !empty($oraRenderizzata)) {
@@ -1146,16 +1373,24 @@ SEGDTA;
                                 $oraRenderizzata = "<span style='text-decoration: underline; text-decoration-color: green;'>{$oraRenderizzata}</span>";
                             }
                         }
-                        echo $this->renderDropdownMenu($oraRenderizzata, '', $IdOrinLavoro[$i], $DeIdLavoro[$i], $TipoLavoro[$i], $SensoLavoro[$i], $filtDate,  $IdGest , $trasmessaLavoro[$i]);
+                        echo $this->renderDropdownMenu($oraRenderizzata, '', $IdOrinLavoro[$i], $DeIdLavoro[$i], $TipoLavoro[$i], $SensoLavoro[$i], $filtDateFrom,  $IdGest , $trasmessaLavoro[$i]);
                     }
+                                             if (isset($_SESSION['autenticato']) && $_SESSION['autenticato'] === true) {
+
                     echo "<td>" . ($durateLavoro[0] !== "00:00" ? $durateLavoro[0] . ' h' : '') . "</td>";
                     echo "<td>" . ($durateLavoro[1] !== "00:00" ? $durateLavoro[1] . ' h' : '') . "</td>";
                     echo "<td>" . ($durateLavoro[2] !== "00:00" ? $durateLavoro[2] . ' h' : '') . "</td>";
                     echo "</tr>";
+                    }
 
                     // Riga 2 - tipo 0001
                     echo "<tr style='background-color: #fffaf0;'>";
-                    echo "<td colspan='2' style='text-align: right; font-weight: bold;'>Pause:</td>";     
+                       if (isset($_SESSION['autenticato']) && $_SESSION['autenticato'] === true) {
+                    echo "<td colspan='2' style='text-align: right; font-weight: bold;'>Pause: {$presDtIn}</td>";   }
+                    else {
+                        echo "<td colspan='1' style='text-align: right; font-weight: bold;'>Pause:</td>";
+                    }
+
                     for ($i = 0; $i < 6; $i++) {
                         $oraRenderizzata = $oraripause[$i];
                         if ($TipoPausa[$i] === '0001' && $DaSistemarePausa[$i] === '5' && !empty($oraRenderizzata)) {
@@ -1165,7 +1400,7 @@ SEGDTA;
                             $oraRenderizzata = "<span style='text-decoration: underline; text-decoration-color: green; '>{$oraRenderizzata}</span>";
                         }
                         // Assicura che $STTIME sia valorizzato per evitare warning
-                        echo $this->renderDropdownMenu($oraRenderizzata, '', $IdOrinPausa[$i], $DeIdPausa[$i], $TipoPausa[$i], $SensoPausa[$i], $filtDate, $IdGest , $trasmessaPausa[$i]);
+                        echo $this->renderDropdownMenu($oraRenderizzata, '', $IdOrinPausa[$i], $DeIdPausa[$i], $TipoPausa[$i], $SensoPausa[$i], $filtDateFrom, $IdGest , $trasmessaPausa[$i]);
                     }
                     echo "<td {$styleDurata1}>" . (!empty($oraPausa1) ? $durateSingole[0] : '') . "</td>";
                     echo "<td {$styleDurata2}>" . (!empty($oraPausa3) ? $durateSingole[1] : '') . "</td>";
@@ -1223,9 +1458,7 @@ SEGDTA;
 		$this->pf_scriptname = 'pause.php';
 		$this->pf_wcm_set = 'PRODUZIONE';
 
-
 		$this->xl_set_env($this->pf_wcm_set);
-
 
 	}
 }
@@ -1237,7 +1470,8 @@ xlLoadWebSmartObject(__FILE__, 'PAUSE'); ?>
     const form = document.getElementById('filter-form');
     if (!form) return;
 
-    document.getElementById('filtDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('filtDateFrom').value = new Date().toISOString().split('T')[0];
+    document.getElementById('filtDateTo').value = new Date().toISOString().split('T')[0];
     document.getElementById('filtNome').value = '';
     document.getElementById('filtCognome').value = '';
 
@@ -1290,150 +1524,23 @@ xlLoadWebSmartObject(__FILE__, 'PAUSE'); ?>
     location.reload();
 }, 30000); // 30000 millisecondi = 30 secondi
 
-function openGestioneDipendente(BDCOGE) {
-  azioneInAttesa = {
-    tipo: 'gestione',
-    valore: BDCOGE
-  };
-  const modal = new bootstrap.Modal(document.getElementById('passwordModal'));
-  document.getElementById('inputPasswordModal').value = '';
-  modal.show();
-  document.getElementById('passwordModal').addEventListener('shown.bs.modal', function () {
-    document.getElementById('inputPasswordModal').focus();
-  }, { once: true });
+function openGestioneDipendente(BDBADG) {
+  // Apertura diretta popup gestione dipendente senza richiesta password
+  const width = 600;
+  const height = 900;
+  const left = (window.screen.width - width) / 2;
+  const top = (window.screen.height - height) / 2;
+  const url = 'https://jde.rgpballs.com/HR/gestdipe.php?BDBADG=' + encodeURIComponent(BDBADG);
+  window.open(url, 'popupGestioneDipendenti', `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`);
 }
 
 function openPopupTimbratura(BDBADG) {
-  azioneInAttesa = {
-    tipo: 'timbratura',
-    valore: BDBADG
-  };
-  const modal = new bootstrap.Modal(document.getElementById('passwordModal'));
-  document.getElementById('inputPasswordModal').value = '';
-  modal.show();
-  document.getElementById('passwordModal').addEventListener('shown.bs.modal', function () {
-    document.getElementById('inputPasswordModal').focus();
-  }, { once: true });
+  // Apertura diretta popup timbratura senza richiesta password
+  const width = 600;
+  const height = 900;
+  const left = (window.screen.width - width) / 2;
+  const top = (window.screen.height - height) / 2;
+  const url = 'https://jde.rgpballs.com/HR/savManTimbratura.php?BDBADG=' + encodeURIComponent(BDBADG);
+  window.open(url, 'popupTimbratura', `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`);
 }
-</script>
-    <!-- Modal per richiesta password -->
-    <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Inserisci password</h5>
-          </div>
-          <div class="modal-body">
-            <input type="password" id="inputPasswordModal" class="form-control" placeholder="Password">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-            <button type="button" class="btn btn-primary" onclick="confermaPassword()">Conferma</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-<script>
-let azioneInAttesa = null;
-let idOrinInAttesa = null;
-
-function verificaPasswordMenu(icon, idOrin) {
-  const menu = icon.nextElementSibling;
-
-  if (!menu || !menu.classList.contains("dropdown-menu")) return;
-
-  // Rimuove istanza dropdown se esistente
-  const existingDropdown = bootstrap.Dropdown.getInstance(icon);
-  if (existingDropdown) {
-    existingDropdown.dispose();
-  }
-
-  // Rimuove show e data-toggle per reset
-  icon.removeAttribute("data-bs-toggle");
-  menu.classList.remove("show");
-
-  // Aggiunge toggle e mostra
-  icon.setAttribute("data-bs-toggle", "dropdown");
-  menu.classList.remove("d-none");
-
-  const dropdown = bootstrap.Dropdown.getOrCreateInstance(icon);
-  dropdown.show();
-}
-
-function confermaPassword() {
-  const pw = document.getElementById('inputPasswordModal').value;
-  if (pw !== "rgp123") {
-    alert("Password errata.");
-    return;
-  }
-
-  if (typeof azioneInAttesa === 'string') {
-    window.location.href = azioneInAttesa;
-  } else if (typeof azioneInAttesa === 'object' && azioneInAttesa !== null) {
-    const tipo = azioneInAttesa.tipo;
-    const valore = azioneInAttesa.valore;
-
-    if (tipo === 'gestione') {
-      const rnd = Math.floor(Math.random() * 99999);
-      const url = 'https://jde.rgpballs.com/HR/gestdipe.php?task=beginchange&BDCOGE=' + encodeURIComponent(valore) + '&rnd=' + rnd;
-      const width = 700;
-      const height = 750;
-      const left = (window.screen.width - width) / 2;
-      const top = (window.screen.height - height) / 2;
-      window.open(url, 'popupGestioneDipendente', `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`);
-    }
-
-    if (tipo === 'timbratura') {
-      const width = 600;
-      const height = 900;
-      const left = (window.screen.width - width) / 2;
-      const top = (window.screen.height - height) / 2;
-      const url = 'https://jde.rgpballs.com/HR/savManTimbratura.php?BDBADG=' + encodeURIComponent(valore);
-      window.open(url, 'popupTimbratura', `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`);
-    }
-  }
-
-  bootstrap.Modal.getInstance(document.getElementById('passwordModal')).hide();
-}
-
-function richiediPasswordPerAzione(url) {
-  azioneInAttesa = url;
-  const modal = new bootstrap.Modal(document.getElementById('passwordModal'));
-  document.getElementById('inputPasswordModal').value = '';
-  modal.show();
-  document.getElementById('passwordModal').addEventListener('shown.bs.modal', function () {
-    document.getElementById('inputPasswordModal').focus();
-  }, { once: true });
-}
-
-// Gestione pressione INVIO nella modale password
-document.addEventListener('DOMContentLoaded', function () {
-  const passwordInput = document.getElementById('inputPasswordModal');
-  if (passwordInput) {
-    passwordInput.addEventListener('keydown', function (event) {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        confermaPassword();
-      }
-    });
-  }
-});
-
-function filtraPerNomeCognome(cognome, nome) {
-  document.getElementById('filtNome').value = cognome;
-  document.getElementById('filtCognome').value = nome;
-  document.forms[0].submit();
-}
-
-function apriPopupTransfer() {
-  azioneInAttesa = 'https://jde.rgpballs.com/timbrature/transfer.php';
-  const modal = new bootstrap.Modal(document.getElementById('passwordModal'));
-  document.getElementById('inputPasswordModal').value = '';
-  modal.show();
-  document.getElementById('passwordModal').addEventListener('shown.bs.modal', function () {
-    document.getElementById('inputPasswordModal').focus();
-  }, { once: true });
-}
-
 </script>

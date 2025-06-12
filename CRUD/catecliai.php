@@ -229,6 +229,24 @@ class catecli extends WebSmartObject
 			$escapedField = xl_fieldEscape($key);
 			$$escapedField = $row[$key];
 		}
+
+		// --- INIZIO INSERIMENTO DATI VENDITE DOPO LETTURA CODICE CLIENTE ---
+		// Ricava codice cliente
+		$codice = isset($SDAN8) ? $SDAN8 : null;
+		if (isset($this->db_connection) && $this->db_connection instanceof PDO) {
+			try {
+				$conn = $this->db_connection;
+				$vendite = [];
+				$stmtVendite = $conn->prepare("SELECT SDAN8 as codice_cliente, SDLITM as articolo, SDAEXP/100 as importo, DIVD as datafattura, SDUORG/100 as quantita FROM f564211 WHERE SDAN8 = ? FETCH FIRST 5 ROWS ONLY");
+				$stmtVendite->execute([$codice]);
+				$vendite = $stmtVendite->fetchAll(PDO::FETCH_ASSOC);
+				$venditeJson = json_encode($vendite, JSON_PRETTY_PRINT);
+				echo "<script>window.lastVenditeCliente = " . json_encode($venditeJson) . ";\nconsole.log('✅ Vendite caricate:', window.lastVenditeCliente);</script>";
+			} catch (\Throwable $e) {
+				// In caso di errore, non mostrare nulla ma non interrompere la pagina
+			}
+		}
+		// --- FINE INSERIMENTO DATI VENDITE ---
 		
 		// Output the segment
 		$this->writeSegment('RcdDisplay', array_merge(get_object_vars($this), get_defined_vars()));
@@ -1241,14 +1259,23 @@ SEGDTA;
    
   <td class="actions">
     <span>
-      <a class="btn btn-default btn-xs glyphicon glyphicon-filter" title="Visualizza questa categoria" onclick="$.blockUI();" href="$pf_scriptname?task=filter&filter_CTKY1=
+      <a class="btn btn-outline-info btn-sm d-inline-flex align-items-center gap-1"
+         title="Visualizza questa categoria"
+         onclick="$.blockUI();"
+         href="$pf_scriptname?task=filter&filter_CTKY1=
 SEGDTA;
- echo urlencode($CTKY1); 
+ echo urlencode($CTKY1);
 		echo <<<SEGDTA
-"></a> 
+">
+        <i class="bi bi-info-circle"></i> Categoria
+      </a>
       <!--
-      <a class="btn btn-default btn-xs glyphicon glyphicon-pencil" title="Change this record" href="$pf_scriptname?task=beginchange&amp;rnd=$rnd"></a> 
-      <a class="btn btn-default btn-xs glyphicon glyphicon-remove" title="Delete this record" href="$pf_scriptname?task=delconf"></a>
+      <a class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-1" title="Modifica" href="$pf_scriptname?task=beginchange&amp;rnd=$rnd">
+        <i class="bi bi-pencil"></i> Modifica
+      </a>
+      <a class="btn btn-outline-danger btn-sm d-inline-flex align-items-center gap-1" title="Elimina" href="$pf_scriptname?task=delconf">
+        <i class="bi bi-trash"></i> Elimina
+      </a>
       -->
     </span>
   </td>
@@ -1259,17 +1286,23 @@ SEGDTA;
   <td class="text">$ALCTR</td>
   <td>
       <!-- tasto ricerca -->
-      <a class="btn btn-default btn-xs glyphicon glyphicon-search" title="Ricerca" target="_blank" href="https://www.google.com/search?q=
+      <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-1"
+         title="Ricerca"
+         target="_blank"
+         href="https://www.google.com/search?q=
 SEGDTA;
- echo urlencode($ABALPH); 
+ echo urlencode($ABALPH);
 		echo <<<SEGDTA
-"></a>
-      <a class="btn btn-default btn-xs glyphicon glyphicon-info-sign"
-         title="AI - Analizza"
-onclick="inviaChat('<?= addslashes($ABALPH) ?>', this);"
-         style="margin-left: 4px;"></a>
+">
+        <i class="bi bi-search"></i> Ricerca
+      </a>
+      <a class="btn btn-outline-info btn-sm d-inline-flex align-items-center gap-1"
+         title="AI - Analizza categoria"
+         onclick="inviaChat('<?= addslashes($ABALPH) ?>', this);"
+         style="margin-left: 4px;">
+        <i class="bi bi-info-circle"></i> Analizza
+      </a>
   </td>
-
 
   <td>
   
@@ -1292,11 +1325,16 @@ SEGDTA;
 
   </td>
       <td>
-      <a class="btn btn-link btn-xs glyphicon glyphicon-link" title="Sito" target="_blank" href="https://
+      <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-1"
+         title="Sito"
+         target="_blank"
+         href="https://
 SEGDTA;
- echo urlencode($CTWEB); 
+ echo urlencode($CTWEB);
 		echo <<<SEGDTA
-"></a> 
+">
+        <i class="bi bi-link-45deg"></i> Sito
+      </a>
   </td>
 </tr>
  
@@ -1394,11 +1432,6 @@ SEGDTA;
 		$(".calendario-8").mask("99/99/99",{placeholder:" "});
 
 	});	
-	
-	
-	
-
-	
 	
 	
 </script>
@@ -1757,7 +1790,14 @@ xlLoadWebSmartObject(__FILE__, 'catecli');?>
 <div id="popupAI" style="display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; z-index:9999; background:rgba(0,0,0,0.35);">
   <div style="background:#fff; padding:24px 20px 16px 20px; border-radius:8px; max-width:600px; min-width:320px; min-height:120px; box-shadow:0 4px 16px rgba(0,0,0,0.15); margin:80px auto 0 auto; position:relative;">
     <button onclick="document.getElementById('popupAI').style.display='none';" style="position:absolute;top:10px;right:10px;font-size:20px;background:none;border:none;">&times;</button>
-    <div id="popupAIContent" style="white-space:pre-line; min-height:60px;">Attendere risposta...</div>
+    <div id="popupAIContent" style="white-space:pre-line; min-height:60px; max-height: 70vh; overflow-y: auto;">
+      <div class="mb-2">
+        <label for="extraQuestion" class="form-label">Domanda aggiuntiva per l'AI:</label>
+        <textarea id="extraQuestion" class="form-control form-control-sm" rows="2" placeholder="Scrivi una domanda aggiuntiva..."></textarea>
+        <button type="button" class="btn btn-secondary btn-sm mt-2" onclick="window.inviaSoloDomandaAI()">Chiedi</button>
+      </div>
+      <div id="aiResponseOutput" class="mt-3"></div>
+    </div>
     <div style="text-align:right; margin-top:18px;">
       <button id="popupApplicaCategoria" style="display:none;" class="btn btn-primary btn-sm">Applica categoria</button>
       <button onclick="document.getElementById('popupAI').style.display='none';" class="btn btn-secondary btn-sm">Chiudi</button>
@@ -1767,15 +1807,61 @@ xlLoadWebSmartObject(__FILE__, 'catecli');?>
 <script>
 // Funzione aggiornata per usare popup nativo e mostrare risposta AI
 async function inviaChat(codice, bottone) {
+	window.codiceClienteAttuale = codice;
   const popup = document.getElementById('popupAI');
   const popupContent = document.getElementById('popupAIContent');
-  popupContent.textContent = "Analisi in corso...";
+  // Mostra il popup
   popup.style.display = 'block';
   document.getElementById('popupApplicaCategoria').style.display = 'none';
 
+  // Prepara la struttura del popup: domanda extra sopra, risposta sotto
+  popupContent.innerHTML =
+    `<div class="mb-2">
+      <label for="extraQuestion" class="form-label">Domanda aggiuntiva per l'AI:</label>
+      <textarea id="extraQuestion" class="form-control form-control-sm" rows="2" placeholder="Scrivi una domanda aggiuntiva..."></textarea>
+      <button type="button" class="btn btn-secondary btn-sm mt-2" onclick="window.inviaSoloDomandaAI()">Invia solo domanda</button>
+    </div>
+    <div id="aiResponseOutput" class="mt-3">Analisi in corso...</div>`;
+
+  // Blocco per vendite: mostra avviso se ci sono dati di vendita
+  let avvisoVenditeHTML = '';
+  let venditeJson = "";
+  try {
+    // Ricava codice dal primo td della riga
+    const clienteRow = bottone.closest('tr');
+    const codiceTd = clienteRow.querySelector("td:nth-child(1)")?.innerText?.trim() || '';
+    const codiceEffettivo = codiceTd || codice;
+    // Salva codice cliente in variabile globale per debug
+    window.codiceClienteAttuale = codiceEffettivo;
+    const venditeResp = await fetch('/CRUD/catecliai.php?task=vendite&codice=' + encodeURIComponent(codiceEffettivo));
+    if (venditeResp.ok) {
+      venditeJson = await venditeResp.text();
+      window.lastVenditeCliente = venditeJson;
+      console.log("Vendite caricate:", window.lastVenditeCliente);
+      // Se ci sono dati di vendita non vuoti, mostra avviso
+      if (venditeJson && venditeJson.trim().length > 0) {
+        avvisoVenditeHTML = "<div class='alert alert-info small mt-2'>Sono disponibili dati di vendita per questo cliente. Se desideri includerli nell'analisi, chiedilo esplicitamente.</div>";
+      }
+    }
+    // Sovrascrivi la variabile codice per tutto il resto della funzione
+    codice = codiceEffettivo;
+    // Salva codice cliente in variabile globale per debug
+    window.codiceClienteAttuale = codice;
+  } catch (err) {
+    venditeJson = "";
+  }
+
+  // Se c'è l'avviso, aggiungilo in fondo al popup
+  if (avvisoVenditeHTML) {
+    popupContent.innerHTML += avvisoVenditeHTML;
+  }
+
   try {
     const clienteRow = bottone.closest('tr');
-
+    // Ricava codice dal primo td (Codice Cliente)
+    const codice = clienteRow.querySelector("td:nth-child(1)")?.innerText?.trim() || '';
+    // Salva codice cliente in variabile globale per debug
+    window.codiceClienteAttuale = codice;
     const sito = clienteRow.querySelector("input.web-input")?.value || '';
     const categoria = clienteRow.querySelector("select.categoria-input-edit")?.value || '';
     const ragioneSociale = clienteRow.querySelector("td:nth-child(3)")?.innerText || '';
@@ -1783,18 +1869,36 @@ async function inviaChat(codice, bottone) {
     const note = clienteRow.querySelector("input.note-input")?.value || '';
     const città = clienteRow.querySelector("td:nth-child(4)")?.innerText || '';
     const stato = clienteRow.querySelector("td:nth-child(5)")?.innerText || '';
+    const domandaExtra = document.getElementById('extraQuestion')?.value.trim() || '';
 
-    const messaggio = sito
-      ? `Il cliente ${codice} (${ragioneSociale}) non ha una categoria assegnata.
+    let messaggio;
+    if (sito) {
+      messaggio = `Il cliente ${codice} (${ragioneSociale}) non ha una categoria assegnata.
 Relazioni aziendali: ${relazioni}.
 Note: ${note}.
 Sito internet: ${sito}.
-Analizza le informazioni disponibili e, se possibile, visita il sito per capire di che settore si occupa e suggerire una categoria coerente.`
-      : `Il cliente ${codice} (${ragioneSociale}) non ha una categoria assegnata e non ha un sito registrato.
+Analizza le informazioni disponibili, visita il sito se possibile, e suggerisci una categoria di attività coerente. Considera anche le categorie già assegnate ad altri clienti simili presenti nel database. Riporta chiaramente il sito internet e la categoria suggerita.`;
+      if (domandaExtra) {
+        messaggio += `\n\nDomanda aggiuntiva: ${domandaExtra}`;
+      }
+    } else {
+      messaggio = `Il cliente ${codice} (${ragioneSociale}) non ha una categoria assegnata e non ha un sito registrato.
 Relazioni aziendali: ${relazioni}.
 Note: ${note}.
 Città: ${città}, Stato: ${stato}.
-Cerca online il sito ufficiale del cliente e suggerisci la categoria di attività più coerente.`;
+Cerca online il sito ufficiale del cliente, analizza le informazioni disponibili, e suggerisci una categoria di attività coerente. Considera anche le categorie già assegnate ad altri clienti simili presenti nel database. Riporta chiaramente il sito internet trovato e la categoria suggerita.`;
+      if (domandaExtra) {
+        messaggio += `\n\nDomanda aggiuntiva: ${domandaExtra}`;
+      }
+    }
+
+    // Salva il contesto per domanda AI extra (aggiungi anche vendite)
+    window.lastClienteContext = `Cliente: ${ragioneSociale} (Codice cliente: ${codice})\nSito: ${sito || 'non disponibile'}\nRelazioni: ${relazioni}\nNote: ${note}\nVendite: ${venditeJson}`;
+    console.log("📦 Codice cliente:", codice);
+    console.log("🧠 Contesto AI:", window.lastClienteContext);
+
+    // Aggiorna solo la risposta AI
+    document.getElementById('aiResponseOutput').innerHTML = "Analisi in corso...";
 
     const response = await fetch('/AI/connect.php', {
       method: 'POST',
@@ -1803,8 +1907,10 @@ Cerca online il sito ufficiale del cliente e suggerisci la categoria di attivit�
     });
 
     const data = await response.json();
-    popupContent.textContent = data.reply || "Nessuna risposta ricevuta.";
+    // Aggiorna solo la risposta AI
+    document.getElementById('aiResponseOutput').textContent = data.reply || "Nessuna risposta ricevuta.";
 
+    // Mostra il pulsante "Applica categoria"
     const btnApplica = document.getElementById('popupApplicaCategoria');
     btnApplica.style.display = 'inline-block';
     btnApplica.onclick = function () {
@@ -1816,7 +1922,78 @@ Cerca online il sito ufficiale del cliente e suggerisci la categoria di attivit�
       popup.style.display = 'none';
     };
   } catch (err) {
-    popupContent.textContent = "Errore nella richiesta.";
+    // In caso di errore, aggiorna solo la risposta
+    document.getElementById('aiResponseOutput').innerHTML = "Errore nella richiesta.";
   }
 }
 </script>
+
+<script>
+window.inviaSoloDomandaAI = async function () {
+
+  const domandaInput = document.getElementById('extraQuestion')?.value.trim();
+  const aziendaContext = window.lastClienteContext || '';
+  let domandaFinale = (aziendaContext ? aziendaContext + "\n\n" : '') + domandaInput;
+
+  const paroleChiaveVendite = ['vendite', 'fatture', 'articoli', 'quantità', 'importo', 'acquisti'];
+  const contieneRichiestaVendite = paroleChiaveVendite.some(parola => domandaInput.toLowerCase().includes(parola));
+
+  // 👇 Log vendite e keyword
+  console.log("🧾 Verifica parole chiave vendite:", contieneRichiestaVendite);
+  console.log("📦 Dati vendite presenti:", window.lastVenditeCliente);
+
+  // Verifica che, se la domanda contiene richiesta vendite e ci sono dati, vengano aggiunti
+  if (contieneRichiestaVendite && window.lastVenditeCliente) {
+    domandaFinale += "\n\nEcco le vendite registrate per questo cliente:\n" + window.lastVenditeCliente;
+  }
+  if (!domandaInput) return;
+
+  // Usa il nuovo container per la risposta
+  const rispostaContainer = document.getElementById('aiResponseOutput');
+  if (!rispostaContainer) return;
+  const rispostaAttuale = rispostaContainer.innerHTML;
+  rispostaContainer.innerHTML = "<em>Attendere risposta aggiuntiva...</em><hr>" + rispostaAttuale;
+
+  // 👇 Logga la domanda inviata all'AI
+  console.log("🔍 Messaggio completo per l’AI:");
+  console.log(domandaFinale);
+
+  try {
+    // Assicurati che la ragioneSociale sia inclusa SEMPRE nel messaggio per /AI/connect.php
+    // (window.lastClienteContext già la include se impostata secondo la funzione sopra)
+    const response = await fetch('/AI/connect.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: domandaFinale })
+    });
+    const data = await response.json();
+
+    // 👇 Logga la risposta ricevuta dall'AI
+    console.log("Risposta ricevuta dall'AI:");
+    console.log(data);
+
+    const nuovaRisposta = data.reply || "Nessuna risposta ricevuta.";
+    // Mostra la nuova risposta sopra la precedente
+    rispostaContainer.innerHTML = "<strong>Risposta aggiuntiva:</strong><br>" + nuovaRisposta + "<hr>" + rispostaAttuale;
+
+    // Mostra in chiaro i dati di vendita (se presenti e richiesti)
+    if (contieneRichiestaVendite && window.lastVenditeCliente) {
+      const risposteAI = rispostaContainer.parentElement;
+      const venditeDiv = document.createElement('div');
+      venditeDiv.classList.add('ai-vendite-box', 'mt-2');
+      venditeDiv.innerHTML =
+        `<pre style="white-space:pre-wrap; font-size: 0.85em; background:#f8f9fa; border:1px solid #ccc; padding:0.5rem;"><strong>Vendite registrate:</strong>\n${window.lastVenditeCliente}</pre>`;
+      risposteAI.prepend(venditeDiv);
+    }
+  } catch (err) {
+    rispostaContainer.innerHTML = "<strong>Errore nella richiesta.</strong><hr>" + rispostaAttuale;
+  }
+};
+</script>
+</script>
+<style>
+.ai-vendite-box pre {
+  max-height: 300px;
+  overflow-y: auto;
+}
+</style>

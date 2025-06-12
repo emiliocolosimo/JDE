@@ -24,7 +24,7 @@ class gest_dipe extends WebSmartObject
 		'sort' => '',
 		'page' => 1,
 		'listSize' => 9999,
-		'filters' => array('BDNOME' => '', 'BDCOGN' => '', 'BDCOGE' => '', 'BDBADG' => '', 'BDREPA' => '', 'BDTIMB' => '', 'BDBDTM' => '')
+		'filters' => array('BDNOME' => '', 'BDCOGN' => '', 'BDPASS' => '', 'BDAUTH' => '', 'BDEMAI' => '', 'BDCOGE' => '', 'BDBADG' => '', 'BDREPA' => '', 'BDTIMB' => '', 'BDBDTM' => '')
 	);
 	
 	
@@ -58,10 +58,13 @@ class gest_dipe extends WebSmartObject
 }
 		// Fetch the program state
 		$this->getState();
-		
+
 		$this->formFields = array(
 			"BDNOME" => array("validators"=> array("WSRequired")),
 			"BDCOGN" => array("validators"=> array("WSRequired")),
+			"BDPASS" => array(),
+			"BDAUTH" => array("validators"=> array("WSRequired")),
+			"BDEMAI" => array(),
 			"BDCOGE" => array("validators"=> array("WSRequired")),
 			"BDBADG" => array("validators"=> array("WSRequired")),
 			"BDREPA" => array("validators"=> array("WSRequired")),
@@ -259,6 +262,9 @@ if ($go == 'next' && !empty($_POST['BDBADG_NEXT'])) {
 	{
 		$BDNOME = "";
 		$BDCOGN = "";
+		$BDPASS = "";
+		$BDAUTH = "";
+		$BDEMAI = "";
 		$BDCOGE = "";
 		$BDBADG = "";
 		$BDREPA = "";
@@ -277,6 +283,9 @@ if ($go == 'next' && !empty($_POST['BDBADG_NEXT'])) {
 		extract($keyFieldArray);
 		$BDNOME = strtoupper(xl_get_parameter('BDNOME'));
 		$BDCOGN = strtoupper(xl_get_parameter('BDCOGN'));
+		$BDPASS = strtoupper(xl_get_parameter('BDPASS'));
+		$BDAUTH = strtoupper(xl_get_parameter('BDAUTH'));
+		$BDEMAI = strtoupper(xl_get_parameter('BDEMAI'));
 		$BDCOGE = strtoupper(xl_get_parameter('BDCOGE'));
 		$BDBADG = str_pad($BDBADG,16,"0",STR_PAD_LEFT);
 		$BDREPA = strtoupper(xl_get_parameter('BDREPA')); 
@@ -311,7 +320,7 @@ if ($go == 'next' && !empty($_POST['BDBADG_NEXT'])) {
 		}
 		
 		// Prepare the statement to add the record
-		$insertSql = 'INSERT INTO BCD_DATIV2.BDGDIP0F (BDNOME, BDCOGN, BDCOGE, BDBADG, BDREPA, BDTIMB, BDBDTM ) VALUES(:BDNOME, :BDCOGN, :BDCOGE, :BDBADG, :BDREPA, :BDTIMB, :BDBDTM)' . ' WITH NC';
+		$insertSql = 'INSERT INTO BCD_DATIV2.BDGDIP0F (BDNOME, BDCOGN, BDPASS, BDAUTH, BDEMAI, BDCOGE, BDBADG, BDREPA, BDTIMB, BDBDTM ) VALUES(:BDNOME, :BDCOGN, :BDPASS, :BDAUTH, :BDEMAI, :BDCOGE, :BDBADG, :BDREPA, :BDTIMB, :BDBDTM)' . ' WITH NC';
 		$stmt = $this->db_connection->prepare($insertSql);
 		if (!$stmt)
 		{
@@ -321,6 +330,9 @@ if ($go == 'next' && !empty($_POST['BDBADG_NEXT'])) {
 		// Bind the parameters
 		$stmt->bindValue(':BDNOME', $BDNOME, PDO::PARAM_STR);
 		$stmt->bindValue(':BDCOGN', $BDCOGN, PDO::PARAM_STR);
+		$stmt->bindValue(':BDPASS', $BDPASS, PDO::PARAM_STR);
+		$stmt->bindValue(':BDAUTH', $BDAUTH, PDO::PARAM_STR);
+		$stmt->bindValue(':BDEMAI', $BDEMAI, PDO::PARAM_STR);
 		$stmt->bindValue(':BDCOGE', $BDCOGE, PDO::PARAM_STR);
 		$stmt->bindValue(':BDBADG', $BDBADG, PDO::PARAM_STR);
 		$stmt->bindValue(':BDREPA', $BDREPA, PDO::PARAM_STR);
@@ -399,9 +411,6 @@ $index = array_search($BDBADG, $badges);
 $prevBadge = $badges[$index - 1] ?? '';
 $nextBadge = $badges[$index + 1] ?? '';
 
-
-
-
 		// Output the segment
 $this->writeSegment('RcdChange', array_merge(get_object_vars($this), get_defined_vars(), [
     'nextBadge' => $nextBadge,
@@ -454,6 +463,9 @@ $this->writeSegment('RcdChange', array_merge(get_object_vars($this), get_defined
 		// Get values from the page
 		$BDNOME = strtoupper(xl_get_parameter('BDNOME'));
 		$BDCOGN = strtoupper(xl_get_parameter('BDCOGN'));
+		$BDPASS = strtoupper(xl_get_parameter('BDPASS'));
+		$BDAUTH = strtoupper(xl_get_parameter('BDAUTH'));
+		$BDEMAI = strtoupper(xl_get_parameter('BDEMAI'));
 		$BDCOGE = strtoupper(xl_get_parameter('BDCOGE'));
 		$BDBADG = strtoupper(string: xl_get_parameter('BDBADG'));
 		$BDBADG = str_pad($BDBADG,16,"0",STR_PAD_LEFT);
@@ -479,7 +491,7 @@ $this->writeSegment('RcdChange', array_merge(get_object_vars($this), get_defined
 		}
 		
 		// Construct and prepare the SQL to update the record
-		$updateSql = 'UPDATE BCD_DATIV2.BDGDIP0F SET BDNOME = :BDNOME, BDCOGN = :BDCOGN, BDCOGE = :BDCOGE, BDBADG = :BDBADG, BDREPA = :BDREPA, BDTIMB = :BDTIMB, BDBDTM = :BDBDTM ';
+		$updateSql = 'UPDATE BCD_DATIV2.BDGDIP0F SET BDNOME = :BDNOME, BDCOGN = :BDCOGN, BDPASS = :BDPASS, BDAUTH = :BDAUTH, BDEMAI = :BDEMAI, BDCOGE = :BDCOGE, BDBADG = :BDBADG, BDREPA = :BDREPA, BDTIMB = :BDTIMB, BDBDTM = :BDBDTM ';
 		$updateSql .= ' ' . $this->buildRecordWhere() . ' WITH NC';
 		$stmt = $this->db_connection->prepare($updateSql);
 		if (!$stmt)
@@ -490,6 +502,9 @@ $this->writeSegment('RcdChange', array_merge(get_object_vars($this), get_defined
 		// Bind the parameters
 		$stmt->bindValue(':BDNOME', $BDNOME, PDO::PARAM_STR);
 		$stmt->bindValue(':BDCOGN', $BDCOGN, PDO::PARAM_STR);
+		$stmt->bindValue(':BDPASS', $BDPASS, PDO::PARAM_STR);
+		$stmt->bindValue(':BDAUTH', $BDAUTH, PDO::PARAM_STR);
+		$stmt->bindValue(':BDEMAI', $BDEMAI, PDO::PARAM_STR);
 		$stmt->bindValue(':BDCOGE', $BDCOGE, PDO::PARAM_STR);
 		$stmt->bindValue(':BDBADG', $BDBADG, PDO::PARAM_STR);
 		$stmt->bindValue(':BDBADG_', $BDBADG_, PDO::PARAM_STR);
@@ -522,6 +537,9 @@ if ($go == 'next' && !empty($_POST['BDBADG_NEXT'])) {
 		// Retrieve the filter information
 		$this->programState['filters']['BDNOME'] = xl_get_parameter('filter_BDNOME');
 		$this->programState['filters']['BDCOGN'] = xl_get_parameter('filter_BDCOGN');
+		$this->programState['filters']['BDPASS'] = xl_get_parameter('filter_BDPASS');
+		$this->programState['filters']['BDAUTH'] = xl_get_parameter('filter_BDAUTH');
+		$this->programState['filters']['BDEMAI'] = xl_get_parameter('filter_BDEMAI');
 		$this->programState['filters']['BDCOGE'] = xl_get_parameter('filter_BDCOGE');
 		$this->programState['filters']['BDBADG'] = xl_get_parameter('filter_BDBADG');
 		$this->programState['filters']['BDREPA'] = xl_get_parameter('filter_BDREPA');
@@ -637,12 +655,24 @@ if ($go == 'next' && !empty($_POST['BDBADG_NEXT'])) {
 		{
 			$stmt->bindValue(':BDCOGN', '%' . strtolower($this->programState['filters']['BDCOGN']) . '%', PDO::PARAM_STR);
 		}
-		
+
+		if ($this->programState['filters']['BDPASS'] != '')
+		{
+			$stmt->bindValue(':BDPASS', '%' . strtolower($this->programState['filters']['BDPASS']) . '%', PDO::PARAM_STR);
+		}
+		if ($this->programState['filters']['BDAUTH'] != '')
+		{
+			$stmt->bindValue(':BDAUTH', '%' . strtolower($this->programState['filters']['BDAUTH']) . '%', PDO::PARAM_STR);
+		}
+		if ($this->programState['filters']['BDEMAI'] != '')
+		{
+			$stmt->bindValue(':BDEMAI', '%' . strtolower($this->programState['filters']['BDEMAI']) . '%', PDO::PARAM_STR);
+		} 
 		if ($this->programState['filters']['BDCOGE'] != '')
 		{
 			$stmt->bindValue(':BDCOGE', '%' . strtolower($this->programState['filters']['BDCOGE']) . '%', PDO::PARAM_STR);
 		}
-		
+
 		if ($this->programState['filters']['BDBADG'] != '')
 		{ 
 			$stmt->bindValue(':BDBADG', strtolower($this->programState['filters']['BDBADG']), PDO::PARAM_STR);
@@ -665,7 +695,7 @@ if ($go == 'next' && !empty($_POST['BDBADG_NEXT'])) {
 	// Build SQL Select string
 	protected function buildSelectString()
 	{
-		$selString = 'SELECT BCD_DATIV2.BDGDIP0F.BDBADG, BCD_DATIV2.BDGDIP0F.BDNOME, BCD_DATIV2.BDGDIP0F.BDCOGN, BCD_DATIV2.BDGDIP0F.BDCOGE , BCD_DATIV2.BDGDIP0F.BDREPA, BCD_DATIV2.BDGDIP0F.BDTIMB , BCD_DATIV2.BDGDIP0F.BDBDTM 
+		$selString = 'SELECT BCD_DATIV2.BDGDIP0F.BDBADG, BCD_DATIV2.BDGDIP0F.BDNOME, BCD_DATIV2.BDGDIP0F.BDCOGN, BCD_DATIV2.BDGDIP0F.BDPASS, BCD_DATIV2.BDGDIP0F.BDAUTH, BCD_DATIV2.BDGDIP0F.BDEMAI, BCD_DATIV2.BDGDIP0F.BDCOGE , BCD_DATIV2.BDGDIP0F.BDREPA, BCD_DATIV2.BDGDIP0F.BDTIMB , BCD_DATIV2.BDGDIP0F.BDBDTM 
 		FROM BCD_DATIV2.BDGDIP0F';
 		
 		return $selString;
@@ -691,6 +721,24 @@ if ($go == 'next' && !empty($_POST['BDBADG_NEXT'])) {
 			$link = " AND ";
 		}
 		
+		// Filter by BDPASS
+		if ($this->programState['filters']['BDPASS'] != '')
+		{
+			$whereClause = $whereClause . $link . ' lower(BCD_DATIV2.BDGDIP0F.BDPASS) LIKE :BDPASS';
+			$link = " AND ";
+		}
+		// Filter by BDAUTH
+		if ($this->programState['filters']['BDAUTH'] != '')
+		{
+			$whereClause = $whereClause . $link . ' lower(BCD_DATIV2.BDGDIP0F.BDAUTH) LIKE :BDAUTH';
+			$link = " AND ";
+		}
+		// Filter by BDEMAI
+		if ($this->programState['filters']['BDEMAI'] != '')
+		{
+			$whereClause = $whereClause . $link . ' lower(BCD_DATIV2.BDGDIP0F.BDEMAI) LIKE :BDEMAI';
+			$link = " AND ";
+		}
 		// Filter by BDCOGE
 		if ($this->programState['filters']['BDCOGE'] != '')
 		{
@@ -754,7 +802,7 @@ if ($go == 'next' && !empty($_POST['BDBADG_NEXT'])) {
 	// Build SQL Select string
 	protected function buildRecordSelectString()
 	{
-		$selString = 'SELECT BCD_DATIV2.BDGDIP0F.BDBADG, BCD_DATIV2.BDGDIP0F.BDNOME, BCD_DATIV2.BDGDIP0F.BDCOGN, BCD_DATIV2.BDGDIP0F.BDCOGE, BCD_DATIV2.BDGDIP0F.BDREPA , BCD_DATIV2.BDGDIP0F.BDTIMB , BCD_DATIV2.BDGDIP0F.BDBDTM FROM BCD_DATIV2.BDGDIP0F';
+		$selString = 'SELECT BCD_DATIV2.BDGDIP0F.BDBADG, BCD_DATIV2.BDGDIP0F.BDNOME, BCD_DATIV2.BDGDIP0F.BDCOGN, BCD_DATIV2.BDGDIP0F.BDPASS, BCD_DATIV2.BDGDIP0F.BDAUTH, BCD_DATIV2.BDGDIP0F.BDEMAI, BCD_DATIV2.BDGDIP0F.BDCOGE, BCD_DATIV2.BDGDIP0F.BDREPA , BCD_DATIV2.BDGDIP0F.BDTIMB , BCD_DATIV2.BDGDIP0F.BDBDTM FROM BCD_DATIV2.BDGDIP0F';
 		
 		return $selString;
 	}
@@ -896,6 +944,11 @@ if ($go == 'next' && !empty($_POST['BDBADG_NEXT'])) {
 $valBDREPA  = $this->programState['filters']['BDREPA'] ?? '';
 $valBDTIMB  = $this->programState['filters']['BDTIMB'] ?? '';
 $valBDBDTM = $this->programState['filters']['BDBDTM'] ?? '';
+$valBDAUTH = $this->programState['filters']['BDAUTH'] ?? '';
+$valBDPASS = $this->programState['filters']['BDPASS'] ?? '';
+$valBDAUTH = $this->programState['filters']['BDAUTH'] ?? '';
+$valBDEMAI = $this->programState['filters']['BDEMAI'] ?? '';
+
 $optionsBDTIMB = '';
 $optionsBDTIMB .= '<option value=""' . ($valBDTIMB == '' ? ' selected' : '') . '>-- Tutti --</option>';
 $optionsBDTIMB .= '<option value="70"' . ($valBDTIMB == '70' ? ' selected' : '') . '>INGRESSO</option>';
@@ -914,6 +967,11 @@ $optionsBDBDTM .= '<option value="0004EB2874BF6180"' . ($valBDBDTM == '0004EB287
 $optionsBDBDTM .= '<option value="000406ED76BF6180"' . ($valBDBDTM == '000406ED76BF6180' ? ' selected' : '') . '>JOLLY 3</option>';
 $optionsBDBDTM .= '<option value="0004F025D7FF6180"' . ($valBDBDTM == '0004F025D7FF6180' ? ' selected' : '') . '>JOLLY 4</option>';
 $optionsBDBDTM .= '<option value="0004FBC5D6FF6180"' . ($valBDBDTM == '0004FBC5D6FF6180' ? ' selected' : '') . '>JOLLY 5</option>';
+$optionsBDAUTH = '';
+$optionsBDAUTH .= '<option value="ADMIN"' . ($valBDAUTH == 'ADMIN' ? ' selected' : '') . '>AMMINISTRATORE</option>';
+$optionsBDAUTH .= '<option value="RESPONSABILE"' . ($valBDAUTH == 'RESPONSABILE' ? ' selected' : '') . '>RESPONSABILE</option>';
+$optionsBDAUTH .= '<option value="USER"' . ($valBDAUTH == 'USER' ? ' selected' : '') . '>UTENTE</option>';
+
 		echo <<<SEGDTA
 <!DOCTYPE html>
 <html>
@@ -1021,6 +1079,15 @@ $optionsBDBDTM
                   <a class="list-header" href="$pf_scriptname?sidx=BDCOGN&amp;rnd=$rnd">NOME</a>
                 </th>
                 <th>
+				  <a class="list-header" href="$pf_scriptname?sidx=BDPASS&amp;rnd=$rnd">PASSWORD</a>
+				</th>
+				<th>
+				  <a class="list-header" href="$pf_scriptname?sidx=BDAUTH&amp;rnd=$rnd">AUTORIZZAZIONE</a>
+				</th>
+				<th>
+				  <a class="list-header" href="$pf_scriptname?sidx=BDEMAI&amp;rnd=$rnd">EMAIL</a>
+				</th>
+				<th>
                   <a class="list-header" href="$pf_scriptname?sidx=BDCOGE&amp;rnd=$rnd">COD.GESTIONALE</a>
                 </th>
                 <th>
@@ -1060,6 +1127,14 @@ SEGDTA;
 			'0004FBC5D6FF6180' => 'JOLLY 5'
 		];
 		$labelBDBDTM = $bdmap[$BDBDTM] ?? $BDBDTM;
+
+		$authmap = [
+			'ADMIN' => 'AMMINISTRATORE',
+			'RESPONSABILE' => 'RESPONSABILE',
+			'USER' => 'UTENTE'
+		];
+		$labelBDAUTH = $authmap[$BDAUTH] ?? $BDAUTH;
+
 		echo <<<SEGDTA
 
 <tr>
@@ -1072,6 +1147,9 @@ SEGDTA;
   </td> 
   <td class="text">$BDNOME</td>
   <td class="text">$BDCOGN</td>
+  <td class="text">$BDPASS</td>
+  <td class="text">$labelBDAUTH</td>
+  <td class="text">$BDEMAI</td>
   <td class="text">$BDCOGE</td>
   <td class="text">$BDBADG</td>
   <td class="text">$BDREPA</td>
@@ -1167,6 +1245,18 @@ SEGDTA;
               <label class="col-sm-4">COGNOME:</label>
               <div class="col-sm-8">$BDCOGN</div>
             </div>
+			<div class="form-group row">
+			  <label class="col-sm-4">PASSWORD:</label>
+			  <div class="col-sm-8">$BDPASS</div>
+			</div>
+			<div class="form-group row">
+			  <label class="col-sm-4">AUTORIZZAZIONE:</label>
+			  <div class="col-sm-8">$BDAUTH</div>
+			</div>
+			<div class="form-group row">
+			  <label class="col-sm-4">EMAIL:</label>
+			  <div class="col-sm-8">$BDEMAI</div>
+							</div>
             <div class="form-group row">
               <label class="col-sm-4">COD.GESTIONALE:</label>
               <div class="col-sm-8">$BDCOGE</div>
@@ -1332,6 +1422,74 @@ SEGDTA;
               </div>
               <div class="form-group 
 SEGDTA;
+ $this->displayErrorClass('BDPASS'); 
+		echo <<<SEGDTA
+">
+				<label for="addBDPASS">PASSWORD
+SEGDTA;
+ $this->displayIndicator('BDPASS'); 
+		echo <<<SEGDTA
+</label>
+				<div>
+				  <input type="password" id="addBDPASS" class="form-control" name="BDPASS" size="100" maxlength="100" value="$BDPASS">
+				  <span class="error-text">
+SEGDTA;
+ $this->displayError('BDPASS', array('PASSWORD')); 
+		echo <<<SEGDTA
+</span>
+				</div>
+			  </div>
+			  <div class="form-group
+SEGDTA;
+
+ $this->displayErrorClass('BDAUTH'); 
+		echo <<<SEGDTA
+">
+				<label for="addBDAUTH">AUTORIZZAZIONE	
+SEGDTA;
+ $this->displayIndicator('BDAUTH'); 
+$sel_AUTH0 = ($BDAUTH == 'User') ? 'selected' : '';
+$sel_AUTH1 = ($BDAUTH == 'Responsabile') ? 'selected' : '';
+$sel_AUTH2 = ($BDAUTH == 'Admin') ? 'selected' : '';
+echo <<<SEGDTA
+</label>
+  <div>
+    <select id="addBDAUTH" class="form-control" name="BDAUTH">
+      <option value="User" $sel_AUTH0>User</option>
+      <option value="Responsabile" $sel_AUTH1>Responsabile</option>
+	  <option value="Admin" $sel_AUTH2>Admin</option>
+    </select>
+    <span class="error-text">
+SEGDTA;
+
+ $this->displayError('BDEMAI', array('EMAIL')); 
+		echo <<<SEGDTA
+</span>
+                </div>
+              </div>
+              <div class="form-group 
+SEGDTA;
+ $this->displayErrorClass('BDEMAI'); 
+		echo <<<SEGDTA
+">
+				<label for="addBDEMAI">EMAIL	
+SEGDTA;
+ $this->displayIndicator('BDEMAI'); 
+		echo <<<SEGDTA
+</label>
+				<div>
+				  <input type="email" id="addBDEMAI" class="form-control" name="BDEMAI" size="100" maxlength="100" value="$BDEMAI">
+				  <span class="error-text">
+SEGDTA;
+
+ $this->displayIndicator('BDCOGE'); 
+		echo <<<SEGDTA
+</label>
+				<div>
+				  <input type="text" id="addBDCOGE" class="form-control" name="BDCOGE" size="4" maxlength="4" value="$BDCOGE">
+				  <span class="error-text">
+SEGDTA;
+
  $this->displayErrorClass('BDCOGE'); 
 		echo <<<SEGDTA
 ">
@@ -1563,9 +1721,68 @@ SEGDTA;
               </div>
               <div class="form-group 
 SEGDTA;
- $this->displayErrorClass('BDCOGE'); 
+$this->displayErrorClass('BDPASS'); 
 		echo <<<SEGDTA
 ">
+				<label for="chgBDPASS">PASSWORD
+SEGDTA;
+ $this->displayIndicator('BDPASS'); 
+		echo <<<SEGDTA
+</label>
+				<div>
+				  <input type="password" id="chgBDPASS" class="form-control" name="BDPASS" size="100" maxlength="100" value="$BDPASS">
+				  <span class="error-text">
+SEGDTA;
+ $this->displayError('BDPASS', array('PASSWORD')); 
+		echo <<<SEGDTA
+</span>
+				</div>
+			  </div>
+			  <div class="form-group
+SEGDTA;
+
+ $this->displayErrorClass('BDAUTH'); 
+		echo <<<SEGDTA
+">
+				<label for="chgBDAUTH">AUTORIZZAZIONE	
+SEGDTA;
+ $this->displayIndicator('BDAUTH'); 
+$sel_AUTH0 = ($BDAUTH == 'User') ? 'selected' : '';
+$sel_AUTH1 = ($BDAUTH == 'Responsabile') ? 'selected' : '';
+$sel_AUTH2 = ($BDAUTH == 'Admin') ? 'selected' : '';
+echo <<<SEGDTA
+</label>
+  <div>
+    <select id="chgBDAUTH" class="form-control" name="BDAUTH">
+      <option value="User" $sel_AUTH0>User</option>
+      <option value="Responsabile" $sel_AUTH1>Responsabile</option>
+	  <option value="Admin" $sel_AUTH2>Admin</option>
+    </select>
+    <span class="error-text">
+SEGDTA;
+
+ $this->displayError('BDEMAI', array('EMAIL')); 
+		echo <<<SEGDTA
+</span>
+                </div>
+              </div>
+              <div class="form-group 
+SEGDTA;
+ $this->displayErrorClass('BDEMAI'); 
+		echo <<<SEGDTA
+">
+				<label for="chgBDEMAI">EMAIL	
+SEGDTA;
+ $this->displayIndicator('BDEMAI'); 
+		echo <<<SEGDTA
+</label>
+				<div>
+				  <input type="email" id="chgBDEMAI" class="form-control" name="BDEMAI" size="100" maxlength="100" value="$BDEMAI">
+				  <span class="error-text">
+SEGDTA;
+
+ $this->displayErrorClass('BDCOGE'); 
+		echo <<<SEGDTA
                 <label for="chgBDCOGE">COD.GESTIONALE 
 SEGDTA;
  $this->displayIndicator('BDCOGE'); 
@@ -1664,7 +1881,7 @@ SEGDTA;
  $this->displayErrorClass('BDBDTM'); 
 		echo <<<SEGDTA
 
-                <label for="addBDBDTM">BADGE HEX TEMPORANEO 
+                <label for="chgBDBDTM">BADGE HEX TEMPORANEO 
 SEGDTA;
 
 $this->displayIndicator('BDBDTM'); 
