@@ -3,6 +3,37 @@ if(!function_exists('xlLoadWebSmartObject')) {
 		function xlLoadWebSmartObject($file, $class) {	if(realpath($file) !== realpath($_SERVER["SCRIPT_FILENAME"])) {	return;	} $instance = new $class; $instance->runMain(); }
 }
 
+//	Program Name:		catecli.php
+//	Program Title:		Categorie clienti
+//	Created by:			matti
+//	Template family:	Responsive
+//	Template name:		Page at a Time.tpl
+//	Purpose:        	Maintain a database file using embedded SQL. Supports options for add, change, delete and display.
+//	Program Modifications:
+
+
+/*
+Filtri:
+
+Codice Cliente
+
+Ragione Sociale
+
+Tipo Cliente � men� a tendina con solo questi due valori: Cliente , Prospect �
+
+Cliente Where exists select * from f564211 where sddcto not in (�OF� , �SQ�)
+
+Prospect where not exists codice cliente=sdan8 and sddcto not in (�OF� , �SQ�) � cio� tutti gli altri
+
+Data
+
+se Prospect � Select select ondate from f564211 , f00365 where ondtej=sdtrdj
+
+                Se cliente select ondate from f564211 , f00365 where ondtej=sdivd
+
+Categoria- Casella di ricerca 
+*/
+
 set_time_limit(120);
 
 require_once('websmart/v13.2/include/WebSmartObject.php');
@@ -17,7 +48,7 @@ class catecli extends WebSmartObject
 		'sort' => '',
 		'page' => 1,
 		'listSize' => 20,
-		'filters' => array('ABAN8' => '', 'ABALPH' => '', 'TIPOCLI' => '', 'ONDATE' => '', 'CTKY1' => '', 'NOCATE'=>'')
+		'filters' => array('SDAN8' => '', 'ABALPH' => '', 'TIPOCLI' => '', 'ONDATE' => '', 'CTKY1' => '', 'NOCATE'=>'')
 	);
 	
 	
@@ -29,6 +60,10 @@ class catecli extends WebSmartObject
 		// Connect to the database
 		try 
 		{
+			// Defaults
+			// pf_db2OdbcDsn: DSN=*LOCAL
+			// pf_db2OdbcLibraryList: ;DBQ=, <<libraries, space separated, build from files included, add ',' at the beginning to not have a default schema>>
+			// pf_db2OdbcOptions: ;NAM=1;TSFT=1 -> setting system naming and timestamp type to IBM standards
 			$this->db_connection = new PDO(
 			'odbc:' . $this->defaults['pf_db2OdbcDsn'] . $this->defaults['pf_db2OdbcLibraryList'] . $this->defaults['pf_db2OdbcOptions'], 
 			$this->defaults['pf_db2OdbcUserID'], 
@@ -52,7 +87,7 @@ class catecli extends WebSmartObject
 		$_SESSION["catecli-access"] = 'S';
 		
 		$this->formFields = array(
-			"ABAN8" => array("validators"=> array("WSRequired","WSNumeric")));
+			"SDAN8" => array("validators"=> array("WSRequired","WSNumeric")));
 		$this->optionalIndicator = "(Optional)";
 		
 		// Run the specified task
@@ -194,6 +229,24 @@ class catecli extends WebSmartObject
 			$escapedField = xl_fieldEscape($key);
 			$$escapedField = $row[$key];
 		}
+
+		// --- INIZIO INSERIMENTO DATI VENDITE DOPO LETTURA CODICE CLIENTE ---
+		// Ricava codice cliente
+		$codice = isset($SDAN8) ? $SDAN8 : null;
+		if (isset($this->db_connection) && $this->db_connection instanceof PDO) {
+			try {
+				$conn = $this->db_connection;
+				$vendite = [];
+				$stmtVendite = $conn->prepare("SELECT SDAN8 as codice_cliente, SDLITM as articolo, SDAEXP/100 as importo, DIVD as datafattura, SDUORG/100 as quantita FROM f564211 WHERE SDAN8 = ? FETCH FIRST 5 ROWS ONLY");
+				$stmtVendite->execute([$codice]);
+				$vendite = $stmtVendite->fetchAll(PDO::FETCH_ASSOC);
+				$venditeJson = json_encode($vendite, JSON_PRETTY_PRINT);
+				echo "<script>window.lastVenditeCliente = " . json_encode($venditeJson) . ";\nconsole.log('✅ Vendite caricate:', window.lastVenditeCliente);</script>";
+			} catch (\Throwable $e) {
+				// In caso di errore, non mostrare nulla ma non interrompere la pagina
+			}
+		}
+		// --- FINE INSERIMENTO DATI VENDITE ---
 		
 		// Output the segment
 		$this->writeSegment('RcdDisplay', array_merge(get_object_vars($this), get_defined_vars()));
@@ -251,7 +304,7 @@ class catecli extends WebSmartObject
 	// Show the add page
 	protected function beginAdd()
 	{
-		$ABAN8 = "";
+		$SDAN8 = "";
 		$ABALPH = "";
 		$ALCTY1 = "";
 		$ALCTR = "";
@@ -266,7 +319,7 @@ class catecli extends WebSmartObject
 		// Get values from the page
 		$keyFieldArray = $this->getParameters(xl_FieldEscape($this->uniqueFields));
 		extract($keyFieldArray);
-		$ABAN8 = xl_get_parameter('ABAN8');
+		$SDAN8 = xl_get_parameter('SDAN8');
 		
 		
 		// Do any add validation here
@@ -298,7 +351,7 @@ class catecli extends WebSmartObject
 		}
 		
 		// Prepare the statement to add the record
-		$insertSql = 'INSERT INTO JRGDTA94C.F564211 (SDAN8) VALUES(:ABAN8)' . ' WITH NC';
+		$insertSql = 'INSERT INTO JRGDTA94C.F564211 (SDAN8) VALUES(:SDAN8)' . ' WITH NC';
 		$stmt = $this->db_connection->prepare($insertSql);
 		if (!$stmt)
 		{
@@ -306,7 +359,7 @@ class catecli extends WebSmartObject
 		}
 		
 		// Bind the parameters
-		$stmt->bindValue(':ABAN8', $ABAN8, PDO::PARAM_INT);
+		$stmt->bindValue(':SDAN8', $SDAN8, PDO::PARAM_INT);
 		
 		// Execute the insert statement
 		$result = $stmt->execute();
@@ -398,7 +451,7 @@ class catecli extends WebSmartObject
 		
 		extract($oldKeyFieldArray);
 		// Get values from the page
-		$ABAN8 = xl_get_parameter('ABAN8');
+		$SDAN8 = xl_get_parameter('SDAN8');
 		
 		//Protect Key Fields from being Changed
 		
@@ -414,7 +467,7 @@ class catecli extends WebSmartObject
 		}
 		
 		// Construct and prepare the SQL to update the record
-		$updateSql = 'UPDATE JRGDTA94C.F564211 SET SDAN8 = :ABAN8';
+		$updateSql = 'UPDATE JRGDTA94C.F564211 SET SDAN8 = :SDAN8';
 		$updateSql .= ' ' . $this->buildRecordWhere() . ' WITH NC';
 		$stmt = $this->db_connection->prepare($updateSql);
 		if (!$stmt)
@@ -423,7 +476,7 @@ class catecli extends WebSmartObject
 		}
 		
 		// Bind the parameters
-		$stmt->bindValue(':ABAN8', $ABAN8, PDO::PARAM_INT);
+		$stmt->bindValue(':SDAN8', $SDAN8, PDO::PARAM_INT);
 		
 		// Execute the update statement
 		$result = $stmt->execute();
@@ -441,7 +494,7 @@ class catecli extends WebSmartObject
 	{
 		// Retrieve the filter information
 		
-		$this->programState['filters']['ABAN8'] = trim(xl_get_parameter('filter_ABAN8'));
+		$this->programState['filters']['SDAN8'] = trim(xl_get_parameter('filter_SDAN8'));
 		$this->programState['filters']['ABALPH'] = trim(xl_get_parameter('filter_ABALPH'));
 		$this->programState['filters']['TIPOCLI'] = trim(xl_get_parameter('filter_TIPOCLI'));
 		$this->programState['filters']['ONDATE'] = trim(xl_get_parameter('filter_ONDATE'));
@@ -535,15 +588,12 @@ class catecli extends WebSmartObject
 		// Build the query with parameters
 		$selString = $this->buildSelectString();
 		$selString .= ' ' . $this->buildWhereClause();
-		$selString .= ' GROUP BY 
-		ABAN8,     
-		ABALPH, 
-        ALCTY1 , 
-        ALCTR,
-		CTKY1 , 
-		CTREL ,
-		CTNOT ,
-		CTWEB 
+		$selString .= ' GROUP BY JRGDTA94C.F564211.SDAN8, JRGDTA94C.F0101.ABALPH, 
+		JRGDTA94C.F0116.ALCTY1, JRGDTA94C.F0116.ALCTR,
+		COALESCE(JRGDTA94C.SPCATCL0F.CTKY1,\'\'), 
+		COALESCE(JRGDTA94C.SPCATCL0F.CTREL,\'\'),
+		COALESCE(JRGDTA94C.SPCATCL0F.CTNOT,\'\'),
+		COALESCE(JRGDTA94C.SPCATCL0F.CTWEB,\'\')      
 		 ';
 		$selString .= ' ' . $this->buildOrderBy();
 		  
@@ -556,9 +606,9 @@ class catecli extends WebSmartObject
 		}
 		
 		// Bind the filter parameters
-		if ($this->programState['filters']['ABAN8'] != '')
+		if ($this->programState['filters']['SDAN8'] != '')
 		{
-			$stmt->bindValue(':ABAN8', $this->programState['filters']['ABAN8'], PDO::PARAM_INT);
+			$stmt->bindValue(':SDAN8', $this->programState['filters']['SDAN8'], PDO::PARAM_INT);
 		}
 		if ($this->programState['filters']['ABALPH'] != '')
 		{
@@ -581,26 +631,26 @@ class catecli extends WebSmartObject
 	
 	protected function updCategoria() {
 		$CTKY1 = xl_get_parameter("categoria");
-		$ABAN8 = (int) xl_get_parameter("ABAN8");
+		$SDAN8 = (int) xl_get_parameter("SDAN8");
 		
 		
 		$selString = "SELECT 1 AS ST 
 		FROM JRGDTA94C.SPCATCL0F  
-		WHERE CTAN8 = :ABAN8  
+		WHERE CTAN8 = :SDAN8  
 		";
 		$stmt = $this->db_connection->prepare($selString); 
-		$stmt->bindValue(':ABAN8', $ABAN8, PDO::PARAM_INT);
+		$stmt->bindValue(':SDAN8', $SDAN8, PDO::PARAM_INT);
 		$result = $stmt->execute(); 
  		$row = $stmt->fetch(PDO::FETCH_ASSOC);
  		if($row && $row["ST"]==1) { 
 			$updateSql = "UPDATE JRGDTA94C.SPCATCL0F  
 			SET CTKY1 = :CTKY1 
-			WHERE CTAN8 = :ABAN8  
+			WHERE CTAN8 = :SDAN8  
 			WITH NC
 			";
 		} else { 
 			$updateSql = "INSERT INTO JRGDTA94C.SPCATCL0F (CTKY1,CTREL,CTNOT,CTWEB,CTAN8) 
-			VALUES(:CTKY1,'','','',:ABAN8) 
+			VALUES(:CTKY1,'','','',:SDAN8) 
 			WITH NC
 			";
 		}
@@ -612,7 +662,7 @@ class catecli extends WebSmartObject
 		}
 		
 		// Bind the parameters
-		$stmt_upd->bindValue(':ABAN8', $ABAN8, PDO::PARAM_INT);
+		$stmt_upd->bindValue(':SDAN8', $SDAN8, PDO::PARAM_INT);
 		$stmt_upd->bindValue(':CTKY1', $CTKY1, PDO::PARAM_STR);
 		
 		// Execute the update statement
@@ -626,26 +676,26 @@ class catecli extends WebSmartObject
 
 	protected function updRelazioni() {
 		$CTREL = xl_get_parameter("relazioni");
-		$ABAN8 = (int) xl_get_parameter("ABAN8");
+		$SDAN8 = (int) xl_get_parameter("SDAN8");
 		
 		
 		$selString = "SELECT 1 AS ST 
 		FROM JRGDTA94C.SPCATCL0F  
-		WHERE CTAN8 = :ABAN8  
+		WHERE CTAN8 = :SDAN8  
 		";
 		$stmt = $this->db_connection->prepare($selString); 
-		$stmt->bindValue(':ABAN8', $ABAN8, PDO::PARAM_INT);
+		$stmt->bindValue(':SDAN8', $SDAN8, PDO::PARAM_INT);
 		$result = $stmt->execute(); 
  		$row = $stmt->fetch(PDO::FETCH_ASSOC);
  		if($row && $row["ST"]==1) { 		
 			$updateSql = "UPDATE JRGDTA94C.SPCATCL0F  
 			SET CTREL = :CTREL 
-			WHERE CTAN8 = :ABAN8  
+			WHERE CTAN8 = :SDAN8  
 			WITH NC
 			";
 		} else {
 			$updateSql = "INSERT INTO JRGDTA94C.SPCATCL0F (CTKY1,CTREL,CTNOT,CTWEB,CTAN8) 
-			VALUES('',:CTREL,'','',:ABAN8) 
+			VALUES('',:CTREL,'','',:SDAN8) 
 			WITH NC
 			";
 		}
@@ -657,7 +707,7 @@ class catecli extends WebSmartObject
 		}
 		
 		// Bind the parameters
-		$stmt_upd->bindValue(':ABAN8', $ABAN8, PDO::PARAM_INT);
+		$stmt_upd->bindValue(':SDAN8', $SDAN8, PDO::PARAM_INT);
 		$stmt_upd->bindValue(':CTREL', $CTREL, PDO::PARAM_STR);
 		
 		// Execute the update statement
@@ -670,25 +720,25 @@ class catecli extends WebSmartObject
 	
 	protected function updNote() {
 		$CTNOT = xl_get_parameter("note");
-		$ABAN8 = (int) xl_get_parameter("ABAN8");
+		$SDAN8 = (int) xl_get_parameter("SDAN8");
 		
 		$selString = "SELECT 1 AS ST 
 		FROM JRGDTA94C.SPCATCL0F  
-		WHERE CTAN8 = :ABAN8  
+		WHERE CTAN8 = :SDAN8  
 		";
 		$stmt = $this->db_connection->prepare($selString); 
-		$stmt->bindValue(':ABAN8', $ABAN8, PDO::PARAM_INT);
+		$stmt->bindValue(':SDAN8', $SDAN8, PDO::PARAM_INT);
 		$result = $stmt->execute(); 
  		$row = $stmt->fetch(PDO::FETCH_ASSOC);
  		if($row && $row["ST"]==1) { 		
 			$updateSql = "UPDATE JRGDTA94C.SPCATCL0F  
 			SET CTNOT = :CTNOT  
-			WHERE CTAN8 = :ABAN8  
+			WHERE CTAN8 = :SDAN8  
 			WITH NC
 			";
 		} else {
 			$updateSql = "INSERT INTO JRGDTA94C.SPCATCL0F (CTKY1,CTREL,CTNOT,CTAN8) 
-			VALUES('','',:CTNOT,:ABAN8) 
+			VALUES('','',:CTNOT,:SDAN8) 
 			WITH NC
 			";
 		}
@@ -700,7 +750,7 @@ class catecli extends WebSmartObject
 		}
 		
 		// Bind the parameters
-		$stmt_upd->bindValue(':ABAN8', $ABAN8, PDO::PARAM_INT);
+		$stmt_upd->bindValue(':SDAN8', $SDAN8, PDO::PARAM_INT);
 		$stmt_upd->bindValue(':CTNOT', $CTNOT, PDO::PARAM_STR);
 		
 		// Execute the update statement
@@ -714,25 +764,25 @@ class catecli extends WebSmartObject
 
 	protected function updweb() {
 		$CTWEB = xl_get_parameter("web");
-		$ABAN8 = (int) xl_get_parameter("ABAN8");
+		$SDAN8 = (int) xl_get_parameter("SDAN8");
 		
 		$selString = "SELECT 1 AS ST 
 		FROM JRGDTA94C.SPCATCL0F  
-		WHERE CTAN8 = :ABAN8  
+		WHERE CTAN8 = :SDAN8  
 		";
 		$stmt = $this->db_connection->prepare($selString); 
-		$stmt->bindValue(':ABAN8', $ABAN8, PDO::PARAM_INT);
+		$stmt->bindValue(':SDAN8', $SDAN8, PDO::PARAM_INT);
 		$result = $stmt->execute(); 
  		$row = $stmt->fetch(PDO::FETCH_ASSOC);
  		if($row && $row["ST"]==1) { 		
 			$updateSql = "UPDATE JRGDTA94C.SPCATCL0F  
 			SET CTWEB = :CTWEB 
-			WHERE CTAN8 = :ABAN8  
+			WHERE CTAN8 = :SDAN8  
 			WITH NC
 			";
 		} else {
 			$updateSql = "INSERT INTO JRGDTA94C.SPCATCL0F (CTKY1,CTREL,CTNOT,CTWEB,CTAN8) 
-			VALUES('','','',:CTWEB,:ABAN8) 
+			VALUES('','','',:CTWEB,:SDAN8) 
 			WITH NC
 			";
 		}
@@ -744,7 +794,7 @@ class catecli extends WebSmartObject
 		}
 		
 		// Bind the parameters
-		$stmt_upd->bindValue(':ABAN8', $ABAN8, PDO::PARAM_INT);
+		$stmt_upd->bindValue(':SDAN8', $SDAN8, PDO::PARAM_INT);
 		$stmt_upd->bindValue(':CTWEB', $CTWEB, PDO::PARAM_STR);
 		
 		// Execute the update statement
@@ -760,7 +810,7 @@ class catecli extends WebSmartObject
 
 
 
-	protected function lstCategorie($ABAN8,$CTKY1_sel) {
+	protected function lstCategorie($SDAN8,$CTKY1_sel) {
 		$selString = "SELECT JRGDTA94C.ANCATCL0F.CTKY1 
 		FROM JRGDTA94C.ANCATCL0F  
 		WHERE CTKY1 <> '' 
@@ -768,7 +818,7 @@ class catecli extends WebSmartObject
 		";	
 		$stmt = $this->db_connection->prepare($selString);
 		$result = $stmt->execute(); 
-		echo '<select ABAN8="'.$ABAN8.'" class="categoria-input-edit" name="categoria-$ABAN8" id="categoria-$ABAN8">';
+		echo '<select SDAN8="'.$SDAN8.'" class="categoria-input-edit" name="categoria-$SDAN8" id="categoria-$SDAN8">';
 		echo '<option value=""></option>';
 		while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 			// Sanitize the fields
@@ -813,25 +863,8 @@ class catecli extends WebSmartObject
 	// Build SQL Select string
 	protected function buildSelectString()
 	{
-		$selString = '   SELECT * FROM(  SELECT JRGDTA94C.F0101.ABAN8 AS ABAN8, 
-        COALESCE(JRGDTA94C.F0101.ABALPH,\'\') AS ABALPH, 
-        COALESCE(JRGDTA94C.F0116.ALCTY1,\'\') AS ALCTY1, 
-        COALESCE(JRGDTA94C.F0116.ALCTR,\'\')AS ALCTR,
-        COALESCE(JRGDTA94C.SPCATCL0F.CTKY1,\'\') AS CTKY1,
-        COALESCE(JRGDTA94C.SPCATCL0F.CTREL,\'\') AS CTREL,
-        COALESCE(JRGDTA94C.SPCATCL0F.CTNOT,\'\') AS CTNOT,
-        COALESCE(JRGDTA94C.SPCATCL0F.CTWEB,\'\') AS CTWEB
-		FROM JRGDTA94C.F0101A  
-        LEFT join JRGDTA94C.F0116 on JRGDTA94C.F0101A.AZAN8 = JRGDTA94C.F0116.ALAN8
-        left join JRGDTA94C.SPCATCL0F on JRGDTA94C.F0101A.AZAN8 = JRGDTA94C.SPCATCL0F.CTAN8
-        LEFT join JRGDTA94C.F0101 on JRGDTA94C.F0101A.AZAN8 = JRGDTA94C.F0101.ABAN8
-where JRGDTA94C.F0101A.AZAN8 < 2000000 and JRGDTA94C.F0101A.AZACTN = \'A\' AND JRGDTA94C.F0101A.AZTRAL = \'1\' AND JRGDTA94C.F0101A.AZCHGJ > 125000
-
-        UNION ALL
-     SELECT JRGDTA94C.F0101.ABAN8 AS ABAN8,     
-COALESCE(JRGDTA94C.F0101.ABALPH,\'\') AS ABALPH, 
-        COALESCE(JRGDTA94C.F0116.ALCTY1,\'\') AS ALCTY1, 
-        COALESCE(JRGDTA94C.F0116.ALCTR,\'\')AS ALCTR,
+		$selString = 'SELECT JRGDTA94C.F564211.SDAN8, JRGDTA94C.F0101.ABALPH, 
+		JRGDTA94C.F0116.ALCTY1, JRGDTA94C.F0116.ALCTR, 
 		COALESCE(JRGDTA94C.SPCATCL0F.CTKY1,\'\') AS CTKY1, 
 		COALESCE(JRGDTA94C.SPCATCL0F.CTREL,\'\') AS CTREL,
 		COALESCE(JRGDTA94C.SPCATCL0F.CTNOT,\'\') AS CTNOT,
@@ -840,9 +873,8 @@ COALESCE(JRGDTA94C.F0101.ABALPH,\'\') AS ABALPH,
 		inner join JRGDTA94C.F0101 on JRGDTA94C.F564211.SDAN8 = JRGDTA94C.F0101.ABAN8 
 		inner join JRGDTA94C.F0116 on JRGDTA94C.F564211.SDAN8 = JRGDTA94C.F0116.ALAN8 
 		left join JRGDTA94C.SPCATCL0F on JRGDTA94C.F564211.SDAN8 = JRGDTA94C.SPCATCL0F.CTAN8   
-		left join JRGDTA94C.f00365 on JRGDTA94C.f00365.ondtej = CASE WHEN sddcto not in (\'OF\' , \'SQ\') THEN sdtrdj ELSE sdivd END         
-) 
-        		';
+		left join JRGDTA94C.f00365 on JRGDTA94C.f00365.ondtej = CASE WHEN sddcto not in (\'OF\' , \'SQ\') THEN sdtrdj ELSE sdivd END 
+		';
 		 
 		return $selString;
 	}
@@ -850,22 +882,22 @@ COALESCE(JRGDTA94C.F0101.ABALPH,\'\') AS ABALPH,
 	// Build where clause to filter rows from table
 	protected function buildWhereClause()
 	{
-		$whereClause = ' WHERE ABAN8 < 2000000 ';
+		$whereClause = ' WHERE SDAN8 < 2000000 ';
 		$link = ' AND ';
 		
-		// Filter by ABAN8
-		if ($this->programState['filters']['ABAN8'] != '')
+		// Filter by SDAN8
+		if ($this->programState['filters']['SDAN8'] != '')
 		{
-			$whereClause = $whereClause . $link . ' ABAN8 = :ABAN8';
+			$whereClause = $whereClause . $link . ' JRGDTA94C.F564211.SDAN8 = :SDAN8';
 			$link = ' AND ';
 		}
 		// Filter by ABALPH
 		if ($this->programState['filters']['ABALPH'] != '')
 		{
-			$whereClause = $whereClause . $link . ' lower(ABALPH) LIKE :ABALPH ';
+			$whereClause = $whereClause . $link . ' lower(JRGDTA94C.F0101.ABALPH) LIKE :ABALPH';
 			$link = ' AND ';
 		}
-		/*
+		
 		if ($this->programState['filters']['TIPOCLI'] == 'C')
 		{
 			$whereClause = $whereClause . $link . ' sddcto not in (\'OF\' , \'SQ\') ';
@@ -876,15 +908,7 @@ COALESCE(JRGDTA94C.F0101.ABALPH,\'\') AS ABALPH,
 			$whereClause = $whereClause . $link . ' sddcto in (\'OF\' , \'SQ\') ';
 			$link = ' AND ';	
 		}			
-					
-		if ($this->programState['filters']['TIPOCLI'] == 'N')
-		{
-			$whereClause = $whereClause . $link . ' sddcto = \'XX\' ';
-			$link = ' AND ';	
-		}	
-*/
-
-
+		
 		// Filter by ONDATE
 		if ($this->programState['filters']['ONDATE'] != '')
 		{
@@ -937,7 +961,7 @@ COALESCE(JRGDTA94C.F0101.ABALPH,\'\') AS ABALPH,
 	// Build SQL Select string
 	protected function buildRecordSelectString()
 	{
-		$selString = 'SELECT, JRGDTA94C.F0101.ABAN8, JRGDTA94C.F0101.ABALPH, JRGDTA94C.F0116.ALCTY1, JRGDTA94C.F0116.ALCTR FROM JRGDTA94C.F564211 inner join JRGDTA94C.F0101 on JRGDTA94C.F564211.SDAN8 = JRGDTA94C.F0101.ABAN8 inner join JRGDTA94C.F0116 on JRGDTA94C.F564211.SDAN8 = JRGDTA94C.F0116.ALAN8';
+		$selString = 'SELECT, JRGDTA94C.F564211.SDAN8, JRGDTA94C.F0101.ABALPH, JRGDTA94C.F0116.ALCTY1, JRGDTA94C.F0116.ALCTR FROM JRGDTA94C.F564211 inner join JRGDTA94C.F0101 on JRGDTA94C.F564211.SDAN8 = JRGDTA94C.F0101.ABAN8 inner join JRGDTA94C.F0116 on JRGDTA94C.F564211.SDAN8 = JRGDTA94C.F0116.ALAN8';
 		
 		return $selString;
 	}
@@ -980,8 +1004,8 @@ COALESCE(JRGDTA94C.F0101.ABALPH,\'\') AS ABALPH,
 	protected function buildOrderBy()
 	{
 		// Set sort order to programState's sort by and direction
-	//	$orderBy = "ORDER BY " . $this->programState['sort'] . ' ' . $this->programState['sortDir'] ;
-		$orderBy = "ORDER BY ABAN8, ABALPH, ALCTY1, ALCTR, CTKY1, CTREL, CTNOT, CTWEB LIMIT 50"; ;
+		$orderBy = "ORDER BY " . $this->programState['sort'] . ' ' . $this->programState['sortDir'];
+		
 		return $orderBy;
 	}
 	
@@ -1025,7 +1049,7 @@ COALESCE(JRGDTA94C.F0101.ABALPH,\'\') AS ABALPH,
 		if ($this->programState['sort'] == '')
 		{
 			// The sort order is build from the elements in $this->keyFields, if there are none then $this->uniqueFields will be used.
-			$this->programState['sort'] = 'ABAN8';
+			$this->programState['sort'] = 'SDAN8';
 			$this->programState['sortDir'] = 'asc';
 		}
 		// Get and save the current page if provided
@@ -1120,15 +1144,32 @@ COALESCE(JRGDTA94C.F0101.ABALPH,\'\') AS ABALPH,
             <div class="form">
               <div class="row">
                 <div class="filter-group form-group col-sm-4 col-lg-2">
-                  <label for="filter_ABAN8">Cod.Cliente</label>
-                  <input id="filter_ABAN8" class="form-control" type="text" name="filter_ABAN8" maxlength="8" value="{$programState['filters']['ABAN8']}"/>
+                  <label for="filter_SDAN8">Cod.Cliente</label>
+                  <input id="filter_SDAN8" class="form-control" type="text" name="filter_SDAN8" maxlength="8" value="{$programState['filters']['SDAN8']}"/>
                 </div>
               
                 <div class="filter-group form-group col-sm-4 col-lg-2">
                   <label for="filter_ABALPH">Rag.Sociale</label>
                   <input id="filter_ABALPH" class="form-control" type="text" name="filter_ABALPH" maxlength="35" value="{$programState['filters']['ABALPH']}"/>
                 </div>
-				   </select> 
+                
+                <div class="filter-group form-group col-sm-4 col-lg-2">
+                  <label for="filter_TIPOCLI">Tipo cliente</label>
+                  <select class="form-control" name="filter_TIPOCLI" id="filter_TIPOCLI">
+                  	<option value=""></option>
+                  	<option value="C" 
+SEGDTA;
+ echo (($this->programState['filters']['TIPOCLI']=="C")?('selected="selected"'):('')); 
+		echo <<<SEGDTA
+>Cliente</option>
+                  	<option value="P" 
+SEGDTA;
+ echo (($this->programState['filters']['TIPOCLI']=="P")?('selected="selected"'):('')); 
+		echo <<<SEGDTA
+>Prospect</option>
+                  </select> 
+                </div> 
+                
                 <div class="filter-group form-group col-sm-4 col-lg-2">
                   <label for="filter_ONDATE">Data</label>
                   <input id="filter_ONDATE" class="form-control calendario-8" type="text" name="filter_ONDATE" maxlength="8" value="{$programState['filters']['ONDATE']}"/>
@@ -1136,7 +1177,15 @@ COALESCE(JRGDTA94C.F0101.ABALPH,\'\') AS ABALPH,
                 
                 <div class="filter-group form-group col-sm-4 col-lg-2">
                   <label for="filter_CTKY1">Categoria</label>
-                  <input id="filter_CTKY1" class="form-control" type="text" name="filter_CTKY1" maxlength="60" value="{$programState['filters']['CTKY1']}"/>   
+                  <input id="filter_CTKY1" class="form-control" type="text" name="filter_CTKY1" maxlength="60" value="{$programState['filters']['CTKY1']}"/>
+               
+                  
+SEGDTA;
+
+                  	//$this->fltCategorie($this->programState['filters']['CTKY1']);
+                  
+		echo <<<SEGDTA
+                  
                 </div>
                 
                 <div class="filter-group form-group col-sm-4 col-lg-2">
@@ -1177,7 +1226,7 @@ SEGDTA;
               <tr class="list-header">
                 <th class="actions" width="100"> </th> 
                 <th>
-                  <a class="list-header" href="$pf_scriptname?sidx=ABAN8&amp;rnd=$rnd">Cod. Cliente</a>
+                  <a class="list-header" href="$pf_scriptname?sidx=SDAN8&amp;rnd=$rnd">Cod. Cliente</a>
                 </th>
                 <th>
                   <a class="list-header" href="$pf_scriptname?sidx=ABAN8&amp;rnd=$rnd">Rag. Sociale</a>
@@ -1210,62 +1259,82 @@ SEGDTA;
    
   <td class="actions">
     <span>
-      <a class="btn btn-default btn-xs glyphicon glyphicon-filter" title="Visualizza questa categoria" onclick="$.blockUI();" href="$pf_scriptname?task=filter&filter_CTKY1=
+      <a class="btn btn-outline-info btn-sm d-inline-flex align-items-center gap-1"
+         title="Visualizza questa categoria"
+         onclick="$.blockUI();"
+         href="$pf_scriptname?task=filter&filter_CTKY1=
 SEGDTA;
- echo urlencode($CTKY1); 
+ echo urlencode($CTKY1);
 		echo <<<SEGDTA
-"></a> 
+">
+        <i class="bi bi-info-circle"></i> Categoria
+      </a>
       <!--
-      <a class="btn btn-default btn-xs glyphicon glyphicon-pencil" title="Change this record" href="$pf_scriptname?task=beginchange&amp;rnd=$rnd"></a> 
-      <a class="btn btn-default btn-xs glyphicon glyphicon-remove" title="Delete this record" href="$pf_scriptname?task=delconf"></a>
+      <a class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-1" title="Modifica" href="$pf_scriptname?task=beginchange&amp;rnd=$rnd">
+        <i class="bi bi-pencil"></i> Modifica
+      </a>
+      <a class="btn btn-outline-danger btn-sm d-inline-flex align-items-center gap-1" title="Elimina" href="$pf_scriptname?task=delconf">
+        <i class="bi bi-trash"></i> Elimina
+      </a>
       -->
     </span>
   </td>
    
-  <td class="text">$ABAN8</td>
+  <td class="text">$SDAN8</td>
   <td class="text">$ABALPH</td>
   <td class="text">$ALCTY1</td>
   <td class="text">$ALCTR</td>
   <td>
       <!-- tasto ricerca -->
-      <a class="btn btn-default btn-xs glyphicon glyphicon-search" title="Ricerca" target="_blank" href="https://www.google.com/search?q=
+      <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-1"
+         title="Ricerca"
+         target="_blank"
+         href="https://www.google.com/search?q=
 SEGDTA;
- echo urlencode($ABALPH); 
+ echo urlencode($ABALPH);
 		echo <<<SEGDTA
-"></a>
-      <a class="btn btn-default btn-xs glyphicon glyphicon-info-sign"
-         title="AI - Analizza"
-onclick="inviaChat('<?= addslashes($ABALPH) ?>', this);"
-         style="margin-left: 4px;"></a>
+">
+        <i class="bi bi-search"></i> Ricerca
+      </a>
+      <a class="btn btn-outline-info btn-sm d-inline-flex align-items-center gap-1"
+         title="AI - Analizza categoria"
+         onclick="inviaChat('<?= addslashes($ABALPH) ?>', this);"
+         style="margin-left: 4px;">
+        <i class="bi bi-info-circle"></i> Analizza
+      </a>
   </td>
-
 
   <td>
   
 SEGDTA;
  
-  	$this->lstCategorie($ABAN8,$CTKY1);
+  	$this->lstCategorie($SDAN8,$CTKY1);
   
 		echo <<<SEGDTA
 
   </td>
   <td>
-  	<input type="text" ABAN8="$ABAN8" class="relazioni-input form-control input-sm" name="relazioni-$ABAN8" id="relazioni-$ABAN8" value="$CTREL" size="80" maxlength="2000" />
+  	<input type="text" SDAN8="$SDAN8" class="relazioni-input form-control input-sm" name="relazioni-$SDAN8" id="relazioni-$SDAN8" value="$CTREL" size="80" maxlength="2000" />
   </td>
   <td>
-  	<input type="text" ABAN8="$ABAN8" class="note-input form-control input-sm" name="note-$ABAN8" id="note-$ABAN8" value="$CTNOT" size="80" maxlength="2000" />
+  	<input type="text" SDAN8="$SDAN8" class="note-input form-control input-sm" name="note-$SDAN8" id="note-$SDAN8" value="$CTNOT" size="80" maxlength="2000" />
 
   </td>
   <td>
-  	<input type="text" ABAN8="$ABAN8" class="web-input form-control input-sm" name="web-$ABAN8" id="web-$ABAN8" value="$CTWEB" size="80" maxlength="2000" />
+  	<input type="text" SDAN8="$SDAN8" class="web-input form-control input-sm" name="web-$SDAN8" id="web-$SDAN8" value="$CTWEB" size="80" maxlength="2000" />
 
   </td>
       <td>
-      <a class="btn btn-link btn-xs glyphicon glyphicon-link" title="Sito" target="_blank" href="https://
+      <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-1"
+         title="Sito"
+         target="_blank"
+         href="https://
 SEGDTA;
- echo urlencode($CTWEB); 
+ echo urlencode($CTWEB);
 		echo <<<SEGDTA
-"></a> 
+">
+        <i class="bi bi-link-45deg"></i> Sito
+      </a>
   </td>
 </tr>
  
@@ -1328,29 +1397,29 @@ SEGDTA;
 
 		$(".categoria-input-edit").change(function(e){
 			jcurVal = $(this).val();
-			jABAN8 = $(this).attr("ABAN8");
-			url = "?task=updCategoria&ABAN8="+jABAN8+"&categoria="+encodeURIComponent(jcurVal);
+			jSDAN8 = $(this).attr("SDAN8");
+			url = "?task=updCategoria&SDAN8="+jSDAN8+"&categoria="+encodeURIComponent(jcurVal);
 			$.get(url);	
 		});
 	
 		$(".relazioni-input").change(function(e){
 			jcurVal = $(this).val();
-			jABAN8 = $(this).attr("ABAN8");
-			url = "?task=updRelazioni&ABAN8="+jABAN8+"&relazioni="+encodeURIComponent(jcurVal);
+			jSDAN8 = $(this).attr("SDAN8");
+			url = "?task=updRelazioni&SDAN8="+jSDAN8+"&relazioni="+encodeURIComponent(jcurVal);
 			$.get(url);	
 		});
 		
 		$(".note-input").change(function(e){
 			jcurVal = $(this).val();
-			jABAN8 = $(this).attr("ABAN8");
-			url = "?task=updNote&ABAN8="+jABAN8+"&note="+encodeURIComponent(jcurVal);
+			jSDAN8 = $(this).attr("SDAN8");
+			url = "?task=updNote&SDAN8="+jSDAN8+"&note="+encodeURIComponent(jcurVal);
 			$.get(url);	
 		});	
 
 		$(".web-input").change(function(e){
 			jcurVal = $(this).val();
-			jABAN8 = $(this).attr("ABAN8");
-			url = "?task=updweb&ABAN8="+jABAN8+"&web="+encodeURIComponent(jcurVal);
+			jSDAN8 = $(this).attr("SDAN8");
+			url = "?task=updweb&SDAN8="+jSDAN8+"&web="+encodeURIComponent(jcurVal);
 			$.get(url);	
 		});	
 
@@ -1363,11 +1432,6 @@ SEGDTA;
 		$(".calendario-8").mask("99/99/99",{placeholder:" "});
 
 	});	
-	
-	
-	
-
-	
 	
 	
 </script>
@@ -1417,7 +1481,7 @@ SEGDTA;
           <div id="display-fields">
             <div class="form-group row">
               <label class="col-sm-4">Address Number . . . . . . . . . . . . .:</label>
-              <div class="col-sm-8">$ABAN8</div>
+              <div class="col-sm-8">$SDAN8</div>
             </div>
             <div class="form-group row">
               <label class="col-sm-4">Alpha Name . . . . . . . . . . . . . . .:</label>
@@ -1535,19 +1599,19 @@ SEGDTA;
 "><span class="required">{$this->requiredIndicator}</span> Denotes a required field.</div>
               <div class="form-group 
 SEGDTA;
- $this->displayErrorClass('ABAN8'); 
+ $this->displayErrorClass('SDAN8'); 
 		echo <<<SEGDTA
 ">
-                <label for="addABAN8">Address Number . . . . . . . . . . . . . 
+                <label for="addSDAN8">Address Number . . . . . . . . . . . . . 
 SEGDTA;
- $this->displayIndicator('ABAN8'); 
+ $this->displayIndicator('SDAN8'); 
 		echo <<<SEGDTA
 </label>
                 <div>
-                  <input type="text" id="addABAN8" class="form-control" name="ABAN8" size="8" maxlength="8" value="$ABAN8">
+                  <input type="text" id="addSDAN8" class="form-control" name="SDAN8" size="8" maxlength="8" value="$SDAN8">
                   <span class="error-text">
 SEGDTA;
- $this->displayError('ABAN8', array('Address Number . . . . . . . . . . . . .')); 
+ $this->displayError('SDAN8', array('Address Number . . . . . . . . . . . . .')); 
 		echo <<<SEGDTA
 </span>
                 </div>
@@ -1624,19 +1688,19 @@ SEGDTA;
 "><span class="required">{$this->requiredIndicator}</span> Denotes a required field.</div>
               <div class="form-group 
 SEGDTA;
- $this->displayErrorClass('ABAN8'); 
+ $this->displayErrorClass('SDAN8'); 
 		echo <<<SEGDTA
 ">
-                <label for="chgABAN8">Address Number . . . . . . . . . . . . . 
+                <label for="chgSDAN8">Address Number . . . . . . . . . . . . . 
 SEGDTA;
- $this->displayIndicator('ABAN8'); 
+ $this->displayIndicator('SDAN8'); 
 		echo <<<SEGDTA
 </label>
                 <div>
-                  <input type="text" id="chgABAN8" class="form-control" name="ABAN8" size="8" maxlength="8" value="$ABAN8">
+                  <input type="text" id="chgSDAN8" class="form-control" name="SDAN8" size="8" maxlength="8" value="$SDAN8">
                   <span class="error-text">
 SEGDTA;
- $this->displayError('ABAN8', array('Address Number . . . . . . . . . . . . .')); 
+ $this->displayError('SDAN8', array('Address Number . . . . . . . . . . . . .')); 
 		echo <<<SEGDTA
 </span>
                 </div>
@@ -1726,7 +1790,14 @@ xlLoadWebSmartObject(__FILE__, 'catecli');?>
 <div id="popupAI" style="display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; z-index:9999; background:rgba(0,0,0,0.35);">
   <div style="background:#fff; padding:24px 20px 16px 20px; border-radius:8px; max-width:600px; min-width:320px; min-height:120px; box-shadow:0 4px 16px rgba(0,0,0,0.15); margin:80px auto 0 auto; position:relative;">
     <button onclick="document.getElementById('popupAI').style.display='none';" style="position:absolute;top:10px;right:10px;font-size:20px;background:none;border:none;">&times;</button>
-    <div id="popupAIContent" style="white-space:pre-line; min-height:60px;">Attendere risposta...</div>
+    <div id="popupAIContent" style="white-space:pre-line; min-height:60px; max-height: 70vh; overflow-y: auto;">
+      <div class="mb-2">
+        <label for="extraQuestion" class="form-label">Domanda aggiuntiva per l'AI:</label>
+        <textarea id="extraQuestion" class="form-control form-control-sm" rows="2" placeholder="Scrivi una domanda aggiuntiva..."></textarea>
+        <button type="button" class="btn btn-secondary btn-sm mt-2" onclick="window.inviaSoloDomandaAI()">Chiedi</button>
+      </div>
+      <div id="aiResponseOutput" class="mt-3"></div>
+    </div>
     <div style="text-align:right; margin-top:18px;">
       <button id="popupApplicaCategoria" style="display:none;" class="btn btn-primary btn-sm">Applica categoria</button>
       <button onclick="document.getElementById('popupAI').style.display='none';" class="btn btn-secondary btn-sm">Chiudi</button>
@@ -1736,15 +1807,61 @@ xlLoadWebSmartObject(__FILE__, 'catecli');?>
 <script>
 // Funzione aggiornata per usare popup nativo e mostrare risposta AI
 async function inviaChat(codice, bottone) {
+	window.codiceClienteAttuale = codice;
   const popup = document.getElementById('popupAI');
   const popupContent = document.getElementById('popupAIContent');
-  popupContent.textContent = "Analisi in corso...";
+  // Mostra il popup
   popup.style.display = 'block';
   document.getElementById('popupApplicaCategoria').style.display = 'none';
 
+  // Prepara la struttura del popup: domanda extra sopra, risposta sotto
+  popupContent.innerHTML =
+    `<div class="mb-2">
+      <label for="extraQuestion" class="form-label">Domanda aggiuntiva per l'AI:</label>
+      <textarea id="extraQuestion" class="form-control form-control-sm" rows="2" placeholder="Scrivi una domanda aggiuntiva..."></textarea>
+      <button type="button" class="btn btn-secondary btn-sm mt-2" onclick="window.inviaSoloDomandaAI()">Invia solo domanda</button>
+    </div>
+    <div id="aiResponseOutput" class="mt-3">Analisi in corso...</div>`;
+
+  // Blocco per vendite: mostra avviso se ci sono dati di vendita
+  let avvisoVenditeHTML = '';
+  let venditeJson = "";
+  try {
+    // Ricava codice dal primo td della riga
+    const clienteRow = bottone.closest('tr');
+    const codiceTd = clienteRow.querySelector("td:nth-child(1)")?.innerText?.trim() || '';
+    const codiceEffettivo = codiceTd || codice;
+    // Salva codice cliente in variabile globale per debug
+    window.codiceClienteAttuale = codiceEffettivo;
+    const venditeResp = await fetch('/CRUD/catecliai.php?task=vendite&codice=' + encodeURIComponent(codiceEffettivo));
+    if (venditeResp.ok) {
+      venditeJson = await venditeResp.text();
+      window.lastVenditeCliente = venditeJson;
+      console.log("Vendite caricate:", window.lastVenditeCliente);
+      // Se ci sono dati di vendita non vuoti, mostra avviso
+      if (venditeJson && venditeJson.trim().length > 0) {
+        avvisoVenditeHTML = "<div class='alert alert-info small mt-2'>Sono disponibili dati di vendita per questo cliente. Se desideri includerli nell'analisi, chiedilo esplicitamente.</div>";
+      }
+    }
+    // Sovrascrivi la variabile codice per tutto il resto della funzione
+    codice = codiceEffettivo;
+    // Salva codice cliente in variabile globale per debug
+    window.codiceClienteAttuale = codice;
+  } catch (err) {
+    venditeJson = "";
+  }
+
+  // Se c'è l'avviso, aggiungilo in fondo al popup
+  if (avvisoVenditeHTML) {
+    popupContent.innerHTML += avvisoVenditeHTML;
+  }
+
   try {
     const clienteRow = bottone.closest('tr');
-
+    // Ricava codice dal primo td (Codice Cliente)
+    const codice = clienteRow.querySelector("td:nth-child(1)")?.innerText?.trim() || '';
+    // Salva codice cliente in variabile globale per debug
+    window.codiceClienteAttuale = codice;
     const sito = clienteRow.querySelector("input.web-input")?.value || '';
     const categoria = clienteRow.querySelector("select.categoria-input-edit")?.value || '';
     const ragioneSociale = clienteRow.querySelector("td:nth-child(3)")?.innerText || '';
@@ -1752,18 +1869,36 @@ async function inviaChat(codice, bottone) {
     const note = clienteRow.querySelector("input.note-input")?.value || '';
     const città = clienteRow.querySelector("td:nth-child(4)")?.innerText || '';
     const stato = clienteRow.querySelector("td:nth-child(5)")?.innerText || '';
+    const domandaExtra = document.getElementById('extraQuestion')?.value.trim() || '';
 
-    const messaggio = sito
-      ? `Il cliente ${codice} (${ragioneSociale}) non ha una categoria assegnata.
+    let messaggio;
+    if (sito) {
+      messaggio = `Il cliente ${codice} (${ragioneSociale}) non ha una categoria assegnata.
 Relazioni aziendali: ${relazioni}.
 Note: ${note}.
 Sito internet: ${sito}.
-Analizza le informazioni disponibili e, se possibile, visita il sito per capire di che settore si occupa e suggerire una categoria coerente.`
-      : `Il cliente ${codice} (${ragioneSociale}) non ha una categoria assegnata e non ha un sito registrato.
+Analizza le informazioni disponibili, visita il sito se possibile, e suggerisci una categoria di attività coerente. Considera anche le categorie già assegnate ad altri clienti simili presenti nel database. Riporta chiaramente il sito internet e la categoria suggerita.`;
+      if (domandaExtra) {
+        messaggio += `\n\nDomanda aggiuntiva: ${domandaExtra}`;
+      }
+    } else {
+      messaggio = `Il cliente ${codice} (${ragioneSociale}) non ha una categoria assegnata e non ha un sito registrato.
 Relazioni aziendali: ${relazioni}.
 Note: ${note}.
 Città: ${città}, Stato: ${stato}.
-Cerca online il sito ufficiale del cliente e suggerisci la categoria di attività più coerente.`;
+Cerca online il sito ufficiale del cliente, analizza le informazioni disponibili, e suggerisci una categoria di attività coerente. Considera anche le categorie già assegnate ad altri clienti simili presenti nel database. Riporta chiaramente il sito internet trovato e la categoria suggerita.`;
+      if (domandaExtra) {
+        messaggio += `\n\nDomanda aggiuntiva: ${domandaExtra}`;
+      }
+    }
+
+    // Salva il contesto per domanda AI extra (aggiungi anche vendite)
+    window.lastClienteContext = `Cliente: ${ragioneSociale} (Codice cliente: ${codice})\nSito: ${sito || 'non disponibile'}\nRelazioni: ${relazioni}\nNote: ${note}\nVendite: ${venditeJson}`;
+    console.log("📦 Codice cliente:", codice);
+    console.log("🧠 Contesto AI:", window.lastClienteContext);
+
+    // Aggiorna solo la risposta AI
+    document.getElementById('aiResponseOutput').innerHTML = "Analisi in corso...";
 
     const response = await fetch('/AI/connect.php', {
       method: 'POST',
@@ -1772,8 +1907,10 @@ Cerca online il sito ufficiale del cliente e suggerisci la categoria di attivit�
     });
 
     const data = await response.json();
-    popupContent.textContent = data.reply || "Nessuna risposta ricevuta.";
+    // Aggiorna solo la risposta AI
+    document.getElementById('aiResponseOutput').textContent = data.reply || "Nessuna risposta ricevuta.";
 
+    // Mostra il pulsante "Applica categoria"
     const btnApplica = document.getElementById('popupApplicaCategoria');
     btnApplica.style.display = 'inline-block';
     btnApplica.onclick = function () {
@@ -1785,7 +1922,78 @@ Cerca online il sito ufficiale del cliente e suggerisci la categoria di attivit�
       popup.style.display = 'none';
     };
   } catch (err) {
-    popupContent.textContent = "Errore nella richiesta.";
+    // In caso di errore, aggiorna solo la risposta
+    document.getElementById('aiResponseOutput').innerHTML = "Errore nella richiesta.";
   }
 }
 </script>
+
+<script>
+window.inviaSoloDomandaAI = async function () {
+
+  const domandaInput = document.getElementById('extraQuestion')?.value.trim();
+  const aziendaContext = window.lastClienteContext || '';
+  let domandaFinale = (aziendaContext ? aziendaContext + "\n\n" : '') + domandaInput;
+
+  const paroleChiaveVendite = ['vendite', 'fatture', 'articoli', 'quantità', 'importo', 'acquisti'];
+  const contieneRichiestaVendite = paroleChiaveVendite.some(parola => domandaInput.toLowerCase().includes(parola));
+
+  // 👇 Log vendite e keyword
+  console.log("🧾 Verifica parole chiave vendite:", contieneRichiestaVendite);
+  console.log("📦 Dati vendite presenti:", window.lastVenditeCliente);
+
+  // Verifica che, se la domanda contiene richiesta vendite e ci sono dati, vengano aggiunti
+  if (contieneRichiestaVendite && window.lastVenditeCliente) {
+    domandaFinale += "\n\nEcco le vendite registrate per questo cliente:\n" + window.lastVenditeCliente;
+  }
+  if (!domandaInput) return;
+
+  // Usa il nuovo container per la risposta
+  const rispostaContainer = document.getElementById('aiResponseOutput');
+  if (!rispostaContainer) return;
+  const rispostaAttuale = rispostaContainer.innerHTML;
+  rispostaContainer.innerHTML = "<em>Attendere risposta aggiuntiva...</em><hr>" + rispostaAttuale;
+
+  // 👇 Logga la domanda inviata all'AI
+  console.log("🔍 Messaggio completo per l’AI:");
+  console.log(domandaFinale);
+
+  try {
+    // Assicurati che la ragioneSociale sia inclusa SEMPRE nel messaggio per /AI/connect.php
+    // (window.lastClienteContext già la include se impostata secondo la funzione sopra)
+    const response = await fetch('/AI/connect.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: domandaFinale })
+    });
+    const data = await response.json();
+
+    // 👇 Logga la risposta ricevuta dall'AI
+    console.log("Risposta ricevuta dall'AI:");
+    console.log(data);
+
+    const nuovaRisposta = data.reply || "Nessuna risposta ricevuta.";
+    // Mostra la nuova risposta sopra la precedente
+    rispostaContainer.innerHTML = "<strong>Risposta aggiuntiva:</strong><br>" + nuovaRisposta + "<hr>" + rispostaAttuale;
+
+    // Mostra in chiaro i dati di vendita (se presenti e richiesti)
+    if (contieneRichiestaVendite && window.lastVenditeCliente) {
+      const risposteAI = rispostaContainer.parentElement;
+      const venditeDiv = document.createElement('div');
+      venditeDiv.classList.add('ai-vendite-box', 'mt-2');
+      venditeDiv.innerHTML =
+        `<pre style="white-space:pre-wrap; font-size: 0.85em; background:#f8f9fa; border:1px solid #ccc; padding:0.5rem;"><strong>Vendite registrate:</strong>\n${window.lastVenditeCliente}</pre>`;
+      risposteAI.prepend(venditeDiv);
+    }
+  } catch (err) {
+    rispostaContainer.innerHTML = "<strong>Errore nella richiesta.</strong><hr>" + rispostaAttuale;
+  }
+};
+</script>
+</script>
+<style>
+.ai-vendite-box pre {
+  max-height: 300px;
+  overflow-y: auto;
+}
+</style>
