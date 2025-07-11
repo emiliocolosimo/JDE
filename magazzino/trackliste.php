@@ -8,6 +8,10 @@ if (isset($_GET['mostraAssegnati'])) {
 if (isset($_GET['invioRapido'])) {
     $_SESSION['invioRapido'] = $_GET['invioRapido'] === '1' ? '1' : '0';
 }
+if (isset($_GET['SoloMaiLette'])) {
+    $_SESSION['SoloMaiLette'] = $_GET['SoloMaiLette'] === '1' ? '1' : '0';
+}
+$SoloMaiLette = $_SESSION['SoloMaiLette'] ?? '0';
 $mostraAssegnati = $_SESSION['mostraAssegnati'] ?? '0';
 $invioRapido = $_SESSION['invioRapido'] ?? '0';
 
@@ -126,7 +130,7 @@ $result = odbc_exec($db_connection, $queryprimaria);
         $filtroConfezionatore = trim($_GET['filtroConfezionatore'] ?? '');
         $filtroInCarico = trim($_GET['filtroInCarico'] ?? '');
         // Nuovo filtro: mostra solo liste mai lette
-        $soloMaiLette = isset($_GET['soloMaiLette']) && $_GET['soloMaiLette'] ? true : false;
+        $SoloMaiLette = isset($_GET['SoloMaiLette']) && $_GET['SoloMaiLette'] ? true : false;
 
         if ($dataSpedizioneFiltro) {
             $parts = explode('-', $dataSpedizioneFiltro);
@@ -165,7 +169,7 @@ $result = odbc_exec($db_connection, $queryprimaria);
         $resultincarico = $numlista2incarico;
 
         // Applica filtro "solo mai lette" se richiesto
-        if ($soloMaiLette) {
+        if ($SoloMaiLette) {
             $rows = array_filter($rows, function($r) use ($resultincarico) {
                 // Considera come "mai lette" le liste che non hanno alcun incaricato (vuoto)
                 return empty(trim($resultincarico[$r['NUMLISTA']] ?? ''));
@@ -180,8 +184,8 @@ $result = odbc_exec($db_connection, $queryprimaria);
 
         // Imposta il checkbox "assegnami le liste" attivo di default per utenti Gruppo
         if ($bdauth === 'GRUPPO') {
-            $_GET['chkAssegnami'] = '1';
-            $_GET['chkMaiLette'] = '1';
+            $_GET['invioRapido'] = '1';
+            $_GET['SoloMaiLette'] = '1';
         }
         echo <<<HTML
 <!DOCTYPE html>
@@ -283,15 +287,15 @@ echo <<<HTML
           <input type="text" class="form-control" name="filtroInCarico" placeholder="In carico a" value="{$filtroInCarico}">
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="chkSoloMaiLette" name="soloMaiLette" value="1" <?= $soloMaiLette ? 'checked' : '' ?>>
-          <label class="form-check-label" for="chkSoloMaiLette">Solo mai lette</label>
+          <input class="form-check-input" type="checkbox" id="SoloMaiLette" name="SoloMaiLette" value="1" <?= $SoloMaiLette ? 'checked' : '' ?>
+          <label class="form-check-label" for="SoloMaiLette">Solo mai lette</label>
         </div>
         <div class="form-check form-check-inline ms-3">
-          <input class="form-check-input" type="checkbox" id="invioRapido" name="invioRapido" value="1" <?= $invioRapido == '1' ? 'checked' : '' ?>>
+          <input class="form-check-input" type="checkbox" id="invioRapido" name="invioRapido" value="1" <?= $invioRapido == '1' ? 'checked' : '' ?>
           <label class="form-check-label" for="invioRapido">Assegnami le liste lette</label>
         </div>
         <div class="form-check form-check-inline ms-3">
-          <input type="checkbox" id="chkMostraAssegnati" name="mostraAssegnati" value="1" <?= $mostraAssegnati === '1' ? 'checked' : '' ?>>
+          <input type="checkbox" id="chkMostraAssegnati" name="mostraAssegnati" value="1" <?= $mostraAssegnati === '1' ? 'checked' : '' ?>
           <label class="form-check-label" for="chkMostraAssegnati">Mostra tutte le liste</label>
         </div>
         <button type="submit" class="btn btn-outline-primary">Applica</button>
@@ -375,7 +379,8 @@ HTML;
                     continue;
                 }
             }
-            echo "<tr> 
+            echo '<tr data-nomeconf="' . htmlspecialchars($row['NOME_CONFEZIONATORE'] ?? '') . '" data-bdreli="' . htmlspecialchars($bdreli ?? '') . '" data-badgeutente="' . htmlspecialchars($bdbadg ?? '') . '" data-confezionatore="' . htmlspecialchars($row['CONFEZIONATORE'] ?? '') . '">';
+            echo " 
       <td>" . htmlspecialchars($row['CODSPED'] ?? '') . "</td>    
       <td>" . htmlspecialchars($row['DATASPED'] ?? '') . "</td>
       <td>" . htmlspecialchars($row['NUMLISTA'] ?? '') .  "</td> "
@@ -524,13 +529,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const codspedizione = localStorage.getItem('filtro_codspedizione');
   const dataspedizione = localStorage.getItem('filtro_dataspedizione');
   const listanumFiltro = localStorage.getItem('filtro_listanumFiltro');
-  const soloMaiLette = localStorage.getItem('filtro_soloMaiLette');
+  const SoloMaiLette = localStorage.getItem('filtro_SoloMaiLette');
   const invioRapido = localStorage.getItem('filtro_invioRapido');
 
   //if (codspedizione) document.querySelector('input[name="codspedizione"]').value = codspedizione;
   //if (dataspedizione) document.querySelector('input[name="dataspedizione"]').value = dataspedizione;
 // if (listanumFiltro) document.querySelector('input[name="listanumFiltro"]').value = ' ' + listanumFilt;
-  if (soloMaiLette === '1') document.querySelector('input[name="soloMaiLette"]').checked = true;
+  if (SoloMaiLette === '1') document.querySelector('input[name="SoloMaiLette"]').checked = true;
   if (invioRapido === '1') document.querySelector('input[name="invioRapido"]').checked = true;
 
   // Salva i valori al submit del form
@@ -540,7 +545,7 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem('filtro_codspedizione', document.querySelector('input[name="codspedizione"]').value);
       localStorage.setItem('filtro_dataspedizione', document.querySelector('input[name="dataspedizione"]').value);
       localStorage.setItem('filtro_listanumFiltro', document.querySelector('input[name="listanumFiltro"]').value);
-      localStorage.setItem('filtro_soloMaiLette', document.querySelector('input[name="soloMaiLette"]').checked ? '1' : '0');
+      localStorage.setItem('filtro_SoloMaiLette', document.querySelector('input[name="SoloMaiLette"]').checked ? '1' : '0');
       localStorage.setItem('filtro_invioRapido', document.querySelector('input[name="invioRapido"]').checked ? '1' : '0');
     });
   }
@@ -853,7 +858,7 @@ function assegnaConfezionatore(numLista, nomeCompleto) {
     W1PSN: numLista,
     W1PREL: sessionStorage.getItem("prelevatoreAssegnato") || '',
     W1CONF: nomeCompleto,
-    W1USER: document.querySelector('span strong')?.textContent || ''
+    W1USER: "<?php echo htmlspecialchars($nomecompleto); ?>"
   };
 
   fetch("scrivi_f42522hea.php", {
@@ -924,8 +929,8 @@ function resetCampiFiltro() {
   var filtroInCarico = document.querySelector('input[name="filtroInCarico"]');
   if (filtroInCarico) filtroInCarico.value = '';
   // Deseleziona tutte le checkbox filtro
-  var soloMaiLette = document.querySelector('input[name="soloMaiLette"]');
-  if (soloMaiLette) soloMaiLette.checked = false;
+  var SoloMaiLette = document.querySelector('input[name="SoloMaiLette"]');
+  if (SoloMaiLette) SoloMaiLette.checked = false;
   var invioRapido = document.querySelector('input[name="invioRapido"]');
   if (invioRapido) invioRapido.checked = false;
 }
@@ -1031,14 +1036,19 @@ $(document).ready(function() {
     listaNInput.addEventListener('input', () => {
       const valore = listaNInput.value.trim();
       if (valore.length === 8) {
-        const utente = "<?php echo htmlspecialchars($nomecompleto); ?>";
-        const codiceCliente = "<?php echo htmlspecialchars($row['CODCLIENTE'] ?? '', ENT_QUOTES); ?>";
-<?php if ($bdreli === 'Y' && ($l['W1CONF'] ??  '') === ' ') : ?>
-        apriHEAPopup(valore);
-<?php else: ?>
-        scriviTracklist(valore, codiceCliente, utente);
-<?php endif; ?>
-      }
+          const utente = "<?php echo htmlspecialchars($nomecompleto); ?>";
+          const responsabile = "<?php echo htmlspecialchars($bdreli); ?>";
+          // Trova la riga della tabella corrispondente al valore inserito
+          const riga = Array.from(document.querySelectorAll('tbody tr')).find(tr => tr.children[2]?.textContent?.trim() === valore);
+          const confezionatore = riga?.dataset.confezionatore?.trim() || '';
+          const codiceCliente = riga?.children[0]?.textContent?.trim() || '';
+          if (responsabile === 'Y' && !confezionatore.trim()) {
+              apriHEAPopup(valore);
+          }
+      else
+          {
+          scriviTracklist(valore, codiceCliente, utente);
+      } }
     });
   }
 });
