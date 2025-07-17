@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e6fde334-4f98-40ba-9143-51c5bb667987" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../orders/classes/HeaderInserter_save140725.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CustOrders/Jrn/getCustOrdersJrn.php" beforeDir="false" afterPath="$PROJECT_DIR$/../CustOrders/Jrn/getCustOrdersJrn.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trackliste.php" beforeDir="false" afterPath="$PROJECT_DIR$/trackliste.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orders/classes/._headerInserter.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/../orders/classes/._headerInserter.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orders/classes/headerInserter.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/../orders/classes/headerInserter.class.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +45,7 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;PHP Script.login.php.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Volumes/www/php80/htdocs/magazzino&quot;,
@@ -78,7 +83,11 @@
       <updated>1751980619257</updated>
       <workItem from="1751980620241" duration="445000" />
       <workItem from="1752150931127" duration="22259000" />
-      <workItem from="1752224110864" duration="14002000" />
+      <workItem from="1752224110864" duration="18181000" />
+      <workItem from="1752482222159" duration="75000" />
+      <workItem from="1752487017032" duration="655000" />
+      <workItem from="1752499338711" duration="594000" />
+      <workItem from="1752507680132" duration="497000" />
     </task>
     <servers />
   </component>

@@ -15,7 +15,7 @@ $SoloMaiLette = $_SESSION['SoloMaiLette'] ?? '0';
 $mostraAssegnati = $_SESSION['mostraAssegnati'] ?? '0';
 $invioRapido = $_SESSION['invioRapido'] ?? '0';
 
-header('Content-Type: text/html; charset=iso-8859-1');
+header('Content-Type: text/html; charset=UTF-8');
 
 // Verifica se l'utente è loggato
 if (!isset($_SESSION['nomeutente'])) {
@@ -44,6 +44,7 @@ $bdtimb    = $_SESSION['bdtimb']    ?? '';
 $bdbdtm    = $_SESSION['bdbdtm']    ?? '';
 $bdbadg    = $_SESSION['bdbadg']    ?? '';
 $nomecompleto = trim($bdnome . '.' . $bdcogn);
+$utenteloggato = trim($bdnome . '.' . $bdcogn);
 $nomecompletoinfo = [[
     'BDNOME' => $bdnome,
     'BDCOGN' => $bdcogn,
@@ -69,7 +70,7 @@ require("/www/php80/htdocs/sped/classes/AzureService.class.php");
 		ini_set('display_errors', 1);
 		date_default_timezone_set('Europe/Rome');
 
-$server="Driver={IBM i Access ODBC Driver};System=127.0.0.1;Uid=".AH_DB2_USER.";Pwd=".AH_DB2_PASS.";TRANSLATE=1;";
+$server="Driver={IBM i Access ODBC Driver};System=127.0.0.1;Uid=".AH_DB2_USER.";Pwd=".AH_DB2_PASS.";TRANSLATE=1;CCSID=1208;";
 $user=AH_DB2_USER;
 $pass=AH_DB2_PASS;
 $db_connection=odbc_connect($server,$user,$pass);
@@ -84,12 +85,9 @@ $sqlincarico = "SELECT TRIM(BDNOME) AS BDNOME, TRIM(BDCOGN) AS BDCOGN, TRIM(BDNI
                                             ORDER BY BDPOSI";
 $stmtincarico = odbc_exec($db_connection, $sqlincarico);
 while ($r = odbc_fetch_array($stmtincarico)) {
-    // $resultincarico[] = $r;
-    // Mappa per numero lista: qui serve conoscere il collegamento tra lista e incaricato
-    // Ma non abbiamo la lista qui, quindi aggiorneremo dopo (vedi sotto)
-    // Per ora, costruiamo una mappa badge => nome completo
     $resultincarico[$r['BDBADG']] = trim($r['BDNOME'] . '.' . $r['BDCOGN']);
 }
+$badgevalidi = array_map('strtoupper', array_keys($resultincarico));
 // Carica elenco confezionatori
 $resultConfezionatore = [];
 $sqlConfezionatori = "SELECT TRIM(BDNOME) AS BDNOME, TRIM(BDCOGN) AS BDCOGN, TRIM(BDNICK) AS BDNICK, TRIM(BDPOSI) AS BDPOSI, TRIM(BDBADG) AS BDBADG
@@ -431,7 +429,7 @@ echo "
 </button>";
 if (empty(trim($row['CONFEZIONATORE']))) {
     echo "
-<button class='btn btn-sm btn-warning' title=\"Assegna\" onclick=\"apriHEAPopup('" . htmlspecialchars($row['NUMLISTA']) . "')\">
+<button class='btn btn-sm btn-warning' title=\"Assegna\" onclick=\"apriHEAPopup('" . htmlspecialchars($row['NUMLISTA']) . "', '" . htmlspecialchars($nomecompleto) . "')\">
     <i class='bi bi-file-earmark-plus'></i>
 </button>
 ";
@@ -613,7 +611,7 @@ function apriHEAPopup(W1PSN) {
   if (utenteÈResponsabile) {
     apriConfezionatoreModal(W1PSN);
   } else {
-    scriviTracklist(W1PSN, "", <?php echo json_encode($nomecompleto); ?>);
+    scriviTracklist(W1PSN, <?php echo json_encode($utenteloggato); ?>);
   }
 }
 
@@ -858,7 +856,7 @@ function assegnaConfezionatore(numLista, nomeCompleto) {
     W1PSN: numLista,
     W1PREL: sessionStorage.getItem("prelevatoreAssegnato") || '',
     W1CONF: nomeCompleto,
-    W1USER: "<?php echo htmlspecialchars($nomecompleto); ?>"
+    W1USER: <?php echo htmlspecialchars($utenteloggato); ?>
   };
 
   fetch("scrivi_f42522hea.php", {
@@ -1036,7 +1034,7 @@ $(document).ready(function() {
     listaNInput.addEventListener('input', () => {
       const valore = listaNInput.value.trim();
       if (valore.length === 8) {
-          const utente = "<?php echo htmlspecialchars($nomecompleto); ?>";
+          const utente = "<?php echo htmlspecialchars($utenteloggato); ?>";
           const responsabile = "<?php echo htmlspecialchars($bdreli); ?>";
           // Trova la riga della tabella corrispondente al valore inserito
           const riga = Array.from(document.querySelectorAll('tbody tr')).find(tr => tr.children[2]?.textContent?.trim() === valore);
@@ -1171,10 +1169,7 @@ function confermaScrittura() {
     scritturaInCorso = false;
     return;
   }
-  // Controllo che l'ubicazione sia un badge valido di dipendente usando la stessa logica PHP
-  const badgeValido = <?php echo json_encode(array_map(function($d) {
-    return strtoupper(trim($d['BDBADG']));
-  }, $nomecompletoinfo)); ?>;
+    const badgeValido = <?php echo json_encode($badgevalidi); ?>;
 
   if (!badgeValido.includes(ubicazionePulita.toUpperCase())) {
     alert("Ubicazione non valida. Inserisci un badge abilitato.");

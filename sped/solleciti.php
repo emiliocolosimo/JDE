@@ -62,7 +62,7 @@ class solleciti extends WebSmartObject
 
 		// Connect to the database
 //DB2:
-$server="Driver={IBM i Access ODBC Driver};System=127.0.0.1;Uid=".AH_DB2_USER.";Pwd=".AH_DB2_PASS.";TRANSLATE=1;"; 
+$server="Driver={IBM i Access ODBC Driver};System=127.0.0.1;Uid=".AH_DB2_USER.";Pwd=".AH_DB2_PASS.";TRANSLATE=1;CCSID=1208;";
 $user=AH_DB2_USER; 
 $pass=AH_DB2_PASS;   
 $db_connection=odbc_connect($server,$user,$pass); 
@@ -437,7 +437,6 @@ HTML;
 
 
      }
-		header('Content-Type: text/html; charset=iso-8859-1');
-
+header('Content-Type: text/html; charset=UTF-8');
 xlLoadWebSmartObject(__FILE__, 'solleciti');
 ?>

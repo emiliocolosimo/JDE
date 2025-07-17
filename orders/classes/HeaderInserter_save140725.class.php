@@ -1,7 +1,7 @@
 <?php
 
 
-class HeaderInserter
+class HeaderInserter_save140725
 {
     private $odbc_conn = null;
     private $curLib = "";
@@ -145,7 +145,6 @@ class HeaderInserter
         //$fieldsArray["SYUSER"] = "CRM";
         $fieldsArray["SYTORG"] = $fieldsArray["SYUSER"];
         $fieldsArray["SYORBY"] = $fieldsArray["SYUSER"];
-        $fieldsArray["SYTKBY"] = $fieldsArray["SYUSER"];
         //$fieldsArray["SYEKCO"] = $fieldsArray["SYKCOO"];
         //$fieldsArray["SYCO"] = $fieldsArray["SYKCOO"];
         $fieldsArray["SYDCTO"] = !empty($fieldsArray["SYDCTO"])

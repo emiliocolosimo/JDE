@@ -156,7 +156,7 @@ TABLE(
 	,trim(coalesce((select min(WWMLNM CONCAT WWATTL) from ".$curLib.".F0111 where ".$curLib.".F0101.ABAN8=".$curLib.".F0111.WWAN8 and ".$curLib.".F0111.WWTYC='EF'), '')) as MAILEF 
 	,trim(coalesce((select min(WWMLNM CONCAT WWATTL) from ".$curLib.".F0111 where ".$curLib.".F0101.ABAN8=".$curLib.".F0111.WWAN8 and ".$curLib.".F0111.WWTYC='PE'), '')) as MAILPE 
 	,trim(coalesce((select min(A5ROUT) from ".$curLib.".F0301 where ".$curLib.".F0101.ABAN8=".$curLib.".F0301.A5AN8), '')) as A5ROUT  
-	FROM ".$curLib.".F0101  
+	FROM ".$curLib.".F0101  WHERE ABAT1 IN ('C' , 'CS' , 'P' , 'PS')
 ) AS T 
 "; 
 if($whrClause!="") $query.=$whrClause;
